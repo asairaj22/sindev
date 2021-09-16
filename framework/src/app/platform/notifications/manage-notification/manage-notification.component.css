@@ -1,0 +1,116 @@
+ .unorderList{
+  max-height: 300px;
+  min-height: 300px;
+  overflow: auto;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.mt-15{
+  margin-top: 15px;
+}
+ .form-check label{
+  line-height: 15px;;
+}
+ *{
+  font-size: 14px;
+  color: #333;
+}
+
+ label {
+  line-height: 35px;
+  margin-bottom: 0;
+  padding: 0;
+}
+ p, #targetDivNoti{
+  display: block;
+  width: 100%;
+}
+
+#targetDivNoti{
+  min-height: 350px;
+  max-height: 350px;
+}
+
+.rule-customization{
+  min-height: 350px;
+  max-height: 350px;
+  overflow: auto;
+  font-size: 14px;
+  overflow-x: hidden;
+}
+
+.graph{
+  background-image: linear-gradient(to right, #8080801f 1px, transparent 1px), linear-gradient(to bottom, #8080801f 1px, transparent 1px);
+  background-size: 10px 10px;
+  padding: 15px;
+  overflow-x:hidden;
+}
+
+ ul li{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  word-break: break-all;
+}
+
+ ul li:hover{
+  background: #76b6ec;
+  cursor: pointer;
+  color: #fff;
+  padding: 3px;
+}
+ ul li:focus{
+  text-decoration: none;
+}
+  .accordian-styles .card{
+  padding: 0;
+  border: 0;
+}
+
+  .accordian-styles .card .card-body{
+  padding: 0;
+  margin-left: 10px;
+}
+
+  .accordian-styles .card .card-header {
+  padding: 0;
+  color: #333 !important;
+  border: 0;
+  background: transparent;
+}
+
+  .accordian-styles .card .card-header button{
+ padding: 0;
+  border: 0;
+  color: #333;
+}
+
+  .accordian-styles .card .card-header button:hover{
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-lg { 
+  max-width: 1200px !important;
+}
+
+.btn-section{
+  margin-right: 2%;
+  margin-left: 90%;
+}
+
+.btn:focus,.btn:active {
+  outline: none !important;
+  box-shadow: none;
+}
+
+.small-input{
+  width: 45px;
+}
+
+.highlight{
+  color: #8b0000;
+  font-weight: bold;
+}

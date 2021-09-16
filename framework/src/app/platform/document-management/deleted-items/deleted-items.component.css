@@ -1,0 +1,13 @@
+.title-sub-header {
+    text-align: left;
+    font-weight: 600;
+    font-size: 1.31rem;
+    line-height: 2.7rem;
+    letter-spacing: 0;
+    color: #0F074B;
+}
+.custom-search-cont label, .custom-search-cont .form-control {
+    font-size: .8rem !important;
+    letter-spacing: 0 !important;
+    color: #0F074B !important;
+}

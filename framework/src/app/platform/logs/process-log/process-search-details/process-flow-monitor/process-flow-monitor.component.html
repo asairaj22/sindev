@@ -1,0 +1,56 @@
+<div class="container pad-0">
+    <div class="row m-lo-0">
+       <div class="col-12 pad-0">
+          <div class="bg-primary prcsMonCont">
+             <!-- <button type="button" class="btn btn-xs pull-right" ng-click="workflowMonitor();"  style="margin-top: 6px;margin-right: 20px;width: 60px;background-color: #31708f;color: white;border-color: white;font-weight: bolder;">
+                <i id="viewButton" class="fa fa-angle-down" style="padding-right: 8%; font-size: 14px;" aria-hidden="true"></i>View</button> -->
+             <div class="col-12 pt-1 prcsMonContId mb-1 text-white">
+                <b translate>InstanceId</b> : <span>{{processInstObj.instanceId}}</span>, &emsp; 
+                <b translate>ProcessName</b> : <span>{{processInstObj.processNodeName}}</span>
+             </div>
+          </div>
+          <nav>
+             <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link font-sz active" id="workflow-tab" data-toggle="tab" href="#workflowTab" role="tab" aria-controls="workflowTab" aria-selected="true"> Workflow </a>
+                <a class="nav-item nav-link font-sz" id="payload-tab" data-toggle="tab" href="#payloadTab" role="tab" aria-controls="payloadTab" aria-selected="false"> Payload </a>
+                <a class="nav-item nav-link font-sz" id="processMetrics-tab" data-toggle="tab" (click)="getWorkflowChartDetails()" href="#processMetricsTab" role="tab" aria-controls="processMetricsTab" aria-selected="false"> Process Metrics</a>
+             </div>
+          </nav>
+          <div class="tab-content sss" id="nav-tabContent" style="border-style: ridge;">
+             <div class="tab-pane fade show active border pad-0" id="workflowTab" role="tabpanel" aria-labelledby="workflow-tab">
+                <div class="col-12 pad-0">
+                   <button class="btn btn-primary f-r float-right" (click)="processViewResults()">Replay</button>
+                </div>
+                <div id="{{processInstObj.instanceId}}" proc-inst-attr="id,class"  class="{{processInstObj.instanceId}} processMontrInstToRep col pad-0">
+                   <div class="wrflwBd col p-0">
+                      <div id="{{processInstObj.instanceId}}_WorkFlow"
+                         proc-inst-attr="id"
+                         class="subProcessModalLoadCanvas processMontrInstToRep wrflwBdCont">
+                         <div id="{{processInstObj.instanceId}}_WFContainer"
+                            proc-inst-attr="id"
+                            class="col processMontrInstToRep"
+                            style="height: 100vh;width: 100vw;overflow-x: auto;overflow-y: auto;"></div>
+                         <div id="{{processInstObj.instanceId}}_WFSOMContainer"
+                            proc-inst-attr="id"
+                            class="row processMontrInstToRep" style="display: none;"></div>
+                      </div>
+                      <div class="processMontrInstToRep w-100per wrflwBdCont p-l-35 p-t-35"
+                         id="{{processInstObj.instanceId}}_WFDetailsContainer" proc-inst-attr="id"
+                         style="display: none;">
+                         <div class="col-md-12 processMontrInstToRep" proc-inst-attr="id"
+                            id="{{processInstObj.instanceId}}_tree"></div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <div class="tab-pane fade " id="payloadTab" role="tabpanel" aria-labelledby="payload-tab" style="max-height: 400px;overflow: scroll;">
+                <ngx-json-viewer class="form-control bg-light processDetailsTab" [json]="processFlowPayloadData" style="height: 100%;"></ngx-json-viewer>
+             </div>
+             <div class="tab-pane fade" id="processMetricsTab" role="tabpanel" aria-labelledby="processMetrics-tab">
+                <div class="col-md-12 processMontrInstToRep" proc-inst-attr="id" style="padding: 5px 5px 5px 5px;height: 435px;"
+                   id="{{processInstObj.instanceId}}_chartContainer"></div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>

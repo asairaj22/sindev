@@ -1,0 +1,30 @@
+.doc-landing-screen{
+    height: 80vh;
+}
+#jstree1{
+    overflow-x: auto;
+}
+.jstree-proton .jstree-no-icons .jstree-anchor>.jstree-themeicon{
+    display: inline-block;
+    padding: .15rem;
+}
+table.dataTable tbody td{
+    padding: .2rem 1rem;
+}
+/* table.dataTable thead th{
+    padding: .3rem 2rem;
+} */
+table.dataTable tbody td select{
+    outline: 0;
+}
+.dataTables_length{
+    margin-left: .25rem!important;
+    font-size: .9rem;
+}
+/*
+   server-side-angular-way.component.css
+*/
+.no-data-available {
+    text-align: center;
+    padding: 8px 11px !important;
+}

@@ -1,0 +1,3 @@
+::ng-deep .sub-domain-popup .modal-dialog   {
+    max-width: 600px!important;
+  }

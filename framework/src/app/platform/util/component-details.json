@@ -1,0 +1,18 @@
+{
+	"login": {
+		"name": "Login",
+		"componentSelector": "login",
+		"description": "login",
+		"createdBy": "SYSTEM",
+		"createdDate": 1596470865255,
+		"updatedDate": 1596470865255
+	},
+	"page1": {
+		"name": "Page1",
+		"componentSelector": "page1",
+		"description": "",
+		"createdBy": "sxie@apptium.com",
+		"createdDate": 1598186031750,
+		"updatedDate": 1598292006524
+	}
+}

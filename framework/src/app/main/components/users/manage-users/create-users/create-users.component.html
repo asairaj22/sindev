@@ -1,0 +1,811 @@
+<main class="main dashboard-page">
+    <!-- Breaddcrumb section start here  -->
+    <div class="container breadcrumb-wrapper">
+        <div class="row">
+            <div class="col-12"><a class="back_button" routerLink="/manage-users">‹ Back to Manage Users</a></div>
+        </div>
+    </div>
+    <!-- Page header start here  -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page__header">
+                    <h3 class="mb-1">Create User</h3>
+                    <p>All fields marked with asterisks (*) are mandatory.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <form [formGroup]="myForms" class="form-wrapper-group" (ngSubmit)="createUser()">
+                    <div class="form__wrapper">
+                        <div class="accordion">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6><strong>Basic Information</strong></h6>
+                                </div>
+                                <div class="collapse show" id="accordion__one-time">
+                                    <div class="card-body bg-black-25 labelColorBold">
+                                        <div class="row">
+                                            <div class="col-lg-8 col-md-6">
+                                                <div class="row emailid_row">
+                                                    <div class="col-lg-6 col-md-12">
+                                                        <!-- *Login ID: -->
+                                                        <div class="form-group">
+                                                            <label for="loginID">
+                                                                <h6>*Login ID:
+                                                                    <span class="opt"></span>
+                                                                </h6>
+                                                            </label>
+                                                            <input (keyup)="checkEmailAlreadyExist()" type="text"
+                                                                maxlength="100" #loginElement
+                                                                placeholder="Enter Login ID" autocomplete='new-loginId'
+                                                                appLowercase
+                                                                formControlName="loginId" class="form-control"
+                                                                [ngClass]="{ 'is-invalid': (submitted || f.loginId.touched) && f.loginId.errors || emailalreadyExistBoolean}" />
+                                                            <div *ngIf="(submitted || f.loginId.touched) && f.loginId.errors"
+                                                                class="invalid-feedback">
+                                                                <div *ngIf="f.loginId.errors.required">Login ID is
+                                                                    required</div>
+                                                                <div *ngIf="f.loginId.errors.pattern">Login ID must be a
+                                                                    valid email format</div>
+                                                            </div>
+                                                            <ng-container *ngIf="!f.loginId.errors">
+                                                                <div class="invalid-feedback"
+                                                                    *ngIf="emailalreadyExistBoolean">
+                                                                    Login ID already exists
+                                                                </div>
+                                                            </ng-container>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-12">
+                                                        <!-- business email address -->
+                                                        <div class="form-group">
+                                                            <label for="email">
+                                                                <h6 class="business_email_label">*Business Email
+                                                                    Address:
+                                                                    <span>
+                                                                        <mat-icon class="business_info_icon"
+                                                                            (mouseover)="onToolTipShow('show')"
+                                                                            (mouseout)="onToolTipShow('hide')">info
+                                                                        </mat-icon>
+                                                                    </span>
+                                                                    <span *ngIf="showToolTip"
+                                                                        class="business_email_info_tooltip">All account-related communications will<br>be sent to this Business Email Address</span>
+                                                                </h6>
+                                                            </label>
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Enter Business Email Address"
+                                                                formControlName="businessEmailId" name="businessEmailId"
+                                                                id="businessEmailId" (keyup)="onValidateBusinessId()"
+                                                                appLowercase
+                                                                [readonly]="myForms.value.loginIdAsBusinessId"
+                                                                [ngClass]="{ 'is-invalid': ((submitted || f.businessEmailId.touched) && f.businessEmailId.errors) || (f.loginIdAsBusinessId.value == false && isLoginIdAsBusinessId == true) }">
+                                                            <div *ngIf="(submitted || f.businessEmailId.touched) && f.businessEmailId.errors &&  f.businessEmailId.errors.required"
+                                                                class="invalid-feedback">Business Email Address is
+                                                                required
+                                                            </div>
+                                                            <div *ngIf="(submitted || f.businessEmailId.touched) && f.businessEmailId.errors && f.businessEmailId.errors.pattern"
+                                                                class="invalid-feedback">Business Email Address must be a valid email format
+                                                            </div>
+                                                            <div *ngIf="!f.businessEmailId.errors && f.loginIdAsBusinessId.value == false && isLoginIdAsBusinessId == true"
+                                                                class="invalid-feedback">
+                                                                Entered ID is Login ID. Please enter different ID as
+                                                                Business
+                                                                Email Address
+                                                            </div>
+                                                            <ng-container *ngIf="!f.businessEmailId.errors">
+                                                            <div *ngIf="businessEmailalreadyExistBoolean" class="invalid-feedback">Business Email Address already exists
+                                                            </div>
+                                                            </ng-container>
+                                                            <div class="form-check custom-checkbox" >
+                                                                <span>
+                                                                    <input formControlName="loginIdAsBusinessId"
+                                                                        class="form-check-input custom-checkbox__input"
+                                                                        id="loginIdAsBusinessId_id" type="checkbox"
+                                                                        checked='false' name="loginIdAsBusinessId"
+                                                                        placeholder="" value="yes"
+                                                                        (change)="onSetBusinessId()"
+                                                                        [attr.disabled]="f.loginId.status == 'INVALID' ? true : null" />
+                                                                    <label
+                                                                        class="form-check-label custom-checkbox__label custom-checkbox__label--small"
+                                                                        for="loginIdAsBusinessId_id">Use Login ID as
+                                                                        Business Email Address.
+                                                                    </label>
+                                                                </span>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row user_info_row">
+
+                                                    <div class="col-lg-6 col-md-12 user_info_col">
+                                                        <!-- *Name: -->
+                                                        <div class="form-group">
+                                                            <label for="loginID">
+                                                                <h6>*Display Name:
+                                                                    <span class="opt"></span>
+                                                                </h6>
+                                                            </label>
+                                                            <input type="text" placeholder="Enter Display Name"
+                                                                maxlength="100" formControlName="name"
+                                                                class="form-control" autocomplete='new-name'
+                                                                [ngClass]="{ 'is-invalid': (submitted || f.name.touched) && f.name.errors }" />
+                                                            <div *ngIf="(submitted || f.name.touched) && f.name.errors"
+                                                                class="invalid-feedback">
+                                                                Display Name is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-12 user_info_col">
+                                                        <!-- *Department: -->
+                                                        <div class="form-group passwordResponsive">
+                                                            <label for="department-selectized">
+                                                                <h6>Department:
+                                                                    <span class="opt"></span>
+                                                                </h6>
+                                                            </label>
+                                                            <!-- <select class="form-control" 
+                                                                [ngClass]="{ 'is-invalid': (submitted || f.departmentName.touched) && f.departmentName.errors }"
+                                                                formControlName="departmentName">
+                                                                <option value="">Choose your Department</option>
+                                                                <option *ngFor="let department of departmentDetails"
+                                                                    [ngValue]="department.id">{{department.name}}</option>
+                                                            </select>
+                                                            <div *ngIf="(submitted || f.departmentName.touched) && f.departmentName.errors" class="invalid-feedback">
+                                                                    Department Name is required
+                                                            </div> -->
+                                                            <p-dropdown [options]="departmentDetails"
+                                                                formControlName="departmentName"
+                                                                placeholder="Select Department"
+                                                                (onChange)="changeData($event)" optionLabel="name"
+                                                                [showClear]="true" id="department" name="department"
+                                                                tabindex="-1"
+                                                                [style]="{'height':'40px','padding-top': '1px','border-color': '#ced4da','border-radius': '.25rem'}">
+                                                            </p-dropdown>
+                                                            <div *ngIf="(submitted || f.departmentName.touched) && f.departmentName.errors"
+                                                                class="invalid-feedback">
+                                                                Department Name is required
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="row user_info_row">
+                                                    <div class="col-lg-6 col-md-12 user_info_col">
+                                                        <!-- *Role: -->
+                                                        <div class="form-group">
+                                                            <label for="department-selectized">
+                                                                <h6>*Matrix Role:
+                                                                    <span class="opt"></span>
+                                                                </h6>
+                                                            </label>
+                                                            <!-- <select class="form-control" formControlName="roleset"
+                                                                name="roleset" [ngModel]="primaryRole" [ngClass]="{ 'is-invalid': (submitted || f.roleset.touched) && f.roleset.errors }">
+                                                                <option *ngFor="let roles of getRoleDetails"  [value]="roles.parameterName">{{roles.parameterName}}</option>
+                                                                </select> -->
+
+                                                            <!-- <p-dropdown [options]="getRoleDetails" formControlName="roleset" placeholder="Select User Role"
+                                                        (onChange)="changPrimary($event)" optionLabel="parameterName" [showClear]="true" id="role" name="role"
+                                                        tabindex="-1"></p-dropdown> -->
+
+                                                            <input type="text" formControlName="roleset"
+                                                                class="form-control" disabled
+                                                                [ngClass]="{ 'is-invalid': (submitted || f.roleset.touched) && f.roleset.errors }" />
+
+
+                                                            <div *ngIf="(submitted || f.roleset.touched) && f.roleset.errors"
+                                                                class="invalid-feedback">
+                                                                Role Name is required
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-12 user_info_col">
+                                                        <!-- *Mobile: -->
+                                                        <div class="form-group phoneBox">
+                                                            <label for="loginID" class="phoneLabel">
+                                                                <h6>Business Contact:
+                                                                    <span class="opt"></span>
+                                                                </h6>
+                                                            </label>
+                                                            <div class="countryInput">
+                                                                <label class="countryLabel"
+                                                                    (click)="getCountryList()">{{countryCodeLabel}}
+                                                                    <i class="fa fa-angle-down"
+                                                                        *ngIf="!phoneDropdown"></i>
+                                                                    <i class="fa fa-angle-up" *ngIf="phoneDropdown"></i>
+                                                                </label>
+                                                                <div class="countryDropdownManual country-search-bar"
+                                                                    [class.showdropdown]="phoneDropdown">
+                                                                    <input class="form-control w-100percent" type="text"
+                                                                        name="search" formControlName="mobileSearch"
+                                                                        [(ngModel)]="searchText">
+                                                                    <a class="countryLink"
+                                                                        *ngFor="let country of countryCodes.default | filter: searchText"
+                                                                        (click)="getparticularCountry(country.dial_code)">{{country.dial_code}}
+                                                                        - {{country.name}}</a>
+                                                                </div>
+                                                            </div>
+                                                            <input appCustomInput type="text" formControlName="phone"
+                                                                placeholder="Enter Business Contact"
+                                                                [ngClass]="{ 'is-invalid': (submitted || f.phone.touched) && f.phone.errors}" class="form-control" autocomplete='new-phone' numbersOnly
+                                                                 maxlength="8" />
+                                                                 <div *ngIf="(submitted ||f.phone.touched) && f.phone.errors && f.phone.errors.minlength" class="invalid-feedback">
+                                                            Please Enter 8 Digit Business Contact Number
+                                                    </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row user_info_row">
+                                                    <div class="col-lg-6 col-md-12 user_info_col">
+                                                        <!-- Fax: -->
+                                                        <div class="form-group phoneBox">
+                                                            <label for="loginID" class="phoneLabel">
+                                                                <h6>Fax:
+                                                                    <span class="opt"></span>
+                                                                </h6>
+                                                            </label>
+                                                            <div class="countryInput">
+                                                                <label class="countryLabel"
+                                                                    (click)="getFaxCountryList()">{{countryCodeFaxLabel}}
+                                                                    <i class="fa fa-angle-down"
+                                                                        *ngIf="!faxDropdown"></i>
+                                                                    <i class="fa fa-angle-up" *ngIf="faxDropdown"></i>
+                                                                </label>
+                                                                <div class="countryDropdownManual country-search-bar"
+                                                                    [class.showdropdown]="faxDropdown">
+                                                                    <input class="form-control w-100percent" type="text"
+                                                                        name="search" formControlName="faxSearch"
+                                                                        [(ngModel)]="searchText">
+                                                                    <a class="countryLink"
+                                                                        *ngFor="let country of countryCodes.default | filter: searchText"
+                                                                        (click)="getParticularFaxCountry(country.dial_code)">{{country.dial_code}}
+                                                                        - {{country.name}}</a>
+                                                                </div>
+                                                            </div>
+                                                            <input appCustomInput type="text" formControlName="fax"
+                                                                placeholder="Enter Fax Number" [ngClass]="{ 'is-invalid': (submitted || f.fax.touched) && f.fax.errors}" autocomplete='new-fax'
+                                                                class="form-control" 
+                                                                maxlength="8" numbersOnly />
+                                                                <div *ngIf="(submitted ||f.fax.touched) && f.fax.errors && f.fax.errors.minlength" class="invalid-feedback">
+                                                            Please Enter 8 Digit Fax Number
+                                                    </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-12 user_info_col">
+                                                        <!-- Telephone: -->
+                                                        <div class="form-group phoneBox">
+                                                            <label for="loginID" class="phoneLabel">
+                                                                <h6>Telephone:
+                                                                    <span class="opt"></span>
+                                                                </h6>
+                                                            </label>
+                                                            <div class="countryInput">
+                                                                <label class="countryLabel"
+                                                                    (click)="gettelePhoneCountryList()">{{countrycodeTelephoneLabel}}
+                                                                    <i class="fa fa-angle-down"
+                                                                        *ngIf="!telePhoneDown"></i>
+                                                                    <i class="fa fa-angle-up" *ngIf="telePhoneDown"></i>
+                                                                </label>
+                                                                <div class="countryDropdownManual country-search-bar"
+                                                                    [class.showdropdown]="telePhoneDown">
+                                                                    <input class="form-control w-100percent" type="text"
+                                                                        name="search" formControlName="telePhoneSearch"
+                                                                        [(ngModel)]="searchText">
+                                                                    <a class="countryLink"
+                                                                        *ngFor="let country of countryCodes.default | filter: searchText"
+                                                                        (click)="getParticularTelephoneCountry(country.dial_code)">{{country.dial_code}}
+                                                                        - {{country.name}}</a>
+                                                                </div>
+                                                            </div>
+                                                            <input appCustomInput type="text"
+                                                                placeholder="Enter Telephone Number"
+                                                                formControlName="telephone" class="form-control"
+                                                                autocomplete='new-telephone' [ngClass]="{ 'is-invalid': (submitted || f.telephone.touched) && f.telephone.errors}" maxlength="8" numbersOnly/>
+                                                                <div *ngIf="(submitted ||f.telephone.touched) && f.telephone.errors && f.telephone.errors.minlength" class="invalid-feedback">
+                                                            Please Enter 8 Digit Telephone Number
+                                                    </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="col-lg-12 col-md-12 password_inner_col">
+                                                    <!-- Password: -->
+                                                    <div class="form-group passwordResponsive">
+                                                        <h6 class="form-label">*Password:</h6>
+                                                        <div class="row mt-0 password_input_field_row">
+                                                            <div class="col-12">
+                                                                <div
+                                                                    class="custom-control custom-radio mt-0 d-md-inline-block w-auto">
+                                                                    <input class="custom-control-input"
+                                                                        id="membersRadio1" name="membersRadioOptions"
+                                                                        value="user-defined" type="radio"
+                                                                        [checked]="passwordType === 'userDefined'"
+                                                                        (change)="onPasswordTypeCheck('userDefined')">
+                                                                    <label class="custom-control-label"
+                                                                        for="membersRadio1">User-defined</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row justify-content-end password_input_field_row">
+                                                            <div class="col-12">
+                                                                <div
+                                                                    class="custom-control custom-radio mt-2 mt-md-0 d-md-inline-block w-auto">
+                                                                    <input class="custom-control-input"
+                                                                        id="membersRadio2" name="membersRadioOptions"
+                                                                        value="temporary-password" type="radio"
+                                                                        [checked]="passwordType === 'temporary'"
+                                                                        (change)="onPasswordTypeCheck('temporary')">
+                                                                    <label class="custom-control-label"
+                                                                        for="membersRadio2">Set temporary
+                                                                        password</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 mb-4 password_input_col"
+                                                                *ngIf="passwordType === 'temporary'">
+                                                                <div class="form-group">
+                                                                    <a class="eyeButtonClick" (click)="onClick()">
+                                                                        <i class="fa fa-eye" aria-hidden="true"
+                                                                            *ngIf="show"></i>
+                                                                        <i class="fa fa-eye-slash" aria-hidden="true"
+                                                                            *ngIf="!show"></i>
+                                                                    </a>
+                                                                    <input formControlName="password"
+                                                                        class="form-control"
+                                                                        placeholder="Enter Password" [type]="password"
+                                                                        autocomplete='new-password'
+                                                                        (keyup)="changePwd($event)" maxlength="32"
+                                                                        [ngClass]="{ 'is-invalid': (submitted || f.password.touched) && f.password.errors && (errorLength || regexBoolean)}">
+                                                                    <div *ngIf="(submitted || f.password.touched) && f.password.errors"
+                                                                        class="invalid-feedback">
+                                                                        Password is required
+                                                                    </div>
+                                                                    <div class="errorPassword">
+                                                                        <span *ngIf="pwdLength">
+                                                                            {{statusPwd}}
+                                                                        </span>
+                                                                        <div class="pwdProgress" *ngIf="pwdLength"
+                                                                            [ngClass]="{'weak': errorLength, 'medium': !errorLength && regexBoolean, 'strong': !errorLength && !regexBoolean}">
+                                                                        </div>
+                                                                        <!-- <div class="error" *ngIf="errorLength">
+                                                                            password length must be atleast 6 letters
+                                                                        </div>
+                                                                        <div class="error" *ngIf="regexBoolean">
+                                                                            password reqular expression needed
+                                                                        </div> -->
+                                                                    </div>
+                                                                    <div class="pwdNote">
+                                                                        <div class="notemedium"><i
+                                                                                class="tichCheck fa fa-check"
+                                                                                aria-hidden="true"></i> Between 8 to 32
+                                                                            characters</div>
+                                                                        <div class="notemedium"><i
+                                                                                class="closeCheck fa fa-times"
+                                                                                aria-hidden="true"></i> Password
+                                                                            Strength
+                                                                            requirement: Medium</div>
+                                                                        <strong>Note:</strong> Password strength and security requirements are as per the Matrix Security & Account policy.
+                                                                    </div>
+                                                                    <!-- <p class="pwdNotesset"><strong>Note: </strong> Password
+                                                                        must contain at least 8 characters, including
+                                                                        uppercase, lowercase, special character and number.
+                                                                    </p> -->
+                                                                </div>
+                                                                <!-- <div class="form-group custom-password ml-4">
+                                                                    <input matInput class="form-control" #password
+                                                                        formControlName="password" type="password" name=""
+                                                                        [(ngModel)]="passwordModel"
+                                                                        (ngModelChange)="detectChange($event)"
+                                                                        placeholder="" value=""
+                                                                        style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABKRJREFUWAnNl0tsVGUUxzvTTlslZUaCloZHY6BRFkp9sDBuqgINpaBp02dIDImwKDG6ICQ8jBYlhg0rxUBYEALTpulMgBlqOqHRDSikJkZdGG0CRqAGUuwDovQ1/s7NPTffnTu3zMxGvuT2vP7n8Z3vu+dOi4r+5xUoJH8sFquamZmpTqfTVeIfCARGQ6HQH83NzaP5xsu5gL6+vuVzc3NdJN1Kkhd8Ev1MMYni4uJjra2tt3wwLvUjCxgYGFg8Pj7+MV5dPOUub3/hX0zHIpFId0NDw6Q/jO4tZOzv76+Znp6+AOb5TBw7/YduWC2Hr4J/IhOD/GswGHy7vb39tyw2S+VbAC1/ZXZ29hKoiOE8RrIvaPE5WvyjoS8CX8sRvYPufYpZYtjGS0pKNoD/wdA5bNYCCLaMYMMEWq5IEn8ZDof3P6ql9pF9jp8cma6bFLGeIv5ShdISZUzKzqPIVnISp3l20caTJsaPtwvc3dPTIx06ziZkkyvY0FnoW5l+ng7guAWnpAI5w4MkP6yy0GQy+dTU1JToGm19sqKi4kBjY+PftmwRYn1ErEOq4+i2tLW1DagsNGgKNv+p6tj595nJxUbyOIF38AwipoSfnJyMqZ9SfD8jxlWV5+fnu5VX6iqgt7d3NcFeUiN0n8FbLEOoGkwdgY90dnbu7OjoeE94jG9wd1aZePRp5AOqw+9VMM+qLNRVABXKkLEWzn8S/FtbdAhnuVQE7LdVafBPq04pMYawO0OJ+6XHZkFcBQA0J1xKgyhlB0EChEWGX8RulsgjvOjEBu+5V+icWOSoFawuVwEordluG28oSCmXSs55SGSCHiXhmDzC25ghMHGbdwhJr6sAdpnyQl0FYIyoEX5CeYOuNHg/NhvGiUUxVgfV2VUAxjtqgPecp9oKoE4sNnbX9HcVgMH8nD5nAoWnKM/5ZmKyySRdq3pCmDncR4DxOwVC64eHh0OGLOcur1Vey46xUZ3IcVl5oa4OlJaWXgQwJwZyhUdGRjqE14VtSnk/mokhxnawiwUvsZmsX5u+rgKamprGMDoA5sKhRCLxpDowSpsJ8vpCj2AUPzg4uIiNfKIyNMkH6Z4hF3k+RgTYz6vVAEiKq2bsniZIC0nTtvMVMwBzoBT9tKkTHp8Ak1V8dTrOE+NgJs7VATESTH5WnVAgfHUqlXK6oHpJEI1G9zEZH/Du16leqHyS0UXBNKmeOMf5NvyislJPB8RAFz4g8IuwofLy8k319fUP1EEouw7L7mC3kUTO1nn3sb02MTFxFpsz87FfJuaH4pu5fF+reDz+DEfxkI44Q0ScSbyOpDGe1RqMBN08o+ha0L0JdeKi/6msrGwj98uZMeon1AGaSj+elr9LwK9IkO33n8cN7Hl2vp1N3PcYbUXOBbDz9bwV1/wCmXoS3+B128OPD/l2LLg8l9APXVlZKZfzfDY7ehlQv0PPQDez6zW5JJdYOXdAwHK2dGIv7GH4YtHJIvEOvvunLCHPPzl3QOLKTkl0hPbKaDUvlTU988xtwfMqQBPQ3m/4mf0yBVlDCSr/CRW0CipAMnGzb9XU1NSRvIX7kSgo++Pg9B8wltxxbHKPZgAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+                                                                    <div class="form-check--password">
+                                                                        <input class="form-check-password"
+                                                                            id="show-new-password" type="checkbox">
+                                                                        <label class="form-check-label"
+                                                                            for="show-new-password"></label>
+                                                                    </div>
+                                                                    <div class="input-error" id="form__new-password--error"
+                                                                        style="display: none;"><span
+                                                                            class="input-error--message">Password error
+                                                                            message</span></div>
+                                                                </div> -->
+                                                            </div>
+                                                            <!-- <div class="col-12">
+                                                                <div class="form-group m-0 ml-4">
+                                                                    <p
+                                                                        *ngIf="passwordStrength <= 20 && passwordStrength >= 0">
+                                                                        Weak</p>
+                                                                    <p
+                                                                        *ngIf="passwordStrength <= 40 && passwordStrength > 20">
+                                                                        Normal</p>
+                                                                    <p
+                                                                        *ngIf="passwordStrength <= 70 && passwordStrength > 40">
+                                                                        Strong</p>
+                                                                    <p *ngIf="passwordStrength > 70"> Strongest</p>
+                                                                    <div>
+    
+    
+    
+                                                                        <mat-password-strength class="green"
+                                                                            [password]="password.value">
+                                                                        </mat-password-strength>
+                                                                    </div>
+                                                                    <ul class="pass-info-list"
+                                                                        *ngIf="myForms.get('password').invalid && (myForms.get('password').touched || myForms.get('password').dirty)">
+                                                                        <li class="danger"
+                                                                            *ngIf="myForms.get('password').hasError('required')">
+                                                                            password is required
+                                                                        </li>
+                                                                        <li class="danger"
+                                                                            *ngIf="myForms.get('password').errors.minlength">
+                                                                            Password must be at
+                                                                            least 8 characters
+                                                                        </li>
+                                                                        <li class="danger"
+                                                                            *ngIf="myForms.get('password').hasError('passwordStrength')">
+                                                                            {{myForms.get('password').errors['passwordStrength']}}
+                                                                        </li>
+    
+                                                                    </ul>
+    
+    
+                                                                    <p class="md-small mt-2"><strong>Note:</strong> Password
+                                                                        strength and security requirements are
+                                                                        configured by your company administrator to secure
+                                                                        your account.</p>
+                                                                </div>
+    
+                                                            </div> -->
+
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form__wrapper hide-for-phase1">
+                        <div class="accordion">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="password_recovery_title">Password Recovery Information</h6>
+                                    <!-- <p>Select your preferred method to receive the your password-related messages</p> -->
+                                    <p>User will receive notification through email.</p>
+                                </div>
+                                <div class="collapse show">
+                                    <div class="card-body">
+                                        <ng-container>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-lg-6 mt-4 mt-lg-0">
+                                                        <div class="form-check custom-checkbox custom-control ">
+                                                            <input #emailPasswordRcovery
+                                                                class="form-check-input custom-checkbox__input custom-control-input"
+                                                                id="passwordRecoveryViaEmail" type="checkbox"
+                                                                formControlName="passwordRecoveryViaEmail"
+                                                                placeholder="" value="setup" checked>
+                                                            <label
+                                                                [ngClass]="emailPasswordRcovery.checked ? 'passwordRecoveryActiveLabel': ''"
+                                                                class="form-check-label custom-checkbox__label custom-selector-panel custom-selector-panel--checkbox"
+                                                                for="passwordRecoveryViaEmail">
+                                                                <div
+                                                                    class="custom-selector-panel-content justify-content-start custom-selector-panel-content--left">
+                                                                    <h6 class="bold_label">Email</h6>
+                                                                    <p>You can use a different email to receive the
+                                                                        recovery.</p>
+                                                                    <div class="row">
+                                                                        <div class="col-md-8">
+                                                                            <input class="form-control" id="emailID"
+                                                                                type="email" value="{{f.loginId.value}}"
+                                                                                disabled formControlName="loginEmail"
+                                                                                [(ngModel)]="loginEmail"
+                                                                                (keyup)="getTestEmail($event)"
+                                                                                name="emailID">
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-lg-4 col-md-3 px-0 mt-3 mt-md-0 align-self-center text-center text-md-left">
+                                                                            <a href="javascript:void(0)"
+                                                                                (click)="sendTestEmail(f.loginId.errors)"
+                                                                                class="xs-small link-underline">Send
+                                                                                Test Email</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6 mt-4 mt-lg-0">
+                                                        <div class="form-check custom-checkbox custom-control">
+                                                            <input #smsPasswordRcovery
+                                                                class="form-check-input custom-checkbox__input custom-control-input"
+                                                                id="passwordRecoveryViaSms" type="checkbox"
+                                                                formControlName="passwordRecoveryViaSms" placeholder=""
+                                                                value="migration" checked>
+                                                            <label
+                                                                [ngClass]="smsPasswordRcovery.checked ? 'passwordRecoveryActiveLabel': ''"
+                                                                class="form-check-label custom-checkbox__label custom-selector-panel custom-selector-panel--checkbox"
+                                                                for="passwordRecoveryViaSms">
+                                                                <div
+                                                                    class="custom-selector-panel-content justify-content-start custom-selector-panel-content--left">
+                                                                    <h6>SMS</h6>
+                                                                    <p>Updating your mobile below will also update your
+                                                                        profile.</p>
+                                                                    <div class="row">
+                                                                        <div class="col-md-8">
+
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-lg-4 col-md-6 px-0 mt-3 mt-md-0 align-self-center text-center text-md-left">
+                                                                            <a href="javascript:void(0)"
+                                                                                class="xs-small link-underline">Send
+                                                                                Test SMS</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+
+                                                        </div>
+                                                    </div>
+
+
+                                                    <!-- {{form.controls['myCheckboxGroup'].touched | json}} -->
+
+
+
+                                                    <div class="invalid-feedback"
+                                                        *ngIf="form.controls['myCheckboxGroup'].errors && form.controls['myCheckboxGroup'].errors.requireOneCheckboxToBeChecked && form.controls['myCheckboxGroup'].touched">
+                                                        At least one checkbox is required to check</div>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form__wrapper hide-for-phase1">
+                        <div class="accordion">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="bold_label">Account Settings</h6>
+                                </div>
+                                <div class="collapse show" id="accordion__monthly">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h6 class="bold_label">Limit Access</h6>
+                                                    <p class="text-muted mb-2">Control what user sees when they are
+                                                        logged-in</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 mt-4 mt-md-0 hide-for-phase1">
+                                                    <div class="form-check custom-radio ">
+                                                        <input #essentialOnlyRadioRef
+                                                            class="form-check-input  custom-radio__input"
+                                                            id="essentialsOnly" type="radio" name="limitAccess"
+                                                            placeholder="" value="essentialsOnly"
+                                                            formControlName="limitAccess">
+                                                        <label
+                                                            [ngClass]="essentialOnlyRadioRef.checked ? 'activeLabelSelect': ''"
+                                                            class="form-check-label custom-selector-panel custom-selector-panel--radio"
+                                                            for="essentialsOnly">
+                                                            <div
+                                                                class="custom-selector-panel-content custom-selector-panel-content--left">
+
+                                                                <h6 id="" class="bold_label">Essentials only</h6>
+                                                                <p id="" class="">
+                                                                    Users can access areas related to their role, such
+                                                                    as My Dashboard and Guides.
+                                                                </p>
+
+                                                                <div class="custom-radio-panel-content__more">
+
+                                                                </div>
+                                                            </div>
+
+                                                        </label>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12 mt-4 mt-md-0">
+
+                                                    <div class="form-check custom-radio">
+                                                        <input class="form-check-input custom-radio__input"
+                                                            id="wholeSite" type="radio" name="limitAccess"
+                                                            #wholeSiteRadioRef placeholder="" value="wholeSite"
+                                                            formControlName="limitAccess">
+                                                        <label
+                                                            [ngClass]="wholeSiteRadioRef.checked ? 'activeLabelSelect': ''"
+                                                            class="form-check-label custom-selector-panel custom-selector-panel--radio"
+                                                            for="wholeSite">
+                                                            <div
+                                                                class="custom-selector-panel-content custom-selector-panel-content--left">
+
+                                                                <h6 id="" class="">Whole Site</h6>
+                                                                <p id="" class="">Users can access all areas of the
+                                                                    site.</p>
+
+                                                                <div class="custom-radio-panel-content__more">
+
+                                                                </div>
+                                                            </div>
+
+                                                        </label>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h6 class="bold_label">Application Launching</h6>
+                                                    <p class="text-muted mb-2">Control how applications are launched for
+                                                        this user</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 mt-4 mt-md-0 hide-for-phase1">
+                                                    <div class="form-check custom-radio">
+                                                        <input #newBrowserRadioRef
+                                                            class="form-check-input custom-radio__input"
+                                                            id="newBrowserWindow" type="radio"
+                                                            name="applicationLaunching" placeholder=""
+                                                            value="newBrowserWindow"
+                                                            formControlName="applicationLaunching">
+                                                        <label
+                                                            [ngClass]="newBrowserRadioRef.checked ? 'activeLabelSelect': ''"
+                                                            class="form-check-label custom-selector-panel custom-selector-panel--radio"
+                                                            for="newBrowserWindow">
+                                                            <div
+                                                                class="custom-selector-panel-content custom-selector-panel-content--left">
+                                                                <h6 id="" class="bold_label">New Browser Window</h6>
+                                                                <p id="" class="">Application will launch in a new
+                                                                    browser window.</p>
+
+                                                                <div class="custom-radio-panel-content__more">
+
+                                                                </div>
+                                                            </div>
+
+                                                        </label>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12 mt-4 mt-md-0">
+
+                                                    <div class="form-check custom-radio">
+                                                        <input #sameBrowserRadioRef
+                                                            class="form-check-input custom-radio__input"
+                                                            id="sameBrowserWindow" type="radio"
+                                                            name="applicationLaunching" placeholder=""
+                                                            value="sameBrowserWindow"
+                                                            formControlName="applicationLaunching">
+                                                        <label
+                                                            [ngClass]="sameBrowserRadioRef.checked ? 'activeLabelSelect': ''"
+                                                            class="form-check-label custom-selector-panel custom-selector-panel--radio"
+                                                            for="sameBrowserWindow">
+                                                            <div
+                                                                class="custom-selector-panel-content custom-selector-panel-content--left">
+
+                                                                <h6 id="" class="">Same Browser Window</h6>
+                                                                <p id="" class="">Application will launch in the same
+                                                                    browser window.</p>
+
+                                                                <div class="custom-radio-panel-content__more">
+
+                                                                </div>
+                                                            </div>
+
+                                                        </label>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h6 class="bold_label">OTP Notification </h6>
+                                                    <p class="text-muted mb-2">Select preferred method to receive OTP
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 mt-4 mt-md-0">
+
+                                                    <div class="form-check custom-radio ">
+                                                        <input #emailRadioRef
+                                                            class="form-check-input custom-radio__input" id="emailOtp"
+                                                            type="radio" name="otpNotification" placeholder=""
+                                                            value="emailOtp" formControlName="otpNotification">
+                                                        <label
+                                                            [ngClass]="emailRadioRef.checked ? 'activeLabelSelect': ''"
+                                                            class="form-check-label custom-selector-panel custom-selector-panel--radio"
+                                                            for="emailOtp">
+                                                            <div
+                                                                class="custom-selector-panel-content custom-selector-panel-content--left">
+
+                                                                <h6 id="" class="bold_label">Email</h6>
+                                                                <p id="" class="">OTP will be sent to email.</p>
+
+                                                                <div class="custom-radio-panel-content__more">
+
+                                                                </div>
+                                                            </div>
+
+                                                        </label>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 mt-4 mt-md-0 hide-for-phase1">
+
+                                                    <div class="form-check custom-radio">
+                                                        <input #smsRadioRef class="form-check-input custom-radio__input"
+                                                            id="smsOtp" type="radio" name="otpNotification"
+                                                            placeholder="" value="smsOtp"
+                                                            formControlName="otpNotification">
+                                                        <label [ngClass]="smsRadioRef.checked ? 'activeLabelSelect': ''"
+                                                            class="form-check-label custom-selector-panel custom-selector-panel--radio"
+                                                            for="smsOtp">
+                                                            <div
+                                                                class="custom-selector-panel-content custom-selector-panel-content--left">
+
+                                                                <h6 id="" class="">SMS</h6>
+                                                                <p id="" class="">OTP will be sent by SMS.</p>
+
+                                                                <div class="custom-radio-panel-content__more">
+
+                                                                </div>
+                                                            </div>
+
+                                                        </label>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-wrapper-group__footer">
+                        <button class="btn btn-primary" [disabled]="!myForms.valid">Create Account</button>
+                        <br>
+                        <a *ngIf="myForms.dirty || passwordType === 'temporary'" (click)="onDiscardChanges()"
+                            class="link-underline discard_changes">Discard Changes</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</main>

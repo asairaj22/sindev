@@ -1,0 +1,147 @@
+<div class="filter-criteria-container {{reports.reportMetaData.filterAlignment}}"  [ngClass]="{'col-11': !reports.reportMetaData.filterActionBtnCont,'col-12': reports.reportMetaData.filterActionBtnCont}" style="z-index: 100;">
+    <div class="row pl-0 pr-0">
+        <div class="col-{{reports.reportMetaData.customizeTabs?.filterPerRow[0]}} mb-0" *ngIf="reports.reportMetaData.customizeTabs?.customize">
+            <table class="w-100">
+                <tbody>
+                    <tr>
+                        <td class="text-left">
+                            <label style="font-size: 9pt;" class="mandatory font-weight-bold" [title]="reports.reportMetaData.filterAlignment == 'report-filter-alignment-nowrap' ? reports.reportMetaData.customizeTabs.name : ''">{{ reports.reportMetaData.customizeTabs.name }}</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-left">
+                            <div class="date">
+                                <eplmsdlist #refEl id="customized_tab_clubbed_{{i}}" select-type="multiple" [config]="getConfigObject(refEl)" 
+                                    [userEnteredDetails]="customizeTabObject" (onClose)="customizedTabMultiSelectOnClose($event);" 
+                                    (onEscape)="customizedTabMultiSelectOnClose($event);"></eplmsdlist>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <ng-container *ngFor="let rep of reports.reportMetaData.userValueList; let i = index;">
+            <div class="col-{{reports.reportMetaData.filterPerRowList[i]}} mb-0" *ngIf="!reports.hideUserValueList"> 
+                <table class="w-100">
+                    <tbody>
+                        <tr>
+                            <td class="text-left">
+                                <label *ngIf="rep.type != 'combinedList'" class="font-weight-bold" [ngClass]="{'mandatory': rep.isMandatory}" [title]="reports.reportMetaData.filterAlignment == 'report-filter-alignment-nowrap' ? rep.givenName : ''" style="font-size: 9pt;">{{rep.givenName}}</label> 
+                                <div class="w-100 mt-1 p-0 mandatory-group-container d-flex" *ngIf="rep.type == 'combinedList'" style="padding-bottom: .35rem !important;">
+                                    <label class="mandatoryGroup mandatoryGroup-label dropdown-toggle font-weight-bold cur-pointer mb-0" [ngClass]="{'mandatory': rep.isMandatory}" id="menu2" data-toggle="dropdown" style="font-size: 9pt;" [title]="rep.selectedGroupName">{{rep.selectedGroupName}}</label>
+                                    <span class="caret mt-2"  data-toggle="dropdown" id="menu2"></span>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+                                        <li class="cur-pointer f-s-09rem dropdown-item pl-3" *ngFor="let attr of rep.givenNameList">
+                                            <a (click)="rep.selectedGroupName = attr ;reports.updateUserGroup(i, rep.selectedGroupName);"> {{attr}} </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-left">
+                                <div [ngClass]="{'w-100': rep.type != 'combinedList', 'm-t-22': rep.type == 'combinedList'}" *ngIf="(rep.widget == 'DateTime Picker' || rep.widget == 'Date Picker') && !rep.isRangeSelector">
+                                    <ep-report-datetime-time-picker class="w-100" [widgetDetails]="rep" id="start-time" [defaultValue]="rep.enteredValue" [(ngModel)]="rep.enteredDateModel" [disabled]="rep.isReadOnly"></ep-report-datetime-time-picker>
+                                </div>
+                                <div class="col-12 pl-3" *ngIf="(rep.widget == 'DateTime Picker' || rep.widget == 'Date Picker') && rep.isRangeSelector">
+                                    <div class="row p-0">
+                                        <div class="col p-0" style="width: calc(50% - 10px);">
+                                            <ep-report-datetime-time-picker class="w-100" [widgetDetails]="rep" id="start-time" [defaultValue]="rep.enteredValue[0]" [(ngModel)]="rep.enteredStartDateModel" [disabled]="rep.isReadOnly"></ep-report-datetime-time-picker>
+                                        </div>
+                                        <span class="date-to-text p-1" translate>to</span>
+                                        <div class="col p-0" style="width: calc(50% - 10px);">
+                                            <ep-report-datetime-time-picker  class="w-100" [widgetDetails]="rep" id="end-time" [defaultValue]="rep.enteredValue[1]" [(ngModel)]="rep.enteredEndDateModel" [disabled]="rep.isReadOnly"></ep-report-datetime-time-picker>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div [ngClass]="{'w-100': rep.type != 'combinedList', 'm-t-22': rep.type == 'combinedList'}" *ngIf="rep.widget == 'Month Picker' && !rep.isRangeSelector">
+                                    <ep-report-month-picker class="w-100" [widgetDetails]="rep" id="start-time" [defaultValue]="rep.enteredValue" [disabled]="rep.isReadOnly"></ep-report-month-picker>
+                                </div>
+                                <div class="col-12 pl-3" *ngIf="rep.widget == 'Month Picker' && rep.isRangeSelector">
+                                    <div class="row p-0">
+                                        <div class="col p-0" style="width: calc(50% - 10px);">
+                                            <ep-report-month-picker class="w-100" [widgetDetails]="rep" id="start-time" [defaultValue]="rep.enteredValue[0]" [disabled]="rep.isReadOnly"></ep-report-month-picker>
+                                        </div>
+                                        <span class="date-to-text p-1" translate>to</span>
+                                        <div class="col p-0" style="width: calc(50% - 10px);">
+                                            <ep-report-month-picker class="w-100" [widgetDetails]="rep" id="end-time" [defaultValue]="rep.enteredValue[1]" [disabled]="rep.isReadOnly"></ep-report-month-picker>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div [ngClass]="{'w-100': rep.type != 'combinedList', 'm-t-22': rep.type == 'combinedList'}" *ngIf="rep.widget == 'Year Picker' && !rep.isRangeSelector">
+                                    <ep-report-year-picker class="w-100" [widgetDetails]="rep" id="start-time" [defaultValue]="rep.enteredValue" [disabled]="rep.isReadOnly"></ep-report-year-picker>
+                                </div>
+                                <div class="col-12 pl-3" *ngIf="rep.widget == 'Year Picker' && rep.isRangeSelector">
+                                    <div class="row p-0">
+                                        <div class="col p-0" style="width: calc(50% - 10px);">
+                                            <ep-report-year-picker class="w-100" [widgetDetails]="rep" id="start-time" [defaultValue]="rep.enteredValue[0]" [disabled]="rep.isReadOnly"></ep-report-year-picker>
+                                        </div>
+                                        <span class="date-to-text p-1" translate>to</span>
+                                        <div class="col p-0" style="width: calc(50% - 10px);">
+                                            <ep-report-year-picker class="w-100" [widgetDetails]="rep" id="end-time" [defaultValue]="rep.enteredValue[1]" [disabled]="rep.isReadOnly"></ep-report-year-picker>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12" *ngIf="rep.widget == 'Textbox' && rep.isRangeSelector">
+                                    <div class="row p-0">
+                                        <div class="col p-0" style="width: calc(50% - 10px);">
+                                            <input type="text" [disabled]="rep.isReadOnly" [(ngModel)]="rep.enteredValue[0]" id="start-text-box {{i}}" class="form-control input-sm h-100 p-1" style="min-height: 34px;">
+                                        </div>
+                                        <span class="date-to-text p-1">to</span>
+                                        <div class="col p-0" style="width: calc(50% - 10px);">
+                                            <input type="text" [disabled]="rep.isReadOnly" [(ngModel)]="rep.enteredValue[1]" id="end-text-box {{i}}" class="form-control input-sm h-100 p-1" style="min-height: 34px;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group w-100"  *ngIf="rep.widget == 'Textbox' && !rep.isRangeSelector">
+                                    <input type="text" [(ngModel)]="rep.enteredValue" id="start-text-box {{i}}" class="form-control input-sm h-100 p-1" style="min-height: 34px;">
+                                </div>
+                                <div class="date" ng-class="{'input-group w-100': rep.type != 'combinedList', 'm-t-22': rep.type == 'combinedList'}" *ngIf="rep.widget == 'Single-Select'">
+                                    <eplmsdlist #refEl id="single_select_widget_{{i}}" select-type="single" [config]="getConfigObject(refEl)" [userEnteredDetails]="rep" (onOpen)="epLmsdOnOpen($event);"></eplmsdlist>
+                                </div>
+                                <div class="date" ng-class="{'input-group w-100': rep.type != 'combinedList', 'm-t-22': rep.type == 'combinedList'}" *ngIf="rep.widget == 'Multi-Select'">
+                                    <eplmsdlist #refEl id="multi_select_widget_{{i}}" select-type="multiple" [config]="getConfigObject(refEl)" [userEnteredDetails]="rep" (onOpen)="epLmsdOnOpen($event);"></eplmsdlist>
+                                </div>
+                                <div class="col-12" *ngIf="rep.widget == 'Number Picker'">
+                                    <div class="row p-0">
+                                        <div class="col-6 p-0 pr-2">
+                                            <select class="form-control input-sm h-100 p-1" [(ngModel)]="rep.enteredValue[0]" (change)="rep.enteredValue[1] = ''; rep.enteredValue[2] = ''">
+                                                <option value="" translate>Select</option>
+                                                <option [value]="filterObj.value" *ngFor="let filterObj of reports.numberFilterCriteriaList">{{filterObj.label}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6 p-0">
+                                            <input type="number" *ngIf="rep.enteredValue[0] == 'all' || rep.enteredValue[0] == ''" class="form-control input-sm h-100 p-1" disabled>
+                                            <input type="number" *ngIf="rep.enteredValue[0] == 'equal'" [(ngModel)]="rep.enteredValue[1]" class="form-control input-sm h-100 p-1" placeholder="value">
+                                            <input type="number" *ngIf="rep.enteredValue[0] == 'notEqual'" [(ngModel)]="rep.enteredValue[1]" class="form-control input-sm h-100 p-1" placeholder="value">
+                                            <input type="number" *ngIf="rep.enteredValue[0] == 'greaterThan'" [(ngModel)]="rep.enteredValue[1]" class="form-control input-sm h-100 p-1" placeholder="value">
+                                            <input type="number" *ngIf="rep.enteredValue[0] == 'greaterThanOrEqual'" [(ngModel)]="rep.enteredValue[1]" class="form-control input-sm h-100 p-1" placeholder="value">
+                                            <input type="number" *ngIf="rep.enteredValue[0] == 'lesserThan'" [(ngModel)]="rep.enteredValue[1]" class="form-control input-sm h-100 p-1" placeholder="value">
+                                            <input type="number" *ngIf="rep.enteredValue[0] == 'lessThanOrEqual'" [(ngModel)]="rep.enteredValue[1]" class="form-control input-sm h-100 p-1" placeholder="value">
+                                            <div class="row p-0" *ngIf="rep.enteredValue[0] == 'between'">
+                                                <div class="col-6 p-0 pl-3">
+                                                    <input type="number" [(ngModel)]="rep.enteredValue[1]" placeholder="Start value" class="form-control input-sm h-100 p-1">
+                                                </div>
+                                                <div class="col-6 pr-0 pl-2">
+                                                    <input type="number" [(ngModel)]="rep.enteredValue[2]" placeholder="End value" class="form-control input-sm h-100 p-1">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </ng-container>
+        <div class="col-{{reports.reportMetaData.consolidatedFilterRowSpaceCount}} d-flex" *ngIf="(reports.reportMetaData.userValueList?.length > 0 && reports.reportMetaData.filterActionBtnCont) || (reports.customizedTab_reportMetaData?.customizeTabs.customize && reports.reportMetaData.filterActionBtnCont)">
+            <button class="btn btn-primary position-relative"  style="bottom: .05em; align-self: flex-end;" (click)="executeEnteredValue(null,true);">Submit</button>
+            <button class="btn btn-primary position-relative"  style="left: 15px; bottom: .05em; align-self: flex-end;" *ngIf="reports.reportMetaData.hasOwnProperty('isClearVisible') ? reports.reportMetaData.isClearVisible : true" (click)="clearFilter();">Clear</button>
+        </div>
+    </div>
+</div>
+<div class="col-1 p-0 text-center" *ngIf="(reports.reportMetaData.userValueList?.length > 0 && !reports.reportMetaData.filterActionBtnCont) || (reports.customizedTab_reportMetaData?.customizeTabs.customize && !reports.reportMetaData.filterActionBtnCont)">
+    <button class="btn btn-primary m-t-22" (click)="executeEnteredValue(null,true);" style="min-width: 70%;margin-bottom: 10px;">Submit</button>
+    <button class="btn btn-primary m-t-10" *ngIf="reports.reportMetaData.hasOwnProperty('isClearVisible') ? reports.reportMetaData.isClearVisible : true" (click)="clearFilter();" style="min-width: 80%;">Clear</button>
+</div>

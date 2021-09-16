@@ -1,0 +1,70 @@
+<div class="container">
+    <div class="row">
+        <div class="col-4 mb-10 log-details-header">
+            <i class="fa fa-arrow-circle-o-left audit-back mt-2" (click)="triggerBackScreen()" aria-hidden="true"></i>
+            <h1 class="log-header-title">Audit Log Details</h1>
+        </div>
+    </div>
+    <div class="audit-detials" *ngIf="!isComparedAuditClicked">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-primary copy-btns" ngxClipboard (cbOnSuccess)="copied($event, 'request')" [cbContent]="parsedApiRequestString" >Copy Request</button>
+            </div>
+        </div>
+        <div class="tab-pane" id="event-request-nav-body">
+            <div class="row event-report-details-body m-0 p-0">
+                <div class="col-12 text-dark p-0 event-detail-data">
+                    <ul class="nav nav-pills nav-justified" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#rawApiRequest">Raw</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#prettyApiRequest">Pretty</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content event-details-tab-content">
+                        <div id="rawApiRequest" class="container tab-pane p-0 active">
+                            <pre class="form-control h-100 bg-light">{{parsedApiResponseRaw}}</pre>
+                        </div>
+                        <div id="prettyApiRequest" class="container tab-pane p-0 fade">
+                            <ngx-json-viewer class="form-control bg-light" [json]="parsedApiResponseObject"></ngx-json-viewer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="compare-audit" *ngIf="isComparedAuditClicked">
+        <div class="row">
+            <div class="col-6 left-side" *ngFor="let auditLog of compareAuditLogData">
+                <div class="row p-0 m-0">
+                    <div class="col-3"><span>User Name:</span></div>
+                    <div class="col-7">{{auditLog.authorName}}</div>
+                </div>
+                <div class="row p-0 m-0">
+                    <div class="col-3"><span>Accessed IP:</span></div>
+                    <div class="col-7">{{auditLog.accessedIP}}</div>
+                </div>
+                <div class="row p-0 m-0">
+                    <div class="col-3"><span>Accessed Time Zone:</span></div>
+                    <div class="col-7">{{auditLog.accessedTimezone}}</div>
+                </div>
+                <div class="row p-0 m-0">
+                    <div class="col-3"><span>API:</span></div>
+                    <div class="col-7">{{auditLog.apiPath}}</div>
+                </div>
+                <div class="row p-0 m-0">
+                    <div class="col-3"><span>Summary:</span></div>
+                    <div class="col-7">{{auditLog.changeSummary}}</div>
+                </div>
+                <div class="row p-0 m-0">
+                    <div class="col-3"><span>Object Name:</span></div>
+                    <div class="col-6">{{auditLog.changedObjectName}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12" style="height: 500px">
+            <ngx-monaco-diff-editor  style="height: 100%" [options]="options" [originalModel]="originalModel" [modifiedModel]="modifiedModel"></ngx-monaco-diff-editor >
+        </div> 
+    </div>
+</div>

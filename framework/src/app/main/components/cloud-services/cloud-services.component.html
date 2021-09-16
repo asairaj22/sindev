@@ -1,0 +1,221 @@
+<main class="main" [class.addCloudBtm]="topReach">
+    <!-- Master head text-banner start here  -->
+
+
+
+    <div class="masthead-banner cloudImageBanner"  style="background: url(./assets/images/masthead/CTD_baner.png)">
+
+
+
+        <!-- <div class="masthead__image-wrapper ">
+            <picture class="masthead__image">
+                <!-- <source srcset="./assets/images/masthead/cloud-enterprise-apps-mobile.png" media="(max-width: 767px)"> 
+                <source srcset="./assets/images/masthead/CTD_baner.png" media="(max-width: 767px)">
+                <source srcset="./assets/images/masthead/CTD_baner.png" alt="Masthead banner image">
+                <img src="./assets/images/masthead/CTD_baner.png" alt="Masthead banner image"> 
+            </picture> 
+
+        </div> -->
+        <div class="masthead-banner__wrapper mobile--top">
+            <div class="container">
+                <div class="row justify-content-center justify-content-md-start">
+                    <div class="col-11 col-md-12 col-lg-7 masthead-banner__content">
+
+                        <h1 class="" *ngIf='routeType === "Cloud"'>Singtel Cloud Services</h1>
+                        <h1 class="" *ngIf='routeType === "Click to deploy"'>Click To Deploy</h1>
+                        <p class="">Subscribe your Public Cloud service from Singtel</p>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- end masthead -->
+    <div class="anchor-nav__blocker"></div>
+    <!-- [style.top] = "exceedScrollLimit? wrapperheight+'px': 'auto'"  -->
+    <div id="sticky-wrapper" class="anchor-nav__wrapper is-sticky" style="height: 64px;" 
+    [class.sticky-nav-ul-topReach-false] = "cloudExist && loginOrlogout == 'login' && topReach" [class.sticky-nav-ul-topReach-true] = "cloudExist && loginOrlogout == 'login' && !topReach"  
+    [class.sticky-nav-ul-logout-topReach-false] = "cloudExist && loginOrlogout == 'logout' && topReach" [class.sticky-nav-ul-logout-topReach-true] = "cloudExist && loginOrlogout == 'logout' && !topReach" #fixedBox>
+    <a class="mobileClickShow" (click)="toggleMobile()">Cloud Services 
+       <i [ngClass]="{'fa-angle-down': !showToggle, 'fa-angle-up': showToggle}" class="fa"></i></a>
+        <section class="anchor-nav mobileToggle" [class.showToggle]="showToggle">
+            <div class="container">
+                <div class="row">
+                    <div class="col d-md-flex align-items-md-center flex-md-row">
+                        <!-- <div
+                            class="anchor-nav__header-wrapper d-flex d-lg-block align-items-center justify-content-between">
+                            <span class="anchor-nav__header">Enterprise Apps</span><a
+                                class="anchor-nav__header--btn btn btn-primary" href="javascript:void(0)">Find the right app</a>
+                        </div> -->
+                         <ul class="anchor-nav__list text-center">
+                            <li class="anchor-nav__list-item"><a id="cloudservicepage-navlink-whychoose" href="javascript:void(0)" 
+                            [ngClass]="highLightWhyChooseSingtel === true ? 'highLightWhyChooseSingtel' : ''"
+                            (click)="scrollToDiv(whyChose)" class="active">Why choose 
+                                Singtel</a></li>
+                            <li *ngFor="let name of subName; let i=index"
+                            class="anchor-nav__list-item" [ngClass]="{'hide-for-phase1' : name.name == 'GCP', 'border-none-hide-for-phase1' : name.name == 'Azure'}" (click)="scrollApp(name, i)"><a [id]="'cloudservicepage-navlink-'+name.name" href="javascript:void(0)" 
+                            [ngClass]="name.highLighted === true ? 'highLightWhyChooseSingtel' : ''">{{name.name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+     <div id="sticky-wrapper" class="anchor-nav__wrapper is-sticky secondToolbar" style="height: 64px;display: none;"
+        [ngClass]="{'mat-elevation-z5' : true, 'sticky' : isSticky}" >
+        <section class="anchor-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col d-lg-flex align-items-lg-center flex-lg-row">
+                        <div
+                            class="anchor-nav__header-wrapper d-flex d-lg-block align-items-center justify-content-between">
+                            <span class="anchor-nav__header">Enterprise Apps</span><a
+                                class="anchor-nav__header--btn btn btn-primary" href="javascript:void(0)">Find the right app</a>
+                        </div>
+                        <ul class="anchor-nav__list text-center">
+                            <li class="anchor-nav__list-item"><a  href="javascript:void(0)" (click)="scrollToDiv(whyChose)" class="active">Why choose 
+                                Singtel</a></li>
+                            <li *ngFor="let name of subName; let i=index" 
+                            class="anchor-nav__list-item" (click)="scrollApp(name)" [ngClass]="{'hide-for-phase1' : name.name == 'GCP', 'border-none-hide-for-phase1' : name.name == 'Azure'}" ><a>{{name.name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+
+    <!-- Why section-->
+    <section id="section--why" #whyChose>
+        <div class="container responsiveChooseTop">
+            <div class="row justify-content-center">
+                <div class="col-10">
+                    <h2 class="text-center">Why choose Singtel</h2>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3">
+                    <div class="small-tile">
+                        <div class="small-tile__image-wrapper d-flex justify-content-center align-items-center">
+                            <img class="small__image" src="assets/images/small-tile/small-tile__support.png">
+                        </div>
+                        <div class="small-tile__wrapper">
+                            <p class="small__description">Get dedicated support over phone and email</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3">
+                    <div class="small-tile">
+                        <div class="small-tile__image-wrapper d-flex justify-content-center align-items-center">
+                            <img class="small__image" src="assets/images/small-tile/small-tile__cloud.png">
+                        </div>
+                        <div class="small-tile__wrapper">
+                            <p class="small__description">Migrate your data seamlessly with Singtel</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3">
+                    <div class="small-tile">
+                        <div class="small-tile__image-wrapper d-flex justify-content-center align-items-center">
+                            <img class="small__image" src="assets/images/small-tile/small-tile__manage.png">
+                        </div>
+                        <div class="small-tile__wrapper">
+                            <p class="small__description">Manage all your apps from one account</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3">
+                    <div class="small-tile">
+                        <div class="small-tile__image-wrapper d-flex justify-content-center align-items-center">
+                            <img class="small__image" src="assets/images/small-tile/small-tile__phone.png">
+                        </div>
+                        <div class="small-tile__wrapper">
+                            <p class="small__description">One consolidated bill for all your Singtel products and
+                                services</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Software tile section-->
+    <section class="software-tile">
+        <div class="container">
+            <div class="row">
+                <!-- Content  wrapper-->
+
+                <div class="software-tile__wrapper" #item [ngStyle]="{'margin-top.px': scrollHeightAWS}"
+                *ngFor="let product of products; let i =index">
+                    <div class="col-12 col-lg-7" [ngClass]="{'hide-for-phase1' : product.name == 'Essential Cloud Resell (GCP)'}">
+                        <!-- Header wrapper-->
+                        <div class="software-tile__header">
+                            <!-- Tile image-->
+                            <img class="software-tile__image" [src]="product.productLogo" alt="image">
+                            <!-- Title wrapper-->
+                            <div class="software-tile__title-wrapper">
+                                <!-- <h3>Essential Cloud <br /> Resell (AWS)</h3> -->
+
+                                <!-- <h3>{{(product.name && product.name=='Singtel Cloud Service (AWS)')? 'Singtel Cloud Service (AWS)' : (product.name=='Singtel Cloud Service (Azure)')?'Singtel Cloud Service (Azure)' : product.name}}  {{scrollfunction(item.offsetTop,i)}}</h3> -->
+                                <h3 class="tile-header">{{product.name}}  {{scrollfunction(item.offsetTop,i,item.offsetHeight,whyChose)}}</h3>
+                                
+                                    <p>(Subscription starts at
+
+                                    <span class="cost"> S$0.00</span>
+
+                                    <span class="time">/month)</span>
+                                </p>
+                                <!-- <p>Subscription per day</p> -->
+                            </div>
+                        </div>
+                        <!-- Content wrapper-->
+                        <div class="software-tile__content-wrapper">
+                            <p class="">{{product.description}}</p>
+                            <div class="software-tile__pricing-cta exp-ftr">
+                                <a class="btn btn-secondary" [id]="'cloudservicepage-exlplorebtn-'+product.name" (click)= "routeProdDetail(product.po_id);">Explore Features</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-5" [ngClass]="{'hide-for-phase1' : product.name == 'Essential Cloud Resell (GCP)'}">
+                        <!-- Card-->
+                        <div class="testimonial-card card">
+                            <div class="card-body">
+                                <p class="card-text">{{product.testimonialShortMsg}}</p>
+                                <div class="small-tile small-tile--user">
+                                    <div
+                                        class="small-tile__image-wrapper d-flex justify-content-center align-items-center">
+                                        <img class="small__image"
+                                            [src]="product.testimonialAvatar" alt="Eric Koh">
+                                    </div>
+                                    <div class="small-tile__wrapper d-flex">
+                                        <span class="small__name">{{product.testimonialUserName}}</span>
+                                        <span class="small__title">{{product.testimonialUserDesignation}}</span>
+                                        <span class="small__company">{{product.testimonialUserCompany}}</span>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+               
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </section>
+
+</main>

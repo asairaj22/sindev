@@ -1,0 +1,10 @@
+.doc-landing-screen{
+    height: 80vh;
+}
+#jstree1{
+    overflow-x: auto;
+}
+.jstree-proton .jstree-no-icons .jstree-anchor>.jstree-themeicon{
+    display: inline-block;
+    padding: .15rem;
+}

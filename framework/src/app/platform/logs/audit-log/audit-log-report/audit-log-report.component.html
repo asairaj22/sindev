@@ -1,0 +1,153 @@
+<div class="container-fluid audit-log-screens">
+    <!--  -->
+    <div class="row h-100" *ngIf="auditLogScreen == 'audit-log-report'">  
+        <div class="col-12"><h1 class="log-header-title">Audit Logs</h1></div>
+        <div class="col-12">
+            To create a targeted audit report, specify the date range and additional parameters.<br>
+            If you uncertain <a href="JavaScript:void(0);" (click)="getAuditLogReport(false)">view the entire API Audit Logs</a>
+        </div>
+        <div class="col-12 mt-4">
+            <div class="row p-0 mb-2">
+                <div class="col-2">Generate Date Range*</div>
+                <div class="col-6" *ngIf="!customRange">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
+                            {{date_range}}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" (click)="date_range = 'Today'">Today</a>
+                            <a class="dropdown-item" (click)="date_range = 'Last 7 days'">Last 7 days</a>
+                            <a class="dropdown-item" (click)="date_range = 'Last 14 days'">Last 14 days</a>
+                            <a class="dropdown-item" (click)="date_range = 'Last 30 days'">Last 30 days</a>
+                            <a class="dropdown-item" (click)="customRange = true">Custom range</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3" *ngIf="customRange">
+                    <angular2-date-picker [(ngModel)]="customRangeFrom" (onDateSelect)="onCustomRangeFromDateSelect($event)"  [settings]="customRangeSettings"></angular2-date-picker>
+                </div>
+                <div class="col-3" *ngIf="customRange">
+                    <angular2-date-picker [(ngModel)]="customRangeTo" (onDateSelect)="onCustomRangeToDateSelect($event)" [settings]="customRangeSettings"></angular2-date-picker>
+                </div>
+                <div class="col-1 p-0 pt-1" *ngIf="customRange">
+                    <i class="fa fa-lg fa-arrow-circle-left text-primary cur-pointer" aria-hidden="true" title="Back to default range filter" (click)="customRange = false"></i>
+                </div>
+            </div>
+            <div class="row p-0 mb-2">
+                <div class="col-2">User Name</div>
+                <div class="col-6">
+                    <ng-select placeholder="-- Select user names from list --" class="f-s-08rem" 
+                    [multiple]="true" [(ngModel)]="filterCriteria.userList" [closeOnSelect]="false" [clearSearchOnAdd]="true" [clearable]="true">
+                    <ng-option *ngFor="let ur of userNamesList_resp" [value]="ur.email">{{ur.userName}}</ng-option>
+                     </ng-select>
+                </div>
+            </div>
+            <div class="row p-0 mb-2">
+                <div class="col-2">Category</div>
+                <div class="col-6">
+                    <ng-select placeholder="-- Select Category from list --" class="f-s-08rem" [multiple]="true" [(ngModel)]="filterCriteria.appLevelPlatformModuleList">
+                        <ng-option value="Platform Login">Login</ng-option>
+                        <ng-option value="Platform Logout">Logout</ng-option>
+                        <ng-option value="Account Selection">Account Selection</ng-option>
+                        <ng-option value="License">License</ng-option>
+                        <ng-option value="ReportFilter">Manage Filter (Reports)</ng-option>
+                        <ng-option value="Others">Others</ng-option>
+                    </ng-select>    
+                </div>
+            </div> 
+            <div class="row p-0 mb-2">
+                <div class="col-2">API Type</div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-2">
+                            <input type="radio"  name="api" value="API" [(ngModel)]="filterCriteria.apiType" [checked]='isAPI' (click)="isAPISOAP('api')" >
+                            <label for="male">API</label>
+                        </div>
+                        <div class="col-2">
+                            <input  type="radio" name="soap" value="SOAP" [(ngModel)]="filterCriteria.apiType" [checked]='isSoap' (click)="isAPISOAP('soap')">
+                            <label for="female">SOAP</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row p-0 mb-2" *ngIf="isAPI">
+                <div class="col-2">Api Name</div>
+                <div class="col-6">
+                    <ng-select placeholder="-- Select API names from list --" class="f-s-08rem" 
+                    [multiple]="true" [(ngModel)]="filterCriteria.apiList" [closeOnSelect]="false" [clearSearchOnAdd]="true" [clearable]="true">
+                    <ng-option *ngFor="let api of actionFlowList_resp" [value]="api.api">{{api.api}}</ng-option>
+                     </ng-select>
+                </div>
+            </div> 
+            <div class="row p-0 mb-2" *ngIf="isSoap">
+                <div class="col-2">Connectors</div>
+                <div class="col-3">
+                    <select class="form-control" (change)="getConnectorOperations()" [(ngModel)]="connector_configured_id">
+                        <option value="1"> -- Select the Connector -- </option>
+                        <option *ngFor="let connectorList of configuredConnectorList" [value]="connectorList.configured_id" >{{connectorList.configuredName}}</option>
+                      </select>
+                </div>
+                <div class="col-3" *ngIf="isConnectorOperationAvail">
+                    <ng-select placeholder="-- Select Operation names from list --" class="f-s-08rem" 
+                    [multiple]="true" [(ngModel)]="filterCriteria.connectorList" [closeOnSelect]="false" [clearSearchOnAdd]="true" [clearable]="true">
+                    <ng-option *ngFor="let connecotrOpr of connector_operations_resp" [value]="connecotrOpr.name">{{connecotrOpr.name}}</ng-option>
+                     </ng-select>
+                </div>
+            </div>
+            <div class="row p-0 mb-2">
+                <div class="col-2">Object</div>
+                <div class="col-6">
+                     <ng-select placeholder="-- Select Object names from list --" class="f-s-08rem" 
+                     [multiple]="true" [(ngModel)]="filterObjectList" [closeOnSelect]="false" (change)="updateAttributeFilter()">
+                     <ng-option *ngFor="let obj of objects_resp" [value]="obj.model">{{obj.model}}</ng-option>
+                      </ng-select>    
+                </div>
+            </div> 
+            <div class="row p-0 mt-2" *ngFor="let item of filterCriteria.objectList | keyvalue">
+                <div class="col-2"></div>
+                <div class="col-6" >
+                    <div class="row">
+                        <div class="col-1">{{item.key}}</div>
+                        <div class="col-11 float-right"><button type="button" class="btn btn-secondary float-right btn-sm" (click)="item.value.push({operation: '=',logic:'AND',isGrouped: false});"><i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp; Add Logic</button></div>
+                    </div>
+                    <div class="grouping-outer-container">
+                        <div *ngFor="let conLogic of item.value; let i = index; first as isFirst">
+                            <div class="row">
+                                <div class="groupingIcon" [ngClass]="{'grouping-selected': conLogic.isGrouped}" *ngIf="item.value.length > 1">
+                                    <div class="start"></div>
+                                    <div class="middle middle-start" (click)="conLogic.isGrouped = !conLogic.isGrouped"></div>
+                                    <div class="middle middle-end" (click)="conLogic.isGrouped = !conLogic.isGrouped"></div>
+                                    <div class="end"></div>
+                                </div>
+                                <div class="col-4 mb-3" *ngIf="!isFirst">
+                                    <select [(ngModel)]="conLogic.logic" class="form-control input-sm">
+                                        <option value="">Select</option>
+                                        <option value="AND">AND</option>
+                                        <option value="OR">OR</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <ng-select placeholder="Select Attribute" class="f-s-08rem" 
+                                    [multiple]="false"  [closeOnSelect]="true" [(ngModel)]="conLogic.key" >
+                                    <ng-option *ngFor="let attr of applicationObject[item.key].attributes" [value]="attr.name">{{attr.name}}</ng-option>
+                                    </ng-select>
+                                </div>
+                                <div class="col-5"><input type="text" class="form-control input-sm" placeholder="value" [(ngModel)]="conLogic.value"/></div>
+                                <span><i class="fa fa-trash-o pt-2 cus-trash" aria-hidden="true" (click)="deleteAttribute(item.value, i)"></i></span>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+            </div>
+            <div class="row p-0 mt-4">
+                <div class="col-md-8">
+                    <button type="button" class="btn btn-sm btn-primary float-right" (click)="getAuditLogReport(true)">Generate Report</button>						
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+ <app-audit-log-table *ngIf="auditLogScreen == 'audit-log-table'" [auditReportTableData]="auditReportTableData" [userNamesMap]="userNamesMap" [defaultDateTimeFormat]="defaultDateTimeFormat" (viewAuditDetails)="detailedView($event)" (compareAuditLog)="compareAuditLogView($event)" (triggerBack)="switchEventLogScreens($event)"></app-audit-log-table> 
+ <app-audit-log-details *ngIf="auditLogScreen == 'audit-log-details'" [auditReportDetailsData]="auditReportDetailsData" [compareAuditLogData]="compareAuditLogData" [isComparedAuditClicked]= "isComparedAuditClicked" (triggerBack)="switchEventLogScreens($event)"></app-audit-log-details>

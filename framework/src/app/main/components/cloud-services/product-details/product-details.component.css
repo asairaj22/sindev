@@ -1,0 +1,129 @@
+/* .sticky-nav-ul {
+  position: fixed;
+  top: 118px;
+  width: 100%;
+  z-index: 99;
+}
+.sticky-nav-ul-logout {
+  position: fixed;
+  top: 63px;
+  width: 100%;
+  z-index: 99;
+} */
+.sticky-nav-ul-topReach-true {
+  position: fixed;
+  /* top: 0; */
+  top: 120px;
+  width: 100%;
+  z-index: 99;
+  }
+.sticky-nav-ul-topReach-false {
+  position: fixed;
+  /* top: 0; */
+  top: 60px;
+  width: 100%;
+  z-index: 99;
+  }
+.sticky-nav-ul-logout-topReach-true {
+  position: fixed;
+  top: 63px;
+  width: 100%;
+  z-index: 99;
+}
+.sticky-nav-ul-logout-topReach-false {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  z-index: 99;
+}
+#enterprise-product-details .anchor-nav__list{
+   text-align: center;
+}
+#enterprise-product-details .masthead-banner__content .tile__img{
+    width: 110px;
+    height: 110px;
+}
+#enterprise-product-details .masthead-banner__content h1{
+    /* font: normal normal 300 48px/60px Avenir; */
+}
+#enterprise-product-details .masthead-banner__content p{
+    font: normal normal normal 16px/22px Avenir;
+}
+#enterprise-product-details .text-bold{
+    font-weight: bold;
+}
+#enterprise-product-details #section--why {
+    padding-top: 70px;
+}
+#enterprise-product-details #section--why h2{
+    font: normal normal normal 50px Museo;
+}
+#enterprise-product-details .small-tile .small-tile__wrapper .small__description{
+    font: normal normal normal 16px/20px Avenir;
+    color: #101010;
+    padding-top: 7px;
+}
+#enterprise-product-details #section--key-features h2{
+    font: normal normal 300 40px/50px Avenir;
+}
+#enterprise-product-details #section--key-features h6{
+    font: normal normal 900 18px/25px Avenir;
+}
+#enterprise-product-details #section--key-features p{
+    font: normal normal normal 14px/20px Avenir;
+}
+::ng-deep swiper>.swiper.s-wrapper .swiper-wrapper .swiper-slide {
+  display: flex;
+}
+.swiper-slide{
+    background-color: #fff;
+    margin-right: 30px;
+}
+#enterprise-product-details .container{
+    max-width: 1140px;
+}
+#enterprise-product-details .software-tile__image{
+    height: 110px;
+}
+.prod-det-banner-header{
+    font-weight: 300;
+    font-size: 48px;
+}
+.subscription-details .prod-det-banner-header p{
+    font:normal normal 300 32px/38px museo;
+}
+.software-tile__image {
+    width: 110px !Important;
+    height: 110px!Important;
+    background-color: white!Important;
+}
+.addCloudBtm .anchor-nav__wrapper.sticky-nav-ul{top:60px;}
+/* .accordion .card .card-header{
+	background-image: url("https://www.campaign.hogarthww.digital/singtel/singtel-mybiz-htmls/assets/images/svg/chevron--up.svg");
+}
+
+
+.accordion .card .card-header.collapsed {
+	background-image: url("https://www.campaign.hogarthww.digital/singtel/singtel-mybiz-htmls/assets/images/svg/chevron--down.svg");
+} */
+
+@media (max-width:992px){
+    .mobileToggle{display:none !important;}
+    .mobileClickShow{display: block; background: #fff; padding: 15px 0; text-align: center; justify-content: center !important; font-weight: bold;}
+    .showToggle{display:block !important; margin: 15px; border-top: solid 3px #ed1a3d;}
+    #enterprise-product-details .anchor-nav__wrapper{visibility: visible;}
+    .sticky-nav-ul {top:106px}
+    .addCloudBtm .anchor-nav__wrapper.sticky-nav-ul{top:48px;}
+    .mob-p0{padding: 0px !important}
+    .prod-det-wrapper section.anchor-nav{border-top: none; box-shadow: 0 6px 10px -3px rgb(0 0 0 / 15%);}
+    .prod-det-wrapper section.anchor-nav .anchor-nav__list .anchor-nav__list-item:last-child{ padding-bottom: 6px; }
+}
+.highlight_section_heading {
+  color: #e62e3b !important;
+  font-weight: 600 !important;
+} 
+
+@media screen and (max-width: 600px) and (min-width: 320px) {
+  .sticky-nav-ul-topReach-true {top: 109px !important; }
+  .sticky-nav-ul-topReach-false { top: 49px !important; }
+}

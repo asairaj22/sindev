@@ -1,0 +1,760 @@
+<!-- for the developer reference  -->
+<!-- product main bundle -->
+<!-- product sub bundle -->
+
+
+
+<main class="main dashboard-page">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page__header page__header--icon">
+                    <h3><img src="assets/dashboard.png" class="dashboardIcon"> Dashboard</h3>
+                    <!-- <i style="font-size: 18px;margin-right: 7px;" class="fa fa-cube" aria-hidden="true"></i> -->
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-12">
+
+                <!-- ## 
+                The display of the individual apps and stacked apps are described here.
+                An app (in Launch Apps) that has many instances are grouped into a stack. Clicking on a stack will show the instances within it (in Stacked Apps)
+              ## -->
+
+                <!-- 
+                 This is the "Stacked Apps" component to show the various instances of a single app.
+                 All apps that have stacks will share this component, change the data here based on the selected app from All Apps
+               -->
+                <div class="block " *ngIf="!stackedproducts">
+                    <div class="block__header back-to-app">
+                        <h6 id="back-to-apps">
+
+                            <!-- <svg class="icon">
+                                <use xlink:href="./assets/images/dashboard/svg/arrow-left-circle.svg#arrow-left-circle">
+                                </use>
+                            </svg> -->
+
+                            <svg (click)="stackedproducts = !stackedproducts" version="1.1" id="Capa_1"
+                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                                y="0px" viewBox="0 0 219.151 219.151"
+                                style="height: 20px;enable-background:new 0 0 219.151 219.151;width: 20px;"
+                                xml:space="preserve">
+                                <g>
+                                    <path
+                                        d="M109.576,219.151c60.419,0,109.573-49.156,109.573-109.576C219.149,49.156,169.995,0,109.576,0S0.002,49.156,0.002,109.575
+                                        C0.002,169.995,49.157,219.151,109.576,219.151z M109.576,15c52.148,0,94.573,42.426,94.574,94.575
+                                        c0,52.149-42.425,94.575-94.574,94.576c-52.148-0.001-94.573-42.427-94.573-94.577C15.003,57.427,57.428,15,109.576,15z">
+                                    </path>
+                                    <path
+                                        d="M94.861,156.507c2.929,2.928,7.678,2.927,10.606,0c2.93-2.93,2.93-7.678-0.001-10.608l-28.82-28.819l83.457-0.008
+                                        c4.142-0.001,7.499-3.358,7.499-7.502c-0.001-4.142-3.358-7.498-7.5-7.498l-83.46,0.008l28.827-28.825
+                                        c2.929-2.929,2.929-7.679,0-10.607c-1.465-1.464-3.384-2.197-5.304-2.197c-1.919,0-3.838,0.733-5.303,2.196l-41.629,41.628
+                                        c-1.407,1.406-2.197,3.313-2.197,5.303c0.001,1.99,0.791,3.896,2.198,5.305L94.861,156.507z">
+                                    </path>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                            </svg>
+                            Back To All Apps</h6>
+                    </div>
+                    <div class="block__content">
+                        <div class="row mx-0 mt-40">
+                            <div class="col-md-3 col-sm-6" *ngIf="!awscloudReselClick">
+                                <div class="app-card ">
+                                    <div class="app__header">
+                                        <svg class="app__fav-icon">
+                                            <use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-favourite">
+                                            </use>
+                                        </svg>
+                                        
+                                    </div>
+                                    <div class="app__logo-wrapper">
+                                        <img class="app__logo" src="./assets/images/dashboard/app-logo/office365.png"
+                                            alt="#">
+                                    </div>
+                                    <div class="app__footer">
+                                        <div data-toggle="popover" data-placement="bottom"
+                                            data-content="<h3>Office 365</h3><h4>Oicnanif Etius</h4>"
+                                            data-original-title="" title="">
+                                            <h3 title="Office 365" class="ellipsis  footer__text">Subscribers</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6" *ngIf="!awscloudReselClick">
+                                <div class="app-card ">
+                                    <div class="app__header">
+                                        <svg class="app__fav-icon">
+                                            <use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-favourite">
+                                            </use>
+                                        </svg>
+                                        
+                                    </div>
+                                    <div class="app__logo-wrapper">
+                                        <img class="app__logo" src="./assets/images/dashboard/app-logo/office365.png"
+                                            alt="#">
+                                    </div>
+                                    <div class="app__footer">
+                                        <div data-toggle="popover" data-placement="bottom"
+                                            data-content="<h3>Office 365</h3><h4>Oicnanif Etius</h4>"
+                                            data-original-title="" title="">
+                                            <h3 title="Office 365" class="ellipsis  footer__text">Active/Deactive</h3>
+                                            <!-- <h4 class="ellipsis">Number Of Subscriptions</h4> -->
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6" *ngIf="!awscloudReselClick">
+                                <div class="app-card ">
+                                    <div class="app__header">
+                                        <svg class="app__fav-icon">
+                                            <use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-favourite">
+                                            </use>
+                                        </svg>
+                                        
+                                    </div>
+                                    <div class="app__logo-wrapper">
+                                        <img class="app__logo" src="./assets/images/dashboard/app-logo/office365.png"
+                                            alt="#">
+                                    </div>
+                                    <div class="app__footer">
+                                        <div data-toggle="popover" data-placement="bottom"
+                                            data-content="<h3>Office 365</h3><h4>Oicnanif Etius</h4>"
+                                            data-original-title="" title="">
+                                            <h3 title="Office 365" class="ellipsis  footer__text">Users</h3>
+                                            <!-- <h4 class="ellipsis">Active/Deactive</h4> -->
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6" *ngIf="!awscloudReselClick">
+                                <div class="app-card ">
+                                    <div class="app__header">
+                                        <svg class="app__fav-icon">
+                                            <use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-favourite">
+                                            </use>
+                                        </svg>
+                                        
+                                    </div>
+                                    <div class="app__logo-wrapper">
+                                        <img class="app__logo" src="./assets/images/dashboard/app-logo/office365.png"
+                                            alt="#">
+                                    </div>
+                                    <div class="app__footer">
+                                        <div data-toggle="popover" data-placement="bottom"
+                                            data-content="<h3>Office 365</h3><h4>Oicnanif Etius</h4>"
+                                            data-original-title="" title="">
+                                            <h3 title="Office 365" class="ellipsis  footer__text">Coming Soon</h3>
+                                            <!-- <h4 class="ellipsis">List of users</h4> -->
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                            <ng-container *ngIf="awscloudReselClick">
+                            <div class="col-md-3 col-sm-6" *ngFor="let appitem of awsResellApps; let i = index">
+                                <div class="app-card " >
+                                    <div class="app__header">
+                                        <svg class="app__fav-icon">
+                                            <use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-favourite">
+                                            </use>
+                                        </svg>
+                                        <div class="kebab" #toggleButton (click)="toggleMenu(i)">
+                                            <figure></figure>
+                                            <figure></figure>
+                                            <figure></figure>
+                                        </div>
+                                    </div>
+                                    <div class="app__logo-wrapper" #logo (click)="navigateToResell()">
+                                        <img class="app__logo" src="{{appitem.appLogo}}"
+                                            alt="#">
+                                    </div>
+                                    <div class="app__footer" (click)="navigateToResell()">
+                                        <div data-toggle="popover" data-placement="bottom"
+                                            data-content="<h3>Office 365</h3><h4>Oicnanif Etius</h4>"
+                                            data-original-title="" title="">
+                                            <h3 title="{{appitem.appFooterName}}" class="ellipsis  footer__text">{{appitem.appFooterName}}</h3>
+                                            <h4 class="ellipsis">{{appitem.appFooterSubtitle}}</h4>
+                                        </div>
+                                    </div>
+                                    <div class="menu-overlay" *ngIf="appitem.isMenuOpen" #menu>
+                                        <ul class="app__menu">
+                                            <li class="app__menu-item"><a target="_blank"
+                                                    class="app__menu-link"><svg class="app__menu-icon">
+                                                        <use
+                                                            xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-setting">
+                                                        </use>
+                                                    </svg>Settings</a></li>
+                                            <li class="app__menu-item"><a  target="_blank"
+                                                    class="app__menu-link"><svg class="app__menu-icon">
+                                                        <use
+                                                            xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-help">
+                                                        </use>
+                                                    </svg>Help</a></li>
+                                            <li class="app__menu-item"><a target="_blank"
+                                                    class="app__menu-link"><svg class="app__menu-icon">
+                                                        <use
+                                                            xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-shortcut">
+                                                        </use>
+                                                    </svg> Create Shortcut</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            </ng-container>
+                           
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- This is "Launch Apps" component that shows all the available apps, including a stacks -->
+                <div class="block block-height" id="all-apps" *ngIf="stackedproducts">
+                    <div class="block__header back-to-app">
+                        <h6><strong>
+                        <ng-container *ngIf="!showProductBundle && !showSubBundle">Products</ng-container>
+                        <ng-container *ngIf="showProductBundle && !showSubBundle">Launch Apps</ng-container>
+                        <ng-container *ngIf="!showProductBundle && showSubBundle">
+                            <a (click)="backToShop()" class="pointer"><mat-icon class="bckIcon">keyboard_backspace</mat-icon> Back to all apps</a>
+                        </ng-container>
+                        </strong>
+                        </h6>
+                        
+                    </div>
+                    <div class="block__content" >
+                        <div class="row mx-0 mt-40" *ngIf="products.length > 0">
+                            <!-- product main bundle -->
+                            <ng-container *ngIf="showProductBundle && !showSubBundle">
+                              <div class="col-md-3 col-sm-6 max-width-mobile" *ngFor="let item of products; let i = index">
+                                <div class="app-card stack--card stackView" [class.hideStack]="item.count == 1" (click)="navigateToResell(item)">
+                                    <div class="app__header">
+                                        <!-- <mat-icon (click)="item.star = !item.star">
+                                            {{item.star === true ? 'star' : 'star_border'}}</mat-icon> -->
+                                        <span *ngIf="item.status != 'Active'"
+                                            [ngClass]="{ 'appCardProvisioning': item.status !== 'Active'}">{{item.status}}</span>
+                                    </div>
+                                    <div class="app__logo-wrapper" (click)="navigateToResell(item)">
+                                        <img class="app__logo" src="{{item.productLogo}}" alt="#">
+                                    </div>
+                                    <div class="app__footer footerMainBundle" (click)="navigateToResell(item)">
+                                        <h3 title="{{item.productName}}" class="ellipsis  footer__text"><strong>{{item.productName}}</strong></h3>
+                                        <h4 class="ellipsis">{{item.subProductName}}</h4>
+                                        <div class="kebab mainbundleKebab" (click)="toggleMenu(i)">
+                                            <figure></figure>
+                                            <figure></figure>
+                                            <figure></figure>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </ng-container>
+                            <!-- product main bundle end -->
+
+                            <!-- product sub bundle -->
+                            <ng-container *ngIf="!showProductBundle && showSubBundle">
+                                <div class="col-md-3 col-sm-6 max-width-mobile" *ngFor="let items of getSubBundleProduct[0].products; let i = index">
+                                    <div class="app-card stack--card ovflH boxshadUnset thinborder" [class.cursorDefault]="items.status == 'Provisioning In-Progress' || items.status == 'Failed'">
+                                    <div [class.cursorNone]="items.status == 'Provisioning In-Progress' || items.status == 'Failed'">
+                                    <div class="app__header flexCenter">
+                                        <span class="fxKebab readyToLaunch" *ngIf="items.subscriptionStatus == 'true' && items.status == 'Active'">
+                                                Ready to Launch
+                                            </span>
+                                            <span class="fxKebab" *ngIf="items.subscriptionStatus != 'true' && items.status == 'Active'">
+                                                User Not Assigned
+                                            </span>
+                                            <span class="fxKebab wht-space" *ngIf="items.status != 'Active'">
+                                                {{items.status}}
+                                            </span>
+                                            <!-- items.subscriptionStatus != 'true' -->
+                                        <a class="kebab kebabBtn" [class.disableKebab]="items.status == 'Provisioning In-Progress' || items.status == 'Failed' " (click)="toggleSetting(items.id)">
+                                            <figure></figure>
+                                            <figure></figure> 
+                                            <figure></figure>
+                                        </a>
+                                    </div>
+                                    <div class="app__logo-wrapper" (click)="navigateToCloudResell(items)">
+                                        <img class="app__logo" src="{{items.productLogo}}" alt="#">
+                                    </div>
+                                    <div class="app__footer minHeightFooter" (click)="navigateToCloudResell(items)" [class.cursorDefault]="items.status == 'Provisioning In-Progress' || items.status == 'Failed'">
+                                        <h3 [class.cursorDefault]="items.status == 'Provisioning In-Progress' || items.status == 'Failed'" title="{{items.productName}}" class="ellipsis  footer__text">
+                                            <a [class.cursorDefault]="items.status == 'Provisioning In-Progress' || items.status == 'Failed'"><strong>{{items.productName}}</strong></a>
+                                            </h3>
+                                        <h4 *ngIf="items.instanceName" class="ellipsis instanceName">{{items.instanceName}}</h4>
+                                    </div>
+                                    <div class="hoverSettings" [class.settingUp]="items.id == setId">
+                                        <a (click)="getUserSettingsDetails(items)"><img src="assets/settings.png" class="setInstance"> Settings</a>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </ng-container>
+                            <!-- product sub bundle end -->
+                            <ng-container *ngIf="launchApps">
+                             <div class="col-md-3 col-sm-6" *ngFor="let item of launchApps; let i = index">
+                                <div class="app-card stack--card">
+                                    <div class="app__header">
+                                        <!-- <mat-icon (click)="item.star = !item.star">
+                                            {{item.star === true ? 'star' : 'star_border'}}</mat-icon> -->
+                                        <span *ngIf="item.appHeaderName"
+                                            [ngClass]="{ 'appCardProvisioning': item.appHeaderName === 'PROVISIONING IN PROGRESS'}">{{item.appHeaderName}}</span>
+                                        <div [ngClass]="{ 'appHeaderSpanLeft': item.isStacked === 'true' }"
+                                            class="kebab">
+                                            <figure></figure>
+                                            <figure></figure>
+                                            <figure></figure>
+                                        </div>
+                                    </div>
+
+                                    <div class="app__logo-wrapper" >
+                                        <img class="app__logo" [src]="item.appLogo" alt="#">
+                                    </div>
+
+                                    <div class="app__footer" >
+                                         <h3 title="{{item.tilename}}" class="ellipsis  footer__text">{{item.tilename}}</h3>
+                                      
+                                        <h4 class="ellipsis">{{item.appFooterName}}</h4>
+                                        
+                                    </div>
+                                    <div class="stack">
+                                        <div class="stack__strip"></div>
+                                        <div class="stack__strip stack__strip--small"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            </ng-container>
+
+                        </div>
+                        <div *ngIf="products.length == 0" class="noDataFound">
+                            <h3>{{emptyProduct.errorMessage}} 
+                                Click <a routerLink="/cloud-services/Cloud Services"> here </a> to explore. 
+                                </h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- <div class="col-lg-4 mt-4 mt-lg-0">
+                <div class="block js-alerts-block block-height">
+                    <div class="block__header">
+                        <h6><strong>Alerts</strong><span class="n-count hide-for-phase1">{{alerts.length}}</span></h6>
+                    </div>
+                    <div class="block__content" [ngStyle]="{'height': alerts.length === 0 ? '60%' : ''}">
+
+                        <div class="notification__wrapper border-0 no_alert_div" *ngIf="alerts.length === 0">
+                            <div class="notification__content no_alert_div">
+                                <h3 class="no_alert_message">You Do Not Have<br>Any Alerts!</h3>
+                            </div>
+                        </div>
+                     
+                        <ul class="notifications" style="overflow: auto;" *ngIf="alerts.length > 0">
+
+                            <li *ngFor="let alert of alerts">
+                                <div class="notification__wrapper">
+                                    <div class="notification__content">
+                                        <h3>{{alert.alertTitle}}</h3>
+                                        <h4>{{alert.alertSubtitle}}</h4>
+                                    </div>
+                                    <a class="btn btn-secondary xs-small px-3">{{alert.buttonName}}</a>
+                                    <span (click)="removeAlerts(i)" class="notification__close js-remove-alert">×</span>
+
+                                </div>
+
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+
+        <div class="row mt-5 hide-for-phase1">
+            <div class="col-lg-6">
+                <div class="block block-height-down">
+                    <div class="block__header">
+                        <h6>Complete Your Setup</h6>
+                    </div>
+                    <div class="block__content px-40">
+                        <div class="step">
+                            <div class="step__icon-wrapper">
+                                <svg class="step__icon">
+                                    <use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-home-rev"></use>
+                                </svg>
+                            </div>
+                            <div class="step__content-wrapper">
+                                <div class="step__content">
+                                    <h3 class="step__title">Personal</h3>
+                                    <p>Your Personal Setup has Completed</p>
+                                </div>
+                                <a href="javascript:void(0)" class="btn btn-completed">Completed <img class="icon"
+                                        src="./assets/images/dashboard/svg/check.svg" alt="#"></a>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step__icon-wrapper">
+                                <svg class="step__icon">
+                                    <use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-briefcase"></use>
+                                </svg>
+                            </div>
+                            <div class="step__content-wrapper">
+                                <div class="step__content">
+                                    <h3 class="step__title">Company</h3>
+                                    <p>Your Company Setup has Completed</p>
+                                </div>
+                                <a href="javascript:void(0)" class="btn btn-completed">Completed <img class="icon"
+                                        src="./assets/images/dashboard/svg/check.svg" alt="#"></a>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step__icon-wrapper">
+                                <svg class="step__icon">
+                                    <use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-policies"></use>
+                                </svg>
+                            </div>
+                            <div class="step__content-wrapper">
+                                <div class="step__content">
+                                    <h3 class="step__title">Policies</h3>
+                                    <p>Your Policy Setup has Completed</p>
+                                </div>
+                                <a href="javascript:void(0)" class="btn btn-completed">Completed <img class="icon"
+                                        src="./assets/images/dashboard/svg/check.svg" alt="#"></a>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step__icon-wrapper">
+                                <svg class="step__icon">
+                                    <use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-user"></use>
+                                </svg>
+                            </div>
+                            <div class="step__content-wrapper">
+                                <div class="step__content">
+                                    <h3 class="step__title">Assign Admins</h3>
+                                    <p>Your Assign Admins Setup is Pending</p>
+                                </div>
+                                <a href="javascript:void(0)" class="btn btn-secondary">Configure Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-4 mt-lg-0 mb20">
+                <div class="block block-height-down">
+                    <div class="block__header">
+                        <h6>Recommended For You</h6>
+                    </div>
+                    <div class="block__content swiper-container swiper-container-horizontal">
+                        <div>
+                            <swiper [config]="config">
+
+                                <div class="swiper-slide" data-swiper-autoplay="3000" style="display:flex;">
+                                    <div class="slider__slide swiper-slide swiper-slide-active" style="width: 445px;">
+                                        <div class="slider__slide-header">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <div class="slide-header__content">
+                                                            <h3 class="slide-header__title">DocuSign</h3>
+                                                            <h4 class="slide-header__sub-title">Singtel SAAS Apps</h4>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <img class="slide-header__img"
+                                                            src="./assets/images/dashboard/app-logo/docusign.png"
+                                                            alt="#">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slider__content">
+                                            <p>Under The Electronic Transactions Act, e-signatures have been legalised
+                                                in
+                                                Singapore since 2010. <br> <br> Recognised as the leader in digital
+                                                transaction
+                                                management, DocuSign is the trusted and secured digital transaction
+                                                management
+                                                (DTM) platform used by enterprises.</p>
+                                        </div>
+                                        <div class="slider__footer">
+
+                                            <a href="javascript:void(0)" class="btn btn-secondary mr-2 mb-2">Learn More</a>
+
+                                            <a href="javascript:void(0)" class="btn btn-primary  mb-2">Free Trial</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide" data-swiper-autoplay="3000" style="display:flex;">
+                                    <div class="slider__slide swiper-slide swiper-slide-next" style="width: 445px;">
+                                        <div class="slider__slide-header">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <div class="slide-header__content">
+                                                            <h3 class="slide-header__title">Advanced Training</h3>
+                                                            <h4 class="slide-header__sub-title">Financio</h4>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <img class="slide-header__img"
+                                                            src="./assets/images/dashboard/app-logo/docusign.png"
+                                                            alt="#">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slider__content">
+                                            <p>Unleash the power of DocuSign with our training program. Lead by Mr. XYZ,
+                                                see how
+                                                DocuSign can help you improve productivity in this 1-day workshop.</p>
+                                        </div>
+                                        <div class="slider__footer">
+
+
+                                            <a href="javascript:void(0)" class="btn btn-primary  mb-2">Learn more</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="swiper-slide" data-swiper-autoplay="3000" style="display:flex;">
+                                    <div class="slider__slide swiper-slide" style="width: 445px;">
+                                        <div class="slider__slide-header">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <div class="slide-header__content">
+                                                            <h3 class="slide-header__title">Synced for Sweet Success -
+                                                                Google
+                                                                Drive for Work</h3>
+                                                            <h4 class="slide-header__sub-title">Customer Stories</h4>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <img class="slide-header__img" style="width: 100%"
+                                                            src="./assets/images/dashboard/app-logo/google-drive.png"
+                                                            alt="#">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slider__content">
+                                            <p>Google Drive for Work helps synchronise operational efficiencies across
+                                                three
+                                                locations. The business...</p>
+                                        </div>
+                                        <div class="slider__footer">
+
+
+                                            <a href="javascript:void(0)" class="btn btn-primary  mb-2">Read more</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </swiper>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- remove this div (once the above code is visible) -->
+        <!-- <div class="hide-for-phase1"> -->
+        <div >
+            <ng-container *ngIf = "isFirstLogin == true">
+                <app-first-login-wizard-popup (messageEvent)="receiveMessage($event)"></app-first-login-wizard-popup>
+            </ng-container>
+        </div>
+        
+
+        <!-- <app-first-login-wizard-popup></app-first-login-wizard-popup> -->
+
+        <!-- <div class="row mt-4  mt-md-5 pt-3">
+            <div class="col-12">
+                <div class="banner-place-holder">
+                    <img src="./assets/images/dashboard/banner-space.png" alt="#">
+                </div>
+            </div>
+        </div> -->
+        <!-- <div class="row mt-5">
+            <div class="col-12">
+                <h2 class="section-title">Latest Articles</h2>
+            </div>
+        </div> -->
+        <!-- <section class="featured py-0">
+            <div class="row">
+
+
+
+
+
+
+
+               
+                <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch d-flex">
+                    
+                    <a class="featured-card card mb-4" href="40a-article">
+                        <figure class="card-image m-0">
+                            <img class="card-img-top" src="https://via.placeholder.com/480x320" alt="card-image">
+                            <figcaption class="card-image--shadow d-flex align-items-end">
+                                <span class="card-type article-badges">Sales &amp; Marketing</span>
+                            </figcaption>
+                        </figure>
+                        <div class="card-body d-flex flex-column align-items-start flex-grow-1">
+                            <h5 class="card__title my-2">*1 Transforming a third generation business with ecommerce</h5>
+                            <div class="article-publishing">
+                                <small class="article-publishing__new">NEW</small><span class="article-publishing__dot">
+                                    · </span>
+                                <span>Matrix team <span class="article-publishing__dot">·</span> 23 Oct, 2019</span>
+                            </div>
+                            <p class="text-black-50 mt-3 mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                Quod aliquid quibusdam iure mollitia vero odio, enim...</p>
+                            <strong class="mt-auto">Read more ›</strong>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch d-flex">
+                    
+                    <a class="featured-card card mb-4" href="40b-article">
+                        <figure class="card-image m-0">
+                            <img class="card-img-top" src="https://via.placeholder.com/480x320" alt="card-image">
+                            <figcaption class="card-image--shadow d-flex align-items-end">
+                                <span class="card-type article-badges">Business Management</span>
+                            </figcaption>
+                        </figure>
+                        <div class="card-body d-flex flex-column align-items-start flex-grow-1">
+                            <h5 class="card__title my-2">*2 Comply to data regulations to secure adipisicing your data
+                                mollitia</h5>
+                            <div class="article-publishing">
+                                <span>Shirley Ang <span class="article-publishing__dot">·</span> 12 Sep, 2019</span>
+                            </div>
+                            <p class="text-black-50 mt-3 mb-4">Dolore dicta facere voluptatum sed facere adipisicing
+                                mollitia unde in hic voluptatum consectetur temporibus facere…</p>
+                            <strong class="mt-auto">Read more ›</strong>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch d-flex">
+                   
+                    <a class="featured-card card mb-4" href="javascript:void(0)">
+                        <figure class="card-image m-0">
+                            <img class="card-img-top" src="https://via.placeholder.com/480x320" alt="card-image">
+                            <figcaption class="card-image--shadow d-flex align-items-end">
+                                <span class="card-type article-badges">Security &amp; Data Protection</span>
+                            </figcaption>
+                        </figure>
+                        <div class="card-body d-flex flex-column align-items-start flex-grow-1">
+                            <h5 class="card__title my-2">*3 Apply leave, claims and access payslips digitally 24x7</h5>
+                            <div class="article-publishing">
+                                <span>Matrix <span class="article-publishing__dot">·</span> 4 Aug, 2019</span>
+                            </div>
+                            <p class="text-black-50 mt-3 mb-4">Distinctio laudantium ratione magni porro necessitatibus
+                                sit officia nemo, corrupti facilis corrupti corrupti corrupti</p>
+                            <strong class="mt-auto">Read more ›</strong>
+                        </div>
+                    </a>
+                </div>
+                
+
+
+
+
+            </div>
+            <div class="row pb-5">
+                <div class="col-12 text-center">
+                    <a href="javascript:void(0)" class="btn btn-secondary mt-2 mb-5">View More</a>
+                </div>
+            </div>
+        </section> -->
+
+    </div>
+    <!-- Modal popup user Assigned-->
+    <div class="modal fade pad-0" id="userAssignedPopup">
+        <div class="modal-dialog unassstyle1">
+            <div>
+                <div class="modal-content">
+                    <div class="modal-header reasignHeader1">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="exclamatory-sym"><img src="./assets/images/Exclamatory.svg"></div>
+                    <div class="modal-body modalcenterBody-modal">
+                        <h4 class="modal-title modalTItle1">Oops!</h4>
+                        <h4 class="modalsH41">You are not assigned to this app.</h4>                        
+                    </div>
+                    <div class="modal-footer justifyCenterFlex1 centerFooter1">
+                        <button type="button" class="btn-sm borderWidth-btn btn btn-danger w-auto mr-2 boldFont" data-dismiss="modal">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal popup user Assigned-->
+    <!-- Modal popup assign User-->
+    <div class="modal fade pad-0" id="assignUsersPopup">
+        <div class="modal-dialog">
+            <!-- <div> -->
+                <div class="modal-content">
+                    <div class="modal-header reasignHeader1">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- <div class="exclamatory-sym">!</div> -->
+                    <div class="text-center"><mat-icon class="success-tick-icon success-green-font">check_circle_outline</mat-icon></div>
+                    <div class="modal-body modalcenterBody-modal overflow-x-hidden">
+                        <h4 class="modal-title modalTItle1 p-4">Get Started!</h4>
+                        <!-- <h4 class="modalsH41">You are not assigned to this app.</h4>                         -->
+                        <div class="row">
+                    <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4 pl-5">
+                        <img _ngcontent-gqn-c11="" alt="image" class="software-tile__image h2" [src]="assignPopupProdLogo">
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-lg-8 col-xs-8">
+                Account has been created successfully.<br>
+                You can now assign users. Once<br>assigned, users will be able to lauch<br>
+                app from Singtel Cloud Services.
+                </div>
+                    </div>
+                    <div class="centerFooter1 justify-content-center text-center mt-5">
+                        <div><button type="button" (click)="gotToAssignUsers()" class="boldFont borderWidth-btn btn btn-danger mr-2 p-0 w-auto mb-3" data-dismiss="modal">Assign Users</button></div>
+                        <div><a href="javascript:void(0)" class="underline linkcolor" data-dismiss="modal">I'll do it later</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    <!-- Modal popup assign User -->
+</main>

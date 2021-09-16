@@ -1,0 +1,34 @@
+.word-break{
+    word-break: break-all;
+}
+.icone-hover{
+    cursor: pointer;
+}
+i.icone-hover:hover, i.icone-hover:active {
+    color: #5390d1;
+}
+.pad-0{
+    padding: 0rem;
+}
+.pad-1{
+    padding: 1rem;
+}
+.m-lo-0{
+    margin: 0rem;
+}
+.atag{
+    padding: 0px 5px 0px 5px;
+}
+.text-align{
+    text-align: center;
+}
+.icone{
+    min-height: 5px;
+    text-align: center;
+}
+.font-sz{
+    font-size: 12px;
+}
+.tx-clr{
+    color: cornflowerblue;
+}

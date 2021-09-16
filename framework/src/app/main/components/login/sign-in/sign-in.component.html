@@ -1,0 +1,153 @@
+<main id="login" style="min-height: 240px;" class="login_container">
+	<div class="container p-4">
+		<!-- information bar -->
+		<div id="info-block-account-locked" class="info-block info-block--alert mb-5" *ngIf="invalidlogin === 5">
+			<svg class="icon icon-info align-self-start">
+				<use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-alert-red"></use>
+			</svg>
+			<div class="pt-1">
+				<p class="xs-small">Your account has been locked for <strong>15 minutes</strong> due to multiple failed
+					login
+					attempts. Please try again later or contact your administrator for assistance.</p>
+			</div>
+		</div>
+		<div id="info-block-incorrect-combination" class="info-block info-block--alert mb-5" *ngIf="failedLogin">
+			<svg class="icon icon-info align-self-start">
+				<use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-alert-red"></use>
+			</svg>
+			<div class="pt-1">
+				<p *ngIf="!unregisteredMail" class="xs-small"><strong>ERROR</strong>:
+					{{(loginErrorMsg)?loginErrorMsg:''}}</p>
+				<p *ngIf="unregisteredMail" class="xs-small"><strong>ERROR</strong>:Your account is not activated!
+					Please click <a (click)="onActivationClick()" class="need-space">here</a> to send activation link. </p>
+			</div>
+		</div>
+		<div id="info-block-incorrect-combination" class="info-block info-block--success mb-5"
+			*ngIf="status === 'Active'">
+			<div>
+				<p class="xs-small">
+					<mat-icon class="success-tick-icon">check_circle</mat-icon>
+					<strong>Success!</strong>&nbsp; Your account has been verified. Please login to proceed.
+				</p>
+			</div>
+		</div>
+		<div id="info-block-incorrect-combination" class="info-block info-block--alert mb-5"
+			*ngIf="status === 'Expired Token'">
+			<div>
+				<p class="xs-small">
+					<mat-icon class="error-cross-icon">clear</mat-icon>
+					<strong>Expired!</strong>: Your token has been expired. Please click&nbsp;<a
+						href="javascript:void(0)" (click)="onTryAgainExpiredToken()">here</a>&nbsp;to resend the
+					activation
+					link.
+				</p>
+			</div>
+		</div>
+		<!-- invalid token  -->
+		<div id="info-block-incorrect-combination" class="info-block info-block--alert mb-5"
+			*ngIf="status === 'Invalid Token'">
+			<div>
+				<p class="xs-small">
+					<mat-icon class="error-cross-icon">clear</mat-icon>
+					<strong>Invalid!</strong>: We can't proceed with this token.
+				</p>
+			</div>
+		</div>
+
+
+
+		<div id="info-block-incorrect-combination" class="info-block info-block--success mb-5"
+			*ngIf="status === 'Token Resent'">
+			<div>
+				<p class="xs-small">
+					<mat-icon class="success-tick-icon">check_circle</mat-icon>
+					<strong>Success!</strong> Activation link has been sent to the email address. if not, please
+					click&nbsp;
+					<a href="javascript:void(0)" (click)="onTryAgainExpiredToken()" class="">here</a>&nbsp;to resend.
+				</p>
+			</div>
+		</div>
+
+		<div id="info-block-incorrect-combination" class="info-block info-block--alert mb-5" *ngIf="invalidlogin !== 0">
+			<svg class="icon icon-info align-self-start">
+				<use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-alert-red"></use>
+			</svg>
+			<div class="pt-1">
+				<p class="xs-small"><strong>WARNING</strong>: Your login ID or password is incorrect. You have
+					<strong>{{maxLimit - invalidlogin}} attempts</strong> left. Your account will be locked after
+					<strong>{{maxLimit}} consecutive</strong> unsuccessful login attempts.</p>
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<h1 class="font-300">Log in to Singtel Matrix</h1>
+		</div>
+	</div>
+	<form [formGroup]="loginForm" (ngSubmit)="onLoginUser()" class="o365__form-base" id="login__form">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<div class="input-error" id="form__generic--error" style="display: none;"><span
+              class="input-error--message">Something went wrong</span></div>
+					<div class="form-group">
+						<label for="email">
+              <h6 class="font-600">Login ID</h6>
+            </label>
+						<input type="text" id="signIn-loginForm-username" formControlName="username" class="form-control" tabindex="1"
+              [ngClass]="{ 'is-invalid': (formSubmitted || f.username.touched) && f.username.errors }"
+			  oninput="this.value = this.value.toLowerCase()" />
+						<div *ngIf="(formSubmitted || f.username.touched) && f.username.errors"
+							class="invalid-feedback">
+							<div *ngIf="f.username.errors.required">Login ID is required</div>
+							<div *ngIf="f.username.errors.pattern">Login ID must be a valid email format</div>
+						</div>
+						<div class="form-check mt-15">
+							<input class="checkClass form-check-input custom-checkbox__input bg-transparent" id="signIn-loginForm-rememberMe" tabindex="2" formControlName="rememberMe" type="checkbox">
+							<label class="form-check-label pt1 custom-checkbox__label custom-checkbox__label--small bg-transparent" for="signIn-loginForm-rememberMe">Remember me</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="password">
+              <h6 class="font-600">Password</h6>
+            </label>
+						<!-- <div class="password_div" [ngClass]="{ 'is-invalid': (formSubmitted || f.password.touched) && f.password.errors }">
+							<input #passwordRef type="password" formControlName="password" class="form-control"
+               />
+							<i class="fa fa-eye" aria-hidden="true" *ngIf="passwordRef.type == 'password'" (click)="passwordRef.type = 'text'"></i>
+              <i class="fa fa-eye-slash" aria-hidden="true" *ngIf="passwordRef.type == 'text'" (click)="passwordRef.type = 'password'"></i>
+						</div> -->
+						<a class="eyeButtonClick" (click)="onClick()">
+							<i class="fa fa-eye-slash" id="signIn-loginForm-eyeSlash" aria-hidden="true" *ngIf="!show"></i>
+							<i class="fa fa-eye" id="signIn-loginForm-eye" aria-hidden="true" *ngIf="show"></i>
+						</a>
+
+						<input [type]="password" id="signIn-loginForm-password" formControlName="password" class="form-control" tabindex="3"
+                [ngClass]="{ 'is-invalid': (formSubmitted || f.password.touched) && f.password.errors }" />
+
+
+						<div *ngIf="(formSubmitted || f.password.touched) && f.password.errors"
+							class="invalid-feedback">
+							<div *ngIf="f.password.errors.required">Password is required</div>
+							<div *ngIf="f.password.errors.pattern || f.password.errors.minlength">Password is invalid
+							</div>
+						</div>
+
+					</div>
+					<div class="form-group text-center text-lg-left">
+						<div class="row">
+							<div class="col-md-4 col-sm-4 col-xs-4 col-lg-4">
+								<button class="btn btn-primary w-100" id="btn__login" tabindex="4" [disabled]="invalidlogin === 5">Login</button>
+							</div>
+							<div class="col-md-6 col-sm-6 col-xs-6 col-lg-6">
+								<a routerLink="/auth/forgot-password" class="align-ver-middle" tabindex="5"
+									id="signIn-forgotPassword">Forgot password?</a>
+							</div>
+						</div>
+					</div>
+					<div class="form-group text-center text-lg-left text-md-left text-sm-left text-xs-left">
+						<p>Don't have an account yet?&nbsp;<a tabindex="6" id="signIn-createOne" routerLink="/auth/sign-up">Create one here</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</main>

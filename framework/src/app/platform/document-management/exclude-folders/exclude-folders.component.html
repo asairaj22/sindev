@@ -1,0 +1,16 @@
+<div class="row h-100">
+    <div class="col-12 mb-2 d-flex">
+        <h1 class="subtitle w-50">Excluded Folders</h1>
+        <div class="mb-2 mt-2 w-75">
+            <button class="btn btn-primary float-right" type="button" (click)="saveExcludedFolder()">Save</button>
+        </div>
+    </div>
+    <div class="p-0 w-100">
+        <div class="row mx-auto">
+            <div class="col-6 tree-container">
+                <input id="search-input" class="search-input form-control mb-1" placeholder="Search Directory" [(ngModel)]="treeSearchInput" (keyup)="invokeTreeSearch()"/>
+                <div class="w-100" id="jstree2"></div>
+            </div>
+        </div>
+    </div>
+</div>

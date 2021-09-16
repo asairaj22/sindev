@@ -1,0 +1,55 @@
+{
+    "data": [
+    {
+      "id": 1000,
+      "name": "James",
+      "loginId": "james@gmail.com",
+      "myBusinessRole": "End User",
+      "appsAssigned": 17,
+       "status": "Active"   
+    },
+    {
+      "id": 1001,
+      "name": "Reece",
+      "loginId": "reece@gmail.com",
+      "myBusinessRole": "Owner",
+      "appsAssigned": 1,
+       "status": "Suspended"   
+    },
+    {
+      "id": 1000,
+      "name": "Nick",
+      "loginId": "nick@gmail.com",
+      "myBusinessRole": "End User",
+      "appsAssigned": 12,
+       "status": "Active"      
+    },
+    {
+      "id": 1000,
+      "name": "Mirah",
+      "loginId": "mirah@gmail.com",
+      "myBusinessRole": "Owner",
+      "appsAssigned": 27,
+       "status": "Suspended"    
+    },
+    {
+      "id": 1000,
+      "name": "Candy",
+      "loginId": "cames@gmail.com",
+      "myBusinessRole": "End User",
+      "appsAssigned": 14,
+       "status": "Active"      
+    },
+    {
+      "id": 1000,
+      "name": "Johnson",
+      "loginId": "johnson@gmail.com",
+      "myBusinessRole": "Owner",
+      "appsAssigned": 11,
+       "status": "Suspended"    
+    }
+   
+     
+    
+  ]
+}

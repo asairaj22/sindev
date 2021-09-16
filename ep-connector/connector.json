@@ -1,0 +1,19 @@
+{
+  "16" : {
+    "ConfiguredConnector" : {
+      "d07c1453-68d2-499a-aff8-9b245bf91a76" : {
+        "configuredName" : "SMRKT DATABASE",
+        "configured_id" : "d07c1453-68d2-499a-aff8-9b245bf91a76",
+        "connectorImage" : "",
+        "contextPath" : "smrkt",
+        "description" : "",
+        "isAppDB" : true,
+        "isDefaultDB" : true
+      }
+    },
+    "connector_id" : "16",
+    "connector_name" : "ORACLE Database",
+    "connector_subtype" : "ORACLE",
+    "connector_type" : "Database"
+  }
+}

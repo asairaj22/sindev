@@ -1,0 +1,140 @@
+<main class="main my-app-page">
+	<!-- Page header start here  -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12">
+				<div class="page__header">
+					<h3 class="mb-2">
+						<svg class="nav-icon appsNameIcon"><use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-apps"></use></svg> Manage Apps</h3>
+					<p class="large text-brownish-grey miconLeft">View and manage your purchased applications, instances, plans
+						and licenses to better suit your business needs.</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Info card Start here  -->
+		<div class="row" *appCustomDirectiveIf="getAccessSet['applicationsDetail']">
+			<div class="col-md-12 col-sm-12 info-card-wrapper">
+				<div class="swiper-container">
+					<div class="swiper-wrapper row">
+						<div class="swiper-slide col-sm-12 col-md-12">
+							<div class="info-card justify-content-start">
+								<div class="info-card__header">
+									<span class="text-uppercase">Total</span>
+								</div>
+
+								<div class="info-card__content">
+									<h3 class="info-card__heading">
+										{{getInstanceDetails.length}}
+									</h3>
+									<small class="md-small d-block">applications</small>
+								</div>
+								<div class="info-card__footer">
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="row pb-5">
+			<div class="col-12">
+					<div class="users-table import-table">
+                <p-table #dt [value]="customers" [(selection)]="selectedCustomers" dataKey="id"
+                 [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" currentPageReportTemplate="&#123;first&#125; - &#123;last&#125; of &#123;totalRecords&#125;" 
+                    [rowsPerPageOptions]="[10,25,50]" [resizableColumns]="true" [paginator]="paginationBoolean" 
+                    [filterDelay]="0" [globalFilterFields]="['productName','instanceName','saasId','pricePlan','ecdmProductSubscriptionUsers.length']">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+
+                            <th class="table_column" pSortableColumn="productName">Subscriptions <p-sortIcon class="sorTableIcon" field="productName"></p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="instanceName">Instance Name<p-sortIcon class="sorTableIcon" field="instanceName"></p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="saasId">Subscription ID<p-sortIcon class="sorTableIcon" field="saasId">
+                                </p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="pricePlan">Plan <p-sortIcon class="sorTableIcon" field="pricePlan">
+                                </p-sortIcon>
+                            </th>
+                            <th *ngIf="hideForCloudPdts" class="table_column" pSortableColumn="ecdmProductSubscriptionUsers.length">License Used <p-sortIcon class="sorTableIcon" field="ecdmProductSubscriptionUsers.length"></p-sortIcon>
+                            </th>
+                            
+                        </tr>
+                        <tr>
+
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'productName', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'instanceName', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'saasId', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'pricePlan', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th *ngIf="hideForCloudPdts" class="table_column">
+                                 <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'ecdmProductSubscriptionUsers.length', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-customer>
+                        <tr class="ui-selectable-row">
+                            <td class="table_column" data-label="Application Name">
+                               <a class="productTableList" (click)="goToDetailsApp(customer)">&#123;&#123;customer.productName&#125;&#125;</a>
+                            </td>
+                            <td class="table_column" data-label="Instance Name">
+                                <!-- <span class="ui-column-title">Login ID</span> -->
+                                &#123;&#123;customer.instanceName&#125;&#125;
+                            </td>
+                            <td class="table_column" data-label="Saas ID">
+                                &#123;&#123;customer.saasId&#125;&#125;
+                                
+                            </td>
+                            <td class="table_column" data-label="Plan">
+                                <ng-container *ngIf="customer.pricePlan;else prompt">
+                                &#123;&#123;customer.pricePlan&#125;&#125;
+                                </ng-container>
+								<ng-template #prompt>
+									-
+								</ng-template>
+                            </td>
+                            <td *ngIf="hideForCloudPdts" class="table_column" data-label="License Used">
+                                &#123;&#123;customer.ecdmProductSubscriptionUsers.length&#125;&#125; of 10
+                            </td>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td class="table_column" colspan="8" style="text-align:left">No Records found.</td>
+                        </tr>
+                    </ng-template>
+					<!-- <ng-template pTemplate="paginatorleft" let-state>
+						Showing {{(state.page  * state.rows) + 1}} to {{state.rows * (state.page + 1)}} of {{state.totalRecords}} entries
+					</ng-template> -->
+                </p-table>
+                </div>
+			</div>
+		</div>
+
+
+	</div>
+</main>

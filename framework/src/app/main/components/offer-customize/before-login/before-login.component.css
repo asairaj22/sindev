@@ -1,0 +1,61 @@
+.button_grp {
+    text-align: center;
+    margin-top: 25px;
+}
+.button_grp button {
+    margin: 10px;
+}
+
+.login {
+    color: #ED1A3D !important;
+    background: #fff;
+    border: 2px solid #ED1A3D;
+}
+.login:hover {
+    color: #fff !important;
+    background: #ED1A3D;
+    border: 2px solid #ED1A3D;
+}
+main {
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.bottom-left {
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
+}
+
+.top-left {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+}
+
+.top-right {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+}
+
+.bottom-right {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

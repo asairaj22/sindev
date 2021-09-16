@@ -1,0 +1,102 @@
+.o365__form-base.form-group {
+    margin: 30px 0 0 0;
+}
+.form-group {
+    padding-top: 30px !important;
+}
+.contact-us-header{
+    /* padding-top: 37px; */
+}
+.contact-us-header h1{
+    /* font: normal normal normal 52px/60px Museo; */
+    font:normal 300 normal 36px/60px Museo;
+}
+.contact-us-header p{
+    /* letter-spacing: 0px; */
+    font: normal normal normal 16px/24px Avenir;
+    letter-spacing: 0.01em;
+}
+.a-color{
+    color: #1996B2;
+}
+.tab-pane-contact-us{
+    padding: 0px 23px;
+    margin-top: 46px;
+}
+.contact-us-wrapper{
+    background-color: #ffffff;
+}
+.contact-us-wrapper h6{
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.bdr-0{
+    border: none !important;
+}
+.contact-us-wrapper .form__wrapper{
+    box-shadow: 0px 0px 6px #00000043;
+    margin-bottom: 2px;
+}
+.contact-us-wrapper .btn{
+    border-radius: 19px;
+}
+.contact-us-wrapper .btn:disabled{
+    opacity: .65;
+    background-color: #ED1A3D;
+}
+.fnt-wgt-600{font-weight: 600 !important;}
+.call-us-step dt{
+    font: normal normal 900 16px/44px Avenir;
+    color: #231F20;
+}
+.call-us-step dd{
+    font: normal normal normal 16px/44px Avenir;
+    color: #231F20;
+    margin-bottom: 0px;
+}
+.mt-25{margin-bottom: 25px;}
+.table-borderless tr td{
+    padding-bottom: 21px;
+    padding-top: 0;
+        width: 36%;
+}
+.table-borderless tr th{
+    padding-bottom: 28px;
+}
+.contact-us-wrapper a.back-home{
+    position: absolute;
+    left: 0;
+    font: normal normal 900 14px/19px Avenir;
+    letter-spacing: 0px;
+    color: #1996B2 !important;
+}
+.back-home-wrapper{
+    position: relative;
+}
+ .captchadesignchange ::ng-deep .rc-anchor-alert {
+    display: none !important;
+}
+.mob-top-margin{
+    margin-top: 35px;
+}
+a {
+    color: #38a3bb;
+}
+.contact-us_navbar{
+    border: 1px solid #9e9a9a;
+}
+.border_right_contactus{
+    width: 6%;
+    height: 47vh;
+    border-right: 1px solid #c3bcbc !important;
+}
+.form-control{
+    border:1px solid #9e9a9a !important;
+}
+.message_field {
+    resize: none;
+}
+
+/* a:hover {
+    color: #38a3bb !important;
+} */

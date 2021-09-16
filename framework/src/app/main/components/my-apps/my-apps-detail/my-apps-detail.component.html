@@ -1,0 +1,313 @@
+<main class="main my-app-page">
+    <!-- Breaddcrumb section start here  -->
+    <div class="container-fluid pad-left-none">
+        <div class="header_">
+            <div class="container breadcrumb-wrapper">
+                <div class="row">
+                    <div class="col-12 back_nav">
+                        <a class="back-btn-color" (click)="gotoMyapps()">
+                            <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to Manage Apps</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Page header start here  -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="software-tile__wrapper">
+                            <div class="software-tile__header flex-fill mb-0">
+                                <!-- <img class="software-tile__image"
+                                    [src]="productDetails.logo"
+                                    alt="image"> -->
+                                    <div class="software-tile__image bgImagePosition"  [ngStyle]="{ 'background': 'url(' + productDetails.logo + ')'}">
+                                    </div>
+                                <div class="software-tile__title-wrapper ml-30 d-flex justify-content-md-between flex-fill flex-column flex-md-row align-self-center">
+                                    <div>
+                                        <h1 class="productTitle">{{productDetails.productName}}</h1>
+                                        <div id="user-editor">
+                                            <input type="text" name="username" autocomplete="off" />
+                                            <a href="javascript:void(0)">Save</a>
+                                        </div>
+                                        <p id="user-name" style="font-weight: 600;">
+                                        <ng-container *ngIf="!productAccountBoolean">
+                                            <span *ngIf="!productDetails.instanceName || productDetails.instanceName == ''">AWS Account Number</span>
+                                            <span *ngIf="productDetails.instanceName && productDetails.instanceName != ''">{{productDetails.instanceName}}</span>
+                                            </ng-container>
+                                        <ng-container *ngIf="productAccountBoolean">
+                                            <div class="productInput">
+                                            <input type="text" [value]="keyAccount" (keyup)="keyFind($event)" (focusout)="changeAwsAccName()">
+                                            </div>
+                                        </ng-container>
+                                        <i *ngIf="!productAccountBoolean" class="pointer fa fa-pencil"(click)="instanceEdit()" aria-hidden="true" style="color: #1996b2;margin-left: 10px;"></i>
+                                        </p>
+                                    </div>
+                                    <div id="software_id" class="d-flex flex-md-column text-md-right mt-1 mt-md-0 midAlign">
+                                        <h6 class="mb-1 mr-2 mr-md-0"><strong>Subscription ID</strong></h6>
+                                        <p class="fsaasId">{{productDetails.saasId}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Info card Start here  -->
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 info-card-wrapper">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper row">
+                                <div class="swiper-slide col-sm-12 col-md-12 mb-36">
+                                    <div class="info-card">
+                                        <div class="info-card__header">
+                                            <span class="text-uppercase">Current Plan</span>
+                                        </div>
+                                        <div class="info-card__content">
+                                            <h2 class="info-card__heading">
+                                                <!-- {{productDetails.plan}} -->
+                                                <p *ngIf="productDetails.pricePlan">{{productDetails.pricePlan}}</p>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide col-sm-12 col-md-12 mb-36" *ngIf="hideForCloudPdts">
+                                    <div class="info-card ">
+                                        <div class="info-card__header">
+                                            <span class="text-uppercase">Licenses Used</span>
+                                        </div>
+                                        <div class="single-chart">
+                                            <svg viewBox="0 0 36 36" class="circular-chart blue">
+                                                <path class="circle-bg"
+                                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                                <path class="circle" attr.stroke-dasharray="{{countData}}, 100"
+                                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                            </svg>
+                                            <div class="chart__content">
+                                                <h3 class="info-card__heading">{{countData}}%</h3>
+                                                <small class="d-inline-block xs-small mb-2">{{filterResult.length}} out of 10</small>
+                                            </div>
+                                            <!-- <div class="single-chart">
+                                                <svg viewBox="0 0 36 36" class="circular-chart blue">
+                                                    <path class="circle-bg" d="M18 2.0845
+                                                        a 15.9155 15.9155 0 0 1 0 31.831
+                                                        a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                                    <path class="circle" stroke-dasharray="50, 100" d="M18 2.0845
+                                                        a 15.9155 15.9155 0 0 1 0 31.831
+                                                        a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                                    <text x="18" y="20.35" class="percentage">
+                                                        <h3 class="info-card__heading">50%</h3>
+                                                <small class="d-inline-block xs-small mb-2">5 out of 10</small>
+                                                    </text>
+                                                </svg>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- tabs-wrapper start here -->
+            <div class="anchor-nav__wrapper anchor-nav__wrapper--reset z1">
+                <div class="tabs-wrapper anchor-nav">
+                    <div class="container-fluid">
+                        <ul class="nav nav-tabs tabs mx-n3 mx-md-0 tab-list-app">
+                            <li  class="nav-item">
+                                <a data-toggle="tab" href="#exist" class="border-right-none active">Existing Plan</a>
+                            </li>
+                            <li class="nav-item" >
+                                <a data-toggle="tab" href="#users">Users</a>
+                            </li>
+                        </ul> <!-- Nav Tabs End Here  -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Tab content starts here  -->
+    <div class="tab-content bg-white pt-70 botton-top-disp">
+        <div class="tab-pane paddLR-15 fade show active" id="exist">
+            <div class="container-fluid">
+                <!-- Tab header start here  -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="tab-header">
+                            <h5><strong>Existing Plan</strong></h5>
+                            <p>Here's a breakdown of your current plan and contract term.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tab Body start here  -->
+                <div class="tab-body">
+                    <div class="row py-3" style="padding-bottom: 0rem !important;">
+                        <div class="col-12 col-md-2">
+                            <h6><strong>Current Plan</strong></h6>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <p *ngIf="productDetails.pricePlan">{{productDetails.pricePlan}}</p>
+                            <!-- <p class="text-battleship-grey">$45.48 /month</p> -->
+                        </div>
+                    </div>
+                    <div class="row py-3">
+                        <div class="col-12 col-md-2">
+                            <h6><strong>Subscription Type</strong></h6>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <p *ngIf="productDetails.subscriptionType">{{productDetails.subscriptionType}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane paddLR-15 fade show" id="users">
+            <div class="container-fluid">
+                <div class="hideLastorderStatus users-table import-table">
+                    <p-table #dt [value]="customers" [(selection)]="selectedCustomers" dataKey="id"
+                        [rowHover]="true" [rows]="10" [showCurrentPageReport]="true"
+                        [rowsPerPageOptions]="[10,25,50]" [resizableColumns]="true" [loading]="loading" [paginator]="paginationBoolean"
+                        currentPageReportTemplate="&#123;first&#125; - &#123;last&#125; of &#123;totalRecords&#125;"
+                        [filterDelay]="0" [globalFilterFields]="['firstName','dataEmail','role','status']">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th class="table_column" pSortableColumn="firstName">Name <p-sortIcon class="sorTableIcon" field="firstName"></p-sortIcon>
+                                </th>
+                                <th class="table_column" pSortableColumn="dataEmail">Login ID<p-sortIcon class="sorTableIcon" field="dataEmail"></p-sortIcon>
+                                </th>
+                                <th class="table_column" pSortableColumn="role">App Role <p-sortIcon class="sorTableIcon" field="role">
+                                    </p-sortIcon>
+                                </th>
+                                <th class="table_column" pSortableColumn="status">Status <p-sortIcon class="sorTableIcon" field="myBusinessRole">
+                                    </p-sortIcon>
+                                </th>
+                                <th class="table_column unassignAssign" pSortableColumn="status">Assign / Unassign <p-sortIcon class="sorTableIcon" field="status"></p-sortIcon>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="table_column">
+                                    <input pInputText type="text"
+                                        (input)="dt.filter($event.target.value, 'firstName', 'contains')"
+                                        class="ui-column-filter">
+                                </th>
+                                <th class="table_column">
+                                    <input pInputText type="text"
+                                        (input)="dt.filter($event.target.value, 'dataEmail', 'contains')"
+                                        class="ui-column-filter">
+                                </th>
+                                <th class="table_column">
+                                    <input pInputText type="text"
+                                        (input)="dt.filter($event.target.value, 'role', 'contains')"
+                                        class="ui-column-filter">
+                                </th>
+                                <th class="table_column">
+                                    <input pInputText type="text"
+                                        (input)="dt.filter($event.target.value, 'status', 'contains')"
+                                        class="ui-column-filter">
+                                </th>
+                                <th class="table_column">
+                                    &nbsp;
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-customer>
+                            <tr class="ui-selectable-row">
+                                <td class="table_column">
+                                <strong> &#123;&#123;customer.firstName&#125;&#125;</strong>
+                                </td>
+                                <td class="table_column">
+                                    <!-- <span class="ui-column-title">Login ID</span> -->
+                                    &#123;&#123;customer.dataEmail&#125;&#125;
+                                </td>
+                                <td class="table_column">
+                                    &#123;&#123;customer.role&#125;&#125;
+                                </td>
+                                <td class="table_column">
+                                    &#123;&#123;customer.status&#125;&#125;
+                                </td>
+
+                                <td class="table_column">
+                                    <a class="kebab kebabBtn tested" (click)="toggleAssign(customer.status,customer.id)">
+                                            <figure></figure>
+                                            <figure></figure> 
+                                            <figure></figure>
+                                        </a>
+                                        <div class="assignShow" *ngIf="assignBooleanId == customer.id">
+                                            <a (click)="getModalContent(customer)" data-toggle="modal" data-target="#myModal" >
+                                                <ng-container *ngIf="customer.status == 'Unassigned'">Assign</ng-container>
+                                                <ng-container *ngIf="customer.status == 'Assigned'">Unassign</ng-container>
+                                            </a>
+                                        </div>
+                                        <div class="modal fade" id="myModal">
+                                            <div class="modal-dialog" [class.assignStatus]="contentAssign">
+                                                <div>
+                                                    <div *ngIf="!contentAssign" class="modal-content unassstyle">
+                                                        <div class="modal-header reasignHeader">
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <img class="logo" src="./assets/images/Exclamatory.svg">
+                                                            <!-- <div class="exclamatory">!</div> -->
+                                                            <!-- <h4 class="modal-title modalTItle">Are You Sure ?</h4> -->
+                                                        </div>
+                                                        <div class="modal-body modalcenterBody">
+                                                            <h4 class="modal-title modalTItle">Are you sure?</h4>
+                                                            <h4 class="modalsH4">Do you really want to unassign user from {{productDetails.productName}}? This process cannot be undone.
+                                                            <hr>
+                                                            <p style="text-align:center;"><strong>Name:</strong> {{cname}}<p>
+                                                            </h4>
+                                                            
+                                                        </div>
+                                                        
+                                                        
+                                                        <div class="modal-footer justifyCenterFlex centerFooter">
+                                                             <button type="button" class="btn-sm borderWidth  btn btn-secondary w-auto mr-2 boldFont" (click)="changeAssignStatus(customer)" data-dismiss="modal">{{assignStatus}}</button> <button type="button" class="btn-sm btn btn-secondary w-auto mr-2 boldFont borderWidth buttonstyle" (click)="cancelStatus()" data-dismiss="modal" >{{assignCancelStatus}}</button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div *ngIf="contentAssign" class="modal-content">
+                                                        <div class="modal-header reasignHeader">
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <h3 class="headerblock">Assign to Application</h3>
+                                                            <h4 class="titlePopupHeader">{{productDetails.productName}}</h4>
+                                                            <p class="titleAssignPara">Assign an application role and click on Confirm</p>
+                                                        </div>
+                                                        <div class="modal-body reasignBody">
+                                                            <table class="table mb-30">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>#</th>
+                                                                        <th>Name</th>
+                                                                        <th>Application Role</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>1</td>
+                                                                        <td>{{cname}}</td>
+                                                                        <td>End User</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="modal-footer reasignFooter">
+                                                            <button type="button" class="btn-sm borderWidth btn btn-danger w-auto mr-2 boldFont buttonstyle" (click)="changeAssignStatus(customer)" data-dismiss="modal">{{assignStatus}}</button>
+                                                            <a (click)="cancelStatus()" class="discardColor" data-dismiss="modal">Discard Changes</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td class="table_column" colspan="8" style="text-align:left">No Records found.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Tab content Ends here  -->
+</main>

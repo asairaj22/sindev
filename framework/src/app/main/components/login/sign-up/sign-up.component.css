@@ -1,0 +1,78 @@
+.inputPhone{ border: 1px solid red !important;}
+.password_div {
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    padding-right: 10px;
+    padding-left: 5px;
+    border: 1px solid #ced4da;
+    height: 38px;
+    line-height: 38px;
+}
+.password_div input {border: none;  width: 100%; height: 100%;}
+.password_div i {font-size: 18px; color: black; z-index:99;}
+h6 {font-weight: bold;}
+.is-invalid {
+    border-color: #dc3545;
+    /* padding-right: calc(1.5em + .75rem); */
+    background-image: none;
+}
+a {color: #38a3bb !important;}
+a:hover {color: #38a3bb !important;}
+.terms_condition {padding: 0px 0px 0px 23px;}
+terms_condition label {padding-left: 7px;}
+.terms_condition1 {margin-bottom: -5px;}
+.terms_condition2 {}
+.dropdown-menu {z-index: 99 !important;}
+.invalid-phone {color: #dc3545; font-size: 80%;}
+label {    cursor: auto;}
+.phone_div span {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100px;
+    border-right: 1px solid #ced4da;
+    padding: 1px;
+    padding-right: 5px;
+    color: #ced4da;
+}
+.phone_div span img {width: 30px; height: 20px;}
+.phone_div span p { /* color: #ced4da; */}
+.phone_div input {padding: 10px;}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.mrt-bottom { margin-bottom: 5px;}
+.countryList { display: inline-block; }
+.countryMobileNumber{ display: inline-block; width: calc(100% - 100px); }
+.top-none { top: 40px;}
+.mb10{margin-bottom: 10px !important;}
+.signup-wrapper .countryLabel{position: relative;}
+.signup-wrapper .countryLabel:before{
+    content: "\f0d7";
+    font-family: "FontAwesome";
+    bottom: 4px;
+    position: absolute;
+    pointer-events: none;
+    right: 13px;
+    top: 6px;
+    color: #808080;
+}
+.countryCode-border > input {border-radius: 0px .25rem .25rem 0;}
+.terms_condition.sign-up-check-wrapper{padding-left: 36px;}
+.terms_condition.sign-up-check-wrapper input{ margin-left: -31px;}
+.signup_container {background: #fff; position: relative; top: 0px; padding-top: 25px;}
+.hide-type-password-dummy{width: 0px !important; height: 0px !important;}
+@media screen and (max-width: 991px) and (min-width: 376px) {
+    .btn-width-create { width: auto!important;}
+}

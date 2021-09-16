@@ -1,0 +1,123 @@
+<div class="container-fluid event-log-screens">
+    <div class="row h-100" *ngIf="eventLogScreen == 'event-log-report'">
+        <div class="col-12"><h1 class="log-header-title">Event Logs</h1></div>
+        <div class="col-12">
+            To create a targeted event report, specify the date range and additional parameters.<br>
+            If you uncertain <a href="JavaScript:void(0);" (click)="getEventLogReport(false)">view the entire API Event Logs</a>
+        </div>
+        <div class="col-12 mt-4">
+            <div class="row p-0 mb-2">
+                <div class="col-2">Generate Date Range*</div>
+                <div class="col-6" *ngIf="!customRange">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            {{date_range}}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" (click)="date_range = 'Today'">Today</a>
+                            <a class="dropdown-item" (click)="date_range = 'Last 7 days'">Last 7 days</a>
+                            <a class="dropdown-item" (click)="date_range = 'Last 14 days'">Last 14 days</a>
+                            <a class="dropdown-item" (click)="date_range = 'Last 30 days'">Last 30 days</a>
+                            <a class="dropdown-item" (click)="customRange = true">Custom range</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3" *ngIf="customRange">
+                    <angular2-date-picker [(ngModel)]="customRangeFrom" (onDateSelect)="onCustomRangeFromDateSelect($event)"  [settings]="customRangeSettings"></angular2-date-picker>
+                </div>
+                <div class="col-3" *ngIf="customRange">
+                    <angular2-date-picker [(ngModel)]="customRangeTo" (onDateSelect)="onCustomRangeToDateSelect($event)" [settings]="customRangeSettings"></angular2-date-picker>
+                </div>
+                <div class="col-1 p-0 pt-1" *ngIf="customRange">
+                    <i class="fa fa-lg fa-arrow-circle-left text-primary cur-pointer" aria-hidden="true" title="Back to default range filter" (click)="customRange = false"></i>
+                </div>
+            </div>
+            <div class="row p-0 mb-2">
+                <div class="col-2">User Name</div>
+                <div class="col-6">
+                    <ng-select placeholder="-- Select user names from list --" class="f-s-08rem" 
+                        [multiple]="true" [(ngModel)]="filterCriteria.userList" [closeOnSelect]="false">
+                        <ng-option *ngFor="let ur of userNamesList_resp" [value]="ur.email">{{ur.userName}}</ng-option>
+                    </ng-select>
+                </div>
+            </div>
+            <div class="row p-0 mb-2">
+                <div class="col-2">Api Name</div>
+                <div class="col-6">
+                    <ng-select placeholder="-- Select API names from list --" class="f-s-08rem" 
+                        [multiple]="true" [(ngModel)]="filterCriteria.apiNameList" [closeOnSelect]="false">
+                        <ng-option *ngFor="let ac of actionFlowList_resp" [value]="ac.name">{{ac.name}}</ng-option>
+                    </ng-select>
+                </div>
+            </div> 
+            <div class="row p-0 mb-2">
+                <div class="col-2">Api Path</div>
+                <div class="col-6">
+                    <ng-select placeholder="-- Select API paths from list --" class="f-s-08rem" 
+                        [multiple]="true" [(ngModel)]="filterCriteria.apiPathList" [closeOnSelect]="false">
+                        <ng-option *ngFor="let ac of actionFlowList_resp" [value]="ac.api">{{ac.api}}</ng-option>
+                    </ng-select>
+                </div>
+            </div>
+            <div class="row p-0 mb-2">
+                <div class="col-2">Event Id</div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="Enter Event Id" [(ngModel)]="filterCriteria.eventId" />							
+                </div> 
+            </div>
+            <div class="row p-0 mb-2">
+                <div class="col-2">Track Id</div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="Enter Track Id" [(ngModel)]="filterCriteria.trackId" />							
+                </div> 
+            </div>
+            <div class="row p-0 mt-4">
+                <div class="col-md-8">
+                    <button type="button" class="btn btn-primary float-right" (click)="getEventLogReport(true)">Generate Report</button>						
+                </div> 
+            </div>
+        </div>
+    </div>
+    <app-event-log-table  *ngIf="eventLogScreen == 'event-log-table'" [eventReportTableData]="eventReportTableData" defaultDateTimeFormat="{{defaultDateTimeFormat}}" (viewEventDetails)="detailedView($event);" (triggerBack)="switchEventLogScreens($event)"></app-event-log-table>
+    <app-event-log-details *ngIf="eventLogScreen == 'event-log-details'" [eventReportDetailsData]="eventReportDetailsData" defaultDateTimeFormat="{{defaultDateTimeFormat}}" (viewCurrentStepDetails)="getCurrentStepDetails($event);" (triggerBack)="switchEventLogScreens($event)"></app-event-log-details>
+</div>
+<!-- The Modal -->
+<div class="modal fade" id="event-detail-modal">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Message</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body p-0">
+                <div class="col-12 text-dark p-3 pl-0 event-detail-data">
+                    <button type="button" class="btn btn-primary copy-btns event-log-screens" ngxClipboard (cbOnSuccess)="copied($event)" [cbContent]="parsedModalMessageString">Copy Message</button>
+                    <ul class="nav nav-pills" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#rawMessageModal">Raw</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#prettyMessageModal">Pretty</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content event-details-tab-content">
+                        <div id="rawMessageModal" class="container tab-pane p-0 active">
+                            <pre class="form-control h-100 bg-light" (ngModel)="parsedModalMessageObject"></pre>
+                        </div>
+                        <div id="prettyMessageModal" class="container tab-pane p-0 fade">
+                            <ngx-json-viewer class="form-control bg-light" [json]="parsedModalMessageObject"></ngx-json-viewer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-3">
+                <button type="button" class="btn btn-secondary event-log-screens" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1161 @@
+<main class="main dashboard-page my-company-wrapper">
+  <!-- The Modal -->
+<div class="modal fade" #addDepartment id="addDepartment" style="padding-right: 17px;">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-md h-auto" role="document">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button class="close" type="button" #closeAddDept data-dismiss="modal" aria-label="Close" (click)="onModelClose()"><span aria-hidden="true">×</span></button>
+      </div>
+     <form [formGroup]="addDepartmentForm" (ngSubmit)="onAddDepartment()" class="form-wrapper-group">
+      <div class="modal-body mx-4 pb-5">
+  <div action="" class="form-wrapper-group">
+    <div class="container-fluid">
+      <div class="row pb-3">
+        <div class="col-11">
+          <h3 class="mb-2" *ngIf="isUpdateDepartment">Update department</h3>
+           <h3 class="mb-2" *ngIf="!isUpdateDepartment">Add department</h3>
+           <p *ngIf="isUpdateDepartment">Modify existing department details</p>
+          <p *ngIf="!isUpdateDepartment">Assign a name for the new department</p>
+        </div>
+      </div>
+      <div class="row my-5">
+        <div class="col-12">
+          <div class="form-group">
+<label for="cname">
+<h6 class="bold_head">*Department Name:
+<span class="opt"></span>
+</h6>
+</label>  
+
+
+<input class="form-control" id="mycompanypage-addDepartmentForm-dname" [(ngModel)]="departmentName" formControlName="dname" [ngClass]="((addDepartmentForm.controls.dname.dirty && addDepartmentForm.controls.dname.errors) || (addDepartmentFormSubmitted && addDepartmentForm.controls.dname.errors)) ? 'is-invalid' : 'test'">
+<div *ngIf="(addDepartmentForm.controls.dname.dirty && addDepartmentForm.controls.dname.errors) || ((addDepartmentFormSubmitted && addDepartmentForm.controls.dname.errors))"
+
+                                                        class="invalid-feedback">
+                                                        <div *ngIf="(addDepartmentForm.controls.dname.dirty && addDepartmentForm.controls.dname.errors && addDepartmentForm.controls.dname.errors.required) || (addDepartmentFormSubmitted && addDepartmentForm.controls.dname.errors)">
+                                                            Department Name is required
+                                                        </div>
+                                                    </div>
+                    </div>   
+  </div>
+      </div>
+      <div class="row my-5">
+        <div class="col-12">
+          <div class="form-group">
+                  <label for="cname">
+                  <h6 class="bold_head">Department Head:
+                  <span class="opt"></span>
+                  </h6>
+                  </label>  
+
+ 
+                  <input class="form-control" id="mycompanypage-addDepartmentForm-headname" [(ngModel)]="departmentHeadname" formControlName="headname">
+                  <!-- <div *ngIf="(addDepartmentForm.controls.headname.dirty && addDepartmentForm.controls.headname.errors || (addDepartmentFormSubmitted && addDepartmentForm.controls.headname.errors))" class="invalid-feedback">
+                  <div *ngIf="(addDepartmentForm.controls.headname.dirty && addDepartmentForm.controls.headname.errors.required)||(addDepartmentFormSubmitted && addDepartmentForm.controls.headname.errors)">
+                      Department Head Name is required
+                  </div>
+              </div> -->
+                  </div>       
+</div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer border-top-0 flex-column justify-content-center">
+    <button *ngIf="!isUpdateDepartment" type="submit" [disabled]="addDepartmentForm.invalid" id="mycompanypage-addDepartmentForm-confirmbtn" class="btn btn-primary">Confirm</button>
+     <button *ngIf="isUpdateDepartment" type="submit" [disabled]="addDepartmentForm.invalid" id="mycompanypage-addDepartmentForm-updatebtn" class="btn btn-primary">Update</button>
+    
+  </div>
+</div>
+ </form>
+    </div>
+  </div>
+</div>
+<!-- Page header start here  -->
+<div class="container-fluid">
+<div class="row">
+  <div class="col-12">
+      <div class="page__header">
+        <h3 class="mb-2">My Company</h3>
+      </div>
+  </div>
+</div>
+  <!-- Info card Start here  -->
+  <div class="row">
+  <div class="col-12 info-card-wrapper">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+<div class="info-card ">
+  <div class="info-card__header">
+    <span class="text-uppercase">Total USERS</span>
+  </div>
+
+        <div class="info-card__content">
+    <h3 class="info-card__heading">
+                {{(companyDetails && companyDetails.count)?companyDetails.count:'0'}}
+              </h3>
+
+    
+    
+          </div> 
+  
+  <div class="info-card__footer">
+                    <button class="btn btn-secondary px-3" id="mycompanypage-infocard-manageusers" routerLink="/manage-users">Manage</button>
+          </div> 
+  
+      
+</div>
+</div><div class="swiper-slide">
+<div class="info-card ">
+  <div class="info-card__header">
+    <span class="text-uppercase">Total Administrators</span>
+  </div>
+
+        <div class="info-card__content">
+    <h3 class="info-card__heading">
+                {{(companyDetails && companyDetails.administratorCount)?companyDetails.administratorCount:'0'}}
+              </h3>
+
+    
+    
+          </div> 
+  
+  <div class="info-card__footer">
+                    <button id="mycompanypage-infocard-view" class="btn btn-secondary px-3"
+                    (click)="onChangeActiveTab('tab3')">
+                     View
+                     </button>
+          </div> 
+  
+      
+</div>
+</div><div class="swiper-slide">
+<div class="info-card ">
+  <div class="info-card__header">
+    <span class="text-uppercase">TOTAL APPLICATIONS</span>
+  </div>
+
+        <div class="info-card__content">
+    <h3 class="info-card__heading">
+                {{(companyDetails && companyDetails.applicationCount)?companyDetails.applicationCount:'0'}}
+              </h3>
+
+    
+    
+          </div> 
+  
+  <div class="info-card__footer">
+                    <button class="btn btn-secondary px-3" id="mycompanypage-infocard-manageapps" routerLink="/my-apps">Manage</button>
+          </div> 
+  
+      
+</div>
+</div><div class="swiper-slide">
+<div class="info-card justify-content-start">
+  <div class="info-card__header">
+    <span class="text-uppercase">PAYMENT MODE</span>
+  </div>
+
+        <div class="info-card__content">
+    <h3 class="info-card__heading payment-mode-font" *ngIf="companyDetails && companyDetails.billingAccountNumber">
+                {{(companyDetails && companyDetails.paymentMethod)?(companyDetails.paymentMethod):''}}
+              </h3>
+
+    
+            <small class="md-small d-block">{{(companyDetails && companyDetails.billingAccountNumber)?(companyDetails.billingAccountNumber):'N.A'}}</small>
+    
+          </div> 
+  
+  <div class="info-card__footer">
+                  </div> 
+  
+      
+</div>
+</div>          </div>
+    </div>
+    
+    <!-- If we need pagination -->
+      <div class="carousel-container__pagination swiper-pagination"></div>
+    <!-- If we need navigation buttons -->
+    <div class="swiper-button-prev" style="display: none;"><svg class="icon">
+      <use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-left"></use>
+    </svg></div>
+  <div class="swiper-button-next" style="display: none;"><svg class="icon">
+      <use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-right"></use>
+    </svg></div>
+  </div>
+</div>
+
+</div>
+
+  <!-- tabs-wrapper start here -->
+<div class="anchor-nav__wrapper anchor-nav__wrapper--reset zindex-one" style="height: auto;">
+<div id="sticky-wrapper" class="anchor-nav__wrapper" style="height: 66px;"><div class="tabs-wrapper anchor-nav" style="height: auto;">
+  <div class="container-fluid tabOverflow">
+    <!-- Nav Tabs Start Here  -->
+    
+
+            
+
+
+
+<ul class="responsiveNavScroll nav nav-tabs tabs mx-n3 mx-md-0 no-y-oflow my_company_tabs">
+        
+
+<li class="nav-item">
+<a data-toggle="tab" id="mycompanypage-navlink-companyinfo" class="nav-link active" href="#tab1">
+    Company Information
+</a>
+</li>            
+
+<li class="nav-item disabled">
+<a data-toggle="tab" id="mycompanypage-navlink-departments" class="nav-link" (click)="getDepartments()" href="#tab2">
+    Departments
+</a>
+</li>            
+
+<li class="nav-item disabled">
+<a #adminTabButton data-toggle="tab" id="mycompanypage-navlink-administrators" (click)="getAdministrators()" class="nav-link" href="#tab3">
+    Administrators
+</a>
+</li>            
+
+<li class="nav-item disabled hide-for-phase1">
+<a data-toggle="tab" id="mycompanypage-navlink-communications" (click)="getCommunications()" class="nav-link" href="#tab4">
+    Communications
+</a>
+</li>            
+
+<li class="nav-item">
+<a data-toggle="tab" id="mycompanypage-navlink-reports" class="nav-link" href="#tab5">
+    Reports
+</a>
+</li>    </ul>        <!-- Nav Tabs End Here  -->
+  </div>
+</div></div>
+</div>
+
+<!-- Tab content starts here  -->
+<div class="tab-content">
+
+<div class="tab-pane fade active show" id="tab1">
+ <form [formGroup]="myCompanyForms" (ngSubmit)="onCompanyFormSubmit()" class="form-wrapper-group">
+  <div class="container-fluid">
+    <div class="form-wrapper-group">
+      <div class="form__wrapper company_information_formWrapper">
+        <div class="accordion">
+          <div class="card">
+            <div class="card-header" data-toggle="collapse" href="#accordion__one" aria-expanded="true">
+              <h5 class="company-header">Company Information</h5>
+            </div>
+            <div class="collapse show" id="accordion__one">
+              <div class="card-body bg-white">
+                  <div class="row">
+                    <div class="col-12 col-md-4 pb-3">
+
+                      <!-- UEN/BRN: -->
+
+                      <div class="form-group">
+                        <h6 class="bold"> {{ companyTypeValue }}</h6>
+                        <!-- <h6 class="bold">UEN/BRN</h6> -->
+                        <p>{{(companyDetails && companyDetails.companyId)?(companyDetails.companyId):''}}</p>
+                      </div>
+
+                      <!-- Company Logo: -->
+
+                      <div class="form-group">
+                        <h6 class="bold">Company Logo</h6>
+                        <div class="upload-img-block fxWrap">
+                          <div class="logo-img_change" style="text-align: center;">
+                            <svg xmlns="http://www.w3.org/2000/svg" *ngIf="!imgURL" width="26.336" height="20.728" viewBox="0 0 26.336 20.728" style="margin-top: 32%;"><defs>
+                              <style>.a{fill:#fff;}</style></defs>
+                              <g transform="translate(0 -44.8)"><g transform="translate(0 44.8)"><g transform="translate(0)">
+                                <path class="a" d="M25.46,48.029a2.831,2.831,0,0,0-2.078-.876H19.226V47.1a2.248,2.248,0,0,0-.676-1.627,2.291,2.291,0,0,0-1.627-.676H9.413a2.308,2.308,0,0,0-2.328,2.3v.05H2.954a2.831,2.831,0,0,0-2.078.876A2.976,2.976,0,0,0,0,50.107V62.574a2.831,2.831,0,0,0,.876,2.078,2.976,2.976,0,0,0,2.078.876H23.382a2.831,2.831,0,0,0,2.078-.876,2.976,2.976,0,0,0,.876-2.078V50.107A2.831,2.831,0,0,0,25.46,48.029Zm-.426,14.545h-.025A1.624,1.624,0,0,1,23.382,64.2H2.954a1.624,1.624,0,0,1-1.627-1.627V50.107A1.624,1.624,0,0,1,2.954,48.48H7.786a.673.673,0,0,0,.676-.676v-.726a.942.942,0,0,1,.976-.976h7.485a.942.942,0,0,1,.976.976V47.8a.673.673,0,0,0,.676.676h4.832a1.624,1.624,0,0,1,1.627,1.627Z" transform="translate(0 -44.8)">
+                                  
+                                </path>
+                                <path class="a" d="M118.158,130.8a6.154,6.154,0,1,0,4.356,1.8A6.169,6.169,0,0,0,118.158,130.8Zm3.4,9.588a4.835,4.835,0,0,1-6.809,0,4.786,4.786,0,0,1-1.4-3.4,4.892,4.892,0,0,1,1.4-3.4,4.786,4.786,0,0,1,3.4-1.4,4.892,4.892,0,0,1,3.4,1.4,4.786,4.786,0,0,1,1.4,3.4A4.684,4.684,0,0,1,121.563,140.388Z" transform="translate(-104.99 -125.418)"></path></g></g></g></svg>
+                                <img [src]="imgURL" class="preview-img_change" *ngIf="imgURL">
+                          </div>
+                          <!-- <label>
+                        <a class="MyCompUploadImg">Upload Photo</a>
+                        <input #imageInput style="display:none;" type="file" accept="image/*" (change)="processFile(imageInput)">
+                        <span>{{uploadImageName}}</span>
+                          </label>-->
+                                                <div class="uploadLogoDiv"> 
+                                                        <input (change)="imagePicked($event,1)" hidden style="display: none !important" accept="image/*" type="file" #imageInput>
+                                                        <a class="MyCompUploadImg" (click)="imageInput.click()">
+                                                            Upload Image
+                                                        </a>
+                                                        <div>{{uploadImageName}}</div>
+                                                    </div>
+                                                      <small class="text-muted fileuploadSizeDiv">Note: Supporting files .png, .jpeg and .svg only<br>	
+                                                            Maximum size: 1MB.<br>	
+                                                            <!-- Dimension: Less than 425x50 px	 -->
+                                                         </small>
+                          <!-- <a  class="link-underline"></a> -->
+                          <!-- <input class="link-underline" type="file" name="img" accept="image/*" -->
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12 col-md-4 mt-3 mt-md-0">
+
+                      <!-- *Company Name: -->
+                      
+
+
+
+<div class="form-group">
+<label for="cname">
+<h6 class="bold">*Company Name:
+<span class="opt"></span>
+</h6>
+</label>  
+
+
+<input class="form-control" id="mycompanypage-myCompanyForms-cname" placeholder="Eg: ACME Company" maxlength="100" formControlName="cname" [ngClass]="{ 'is-invalid':(myCompanyForms.controls.cname.dirty && myCompanyForms.controls.cname.errors) || (companyFormSubmitted && myCompanyForms.controls.cname.errors)}">
+<div *ngIf="(myCompanyForms.controls.cname.dirty && myCompanyForms.controls.cname.errors) || (companyFormSubmitted && myCompanyForms.controls.cname.errors)"
+                                                        class="invalid-feedback">
+                                                        <div *ngIf="(myCompanyForms.controls.cname.dirty && myCompanyForms.controls.cname.errors.required) || (companyFormSubmitted && myCompanyForms.controls.cname.errors)">
+                                                            Company Name is required
+                                                        </div>
+                                                    </div>
+<!-- <div *ngIf="name.invalid && (name.dirty || name.touched)"
+              class="input-error--message">
+
+            <div class="input-error--message" *ngIf="name.errors.required">
+              Name is required.
+            </div>
+            <div class="input-error--message" *ngIf="name.errors.minlength">
+              Name must be at least 10 characters long.
+            </div>
+          </div> -->
+<!-- <div class="input-error" id="form__cname--error"><span class="input-error--message">Name error message</span></div> -->
+</div>
+                      <!-- Industry: -->
+ <div class="form-group">
+<label for="industry-selectized">
+<h6 class="bold">Industry:
+<span class="opt"></span>
+</h6>
+</label>
+  <small class="form-text text-muted">This information will be used to recommend useful products &amp; services</small>    
+<!-- <select formControlName="selectedIndValue" class="form-control" id="industry" (change)="setIndustry($event)" name="industry" tabindex="-1">
+  <option value="" selected="selected">Choose</option>
+  <option *ngFor="let dep of departmentArray" value="{{dep.name}}" >{{dep.name}}</option>
+  
+  </select> -->
+  <p-dropdown [options]="departmentArray" optionLabel="name" [showClear]="true" id="mycompanypage-myCompanyForms-selectedIndValue" formControlName="selectedIndValue" (onChange)="setIndustry($event)" placeholder="Choose"></p-dropdown>
+  <!-- <div *ngIf="(myCompanyForms.controls.selectedIndValue.dirty && myCompanyForms.controls.selectedIndValue.errors) || (companyFormSubmitted && myCompanyForms.controls.selectedIndValue.errors)"
+                                                        class="invalid-feedback">
+                                                        <div *ngIf="(myCompanyForms.controls.selectedIndValue.errors.required) || (companyFormSubmitted && myCompanyForms.controls.selectedIndValue.errors)">
+                                                            Please select Industry
+                                                        </div>
+                                                    </div> -->
+  <!-- <span class="input-error--message">Preferred contact mode error message</span> -->
+</div>
+                      <!-- UEN/BRN: -->
+
+                    </div>
+
+                    <div class="col-12 col-md-4 mt-3 mt-md-0">
+
+                      <div class="form-group">
+                        <!-- <h6 class="bold">Primary Contact Administrator:</h6>
+                        <p class="d-block primary-contant-style">Jane Doe, IT Manager</p>
+                        <p class="d-block"><a class="base-color primary-contant-style">Janedoe@singtel.com.sg</a></p>
+                        <p class="d-block"><a class="base-color primary-contant-style">+65 8163 8174</a></p> -->
+                        <h6 class="bold">Primary Contact Administrator:</h6>
+                        <!--<p class="d-block primary-contant-style">{{(companyDetails && companyDetails.primaryContact)?(companyDetails.primaryContact.name)+',':''}} {{(companyDetails && companyDetails.primaryContact)?(companyDetails.primaryContact.department):''}}</p> -->
+                        <p class="d-block primary-contant-style">{{(companyDetails && companyDetails.primaryContact)?(companyDetails.primaryContact.name):''}}</p>
+                        <p class="d-block primary-contant-style">{{(companyDetails && companyDetails.primaryContact)?(companyDetails.primaryContact.mail):''}}</p>
+                        <p class="d-block primary-contant-style">{{(companyDetails && companyDetails.primaryContact && companyDetails.primaryContact.mobile)? (companyDetails.primaryContact.mobile):''}}</p>
+                      </div>
+
+                    </div>
+
+                  </div>
+                  <div class="form-wrapper-group__footer">
+                   <button type="submit" id="mycompanypage-myCompanyForms-savechanges" [disabled]="myCompanyForms.invalid || (!imageChanged && !myCompanyForms.controls.selectedIndValue.dirty && !myCompanyForms.controls.cname.dirty)" 
+                    class="btn btn-secondary">Save Changes</button>
+                    <a *ngIf="myCompanyForms.dirty || imageChanged" 
+                    href="javascript:void(0)" 
+                    class="discardLink">
+                     <span (mousedown)="resetCompanyChange()">Discard Changes</span>
+                    </a>
+                  </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="form__wrapper">
+        <div class="accordion">
+          <div class="card">
+            <div class="card-header" data-toggle="collapse" id="mycompanypage-companyinfo-billingdetaccord" href="#accordion__two" aria-expanded="true">
+              <h6 class="bold">Billing Details</h6>
+              <p>Read-only billing details goes below.</p>
+            </div>
+            <div class="collapse show" id="accordion__two">
+              <div class="card-body bg-white">
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <!-- Type -->
+                    <div class="form-group">
+                      <h6 class="bold" *ngIf="companyDetails && companyDetails.billingAccountNumber">Singtel Billing Account</h6>
+                      <p class="bold">{{(companyDetails && companyDetails.billingAccountNumber)?(companyDetails.billingAccountNumber):'N/A'}}</p>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <!-- Credit Card Payment  -->
+                    <div class="form-group mt-3 mt-md-0">
+                      <!-- <h6>Credit Card Payment </h6>
+                      <p>Active</p> -->
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+ </form>
+</div>
+<div class="tab-pane fade" id="tab2">
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-12">
+        <div class="tab-header border-0 pb-0 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+          <div>
+          <h5>Departments</h5>
+          <p>To edit a department, click on the respective department name in the table below.</p>
+          </div>
+          <button class="btn btn-primary mt-3 mt-md-0" id="mycompanypage-departments-adddepartment" data-toggle="modal" data-target="#addDepartment"  (click)="onAddNewDepartment()">Add Department</button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row pb-5">
+      <div class="col-12 pb-5">
+        <div  class="reportstable table-responsive users-table table-responsive my-4">
+          <p-table #deptTable [value]="departmentDetails" dataKey="id" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true"
+                    [rowsPerPageOptions]="[10,25,50]" [loading]="loading" [resizableColumns]="true" [paginator]="paginationBoolean"
+                    currentPageReportTemplate="&#123;first&#125; - &#123;last&#125; of &#123;totalRecords&#125;"
+                    [filterDelay]="0" [globalFilterFields]="['name','country.name','representative.name','status']" class="table-container account_department_table">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+
+                            <!-- <th class="table_column" style="text-align:center !important;">#
+                            </th> -->
+                            <th class="table_column" pSortableColumn="name">Department <p-sortIcon class="sorTableIcon" field="name"></p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="usercount">Total Users <p-sortIcon class="sorTableIcon" field="usercount">
+                                </p-sortIcon>
+                            </th>
+                            <th class="table_column small-table-column" style="width:5%!important;">
+                            </th>
+                            
+                        </tr>
+                        <tr>
+
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="deptTable.filter($event.target.value, 'name', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="deptTable.filter($event.target.value, 'usercount', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                               
+                            </th>
+                            <!-- <th class="table_column">
+                            
+                            </th> -->
+                            
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-dept let-i="rowIndex">
+                        <tr class="ui-selectable-row">
+
+                            <!--  <td class="table_column" data-label="">
+                                <span>{{i+1}}</span>
+                            </td> -->
+                             <td class="table_column" data-label="Department">
+                                <a class="clickable-span" data-toggle="modal" data-target="#addDepartment" (click)="onDepartmentNameClicked(dept)">{{dept.name}}</a> 
+                            </td>
+                             <td class="table_column" data-label="Total Users">
+                               {{dept.usercount}}
+                            </td>
+                             <td class="table_column" data-label="Status">
+                              <a class="kebab kebabBtn tested" id="mycompanypage-addDepartmentForm-kebab" (click)="toogleOverlay(i)">
+                                  <figure></figure>
+                                  <figure></figure> 
+                                  <figure></figure>
+                              </a>
+                              <div class="assignShow" *ngIf="isOpen && isOpenIndex == i">
+                                <button class="buttonDeleteOverlay" id="mycompanypage-addDepartmentForm-deletebtn" [disabled]="dept.usercount!=='0'" (click)="deleteDepartmentEntry(i)" mat-menu-item>
+                                  <span>Delete</span>
+                                </button>
+                              </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8" style="text-align:left">No Records found.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+        </div>
+
+      </div>
+    </div>
+
+
+    
+
+  </div>
+  
+</div>
+<div class="tab-pane fade" [appDisableAfterClick]="getAccessSet['myCompanyRead']" id="tab3">
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-12">
+        <div class="tab-header border-0 pb-0">
+          <h5>Administrators</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pb-5">
+      <div class="col-12 pb-5">
+        <div  class="reportstable table-responsive users-table table-responsive my-4">
+          <p-table #adminTable [value]="administratorDetails" dataKey="id" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true"
+                    [rowsPerPageOptions]="[10,25,50]" [loading]="loading" [paginator]="adminPageBoolean" [resizableColumns]="true"
+                    currentPageReportTemplate="&#123;first&#125; - &#123;last&#125; of &#123;totalRecords&#125;"
+                    [filterDelay]="0" [globalFilterFields]="['name','country.name','representative.name','status']" class="table-container">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+
+                            <th class="table_column" pSortableColumn="name">Name <p-sortIcon class="sorTableIcon" field="name"></p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="loginId">Login ID <p-sortIcon class="sorTableIcon" field="loginId"></p-sortIcon>
+                            </th>
+                             <th class="table_column" pSortableColumn="department">Department <p-sortIcon class="sorTableIcon" field="department"></p-sortIcon>
+                            </th>
+                            
+                            <th class="table_column" pSortableColumn="role">User Role <p-sortIcon class="sorTableIcon" field="role">
+                                </p-sortIcon>
+                            </th>
+                             <th class="table_column" pSortableColumn="primaryContact">Primary Contact<p-sortIcon class="sorTableIcon" field="primaryContact"></p-sortIcon>
+                            </th>
+                            
+                        </tr>
+                        <tr>
+
+                            <th class="table_column">
+                               <input pInputText type="text"
+                                    (input)="adminTable.filter($event.target.value, 'name', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="adminTable.filter($event.target.value, 'loginId', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="adminTable.filter($event.target.value, 'department', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                             <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="adminTable.filter($event.target.value, 'role', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                             <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="adminTable.filter($event.target.value, 'primaryContact', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-admin let-i="rowIndex">
+                        <tr class="ui-selectable-row">
+
+                            <td class="table_column"  data-label="Name" style="text-align:left;">
+                               {{admin.name}}
+                            </td>
+                             <td class="table_column" data-label="Login ID">
+                               {{admin.loginId}}
+                            </td>
+                             <td class="table_column" data-label="Department">
+                               {{admin.department}}
+                            </td>
+                              <td class="table_column" data-label="User Role">
+                               {{admin.role}}
+                            </td>
+                              <td class="table_column" data-label="Primary Contact">
+                               {{admin.primaryContact}}
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8" style="text-align:left">No Records found!</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="tab-pane fade" id="tab4">
+  <div class="container-fluid">
+     <div class="row">
+      <div class="col-12">
+        <div class="tab-header border-0 pb-0">
+          <h5>Communications</h5>
+        </div>
+      </div>
+    </div>
+      <div class="form-wrapper-group">
+         <form #communicationsForm="ngForm" (ngSubmit)="saveNotificationsConfig()" class="form-wrapper-group">
+          <div class="form__wrapper">
+            <div class="accordion">
+              <div class="card">
+
+                <div class="card-header" data-toggle="collapse" href="#accordion__one" aria-expanded="true">
+                  <h6 class="bold">System Updates</h6>
+                  <p>Manage notifications and communications for different user types.</p>
+                </div>
+
+                <div class="collapse show" id="accordion__one">
+                  <div class="card-body bg-white">
+                    <div>
+                      <!-- Header content of card body  -->
+                      <div class="form-group d-none d-lg-block">
+                        <div class="row justify-content-end">
+                          <div class="col-12 col-md-7 col-xl-6">
+                            <div class="row justify-content-end">
+                              <div class="col-3"><strong class="text-battleship-grey">Primary Administrator</strong></div>
+                              <div class="col-3"><strong class="text-battleship-grey">License Administrator</strong></div>
+                              <div class="col-3"><strong class="text-battleship-grey">User Administrator</strong></div>
+                              <div class="col-3"><strong class="text-battleship-grey">End User</strong></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                        <!-- Form-group 1 content start here  -->
+                        <div class="form-group">
+                          <div class="row justify-content-between" style="margin-bottom:2%" *ngFor="let commItem of communicationsList; let i = index">
+                            <div class="col-lg-5">
+                              
+                              <h6 class="bold">{{commItem.notificationtype}}</h6>
+                              <p>{{commItem.description}}</p>
+                              <!-- <h6>General system updates</h6> -->
+                              <!-- <p>Updates to the general platform.</p> -->
+                            </div>
+                            <div class="col-12 col-md-10 col-lg-7 col-xl-6 mt-3 mt-lg-0">
+                              <div class="row">
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">Primary Administrator</strong> <label class="switch"><input type="checkbox" [disabled]="true" [(ngModel)]="primAdmin[commItem.id]" name="primAdmin_{{i}}" (change)="switchChange($event)" ><span class="slider round"></span></label></div>
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">License Administrator</strong> <label class="switch"><input type="checkbox" [(ngModel)]="licenseAdmin[commItem.id]" name="licenseAdmin_{{i}}" (change)="switchChange($event)"><span class="slider round"></span></label></div>
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">User Administrator</strong> <label class="switch"><input type="checkbox" [(ngModel)]="userAdmin[commItem.id]" name="userAdmin1_{{i}}" (change)="switchChange($event)"><span class="slider round"></span></label></div>
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">End User</strong> <label class="switch"><input type="checkbox" [(ngModel)]="endUser[commItem.id]" name="endUser1_{{i}}" (change)="switchChange($event)"><span class="slider round"></span></label></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- Form-group 2 content start here  -->
+                        <!-- <div class="form-group">
+                          <div class="row mt-3 mt-md-0 justify-content-between">
+                            <div class="col-lg-5">
+                              <h6>Security updates</h6>
+                              <p>Security updates including patch updates and new security features.</p>
+                            </div>
+                            <div class="col-12 col-md-10 col-lg-7 col-xl-6 mt-3 mt-lg-0">
+                              <div class="row">
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">Primary Administrator</strong> <label class="switch"><input type="checkbox" formControlName="primAdmin2" disabled=""><span class="slider round"></span></label></div>
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">License Administrator</strong> <label class="switch"><input type="checkbox" formControlName="licenseAdmin2" checked=""><span class="slider round"></span></label></div>
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">User Administrator</strong> <label class="switch"><input type="checkbox" formControlName="userAdmin2" checked=""><span class="slider round"></span></label></div>
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">End User</strong> <label class="switch"><input type="checkbox" formControlName="endUser2" checked=""><span class="slider round"></span></label></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div> -->
+                        <!-- Form-group 3 content start here  -->
+                        <!-- <div class="form-group">
+                          <div class="row mt-3 mt-md-0  justify-content-between">
+                            <div class="col-lg-5">
+                              <h6>App updates</h6>
+                              <p>Updates regarding new apps and features.</p>
+                            </div>
+                            <div class="col-12 col-md-10 col-lg-7 col-xl-6 mt-3 mt-lg-0">
+                              <div class="row">
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">Primary Administrator</strong> <label class="switch"><input type="checkbox" formControlName="primAdmin3" disabled=""><span class="slider round"></span></label></div>
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">License Administrator</strong> <label class="switch"><input type="checkbox" formControlName="licenseAdmin3" checked=""><span class="slider round"></span></label></div>
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">User Administrator</strong> <label class="switch"><input type="checkbox" formControlName="userAdmin3"><span class="slider round"></span></label></div>
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">End User</strong> <label class="switch"><input type="checkbox" formControlName="endUser3"><span class="slider round"></span></label></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div> -->
+                        <!-- Form-group 4 content start here  -->
+                        <!-- <div class="form-group">
+                          <div class="row mt-3 mt-md-0  justify-content-between">
+                            <div class="col-lg-5">
+                              <h6>Message 4</h6>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                            </div>
+                            <div class="col-12 col-md-10 col-lg-7 col-xl-6 mt-3 mt-lg-0">
+                              <div class="row">
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">Primary Administrator</strong> <label class="switch"><input type="checkbox" disabled=""><span class="slider round"></span></label></div>
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">License Administrator</strong> <label class="switch"><input type="checkbox"><span class="slider round"></span></label></div>
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">User Administrator</strong> <label class="switch"><input type="checkbox" checked=""><span class="slider round"></span></label></div>
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">End User</strong> <label class="switch"><input type="checkbox" checked=""><span class="slider round"></span></label></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div> -->
+                        <!-- Form-group 5 content start here  -->
+                        <!-- <div class="form-group">
+                          <div class="row mt-3 mt-md-0  justify-content-between">
+                            <div class="col-lg-5">
+                              <h6>Message 5</h6>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                            </div>
+                            <div class="col-12 col-md-10 col-lg-7 col-xl-6 mt-3 mt-lg-0">
+                              <div class="row">
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">Primary Administrator</strong> <label class="switch"><input type="checkbox" disabled=""><span class="slider round"></span></label></div>
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">License Administrator</strong> <label class="switch"><input type="checkbox"><span class="slider round"></span></label></div>
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">User Administrator</strong> <label class="switch"><input type="checkbox" checked=""><span class="slider round"></span></label></div>
+                                <div class="col-6 col-md-3 mb-3 mb-lg-0 d-flex flex-column justify-content-between"><strong class="text-battleship-grey d-block d-lg-none mb-3 mb-lg-0">End User</strong> <label class="switch"><input type="checkbox" checked=""><span class="slider round"></span></label></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div> -->
+                        <!-- Form-group 5 button start here  -->
+                        <div class="form-group form-group__footer">
+                        <button href="javascript:void(0)" [disabled]="!notificationSwichChange" class="btn btn-secondary">Save Changes</button>
+                        <p *ngIf="communicationsForm.dirty"><a  href="javascript:void(0)" (click)="discardNotificationConfig()" class="link-underline">Discard changes</a></p>
+                      </div>
+                      </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+          </form>
+
+          <div class="form__wrapper">
+            <div class="accordion">
+              <div class="card">
+
+                <div class="card-header" data-toggle="collapse" href="#accordion__two" aria-expanded="true">
+                  <h6 class="bold">All users</h6>
+                  <p>Manage the communication options available for all users.</p>
+                </div>
+
+                <div class="collapse show" id="accordion__two">
+                  <div class="card-body bg-white">
+                    <div>
+                      <!-- Form-group 1 content start here  -->
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-8 col-sm-10">
+                            <h6 class="d-flex justify-content-between mb-3 mb-md-2">
+                              <span class="bold">Allow users to opt-in to marketing newsletters</span>
+                            </h6>
+                            <p>Enabling this will add a “Communications” tab to the My Account page of all users. They can then decide if they want to opt-in to receive newsletters from Matrix. Users are opt-out by default.</p>
+                          </div>
+                          <div class="col-4 col-sm-2 text-right"><label class="switch"><input type="checkbox" [(ngModel)]="newsLettrSwitch" (change)="switchNewsLetterChange($event)" name="allowUsers"><span class="slider round"></span></label></div>
+                        </div>
+                      </div>
+                      <!-- Form-group 2 button start here  -->
+                      <div class="form-group form-group__footer">
+                        <button href="javascript:void(0)" class="btn btn-secondary" [disabled]="!newsletterSwichChange" (click)="saveNewsLetterList()">Save Changes</button>
+                        <p><a href="javascript:void(0)" (click)="discardNewsLetterList()" class="link-underline">Discard changes</a></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+      </div>
+  </div>
+
+</div>
+<div class="tab-pane fade" id="tab5">
+  <div class="container-fluid">
+
+      <!-- Tab Content header start here  -->
+    <div class="row">
+      <div class="col-12">
+        <div class="tab-header border-0 pb-0">
+          <h5>Reports</h5>
+          <p>Generate reports to see usage and App purchasing activity across your organisation. </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Content body start here  -->
+    <div class="report-block">
+
+      <div class="report-right-block form__wrapper myCompanyReport" >
+        <div class="form-wrapper-group">
+        <div class="form-group tiles-radio-block">
+          <h6 class="form-label mb-0 bold">Quick Reports:</h6>
+          <p class="md-small text-battleship-grey mb-4">Click below to view the reports:</p>
+
+          <div class="row d-none d-md-flex">
+            <div class="col-12 col-sm-4 col-lg-3 col-20 mb-4">
+              <div class="form-check custom-radio">
+                <input class="form-check-input custom-radio__input" id="mycompanypage-myCompanyReport-radioGroup1" type="radio" name="radioGroup" placeholder="" value="yes" reportname="Login Audit Report" (click)="getAuditorService('login')">
+                <label class="form-check-label custom-selector-panel custom-selector-panel--radio" id="mycompanypage-myCompanyReport-radioGrouplabel1" for="mycompanypage-myCompanyReport-radioGroup1">
+                  <div class="custom-selector-panel-content text-center">
+                    <!-- <img src="./assets/images/dashboard/svg/log-in.svg" class="icon"> -->
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20.125" height="23" viewBox="0 0 20.125 23">
+                    <g transform="translate(-34.446 0)"><path d="M119.3,0H104.031a.706.706,0,0,0-.694.719V2.875h1.388V1.437H118.61V21.563H104.725V20.125h-1.388v2.156a.706.706,0,0,0,.694.719H119.3a.706.706,0,0,0,.694-.719V.719A.706.706,0,0,0,119.3,0Z" transform="translate(-65.427)"/>
+                    <path d="M43,170.442l1.224,1.225,5.808-5.808-5.808-5.808L43,161.275l3.717,3.717H34.446v1.732H46.718Z" transform="translate(0 -154.359)"/></g>
+                    </svg>
+                    <h6><strong>Login Audit</strong></h6>
+                    <p>Successful/failed login attempts</p>
+
+                    <div class="custom-radio-panel-content__more">
+
+                    </div>
+                  </div>
+
+                </label>
+
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-4 col-lg-3 col-20 mb-4">
+              <div class="form-check custom-radio">
+                <input class="form-check-input custom-radio__input" id="mycompanypage-myCompanyReport-radioGroup2" type="radio" name="radioGroup" checked="" placeholder="" value="yes" reportname="Order Summary" (click)="getAuditorService('service')">
+                <label class="form-check-label custom-selector-panel custom-selector-panel--radio" id="mycompanypage-myCompanyReport-radioGroupLabel2" for="mycompanypage-myCompanyReport-radioGroup2">
+                  <div class="custom-selector-panel-content text-center">
+                    <img src="./assets/images/mycompany/ordersummary.png" class="icon">
+                    <h6><strong>Order Summary</strong></h6>
+                    <p>Services ordered &amp; its quantity</p>
+
+                    <div class="custom-radio-panel-content__more">
+
+                    </div>
+                  </div>
+
+                </label>
+
+              </div>
+            </div>
+          </div>
+          <!-- ***** due to the responsive issue, this div was commented *****  -->
+          <!-- <div class="row d-flex d-md-none">
+            <div class="col-12">
+              <div class="multiline-select">
+               
+                <p-dropdown id="typeOfReports" [showClear]="true" placeholder="Choose"></p-dropdown>
+                <div class="selectize-control form-control custom-select single"><div class="selectize-input items has-options full has-items"><div class="selected-value" data-value="1"><strong>Login Audit</strong><p>Successful/failed<br>login attempts</p></div><input type="select-one" autocomplete="off" tabindex="" id="typeOfReports-selectized" style="width: 4px; opacity: 0; position: absolute; left: -10000px;"></div><div class="selectize-dropdown single form-control custom-select" style="display: none;"><div class="selectize-dropdown-content"><div class="select-opiton selected" data-selectable="" data-value="1"><strong class="label">Login Audit</strong><span>Successful/failed login attempts</span></div><div class="select-opiton" data-selectable="" data-value="2"><strong class="label">Order Summary</strong><span>Services ordered &amp; its quantity</span></div><div class="select-opiton" data-selectable="" data-value="3"><strong class="label">Activity Log</strong><span>Time &amp; actions performed by users</span></div><div class="select-opiton" data-selectable="" data-value="4"><strong class="label">Service Access</strong><span>Access attempts to services provided</span></div><div class="select-opiton" data-selectable="" data-value="5"><strong class="label">Service Assignment</strong><span>Assignment of services to users</span></div></div></div></div>
+              </div>
+            </div>
+          </div> -->
+
+
+        </div>
+
+        <div class="row">
+                 <div class="mt-30 col-md-12">
+                 <h6><strong>Time Frame</strong></h6>
+                 </div>
+               </div>
+               <div class="row align-items-end m-800 mb-30">
+                 <div class="col-md-2">
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" [checked]="currentMonthBoolean" id="mycompanypage-myCompanyReport-customRadio1" name="optradio">
+                    <label class="custom-control-label" id="mycompanypage-myCompanyReport-customRadioLabel1" for="mycompanypage-myCompanyReport-customRadio1" (click)="getCurrentMonthData('Current month')">Current Month</label>
+                  </div>
+                 </div>
+                 <div class="col-md-2">
+                   <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="mycompanypage-myCompanyReport-customRadio2" name="optradio">
+                    <label class="custom-control-label" id="mycompanypage-myCompanyReport-customRadioLabel2" for="mycompanypage-myCompanyReport-customRadio2" (click)="getLastThreeMonth('Last 3 months')">Last 3 Months</label>
+                  </div>
+                 </div>
+                 <div class="col-md-2">
+                   <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="mycompanypage-myCompanyReport-customRadio3" name="optradio">
+                    <label class="custom-control-label" id="mycompanypage-myCompanyReport-customRadioLabel3" for="mycompanypage-myCompanyReport-customRadio3" (click)="getCustomMonth('custom')">Custom</label>
+                  </div>
+                 </div>
+                <div class="col-md-5 date_picker_responsive">
+                  <div class="">
+                    <ejs-daterangepicker id="mycompanypage-myCompanyReport-datepicker" class="customDisableClass" format='d MMM yyyy' [class.removeDisable]="monthInput == 'custom'" placeholder='Select a range' [startDate]='start' [endDate]='end' (change)="getDater($event)"></ejs-daterangepicker>
+                  </div>
+                </div>
+                 </div>
+
+        <!-- Filter by Login ID -->
+          <div class="row mb-30" *ngIf="auditstring == 'login'">
+            <div class="col-md-6">
+          <div class="form-group">
+            <label for="users-selectized">
+          <h6><strong>Filter by Login ID
+          <span class="opt"></span></strong>
+          </h6>
+          </label>
+            <p-dropdown [options]="emailList" id="mycompanypage-myCompanyReport-filterbyloginid" (onChange)="OnChange($event)" optionLabel="name"></p-dropdown>
+          </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <a class="btn btn-primary w-auto" id="mycompanypage-myCompanyReport-generatereportbtn" (click)="getAccessDetails()">Generate Report</a>
+              </div>
+            </div>
+          </div>
+      </div>
+      </div>
+
+    </div>
+  </div>
+ <hr class="line_reports mb-30">
+ <div class="container-fluid">
+             <!-- code for Login Audit -->
+             <ng-container *ngIf="loginAudit == 1">
+             <div class="row mb-30">
+               <div class="col-md-12">
+                 <h4>{{logService}}</h4>
+               </div>
+             </div>
+             <div class="row justify-content-end mb-30" *ngIf="auditReportTableData.length > 0">
+               <div class="col-md-12 text-right">
+                 <button (click)="downloadPDF()" id="mycompanypage-myCompanyReport-savepdfbtn" class="pdfcsvicon"><img src="assets/pdficon.png"> Save PDF</button>
+                 <button class="pdfcsvicon" id="mycompanypage-myCompanyReport-savecsvbtn" (click)="exportAsXLSXLogin()"><img src="assets/csvicon.png"> Save CSV</button>
+               </div>
+             </div>
+             <div #reportContent>
+             <div class="row">
+               <div class="col-md-12" *ngIf="getReportDetails">
+                 <div class="table-responsive users-table import-table">
+                <p-table #reportData [value]="auditReportTableData" [(selection)]="dateReport" dataKey="id" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true"
+                    [rowsPerPageOptions]="[10,25,50]" [resizableColumns]="true" [paginator]="auditPaginatorBoolean"
+                    currentPageReportTemplate="&#123;first&#125; - &#123;last&#125; of &#123;totalRecords&#125;"
+                    [filterDelay]="0" [globalFilterFields]="['createdDate','userName','changeSummary']">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th class="table_column" pSortableColumn="createdDate">Date & Time<p-sortIcon class="sorTableIcon" field="createdDate"></p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="userName">Login ID<p-sortIcon class="sorTableIcon" field="userName"></p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="changeSummary">Status<p-sortIcon class="sorTableIcon" field="changeSummary">
+                                </p-sortIcon>
+                            </th>
+                        </tr>
+                        <tr>
+
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="reportData.filter($event.target.value, 'formattedCreatedDate', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="reportData.filter($event.target.value, 'userName', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="reportData.filter($event.target.value, 'changeSummary', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-report>
+                        <tr class="ui-selectable-row">
+                             <td class="table_column" data-label="Date and Time">
+                      {{report.createdDate | date : 'd MMM yyyy'}} {{report.createdDate | date : 'HH:mm'}} (GMT +8:00)
+
+                            </td>
+                             <td class="table_column" data-label="Login ID">
+                                {{report.userName}}
+                            </td>
+                             <td class="table_column" data-label="Status">
+                                {{report.changeSummary}}
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td class="table_column" colspan="8" style="text-align:left">No Records found.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                <!-- <span class="totalCountPaginationReport" *ngIf="auditReportTableData.length > 0"> of {{auditReportTableData.length}}</span> -->
+           </div>
+               </div>
+             </div>
+             </div>
+             </ng-container>
+
+
+             <!-- code for ordersummary -->
+             <ng-container *ngIf="loginAudit == 2">
+             <div class="row mb-30">
+               <div class="col-md-12">
+                 <h4>{{logService}}</h4>
+               </div>
+             </div>
+             <div class="row justify-content-end mb-30" *ngIf="tableAccount.length > 0">
+               <div class="col-md-12 text-right">
+                 <button (click)="downloadOrderPDF()" class="pdfcsvicon"><img src="assets/pdficon.png"> Save PDF</button>
+                 <button class="pdfcsvicon" (click)="exportAsXLSXService()"><img src="assets/csvicon.png"> Save CSV</button>
+               </div>
+             </div>
+             <div #reportContent>
+             <div class="row">
+               <div class="col-md-12">
+                 <div class="table-responsive users-table import-table">
+                <p-table #dabledata [value]="tableAccount" [(selection)]="selectedCustomers" dataKey="id" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true"
+                    [rowsPerPageOptions]="[10,25,50]" [resizableColumns]="true" [paginator]="tableAccountBoolean"
+                    currentPageReportTemplate="&#123;first&#125; - &#123;last&#125; of &#123;totalRecords&#125;"
+                    [filterDelay]="0" [globalFilterFields]="['orderdate','orderno','orderType','offername','saasId','quantity','orderby']">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th class="table_column" pSortableColumn="orderdate">Order Date & Time <p-sortIcon class="sorTableIcon" field="orderdate"></p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="orderno">Order No <p-sortIcon class="sorTableIcon" field="orderno"></p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="orderType">Order Type <p-sortIcon class="sorTableIcon" field="orderType"></p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="offername">Offer Name<p-sortIcon class="sorTableIcon" field="offername"></p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="saasId">Subscription ID<p-sortIcon class="sorTableIcon" field="saasId">
+                                </p-sortIcon>
+                            </th>
+                            <th class="table_column white_space_alignment" pSortableColumn="quantity">Quantity<p-sortIcon class="sorTableIcon" field="quantity">
+                                </p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="orderby">Order By<p-sortIcon class="sorTableIcon" field="orderby">
+                                </p-sortIcon>
+                            </th>
+                            
+                        </tr>
+                        <tr>
+
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dabledata.filter($event.target.value, 'orderdate', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dabledata.filter($event.target.value, 'orderno', 'contains')"
+                                    class="ui-column-filter quantityInputClass">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dabledata.filter($event.target.value, 'orderType', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dabledata.filter($event.target.value, 'offername', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dabledata.filter($event.target.value, 'saasId', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dabledata.filter($event.target.value, 'quantity', 'contains')"
+                                    class="ui-column-filter quantityInputClass">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dabledata.filter($event.target.value, 'orderby', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-customer>
+                        <tr class="ui-selectable-row">
+                             <td class="table_column white_space_alignment" data-label="Order Date and Time">
+                               <!-- {{customer.orderdate | date : 'd MMM yyyy'}} {{customer.orderdate |  date:'d:mm:ss z'}} -->
+                               {{customer.orderdate}}
+                            </td>
+                             <td class="table_column white_space_alignment" data-label="Order No">
+                               {{customer.orderno}}
+                            </td>
+                             <td class="table_column" data-label="Order Type">
+                               {{customer.orderType}}
+                            </td>
+                            
+                             <td class="table_column" data-label="Offername">
+                                {{customer.offername}}
+                            </td>
+                             <td class="table_column white_space_alignment" data-label="Saas ID">
+                                {{customer.saasId}}
+                            </td>
+                            <td class="table_column text-center" data-label="Quantity">
+                               {{customer.quantity}}
+                            </td>
+                             <td class="table_column" data-label="Order By">
+                                {{customer.orderby}}
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td class="table_column" colspan="8" style="text-align:left">No Records found.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                <!-- <span class="totalCountPagination" *ngIf="tableAccount.length > 0"> of {{tableAccount.length}}</span> -->
+           </div>
+               </div>
+             </div>
+             </div>
+             </ng-container>
+ </div>
+
+  
+
+</div>
+</div>
+
+ 
+</main>

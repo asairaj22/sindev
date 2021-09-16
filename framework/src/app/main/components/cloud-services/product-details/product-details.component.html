@@ -1,0 +1,272 @@
+<main class="main prod-det-wrapper" id="enterprise-product-details" *ngIf="isDataAvailable" [class.addCloudBtm]="topReach">
+
+<!-- Master head Product-banner start here  -->
+
+
+  <div class="masthead-banner">
+    <div class="masthead__image-wrapper tall">
+      <picture class="masthead__image">
+        <!-- <source srcset="./assets/images/masthead/enterprise-product-details--mobile.jpg" media="(max-width: 767px)">
+        <source srcset={{prodDetData.bannerDetials[0].bannerImg}}> -->
+        <img src={{productBannerLogo}} alt="Masthead banner image">
+      </picture>
+    </div>    
+    <div class="masthead-banner__wrapper mobile--top">
+      <div class="container">
+        <div class="row justify-content-center justify-content-md-start">
+          <div class="col-11 col-md-12 col-lg-7 masthead-banner__content">
+            <img class="tile__img software-tile__image" src={{productLogo}} alt="product image">
+            <!-- <h1 class="prod-det-banner-header">{{(productDetailData.name && productDetailData.name=='Essential Cloud Resell (AWS)')? 'Singtel Cloud Service (AWS)' : (productDetailData.name=='Essential Cloud Resell (Azure)')?'Singtel Cloud Service (Azure)' : productDetailData.name}} </h1> -->
+            <h1 class="prod-det-banner-header">{{productDetailData.name}} </h1>
+            <!-- <p class="">{{prodDetData.bannerDetials[0].bannerText}}</p> -->
+            <p class="">{{productDetailData.description}}</p>
+            <!-- <p>Subscription starts at <span class="text-bold">{{prodDetData.bannerDetials[0].bannerSubcripAmt}} </span>/month</p> -->
+            <p>Subscription starts at <span class="text-bold">S$0.00</span>/month</p>
+            <!-- <p>Subscription per day</p> -->
+              <div class="masthead-banner-btn-wrapper">
+                <!-- change done for demo request Divya E -->
+                <!-- <a href="javascript:void(0)" (click)="scrollToDiv(subscripDetail)" class="btn btn-secondary boldFont">View subscriptions</a> -->
+                <a href="javascript:void(0)" id="cloudProdDetails-header-subscribebtn" (click)="moveToCustomize()" class="btn btn-secondary boldFont">Subscribe</a>
+            </div>
+            <!-- <p class=" mt-2 mt-lg-3 mb-0">Prices vary according to your business needs.&nbsp;<a href="javascript:void(0)">Contact Us</a></p> -->
+          </div>  
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="anchor-nav__blocker"></div>
+  <div id="sticky-wrapper" class="anchor-nav__wrapper" 
+    [class.sticky-nav-ul-topReach-false] = "exceedScrollLimit && loginOrlogout == 'login' && topReach" [class.sticky-nav-ul-topReach-true] = "exceedScrollLimit && loginOrlogout == 'login' && !topReach"  
+    [class.sticky-nav-ul-logout-topReach-false] = "exceedScrollLimit && loginOrlogout  == 'logout' && topReach" [class.sticky-nav-ul-logout-topReach-true] = "exceedScrollLimit && loginOrlogout  == 'logout' && !topReach" style="height: auto;" #fixedBox>
+  <!-- [class.sticky-nav-ul] = "exceedScrollLimit && loginOrlogout == 'login'" 
+  [class.sticky-nav-ul-logout] = "exceedScrollLimit && loginOrlogout  == 'logout'" style="height: auto;" #fixedBox> -->
+    <section class="anchor-nav mob-p0" style="height: auto;">
+      <div class="container">
+        <div class="row">
+          <div class="col d-lg-flex align-items-lg-center flex-lg-row mob-p0">
+            <div class="anchor-nav__header-wrapper d-flex d-lg-block align-items-center justify-content-between mobileClickShow" (click)="toggleMobile()">
+              <span class="anchor-nav__header">Cloud Services <i [ngClass]="{'fa-angle-down': !showToggle, 'fa-angle-up': showToggle}" class="fa"></i></span>
+            </div>
+            <ul class="anchor-nav__list mobileToggle mob-p0" [class.showToggle]="showToggle">
+              <li class="anchor-nav__list-item"><a href="javascript:void(0)" (click)="scrollToDiv(whySingtel)" id="cloudProdDetails-navlink-whychoose" [ngClass]="whySingtelObj.highlighted === true ? 'highlight_section_heading' : ''" class="active">Why choose Singtel</a></li>
+              <li class="anchor-nav__list-item"><a href="javascript:void(0)" (click)="scrollToDiv(keyFeature)" id="cloudProdDetails-navlink-keyfeatures" [ngClass]="keyFeaturesObj.highlighted === true ? 'highlight_section_heading' : ''" class="">Key features</a></li>
+              <li class="anchor-nav__list-item hide-for-phase1"><a href="javascript:void(0)" id="cloudProdDetails-navlink-successstories" (click)="scrollToDiv(succuessStory)" class="">Success Stories</a></li>
+              <li class="anchor-nav__list-item"><a href="javascript:void(0)" (click)="scrollToDiv(subscripDetail)" id="cloudProdDetails-navlink-subscrDetails" [ngClass]="subscDetailsObj.highlighted === true ? 'highlight_section_heading' : ''" class="">Subscription Details</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- Why section-->
+  <!-- Why section-->
+  <section id="section--why" #whySingtel>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-10">
+          <h2 class="text-center">Why choose Singtel</h2>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-3" *ngFor = "let specFeature of prodDetData.whyChooseSyntel; let i = index">
+          <div class="small-tile">
+            <div class="small-tile__image-wrapper d-flex justify-content-center align-items-center"><img class="small__image" src={{specFeature.tileImg}} alt="tile-{{i}}"></div>
+            <div class="small-tile__wrapper">
+              <p class="small__description">{{specFeature.tileText}} {{scrollFunction(whySingtel,keyFeature,subscripDetail)}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="key-features section--dull" #keyFeature id="section--key-features">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-10">
+          <h2 class="text-center">Key features</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-lg-4" *ngFor = "let keyFeature of keyFeatures">
+          <div class="small-tile d-flex flex-column">
+            <h6>{{keyFeature.name}}</h6>
+            <p [innerHTML]="keyFeature.productSpecCharacteristicValue[0].value"></p>
+            <!-- <p>{{keyFeature.productSpecCharacteristicValue[0].value}}</p> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+      <!-- Testimonials section-->
+
+  <section class="testimonial hide-for-phase1" id="section--testimonial" #succuessStory>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-10">
+          <h2 class="text-center mt-0 white"> Success Stories </h2>
+        </div>
+      </div>
+    </div>
+    <div class="container carousel-container">
+        <div class="row">
+          <div class="col">
+            <div class="carousel-container__button-prev"><img src="./assets/images/static/testimonial_prev_btn.png" alt=""></div>
+            <div class="carousel-container__button-next"><img src="./assets/images/static/testimonial_nxt_btn.png" alt=""></div>
+              <!-- Container-->
+            <swiper [config]="config" *ngIf="filtersLoaded | async">
+              <div class="swiper-slide" *ngFor = "let testimonial of testimonials; let i = index">
+              <div class="testimonial-card card">
+                <div class="card-body">
+                  <p class="card-text">{{testimonial.shortMsg}} </p>
+                  <div class="small-tile small-tile--user">
+                    <div class="small-tile__image-wrapper d-flex justify-content-center align-items-center">
+                        <img class="small__image" src={{testimonial.avatar}} alt= "{{testimonial.testimonialName}}" />
+                    </div>
+                    <div class="small-tile__wrapper d-flex">
+                      <span class="small__name">{{testimonial.userName}}</span>
+                      <span class="small__title">{{testimonial.userDesignation}},</span>
+                      <span class="small__company">{{testimonial.userCompany}}</span>
+                      <!-- <a class="card-link" href="javascript:void(0)">Read More</a> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </swiper>
+        </div>
+      </div>
+      <div class="carousel-container__pagination"></div>
+    </div>
+  </section>
+
+
+
+  <!-- for Story Slider. need to move this somewhere -->
+
+
+
+  <section class="pricing subscription-details" style="border:none;" #subscripDetail>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-10">
+          <h2 class="text-center">Subscription details</h2>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-5 d-flex">
+          <div class="plan__card">
+            <!-- Header wrapper-->
+            <div class="software-tile__header">
+              <!-- Tile image--><img class="software-tile__image" src={{productLogo}} alt="product image">
+              <!-- Title wrapper-->
+              <div class="software-tile__title-wrapper">
+                <!-- <h3>{{(productDetailData.name && productDetailData.name=='Essential Cloud Resell (AWS)')? 'Singtel Cloud Service (AWS)' : (productDetailData.name=='Essential Cloud Resell (Azure)')?'Singtel Cloud Service (Azure)' : productDetailData.name}}</h3> -->
+                
+                <!-- <h1 class="prod-det-banner-header">{{productDetailData.name}} </h1> -->
+                <h1 class="prod-det-banner-header">
+                  <p>{{prodNameFirst ? prodNameFirst : '' }}</p>
+                  <p>{{prodNameRemain ? prodNameRemain : ''}}</p> 
+                </h1>
+              </div>
+              <!-- Content wrapper-->
+              <div class="software-tile__content-wrapper">
+                <!-- <p>(Subscription starts at {{prodDetData.subcriptionDetail[0].subcriptionSubcripAmt}}/month)</p> -->
+                <p>(Subscription starts at S$0.00/month)</p>
+                <!-- <p>Subscription per day</p> -->
+                <div class="software-tile__pricing-total">
+                  <h4 class="software-tile__pricing-total--cost d-inline">S{{prodDetData.subcriptionDetail[0].subcriptionSubcripAmt}}</h4>
+                  <p class="software-tile__pricing-total--time d-inline">/month</p>
+                </div>
+                <!-- <p class="software-tile__pricing-discount">S$107.00 /month</p> -->
+                <div class="software-tile__pricing-cta d-flex flex-column align-items-center align-items-lg-start"><a id="cloudProdDetails-bottomtile-subscribebtn" class="btn btn-secondary text-bold" href="javascript:void(0)" (click) ="moveToCustomize()">Subscribe</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- FAQ Section start here  -->
+  <section class="section--dull fqa-accordion-block hide-for-phase1" style="background-color: #dcdcdc;">
+      <div class="container">
+        <div class="row mb-5 justify-content-between align-items-center">
+          <div class="col-7">
+            <h3>Frequently Asked Questions</h3>
+          </div>
+          <div class="col-5 text-right">
+            <a href="javascript:void(0)" id="btn__collapse" *ngIf = "!expandAll" (click)= "expandCollapse()">Expand all</a>
+            <a href="javascript:void(0)" id="btn__collapse" *ngIf = "expandAll" (click)= "expandCollapse()">Collapse all</a>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="form-wrapper-group">
+              <!-- <div class="form__wrapper" *ngFor="let prodFaq of prodDetData.faq  ; let i = index">
+                <div class="accordion" id="'accordion1'+i">
+                  <div class="card" *ngFor="let item of prodFaq | keyvalue ; let ind1 = index">
+                      <a class="card-header p-4" role="button" data-toggle="collapse"  [href]="'#collapse'+i" aria-expanded="false" [attr.aria-controls]="'collapse'+i">
+                        <h5>{{item.key}}</h5>
+                      </a>
+                    <div class="collapse" [class.show] ="expandAll" [id]="'collapse'+i">
+                      <div class="card-body p-0">
+                        <div class="accordion" id="accordion-inner">
+                          <ng-container *ngFor="let nestFaq of prodFaq[item.key]; let ind = index">
+                          <div class="card" >
+                            <a class="card-header pl-5 pr-5 p-4" role="button" data-toggle="collapse"  [href]="'#accordion__one_child'+i+ind" aria-expanded="false" [attr.aria-controls]="'collapse'+i">
+                              <h5>{{nestFaq.question}}</h5>
+                            </a>
+                            <div class="collapse" [class.show] ="expandAll" [id]="'accordion__one_child'+i+ind">
+                              <div class="card-body pl-5 pt-4 mt-1 pb-2 text-brownish-grey">
+                                <p class="mb-3">Singtel ONEOffice is a next –generation service which features a suite of collaboration tools which runs on the web browser without having to install a client.</p>
+                              </div>
+                            </div>
+                          </div>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+
+              <div class="form__wrapper" *ngFor="let prodFaq of productFaq; let i = index">
+                <div class="accordion" id="'accordion1'+i">
+                  <div class="card">
+                      <a class="card-header p-4" role="button" data-toggle="collapse"  [href]="'#collapse'+i" aria-expanded="false" [attr.aria-controls]="'collapse'+i">
+                        <h5>{{prodFaq.question}}</h5>
+                      </a>
+                    <div class="collapse" [class.show] ="expandAll" [id]="'collapse'+i">
+                      <!-- <div class="card-body p-0">
+                        <div class="accordion" id="accordion-inner">
+                          <ng-container *ngFor="let nestFaq of prodFaq[item.key]; let ind = index">
+                          <div class="card" >
+                            <a class="card-header pl-5 pr-5 p-4" role="button" data-toggle="collapse"  [href]="'#accordion__one_child'+i+ind" aria-expanded="false" [attr.aria-controls]="'collapse'+i">
+                              <h5>{{nestFaq.question}}</h5>
+                            </a>
+                            <div class="collapse" [class.show] ="expandAll" [id]="'accordion__one_child'+i+ind"> -->
+                              <div class="card-body pl-5 pt-4 mt-1 pb-2 text-brownish-grey">
+                                <p class="mb-3" [innerHTML] = "prodFaq.answer"></p>
+                              </div>
+                            <!-- </div>
+                          </div>
+                          </ng-container>
+                        </div>
+                      </div> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </section>
+
+</main>

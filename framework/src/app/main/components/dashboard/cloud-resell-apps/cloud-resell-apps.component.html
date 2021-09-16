@@ -1,0 +1,409 @@
+
+<main class="main dashboard-page" style="margin-top:5%;margin-bottom:2%;">
+    
+        <div class="container breadcrumb-wrapper">
+            <div class="row">
+                <div class="col-12 back_nav">
+                    <a style="color: #ee3554;" (click)="gotoDashbaord()">
+                        <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    <div class="container-fluid" > 
+        <div class="row" *ngIf="showSass">
+            <div class="col-sm-7">
+             <div _ngcontent-tdh-c9="" class="software-tile__header">
+                 <img alt="image" class="software-tile__image" src="{{item.productLogo}}">
+             <div _ngcontent-tdh-c9="" class="software-tile__title-wrapper">
+                 <h3 _ngcontent-tdh-c9="" class="font_title">{{item.productName}}</h3>
+                 <p _ngcontent-tdh-c9="">{{item.status}}</p>
+                 <p _ngcontent-tdh-c9="">{{(newAccDetails.accountName)? newAccDetails.accountName :'-'}}</p>
+
+                 </div>
+                 </div>   
+
+
+            </div>
+           <div class="col-sm-5">
+               <div class="sub-content-left">
+                    <div>
+                        <h6 style="text-align:right;" class="font_title text-div-left"><strong>Subscription ID </strong></h6>
+                    </div>
+                    <div>
+                        <h5 class="font-sassId text-div-left">{{(newAccDetails.saasID)? newAccDetails.saasID : '-'}}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="!showSass">
+            <div class="col-6">
+             <div _ngcontent-tdh-c9="" class="software-tile__header">
+                 <img alt="image" class="software-tile__image" src="../../../SIN/ep-cms/images/office365.png">
+             <div _ngcontent-tdh-c9="" class="software-tile__title-wrapper">
+                 <h3 _ngcontent-tdh-c9="">{{office365New.friendlyName}}</h3>
+                 <p _ngcontent-tdh-c9="">{{office365New.status}}</p>
+                 </div>
+                 </div>   
+
+
+            </div>
+        </div>
+
+        <div class="row mt-2 mb-25">
+            <div class="col-lg-12">
+                <div class="block" >
+                    <div class="block__header">
+                        Cloud Resell
+                    </div>
+                    <div class="block__content">
+                        <div class="row mx-0 mt-40">
+                            <ng-container *ngIf="selectedProduct === 'AWS' || selectedProduct === 'Azure'">
+                            <div class="resellAppItems max-width-mobile" *ngFor="let appitem of awsResellApps; let i = index">
+                                <div class="app-card" (click)="navigateToAWSCloudReports(appitem,i)">
+                                    <div class="app__header">
+                                        <!-- <svg class="app__fav-icon">
+                                            <use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-favourite">
+                                            </use>
+                                        </svg> -->
+                                        <!-- <div *ngIf="appitem.tilename!='aws'" class="kebab" #toggleButton (click)="openDialog(appitem.tilename,i)">
+                                            <figure (click)="openDialog(appitem.tilename,i)" ></figure>
+                                            <figure (click)="openDialog(appitem.tilename,i)"></figure>
+                                            <figure (click)="openDialog(appitem.tilename,i)"></figure>
+                                        </div> -->
+                                        <div *ngIf="appitem.tilename=='aws'" class="kebab" #toggleButton (click)="openDialog(appitem.tilename,i)">
+                                            <img _ngcontent-tdh-c9="" 
+                               alt="image" class="" src="./assets/images/dashboard/cloud-resell/External_Link.svg">
+                                        </div>
+                                    </div>
+                                    <div class="app__logo-wrapper">
+                                        <img class="app__logo" src="{{appitem.appLogo}}"
+                                            alt="#">
+                                    </div>
+                                    <div class="app__footer">
+                                        <div data-toggle="popover" data-placement="bottom"
+                                            data-content="<h3>Office 365</h3><h4>Oicnanif Etius</h4>"
+                                            data-original-title="" title="">
+                                            <h3 title="{{appitem.manageService}}" class="ellipsis">{{appitem.manageService}}</h3>
+                                            <h3 title="{{appitem.appFooterName}}" class="ellipsis footer__text">{{appitem.appFooterName}}</h3>
+                                            <h4  *ngIf="!appitem.manageService || appitem.manageService==''" style="height:16px" class="ellipsis">{{appitem.appFooterSubtitle}}</h4>
+                                        </div>
+                                    </div>
+                                    <div class="menu-overlay" *ngIf="appitem.isMenuOpen" #menu>
+                                        <ul class="app__menu">
+                                            <li class="app__menu-item"><a href="javascript:void(0)" target="_blank"
+                                                    class="app__menu-link">
+                                                    <!-- <svg class="app__menu-icon">
+                                                        <use
+                                                            xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-setting">
+                                                        </use>
+                                                    </svg> -->
+                                                    
+                                                    </a></li>
+                                            <!-- <li *ngIf = "appitem.tilename === 'cmp'" class="app__menu-item">
+                                                
+                                                <button style=" background: transparent; border: none; " (click)="openCMP()" class="app__menu-link"><img alt="image" src="./assets/images/dashboard/cloud-resell/upgrade.svg">Buy Premium</button>
+                                            </li> -->
+                                            <li class="app__menu-item">
+                                                
+                                                <button style=" background: transparent; border: none; " (click)="openBuyPremiumPopup(appitem)" class="app__menu-link"><img alt="image" src="./assets/images/dashboard/cloud-resell/upgrade.svg">Buy Premium</button>
+                                            </li>
+
+                                            <li class="app__menu-item"><a href="javascript:void(0)" target="_blank"
+                                                    class="app__menu-link">
+                                                    <!-- <svg class="app__menu-icon">
+                                                        <use
+                                                            xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-shortcut">
+                                                        </use>
+                                                    </svg> -->
+                                                    </a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            </ng-container>
+                            <ng-container  *ngIf="selectedProduct === 'office 365'">
+                            <div class="resellAppItems" *ngFor ="let appitem of ofcResellApps; let i = index">
+                                <div class="app-card " >
+                                    <!-- <div class="app__header">
+                                        <svg class="app__fav-icon">
+                                            <use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-favourite">
+                                            </use>
+                                        </svg>
+                                      
+                                    </div> -->
+                                    <div class="app__logo-wrapper" (click)="navigateToCloudReports(appitem.appFooterName)">
+                                        <img class="app__logo" src="{{appitem.appLogo}}"
+                                            alt="#">
+                                    </div>
+                                    <div class="app__footer" (click)="navigateToCloudReports(appitem.appFooterName)">
+                                        <div data-toggle="popover" data-placement="bottom"
+                                            data-content="<h3>Office 365</h3><h4>Oicnanif Etius</h4>"
+                                            data-original-title="" title="">
+                                            <h3 title="{{appitem.appFooterName}}" class="ellipsis footer__text">{{appitem.appFooterName}}</h3>
+                                            <h4 class="ellipsis">{{appitem.appFooterSubtitle}}</h4>
+                                        </div>
+                                    </div>
+                                    <div class="menu-overlay" *ngIf="appitem.isMenuOpen" #menu>
+                                        <ul class="app__menu">
+                                            <li class="app__menu-item"><a href="javascript:void(0)" target="_blank"
+                                                    class="app__menu-link">
+                                                    <!-- <svg class="app__menu-icon">
+                                                        <use
+                                                            xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-setting">
+                                                        </use>
+                                                    </svg> -->
+                                                    
+                                                    </a></li>
+                                            <li *ngIf = "appitem.tilename === 'cmp'" class="app__menu-item">
+                                                
+                                                <button style=" background: transparent; border: none; " (click)="openCMP()" class="app__menu-link"><img alt="image" src="./assets/images/dashboard/cloud-resell/upgrade.svg">Buy Premium</button>
+                                            </li>
+                                            <li *ngIf = "appitem.tilename !== 'cmp'" class="app__menu-item">
+                                                
+                                                <a  style=" color: #fff; " class="app__menu-link"><img alt="image" src="./assets/images/dashboard/cloud-resell/upgrade.svg">Buy Premium</a>
+                                            </li>
+
+                                            <li class="app__menu-item"><a href="javascript:void(0)" target="_blank"
+                                                    class="app__menu-link">
+                                                    <!-- <svg class="app__menu-icon">
+                                                        <use
+                                                            xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-shortcut">
+                                                        </use>
+                                                    </svg> -->
+                                                    </a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                            </ng-container>
+                             
+                        </div>
+                    </div>
+                </div>
+
+                <!-- This is "Launch Apps" component that shows all the available apps, including a stacks -->
+            
+
+            </div>
+            
+        </div>
+
+
+        <div class="row mt-2">
+            <div class="col-lg-12">
+
+                <!-- ## 
+                The display of the individual apps and stacked apps are described here.
+                An app (in Launch Apps) that has many instances are grouped into a stack. Clicking on a stack will show the instances within it (in Stacked Apps)
+              ## -->
+
+                <!-- 
+                 This is the "Stacked Apps" component to show the various instances of a single app.
+                 All apps that have stacks will share this component, change the data here based on the selected app from All Apps
+               -->
+                <div class="block">
+                    <div class="block__header">
+                        My Account
+                    </div>
+                    <div class="block__content" *ngIf ="selectedProduct === 'AWS' || selectedProduct === 'Azure'">
+                        <div class="" style="padding: 2em;">
+
+                          
+                            <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-2  font-weight-bold">Subscription ID</label>
+                                <label for="inputEmail3" class="col-sm-10 ">
+                                    {{newAccDetails.saasID ? newAccDetails.saasID : '-'}}
+                                </label>
+                              
+                            </div>
+                           
+                           <div class="form-group row">
+                                <!-- <label for="inputEmail3" class="col-sm-2 font-weight-bold">Instance Name</label> -->
+                                <label for="inputEmail3" *ngIf="selectedProduct=='Azure'" class="col-sm-2 font-weight-bold">Azure Account Name</label>
+                                <label for="inputEmail3" *ngIf="selectedProduct!='Azure'" class="col-sm-2 font-weight-bold">AWS Account Name</label>
+                                <!-- <label for="inputEmail3" class="col-sm-2 font-weight-bold">AWS Account Name</label> -->
+                                <label for="inputEmail3" class="col-sm-10 ">{{newAccDetails.accountName ? newAccDetails.accountName : '-'}}</label>
+                            </div>
+                            <div class="form-group row" *ngIf="item.category[0].name == 'Cloud Services'">
+                                <label for="inputEmail3" *ngIf="selectedProduct=='Azure'"  class="col-sm-2 font-weight-bold">Azure Account ID</label>
+                                <label for="inputEmail3" *ngIf="selectedProduct!='Azure'" class="col-sm-2 font-weight-bold">AWS Account ID</label>
+                               <label for="inputEmail3" class="col-sm-10 ">{{newAccDetails.accountId ? newAccDetails.accountId : '-'}}</label>
+                            </div>
+                            <div class="form-group row" *ngIf="item.category[0].name == 'Cloud Services'">
+                                <label for="inputEmail3" *ngIf="selectedProduct=='Azure'" class="col-sm-2 font-weight-bold">Azure Email Address</label>
+                                <label for="inputEmail3" *ngIf="selectedProduct!='Azure'" class="col-sm-2 font-weight-bold">AWS Email Address</label>
+                               <label for="inputEmail3" class="col-sm-10 ">{{newAccDetails.emailId ? newAccDetails.emailId : '-'}}</label>
+                            </div>
+                            <div class="form-group row" *ngIf="item.category[0].name == 'Cloud' && selectedProduct=='Azure'">
+                                <label for="" class="col-sm-2 font-weight-bold">MS Order ID</label>
+                               <label for="" class="col-sm-10 ">{{newAccDetails && newAccDetails.msOrderID ? newAccDetails.msOrderID : ''}}</label>
+                            </div>
+                            <div class="form-group row" *ngIf="item.category[0].name == 'Cloud Services' && selectedProduct=='Azure'">
+                                <label for="" class="col-sm-2 font-weight-bold">Tenant ID</label>
+                               <label for="" class="col-sm-10 ">{{newAccDetails && newAccDetails.tenantId ? newAccDetails.tenantId : ''}}</label>
+                            </div>
+                            <div class="form-group row" *ngIf="item.category[0].name == 'Cloud Services' && selectedProduct=='Azure'">
+                                <label for="" class="col-sm-2 font-weight-bold">Domain</label>
+                               <label for="" class="col-sm-10 ">{{newAccDetails && newAccDetails ? newAccDetails.domain : ''}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block__content" *ngIf="listOfUsers">
+                        <div class="row justify-content-between align-items-center" style=" margin-top: 32px; ">
+            <div class="col-12 col-md-6 d-flex flex-row align-items-center">
+
+            </div>
+
+            <div class="col-12 col-md-6 text-md-right mt-4 mt-md-0">
+                <button (click) ="createUser()" class="btn btn-secondary w-auto mr-2" style=" margin-right: 2rem !IMPORTANT; ">Create User</button>
+                <!-- <a href="javascript:void(0)" class="btn btn-secondary w-auto d-none show-on-desktop-nav-inline-block">Import Users</a> -->
+            </div>
+        </div>
+                        <div class="" style="padding: 2em;">
+                            <p-table #dt [value]="ofcListUsers" [(selection)]="selectedCustomers" dataKey="id"
+                    styleClass="p-datatable-gridlines" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true"
+                    [rowsPerPageOptions]="[10,25,50]" [loading]="loading" [paginator]="true"
+                    currentPageReportTemplate="&#123;first&#125; to &#123;last&#125; of &#123;totalRecords&#125;"
+                    [filterDelay]="0" [globalFilterFields]="['name','country.name','representative.name','status']">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+
+                            <th pSortableColumn="firstName">First Name <p-sortIcon field="firstName"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="lastName"> Last Name  <p-sortIcon field="lastName"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="usageLocation"> Usage Location  <p-sortIcon field="usageLocation">
+                                </p-sortIcon>
+                            </th>
+                            <th pSortableColumn="userPrincipalName"> User Principal Name<p-sortIcon field="userPrincipalName">
+                                </p-sortIcon>
+                            </th>
+                            <th pSortableColumn="userPrincipalName"> Assign Subscriptions
+                            </th>
+                            
+                           
+                        </tr>
+                        <tr>
+
+                            <th>
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'firstName', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th>
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'lastName', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th>
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'usageLocation', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th>
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'userPrincipalName', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th>
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'userPrincipalName', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                          
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-customer>
+                        <tr class="ui-selectable-row">
+
+                            <td>
+                                <span class="ui-column-title">First Name</span>
+                                <span>&#123;&#123;customer.firstName&#125;&#125;</span>
+                            </td>
+                            <td>
+                                <span class="ui-column-title">Last Name</span>
+                                &#123;&#123;customer.lastName&#125;&#125;
+                            </td>
+                            <td>
+                                <span class="ui-column-title">Usage Location</span>
+                                &#123;&#123;customer.usageLocation&#125;&#125;
+                            </td>
+                            <td class='text-break'>
+                                <span class="ui-column-title">User Principal Name</span>
+                                &#123;&#123;customer.userPrincipalName&#125;&#125;
+                            </td>
+                            <td>
+                                <button pButton type="button" class="ui-button-secondary" (click)="assignSubscription(customer)" icon="pi pi-user-plus"></button>
+                            </td>
+                           
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8" style="text-align:left">No customers found.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+
+
+                  
+                        </div>
+                    </div>
+                    <!-- <div class="block__content" *ngIf="subscriber">
+                        
+                        <div class="" style="padding: 2em;">
+
+                          
+                            <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-2  font-weight-bold">Billing Type</label>
+                                <label for="inputEmail3" class="col-sm-10 ">{{office365New.billingType ? office365New.billingType : '-'}}</label>
+                              
+                            </div>
+                           
+                           <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-2 font-weight-bold">Billing Cycle </label>
+                                <label for="inputEmail3" class="col-sm-10 ">{{office365New.billingCycle ? office365New.billingCycle : '-'}}</label>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-2 font-weight-bold">Friendly Name</label>
+                               <label for="inputEmail3" class="col-sm-10 ">{{office365New.friendlyName ? office365New.friendlyName : '-'}}</label>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-2 font-weight-bold">Status</label>
+                               <label for="inputEmail3" class="col-sm-10 ">{{office365New.status ? office365New.status : '-'}}</label>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-2 font-weight-bold">Quantity</label>
+                                <input type="number" for="inputEmail3" class="col-sm-4 " placeholder="Quantity" [(ngModel)]="quantity">
+                          </div>
+                          <div class="form-group row">
+                              <button class="btn btn-secondary w-auto mr-2" (click)="updateSubscription()">Update Subscription</button>
+                          </div>
+
+                          
+                           
+
+
+                        </div>
+                    </div> -->
+
+
+                </div>
+
+                <!-- This is "Launch Apps" component that shows all the available apps, including a stacks -->
+            
+
+            </div>
+            
+        </div>
+
+
+
+    </div>
+
+</main>

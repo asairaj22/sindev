@@ -1,0 +1,50 @@
+<div class="row h-100">
+	<div class="col-12 mb-10">
+		<h1 class="log-header-title notification-header-title">Domains</h1>
+	</div>
+	<div class="col-12 mt-2 mb-2"><button class="btn btn-sm btn-outline-primary pull-right"
+			(click)="createDomain(content,'Add')">Create
+			Domain</button></div>
+	<div class="col-12 event-report-table-grid">
+		<app-data-grid-notification (selectionChanged)="onSelectionChanged($event)" [gridData]="domainsData"
+			[columnDefs]="columnDefs" (getRowData)="getRowData(content, $event)">
+		</app-data-grid-notification>
+	</div>
+</div>
+<ng-template #content let-modal>
+	<form [formGroup]="domainForm" #myForm='ngForm' novalidate autocomplete="off" (ngSubmit)="onSubmit($event)">
+		<div class="modal-header">
+			<h4 class="modal-title"> {{action}} Domain</h4>
+			<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body p-0">
+			<div class="col-12 text-dark p-2 pl-0 event-detail-data">
+				<div class="form-group col-12">
+					<div class="input-group p-3 ">
+
+						<label for="name" class="col-2">Name<span class="text-danger">*</span></label>
+						<div class="col-10">
+							<input type="text" [ngClass]="{'form-errors': domainForm.get('name').hasError('required')}"
+								formControlName="name" class="form-control" placeholder="Domain Name">
+							<div class="form-errors-text text-danger col-md-12  pt-2 pl-0"
+								*ngIf="domainForm.get('name').hasError('required') && myForm.submitted">
+								Domain Name is Required
+							</div>
+							<div class="form-errors-text text-danger col-md-12  pt-2 pl-0"
+								[hidden]="!domainForm.get('name').hasError('duplicateUserName')">
+								Domain Name already exists!
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer p-2">
+			<button type="submit" class="btn btn-primary event-log-screens">Save</button>
+			<button type="button" class="btn btn-secondary event-log-screens"
+				(click)="modal.close('Close click')">Cancel</button>
+		</div>
+	</form>
+</ng-template>

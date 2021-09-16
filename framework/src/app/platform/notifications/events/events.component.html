@@ -1,0 +1,72 @@
+<div class="row h-100">
+	<div class="col-12">
+		<h1 class="log-header-title notification-header-title">Manage Events</h1>
+	</div>
+	<div class="col-12 mb-3"><button class="btn btn-sm btn-outline-primary pull-right"
+			(click)="openPopUp(content, 'Add')">Create
+			Event</button></div>
+	<div class="col-12 event-report-table-grid">
+		<app-data-grid-notification [gridData]="eventsGridData" [columnDefs]="columnDefs"
+			(getRowData)="getRowData(content, $event)">
+		</app-data-grid-notification>
+	</div>
+</div>
+
+<ng-template #content let-modal>
+	<form [formGroup]="eventForm" #myForm='ngForm' novalidate autocomplete="off" (ngSubmit)="onSubmit($event)">
+		<div class="modal-header">
+			<h4 class="modal-title"> {{action}} Event</h4>
+			<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body p-0">
+			<div class="col-12 text-dark p-2 pl-0 event-detail-data">
+				<div class="form-group col-12">
+					<div class="input-group p-3 ">
+						<label for="name" class="col-3">Name<span class="text-danger">*</span></label>
+						<div class="col-9">
+						<input type="text" [ngClass]="{'form-errors': eventForm.get('name').hasError('required')}"
+							formControlName="name" class="form-control col-12" placeholder="Event Name">
+						<div class="form-errors-text text-danger pr-0 pt-2"
+							*ngIf="eventForm.get('name').hasError('required') && myForm.submitted">
+							Event Name is Required
+						</div>
+						<div class="form-errors-text text-danger col-md-12  pt-2 pl-0" [hidden]="!eventForm.get('name').hasError('duplicateEventName')">
+							Domain Name already exists!
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group col-12">
+					<div class="input-group p-3 ">
+						<label for="subdomainId" class="col-3">Subdomain<span class="text-danger">*</span></label>
+						<div class="col-9">
+							<select class="form-control col-12" formControlName="subdomainId" [(ngModel)]="selectedItems"
+								[ngClass]="{'disable-dropdown': action === 'Edit'}">
+								<option value="">--Select Subdomain</option>
+								<option *ngFor="let subdomain of subDomainsData" value={{subdomain.id}}>{{subdomain.name}}</option>
+							</select>
+							<div class="form-errors-text text-danger col-12 pl-0"
+								*ngIf="eventForm.get('subdomainId').hasError('required') && myForm.submitted">
+								Subdomain is Required
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group col-12">
+					<div class="input-group p-3 ">
+						<label for="enable" class="col-3">Enabled</label>
+						<input class="ml-3 mt-2" type="checkbox" formControlName="enabled">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal-footer p-2">
+			<button type="submit" class="btn btn-primary event-log-screens">Save</button>
+			<button type="button" class="btn btn-secondary event-log-screens"
+				(click)="modal.close('Close click')">Cancel</button>
+		</div>
+	</form>
+</ng-template>

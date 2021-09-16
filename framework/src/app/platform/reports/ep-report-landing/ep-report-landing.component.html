@@ -1,0 +1,472 @@
+<div class="container-fluid overflow-x-hidden p-0">
+    <div class="container">
+        <div class="row pt-0 p-0">
+            <div class="col-6 pl-2">
+                <h1 class="subtitle w-50">{{reports.reportName}}</h1>
+            </div>
+            <div class="col-6">
+                <div class="row float-right">
+                    <button class="btn btn-primary mr-1" *ngIf="reports.reportMetaData.hasOwnProperty('isManageFilterVisible') ? reports.reportMetaData.isManageFilterVisible : true" 
+                        (click)="reportsFilterOpenManageFilter();"> Manage Filter
+                    </button>
+                    <button class="btn btn-primary mr-1" [disabled]="reports.actualReportResponse?.id == undefined || reports.disableSaveFilter == true" 
+                        *ngIf="reports.reportMetaData.hasOwnProperty('isManageFilterVisible') ? reports.reportMetaData.isManageFilterVisible : true" 
+                        (click)="reportsFilterOpenSaveFilterModal();"> Save Filter
+                    </button>
+                    <button class="btn btn-primary mr-1" [disabled]="reports.actualReportResponse?.id == undefined" 
+                        *ngIf="reports.reportMetaData.reportViews == 'Multiple' || reports.reportMetaData.reportViews == 'Clubbed'" data-toggle="modal" data-target="#export-report-target" 
+                        (click)="exportReport(false);"> Export Current Tab
+                    </button>
+                    <button class="btn btn-primary mr-1" [disabled]="reports.actualReportResponse?.id == undefined" 
+                        *ngIf="reports.reportMetaData.reportViews == 'Multiple' || reports.reportMetaData.reportViews == 'Clubbed'" data-toggle="modal" data-target="#export-report-target" 
+                        (click)="exportReport(true);"> Export All
+                    </button>
+                    <button class="btn btn-primary mr-1" [disabled]="reports.actualReportResponse?.id == undefined || reports.disableExport == true" 
+                        *ngIf="reports.reportMetaData.reportViews == 'Single' && (reports.reportMetaData.hasOwnProperty('typesVisibility') ? (reports.reportMetaData.typesVisibility.isWordVisible || reports.reportMetaData.typesVisibility.isPdfVisible || reports.reportMetaData.typesVisibility.isExcelVisible || reports.reportMetaData.typesVisibility.isCsvVisible) : true)" 
+                        (click)="exportReport(false);"> Export
+                    </button>
+                </div>
+            </div>
+            <div class="col-12 p-0 f-s-09rem mt-2"  [ngClass]="{'card': reports.reportClubView}" style="min-height: 450px;">
+                <div class="row pt-0">
+                    <!-- user value list DOM starts -->
+                    <div class="col-12 pl-2" *ngIf="reports.reportMetaData.userValueList?.length > 0 || reports.reportMetaData.customizeTabs?.customize">
+                        <div class="row">
+                            <ep-report-user-value-list class="w-100 d-flex" (invokeExecuteEnteredValue)="invokeExecuteEnteredValue($event);" (invokeClearUserValueListFilter)="clearFilter($event)" (invokeCustomizedTabOnCloseEmit)="customizeTabOnClose($event);"></ep-report-user-value-list>
+                        </div>
+                    </div>
+                    <!-- user value list DOM ends -->
+                    
+                    <!-- Report table container starts -->
+                    <div class="col-12 p-0" id="reportTable" *ngIf="reports.showReportTableContainer">
+                        <!-- Tab buttons DOM starts-->
+                        <div class="row pl-2 pb-0" *ngIf="reports.reportMetaData.reportViews == 'Clubbed'">
+                            <div class="col-12 pb-2" style="padding-left: 1.70rem;">
+                                <button class="tabPanel p-1 pl-3 pr-3 position-relative top-05-em" *ngFor="let tab of reports.reportMetaData.clubbedTabBtnsRef; let i = index;"
+                                    [ngClass]="{'tabButton': tab.isSelected, 'd-none': reports.reportMetaData.hideTabName && reports.reportMetaData.clubbedTabBtnsRef.length == 1}" (click)="reportClubSwitchTab(tab, i);" style="padding-left: 5px;padding-right: 5px;">
+                                    {{tab.tabName}}
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Tab buttons DOM ends -->
+                        <div class="row pt-0" [ngClass]="{'m-0': reports.reportMetaData.reportViews == 'Clubbed'}">
+                            <div class="col-12">
+                                <div class="row pt-0" style="min-height: 450px;" 
+                                    [ngClass]="{'m-0': reports.reportMetaData.reportViews == 'Clubbed', 'border border-info': reports.reportMetaData.reportViews == 'Clubbed', 'tabBorderRemoved': (reports.reportMetaData.hideTabName && reports.reportMetaData.clubbedTabBtnsRef.length == 1)}">
+                                    <!-- Reports temple sections starts -->
+                                    <div class="col-12 mt-2 mb-2 pl-4 pr-4" *ngIf="reports.previewTemplate != null">
+                                        <ep-report-template></ep-report-template>
+                                    </div>
+                                    <!-- Reports temple sections ends -->
+                                    <div class="col-12 report-preview-section" *ngIf="reports.activeTab && reports.activeTab.sectionList">
+                                        <div class="row">
+                                            <div id="{{secObj.sectionId}}" *ngFor="let secObj of reports.activeTab.sectionList; let section_parent_index = index" [ngClass]="{ 'col-12': (reports.activeTab.align == 'One per row' || (reports.activeTab.align || '') == ''), 'col-6': reports.activeTab.align == 'Two per row', 'col-4': reports.activeTab.align == 'Three per row' }">
+                                                <div class="row">
+                                                    <ep-report-chart class="w-100" *ngIf="secObj.isChartTop && secObj.isChartNeeded && secObj.displayFields.length > 0 && (secObj.reportType == 'Matrix' || secObj.reportType == 'Data Grid')"
+                                                        [secObj]="secObj">
+                                                    </ep-report-chart>
+                                                    <ep-report-grid-legend class="w-100" [secObj]="secObj" 
+                                                        *ngIf="secObj.legend.needLegend && secObj.legend.position == 'top'">
+                                                    </ep-report-grid-legend>
+                                                    <div class="col-12 ep_report_section_container" *ngIf="secObj.isDrillDownReportResult || (!secObj.isDrillDownReportResult && (reports.reportMetaData.reportViews=='Multiple' || reports.reportMetaData.reportViews == 'Clubbed') && secObj.displayFields.length > 0)" id="ep_report_section_{{secObj.sectionId}}">
+                                                        <label *ngIf="secObj.isDrillDownReportResult">
+                                                            <i class="fa fa-arrow-circle-left report-drillDown-back m-r-5" (click)="report_drillDown.navigateBack($event, $index);"></i> {{secObj.clubbedSectionName || secObj.sectionName}} 
+                                                        </label>
+                                                        <label class="ep_report_section_header" *ngIf="!secObj.isDrillDownReportResult && (reports.reportMetaData.reportViews=='Multiple' || reports.reportMetaData.reportViews == 'Clubbed') && secObj.displayFields.length > 0">{{secObj.clubbedSectionName || secObj.sectionName}}</label>
+                                                    </div>
+                                                    <ep-report-data-grid class="w-100 pl-3 pr-3" #gridComponent [secObj]="secObj" [section_parent_index]="section_parent_index" 
+                                                        (invokeApplyGlobalSearch)="applyGlobalSearch($event);" (invokeExecute)="invokeExecuteEnteredValue($event);"
+                                                        (invokeApplySort)="applySort($event)" *ngIf="secObj.displayFields.length > 0 && secObj.reportType == 'Data Grid'">
+                                                    </ep-report-data-grid>
+                                                    <ep-report-form class="w-100" [secObj]="secObj" 
+                                                        *ngIf="secObj.reportType == 'Form'">
+                                                    </ep-report-form>
+                                                    <ep-report-matrix class="w-100 pl-3 pr-3" #matrixComponent [secObj]="secObj" [section_parent_index]="section_parent_index" 
+                                                        (invokeApplyGlobalSearch)="applyGlobalSearch($event);"  (invokeExecute)="invokeExecuteEnteredValue($event);"
+                                                        (invokeApplySort)="applySort($event);" *ngIf="secObj.displayFields.length > 0 && secObj.reportType == 'Matrix'">
+                                                    </ep-report-matrix>
+                                                    <div class="col-12 matrix-table-outer scrollContainer ep-report pl-3 pr-3 p-0" id="ep_grid_preview" 
+                                                        *ngIf="secObj.displayFields.length > 0 && secObj.reportType == 'Graphical'" style="padding-top:15px;min-height:300px;height: 450px;">
+                                                        <div class="row multipleView chartView p-0 h-100">
+                                                            <epReportGraph [secObj]="secObj" class="w-100" render-graph></epReportGraph>
+                                                        </div>
+                                                    </div>
+                                                    <ep-report-chart class="w-100" *ngIf="!secObj.isChartTop && secObj.isChartNeeded && secObj.displayFields.length > 0 && (secObj.reportType == 'Matrix' || secObj.reportType == 'Data Grid')"
+                                                        [secObj]="secObj">
+                                                    </ep-report-chart>
+                                                    <ep-report-grid-legend class="w-100" [secObj]="secObj" 
+                                                        *ngIf="secObj.legend.needLegend && secObj.legend.position == 'bottom'">
+                                                    </ep-report-grid-legend>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Report table container ends -->
+                </div>
+            </div>
+            <div class="col-12" [ngClass]="{'d-none': secObj.isImageLoaded}" *ngFor="let secObj of reports.charts" style="padding: 5px;min-height:300px;height: 450px;visibility: hidden;">
+                <div class="row multipleView chartView p-0 h-100">
+                    <epReportGraph [secObj]="secObj" [attr.graph-section-id]="secObj.sectionId" class="w-100" render-hidden-chart></epReportGraph>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="export-report-dlg" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-1">
+                <h6 class="modal-title pl-3 pt-1 mb-2" *ngIf="!reports.isExportAll">Export Current Tab</h6>
+                <h6 class="modal-title pl-3 pt-1 mb-2" *ngIf="reports.isExportAll">Export All</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1 pb-0">
+                <div class="row pl-3">
+                    <div class="form-group d-flex w-100 mb-3">
+                        <label for="pullrequest-name-input col-3" class="col col-form-label pt-1">Export Type:</label>
+                        <div class="col-9">
+                            <label class="cb-label text-break" *ngIf="reports.isSingleAvailable">
+                                <span *ngIf="reports.reportMetaData.typesVisibility.isPdfVisible"><i class="fa fa-file-pdf-o"></i> PDF</span>
+                                <span *ngIf="reports.reportMetaData.typesVisibility.isExcelVisible"><i class="fa fa-file-excel-o"></i> EXCEL</span>
+                                <span *ngIf="reports.reportMetaData.typesVisibility.isWordVisible"><i class="fa fa-file-word-o"></i> WORD</span>
+                                <span *ngIf="reports.reportMetaData.typesVisibility.isCsvVisible"><i class="fa fa-file-excel-o"></i> CSV</span>
+                            </label>
+                            <div class="btn-group">
+                                <button class="btn btn-sm shadow-none" *ngIf="!reports.isSingleAvailable && (reports.reportMetaData.hasOwnProperty('typesVisibility') ? reports.reportMetaData.typesVisibility.isPdfVisible : true)" 
+                                    [ngClass]="[ (reports.exportType == 'pdf') ? 'btn-primary' : 'btn-light']" (click)="reports.exportType = 'pdf'"> 
+                                    <i class="fa fa-file-pdf-o"></i> <span> PDF</span>
+                                </button>
+                                <button class="btn btn-sm shadow-none" *ngIf="!reports.isSingleAvailable && (reports.reportMetaData.hasOwnProperty('typesVisibility') ? reports.reportMetaData.typesVisibility.isExcelVisible : true)" 
+                                    [ngClass]="[ (reports.exportType == 'excel') ? 'btn-primary' : 'btn-light']" (click)="reports.exportType = 'excel'">
+                                    <i class="fa fa-file-excel-o"></i> <span> EXCEL </span>
+                                </button>
+                                <button class="btn btn-sm shadow-none" *ngIf="!reports.isSingleAvailable && reports.reportMetaData.typesVisibility?.isCsvVisible" 
+                                    [ngClass]="[ (reports.exportType == 'csv') ? 'btn-primary' : 'btn-light' ]" (click)="reports.exportType = 'csv'">
+                                    <i class="fa fa-file-excel-o"></i> <span> CSV </span>
+                                </button>
+                                <button class="btn btn-sm shadow-none" *ngIf="!reports.isSingleAvailable && reports.reportMetaData.reportViews == 'Single' && reports.reportMetaData.single.reportType == 'Form' && (reports.reportMetaData.hasOwnProperty('typesVisibility') ? reports.reportMetaData.typesVisibility.isWordVisible : true)" 
+                                    [ngClass]="[ (reports.exportType == 'word') ? 'btn-primary' : 'btn-light' ]" (click)="reports.exportType = 'word'">
+                                    <i class="fa fa-file-word-o"></i> <span> WORD </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 d-flex mb-3" *ngIf="reports.actualReportResponse?.reportViews == 'Single' && reports.actualReportResponse.single.isDynamic != 'hide'">
+                        <label for="pull-req-desc-input" class="col-3 pr-0 pt-1 col-form-label">Select Template:</label>
+                        <div class="col-9">
+                            <select class="form-control input-sm" [disabled]="reports.actualReportResponse.single.isDynamic == 'read'" 
+                                [(ngModel)]="reports.actualReportResponse.single.updatedTemplateId" (change)="reports.customizeCoverPage(reports.actualReportResponse.single.updatedTemplateId)">
+                                <option [value]="templateItem.value.id" *ngFor="let templateItem of reports.templateDetails | keyvalue">{{templateItem.value.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 d-flex mb-1" *ngIf="reports.actualReportResponse?.reportViews == 'Clubbed' && reports.actualReportResponse?.clubbed[0]?.isDynamic != 'hide'">
+                        <label for="pull-req-desc-input" class="col-3 pr-0 pt-1 col-form-label">Select Template:</label>
+                    </div>
+                    <ng-container *ngFor="let template of reports.actualReportResponse.clubbed; let i = index;">
+                        <div class="form-group w-100 d-flex mb-3" *ngIf="reports.actualReportResponse.reportViews == 'Clubbed' && (reports.isExportAll || template.id == reports.activeTab.id)">
+                            <label for="pull-req-desc-input" *ngIf="template.isDynamic != 'hide'" class="col-3 pr-0 pt-1 col-form-label text-right text-truncate">{{template.tabName}}</label>
+                            <div class="col-9" *ngIf="template.isDynamic != 'hide'">
+                                <select class="form-control input-sm" [disabled]="template.isDynamic == 'read'" [(ngModel)]="template.updatedTemplateId" (change)="customizeCoverPage(template.updatedTemplateId)">
+                                    <option [value]="templateItem.value.id" *ngFor="let templateItem of reports.templateDetails | keyvalue">{{templateItem.value.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <div class="form-group d-flex w-100 mb-3" *ngIf="reports.isValidUpdatedTmpltIdSelected">
+                        <label for="pullrequest-name-input col-3" class="col-4 col-form-label pt-1">Include Cover page: </label>
+                        <div class="col-8 pl-0 pr-0 position-relative" style="right: 1.5em;">
+                            <div class="btn-group">
+                                <button class="btn btn-sm shadow-none" [ngClass]="[ reports.actualReportResponse?.includeCoverPage ? 'btn-primary' : 'btn-light']" (click)="reports.actualReportResponse.includeCoverPage = true"> 
+                                    <span> YES </span>
+                                </button>
+                                <button class="btn btn-sm shadow-none" [ngClass]="[ !reports.actualReportResponse?.includeCoverPage ? 'btn-primary' : 'btn-light']" (click)="reports.actualReportResponse.includeCoverPage = false"> 
+                                    <span> No </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-2 pr-3 border-top-0">
+                <div class="row pr-2">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" (click)="download()" data-dismiss="modal">
+                            Export
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="manage_filter_Modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg w-50">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-1">
+                <h6 class="modal-title pl-3 pt-0 mb-2" *ngIf="!reports.filter_IsDelete">Manage Filter</h6>
+                <h6 class="modal-title pl-3 pt-0 mb-2" *ngIf="reports.filter_IsDelete">Delete Filter</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1 pb-0">
+                <div class="row pl-3">
+                    <div class="col-12" *ngIf="reports.clonedFilter == null && !reports.deleteFilterAlert && !reports.updateFilterAlert">
+                        <div class="row border-bottom">
+                            <div class="col-8 col-form-label">Filters</div>
+                            <div class="col-4 col-form-label">Actions</div>
+                        </div>
+                        <div class="row mt-0 pt-2 border-top pb-0" [ngClass]="{'border-bottom': (reports.reportFilters || []).length > 0}">
+                            <div class="col-8 d-flex f-s-09rem">
+                                <div class="text-truncate">Application Filter</div>
+                                <h6 class="pl-2" *ngIf="reports.isApplicationFilterDefault"><span class="badge badge-info">Default</span></h6>
+                                <h6 class="pl-2" *ngIf="reports.appliedFilterId == 'applicationFilter'"><span class="badge badge-info">Applied Filter</span></h6>
+                            </div>
+                            <div class="col-4 dropdown">
+                                <div class="dropdown">
+                                    <span type="button" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-cog" title="Action" aria-hidden="true"></i>
+                                    </span>
+                                    <ul class="dropdown-menu pt-1 pb-1" [ngClass]="{'d-none': reports.isApplicationFilterDefault && reports.appliedFilterId == 'applicationFilter'}">
+                                        <li class="cur-pointer f-s-09rem dropdown-item pl-3" *ngIf="!reports.isApplicationFilterDefault" (click)="applyApplicationFilterDefault();">
+                                            <a>Make Default</a>
+                                        </li>
+                                        <li class="cur-pointer f-s-09rem dropdown-item pl-3" *ngIf="reports.appliedFilterId != 'applicationFilter'" (click)="clearAllFilters();">
+                                            <a>Apply Filter</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-0 pt-2 pb-0" *ngFor="let filter of reports.reportFilters; let lastIndex = last;" [ngClass]="{'border-bottom': !lastIndex }">
+                            <div class="col-8 d-flex f-s-09rem">
+                                <div class="text-truncate" *ngIf="!filter.isEdit" [title]="filter.filterName">{{filter.filterName}}</div>
+                                <h6 class="pl-2" *ngIf="!filter.isEdit && filter.isDefault == 'YES'"><span class="badge badge-info">Default</span></h6>
+                                <h6 class="pl-2" *ngIf="!filter.isEdit && reports.appliedFilterId == filter.filterId"><span class="badge badge-info">Applied Filter</span></h6>
+                                <input *ngIf="filter.isEdit" list="filtersNameList" type="text" [(ngModel)]="filter.filterName" class="form-control input-sm">
+                                <datalist id="filtersNameList">
+                                    <option *ngFor="let filName of reports.filterNameList || []" [value]="filName">{{filName}}</option>
+                                </datalist>
+                            </div>
+                            <div class="col-4 d-flex pt-1">
+                                <i class="fa fa-save action-icon pr-2 cur-pointer" *ngIf="filter.isEdit" 
+                                    (click)="reportsFilterUpdateReportFilter(filter);filter.isEdit = false;reports.filter_IsDelete = false;" title="Save Filter">
+                                </i>
+                                <i class="fa fa-close action-icon cur-pointer" *ngIf="filter.isEdit" 
+                                    (click)="getReportFilterFrmId();filter.isEdit = false;reports.filter_IsDelete = false;" title="Cancel">
+                                </i>
+                                <i class="fa fa-pencil action-icon pr-2 cur-pointer" *ngIf="!filter.isEdit" 
+                                    (click)="filter.isEdit = true;reports.filter_IsDelete = false;" title="Edit filter name">
+                                </i>
+                                <i class="fa fa-clone action-icon pr-2 cur-pointer" *ngIf="!filter.isEdit" 
+                                    (click)="reportsFilterUpdateReportFilter(filter,false,true);reports.filter_IsDelete = false;" title="Clone filter">
+                                </i>
+                                <i class="fa fa-trash-o action-icon pr-2 cur-pointer" *ngIf="!filter.isEdit" 
+                                    (click)="reportsFilterOpenDelete(filter.filterId, filter.filterName);reports.filter_IsDelete=true;" title="Delete filter">
+                                </i>
+                                <div class="dropdown" *ngIf="!filter.isEdit">
+                                    <span type="button" class="dropdown-toggle position-relative" data-toggle="dropdown" style="bottom: .25em;">
+                                        <i class="fa fa-cog" title="Action" aria-hidden="true"></i>
+                                    </span>
+                                    <ul class="dropdown-menu" [ngClass]="{'d-none': filter.isEdit}">
+                                        <li class="cur-pointer f-s-09rem dropdown-item pl-3" *ngIf="filter.isDefault != 'YES'" (click)="reportsFilterUpdateReportFilter(filter, true);">
+                                            <a>Make Default</a>
+                                        </li>
+                                        <li class="cur-pointer f-s-09rem dropdown-item pl-3" (click)="applyFilter(filter.filterId);">
+                                            <a>Apply Filter</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12" *ngIf="reports.clonedFilter != null && !reports.updateFilterAlert">
+                        <div class="row p-0">
+                            <div class="col-4 text-right pl-3">
+                                <label class="col-form-label">Clone Filter Name:</label>
+                            </div>
+                            <div class="col-7 p-0">
+                                <input type="text" list="filterNames" [(ngModel)]="reports.clonedFilter.filterName" class="form-control">
+                                <datalist id="filterNames">
+                                    <option ng-repeat="let filName of reports.filterNameList || []" [value]="filName">{{filName}}</option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="row mt-4 justify-content-center mx-auto">
+                            <div class="col-12 text-center">
+                                <button type="button" class="btn btn-secondary btn-sm" (click)="reports.clonedFilter = null;">Back</button>
+                                <button type="button" class="btn btn-primary btn-sm ml-2" (click)="reportsFilterUpdateReportFilter(reports.clonedFilter, false, false, true);">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12" *ngIf="reports.deleteFilterAlert">
+                        <div class="row">
+                            <div class="col-12 text-center f-s-09rem">
+                                <label class="col-form-label"> WARNING! YOU ARE ABOUT TO DELETE </label>
+                                <span> {{reports.deleteFilterName}} </span> <label class="col-form-label"> Filter </label>
+                                <br><span> Performing this operation will permanently delete the filter </span>
+                            </div>
+                            <div class="col-12 mt-4 text-center">
+                                <button type="button" class="btn btn-secondary btn-sm" (click)="reports.deleteFilterAlert = false; reports.filter_IsDelete=false;">Cancel</button>
+                                <button type="button" class="btn btn-warning btn-sm ml-2" (click)="reportsFilterDelete(); reports.filter_IsDelete=false;">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="reports.updateFilterAlert" class="col-12 text-center">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                    <label class="col-form-label">
+                                        <i class="fa fa-exclamation-triangle text-warning" aria-hidden="true"></i>
+                                        Given Filter Name Already Exists.
+                                    </label>
+                            </div>
+                            <div class="col-12">
+                                <button type="button" class="btn btn-secondary btn-sm mt-4" (click)="reports.updateFilterAlert = false;">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-2 pr-3 pt-3 border-top-0">
+                <div class="row pr-2">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" *ngIf="reports.clonedFilter == null && !reports.deleteFilterAlert && !reports.updateFilterAlert" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="save_filter_Modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-1">
+                <h6 class="modal-title pl-3 pt-0 mb-2">Save Filter</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1 pb-0">
+                <div class="row pl-3">
+                    <div *ngIf="!reports.saveFilterAlert" class="col-12">
+                        <div class="row p-0">
+                            <div class="col-3 pl-3 col-form-label text-right">
+                                <label>Filter Name:</label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text" list="filterNames"  [(ngModel)]="reports.currentFilterName"  class="form-control">
+                                <datalist id="filterNames">
+                                    <option *ngFor="let filName of reports.filterNameList || []" [value]="filName">{{filName}}</option>
+                                </datalist>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="reports.saveFilterAlert" class="col-12">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <label class="col-form-label">
+                                    <i class="fa fa-exclamation-triangle text-warning" aria-hidden="true"></i>
+                                    Given Filter Name Already Exists. Would you like to update ?
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-2 pr-3 pt-3 border-top-0">
+                <div class="row pr-2">
+                    <div class="col-12" *ngIf="!reports.saveFilterAlert">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" (click)="reportFilterValidateFilterName();">
+                            Save
+                        </button>
+                    </div>
+                    <div class="col-12" *ngIf="reports.saveFilterAlert">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" (click)="reports.saveFilterAlert = false;">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" (click)="reportFilterValidateFilterName(true);" data-dismiss="modal">
+                            Update
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+
+<!-- Alert Modal starts -->
+<div class="modal fade cb-modal" id="errorAlert_Modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-1">
+                <h6 class="modal-title pl-3 pt-1 text-warning">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Message
+                </h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pb-1 pt-0">
+                <div class="row pl-3">
+                    <div class="col-12 text-center">
+                        <label class="col-form-label" style="font-size: .8rem;">{{reports.alertMessage}}</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-3 pr-4 border-top-0">
+                <div class="row pr-2">
+                    <div class="col-12 pr-0">
+                        <button type="button" class="btn btn-secondary mr-2" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- Alert Modal Ends -->

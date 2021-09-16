@@ -1,0 +1,282 @@
+<div class="row pl-1 mx-auto pt-2">
+    <div class="col-12 p-0 f-s-08rem pt-0" *ngIf="isAdvSrchTtlRecCountAvail && isShowAdvSearchResultsForCont">
+        <div class="row pb-0">
+            <div style="padding-left: .8em;">
+                <span class="mr-1"> Search Results for - </span>
+            </div>
+            <div class="col-10 pl-1">
+                <span class="mr-1" *ngIf="ADVANCED_DOC_SEARCH && ADVANCED_DOC_SEARCH.fromDate && ADVANCED_DOC_SEARCH.fromDate.trim() != ''">
+                    <b class="mr-1">Modified Date From:</b> {{ ADVANCED_DOC_SEARCH.fromDatePicked }}
+                </span>
+                <span class="mr-1" *ngIf="ADVANCED_DOC_SEARCH && ADVANCED_DOC_SEARCH.toDate && ADVANCED_DOC_SEARCH.toDate.trim() != ''">
+                    <b class="mr-1">Modified Date To:</b> {{ ADVANCED_DOC_SEARCH.toDatePicked }}
+                </span>
+                <span class="mr-1" *ngIf="ADVANCED_DOC_SEARCH && ADVANCED_DOC_SEARCH.name">
+                    <b class="mr-1">Name:</b> {{ ADVANCED_DOC_SEARCH.name.join() }}
+                </span>
+                <span class="mr-1" *ngIf="ADVANCED_DOC_SEARCH && ADVANCED_DOC_SEARCH.modifiedBy">
+                    <b class="mr-1">Modifier:</b> {{ ADVANCED_DOC_SEARCH.modifiedBy }}
+                </span>
+                <span class="mr-1" *ngIf="ADVANCED_DOC_SEARCH && ADVANCED_DOC_SEARCH.title">
+                    <b class="mr-1">Title:</b> {{ ADVANCED_DOC_SEARCH.title.join() }}
+                </span>
+                <span class="mr-1" *ngIf="ADVANCED_DOC_SEARCH && ADVANCED_DOC_SEARCH.description">
+                    <b class="mr-1">Description:</b> {{ ADVANCED_DOC_SEARCH.description.join() }}
+                </span>
+                <span class="mr-1" *ngIf="ADVANCED_DOC_SEARCH && ADVANCED_DOC_SEARCH.keywords">
+                    <b class="mr-1">Tags:</b> {{ ADVANCED_DOC_SEARCH.keywords.join() }}
+                </span>
+                <span class="mr-1" *ngIf="ADVANCED_DOC_SEARCH && ADVANCED_DOC_SEARCH.DocStatus">
+                    <b class="mr-1">Status:</b> {{ ADVANCED_DOC_SEARCH.DocStatus.join() }}
+                </span>
+                <span class="mr-1" *ngIf="ADVANCED_DOC_SEARCH && ADVANCED_DOC_SEARCH.DocumentType">
+                    <b class="mr-1">Mime Type:</b> {{ ADVANCED_DOC_SEARCH.DocumentType.join() }}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="card w-100">
+        <!-- <h3 class="card-header">Advanced Search Result</h3> -->
+        <div class="card-body p-0">
+            <div class="col-12 p-0">
+                <div class="row p-0">
+                    <div class="col-3 border-right">
+                        <div class="row pr-0">
+                            <div class="col-12 pr-0">
+                                <div class="row pb-0 pt-0 mb-2">
+                                    <div class="col-6">
+                                        <label class="col-form-label"> Filter By </label>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-primary pull-right" [disabled]="!customSearchService.isEnableclearAdvSearch" (click)="customSearchService.clearSearchFilter()">Clear</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 pr-1">
+                                <div id="adv-search-filter-accordion" class="border-top">
+                                    <div class="card border-0 border-bottom-custom">
+                                        <div class="card-header bg-white pl-1 pt-2 pb-2 border-0" id="headingOne">
+                                            <h5 class="mb-0">
+                                                <button class="btn p-0 collapsed w-50 text-left f-s-09rem d-flex" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    <i class="fa fa-angle-right pt-1 mr-2" aria-hidden="true"></i> 
+                                                    <i class="fa fa-angle-down pt-1 mr-2" aria-hidden="true"></i> Creator
+                                                </button>
+                                            </h5>
+                                        </div>
+                                        
+                                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
+                                            <div class="card-body p-1 p-t-0 pl-3">
+                                                <div class="col-12">
+                                                    <div class="row cur-pointer filter-labels-cont" [ngClass]="{'bg-light-custom selectFilter' : checkFilterTrue('creator',cr) == true}" *ngFor="let cr of ADVANCED_DOC_SEARCH_RESULTS.CREATORS" (click)="setSearchFilter('creator',cr)">
+                                                        <label class="cb-label cur-pointer filter-labels mb-0">
+                                                            <i class="fa fa-folder pt-1 mr-2" aria-hidden="true"></i> {{cr}}
+                                                        </label>
+                                                    </div>
+                                                    <div class="row cur-pointer" *ngIf="ADVANCED_DOC_SEARCH_RESULTS.CREATORS && ADVANCED_DOC_SEARCH_RESULTS.CREATORS.length == 0">
+                                                        <label class="cb-label cur-pointer filter-labels">
+                                                            No Filters From Search Criteria
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card border-0 border-bottom-custom">
+                                        <div class="card-header bg-white pl-1 pt-2 pb-2 border-0" id="headingTwo">
+                                            <h5 class="mb-0">
+                                                <button class="btn p-0 collapsed w-50 text-left f-s-09rem d-flex" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                                    <i class="fa fa-angle-right pt-1 mr-2" aria-hidden="true"></i>
+                                                    <i class="fa fa-angle-down pt-1 mr-2" aria-hidden="true"></i> File Type
+                                                </button>
+                                            </h5>
+                                        </div>
+                                        
+                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo">
+                                            <div class="card-body p-1 p-t-0 pl-3">
+                                                <div class="col-12">
+                                                    <div class="row cur-pointer filter-labels-cont" [ngClass]="{'bg-light-custom selectFilter' : checkFilterTrue('fileType',cr) == true}" *ngFor="let cr of ADVANCED_DOC_SEARCH_RESULTS.FILETYPE" (click)="setSearchFilter('fileType',cr)">
+                                                        <label class="cb-label cur-pointer filter-labels mb-0">
+                                                            <i class="fa fa-folder pt-1 mr-2" aria-hidden="true"></i> {{cr}}
+                                                        </label>
+                                                    </div>
+                                                    <div class="row cur-pointer" *ngIf="ADVANCED_DOC_SEARCH_RESULTS.FILETYPE && ADVANCED_DOC_SEARCH_RESULTS.FILETYPE.length == 0">
+                                                        <label class="cb-label cur-pointer filter-labels">
+                                                            No Filters From Search Criteria
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card border-0 border-bottom-custom">
+                                        <div class="card-header bg-white pl-1 pt-2 pb-2 border-0" id="headingThree">
+                                            <h5 class="mb-0">
+                                                <button class="btn p-0 collapsed w-50 text-left f-s-09rem d-flex" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                                    <i class="fa fa-angle-right pt-1 mr-2" aria-hidden="true"></i>
+                                                    <i class="fa fa-angle-down pt-1 mr-2" aria-hidden="true"></i> Created
+                                                </button>
+                                            </h5>
+                                        </div>
+                                        
+                                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree">
+                                            <div class="card-body p-1 p-t-0 pl-3">
+                                                <div class="col-12">
+                                                    <div class="row cur-pointer filter-labels-cont" [ngClass]="{'bg-light-custom selectFilter' : checkFilterTrue('CREATED_THIS_MONTH','THIS_MONTH') == true}" (click)="setSearchFilter('CREATED_THIS_MONTH','THIS_MONTH','CREATED')">
+                                                        <label class="cb-label cur-pointer filter-labels mb-0">
+                                                            <i class="fa fa-folder pt-1 mr-2" aria-hidden="true"></i> Last 31 Days
+                                                        </label>
+                                                    </div>
+                                                    <div class="row cur-pointer filter-labels-cont" [ngClass]="{'bg-light-custom selectFilter' : checkFilterTrue('CREATED_LAST_SIX_MONTH','LAST_SIX_MONTH') == true}" (click)="setSearchFilter('CREATED_LAST_SIX_MONTH','LAST_SIX_MONTH','CREATED')">
+                                                        <label class="cb-label cur-pointer filter-labels mb-0">
+                                                            <i class="fa fa-folder pt-1 mr-2" aria-hidden="true"></i> In the Last 6 Months
+                                                        </label>
+                                                    </div>
+                                                    <div class="row cur-pointer filter-labels-cont" [ngClass]="{'bg-light-custom selectFilter' : checkFilterTrue('CREATED_THIS_YEAR','THIS_YEAR') == true}" (click)="setSearchFilter('CREATED_THIS_YEAR','THIS_YEAR','CREATED')">
+                                                        <label class="cb-label cur-pointer filter-labels mb-0">
+                                                            <i class="fa fa-folder pt-1 mr-2" aria-hidden="true"></i> In the Last 12 Months
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card border-0 border-bottom-custom">
+                                        <div class="card-header bg-white pl-1 pt-2 pb-2 border-0" id="headingFour">
+                                            <h5 class="mb-0">
+                                                <button class="btn p-0 collapsed w-50 text-left f-s-09rem d-flex" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                                    <i class="fa fa-angle-right pt-1 mr-2" aria-hidden="true"></i>
+                                                    <i class="fa fa-angle-down pt-1 mr-2" aria-hidden="true"></i> Modifier
+                                                </button>
+                                            </h5>
+                                        </div>
+                                        
+                                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour">
+                                            <div class="card-body p-1 p-t-0 pl-3">
+                                                <div class="col-12">
+                                                    <div class="row cur-pointer filter-labels-cont" [ngClass]="{'bg-light-custom selectFilter' : checkFilterTrue('updateBy',cr) == true}" *ngFor="let cr of ADVANCED_DOC_SEARCH_RESULTS.UPDATEDBY" (click)="setSearchFilter('updateBy',cr)">
+                                                        <label class="cb-label cur-pointer filter-labels mb-0">
+                                                            <i class="fa fa-folder pt-1 mr-2" aria-hidden="true"></i> {{cr}}
+                                                        </label>
+                                                    </div>
+                                                    <div class="row cur-pointer" *ngIf="ADVANCED_DOC_SEARCH_RESULTS.UPDATEDBY && ADVANCED_DOC_SEARCH_RESULTS.UPDATEDBY.length == 0">
+                                                        <label class="cb-label cur-pointer filter-labels">
+                                                            No Filters From Search Criteria
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card border-0 border-bottom-custom">
+                                        <div class="card-header bg-white pl-1 pt-2 pb-2 border-0" id="headingFive">
+                                            <h5 class="mb-0">
+                                                <button class="btn p-0 collapsed w-50 text-left f-s-09rem d-flex" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                                    <i class="fa fa-angle-right pt-1 mr-2" aria-hidden="true"></i>
+                                                    <i class="fa fa-angle-down pt-1 mr-2" aria-hidden="true"></i> Modified
+                                                </button>
+                                            </h5>
+                                        </div>
+                                        
+                                        <div id="collapseFive" class="collapse" aria-labelledby="headingFive">
+                                            <div class="card-body p-1 p-t-0 pl-3">
+                                                <div class="col-12">
+                                                    <div class="row cur-pointer filter-labels-cont" [ngClass]="{'bg-light-custom selectFilter' : checkFilterTrue('MODIFIED_THIS_MONTH','THIS_MONTH') == true}" (click)="setSearchFilter('MODIFIED_THIS_MONTH','THIS_MONTH','MODIFIED')">
+                                                        <label class="cb-label cur-pointer filter-labels mb-0">
+                                                            <i class="fa fa-folder pt-1 mr-2" aria-hidden="true"></i> Last 31 Days
+                                                        </label>
+                                                    </div>
+                                                    <div class="row cur-pointer filter-labels-cont" [ngClass]="{'bg-light-custom selectFilter' : checkFilterTrue('MODIFIED_LAST_SIX_MONTH','LAST_SIX_MONTH') == true}" (click)="setSearchFilter('MODIFIED_LAST_SIX_MONTH','LAST_SIX_MONTH','MODIFIED')">
+                                                        <label class="cb-label cur-pointer filter-labels mb-0">
+                                                            <i class="fa fa-folder pt-1 mr-2" aria-hidden="true"></i> In the Last 6 Months
+                                                        </label>
+                                                    </div>
+                                                    <div class="row cur-pointer filter-labels-cont" [ngClass]="{'bg-light-custom selectFilter' : checkFilterTrue('MODIFIED_THIS_YEAR','THIS_YEAR') == true}" (click)="setSearchFilter('MODIFIED_THIS_YEAR','THIS_YEAR','MODIFIED')">
+                                                        <label class="cb-label cur-pointer filter-labels mb-0">
+                                                            <i class="fa fa-folder pt-1 mr-2" aria-hidden="true"></i> In the Last 12 Months
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-9 text-center" style="display: none" id="adv-search-no-result-cont">
+                        <label class="col-form-label mt-5 pt-5">No search results found</label>
+                    </div>
+                    <div class="col-9" *ngIf="ADVANCED_DOC_SEARCH_RESULTS && ADVANCED_DOC_SEARCH_RESULTS.length > 0">
+                        <div class="row" *ngFor="let result of ADVANCED_DOC_SEARCH_RESULTS | filter: { creator: customSearchService.advSearchResultsFilterObject.creator, 
+                            fileType: customSearchService.advSearchResultsFilterObject.fileType,
+                            CREATED_THIS_YEAR: customSearchService.advSearchResultsFilterObject.CREATED_THIS_YEAR,
+                            CREATED_THIS_MONTH: customSearchService.advSearchResultsFilterObject.CREATED_THIS_MONTH,
+                            CREATED_LAST_SIX_MONTH: customSearchService.advSearchResultsFilterObject.CREATED_LAST_SIX_MONTH,
+                            size: customSearchService.advSearchResultsFilterObject.size,
+                            updateBy: customSearchService.advSearchResultsFilterObject.updateBy,
+                            MODIFIED_THIS_YEAR: customSearchService.advSearchResultsFilterObject.MODIFIED_THIS_YEAR,
+                            MODIFIED_THIS_MONTH: customSearchService.advSearchResultsFilterObject.MODIFIED_THIS_MONTH,
+                            MODIFIED_LAST_SIX_MONTH: customSearchService.advSearchResultsFilterObject.MODIFIED_LAST_SIX_MONTH }">
+                            <div class="col-2">
+                                <img src="assets/images/docu.jpg" class="img-thumbnail highlight"
+                                width="80" height="150" style="border: none;"
+                                *ngIf="result['_source']['ObjectType'] != undefined && result['_source']['ObjectType'] == 'Documents'">
+                                <img src="assets/images/folders.jpg"
+                                class="img-thumbnail highlight" width="80" height="150"
+                                *ngIf="result['_source']['ObjectType'] != undefined && result['_source']['ObjectType'] == 'vFolder'"
+                                style="border: none;">
+                            </div>
+                            <div class="col-10 pl-0">
+                                <div class="row p-0">
+                                    <div class="col-12 pl-0" *ngIf="result._source.STATUS != 'Removed'">
+                                        <a href="javascript:void(0);" (click)="showInLanding(result)"
+                                            *ngIf="result['_source']['ObjectType'] != undefined && result['_source']['ObjectType'] == 'vFolder'">{{result._source.ChildName}}</a>
+                                        <a href="javascript:void(0);" (click)="showInLanding(result)"
+                                            *ngIf="result['_source']['ObjectType'] != undefined && result['_source']['ObjectType'] == 'Documents'">{{result._source.FileName}}</a>
+                                    </div>
+                                    <div class="col-12 pl-0" *ngIf="result._source.STATUS == 'Removed'">
+                                        <a href="javascript:void(0);" class="text-decoration-none pointer-events-none" *ngIf="result['_source']['ObjectType'] != undefined && result['_source']['ObjectType'] == 'vFolder'">{{result._source.ChildName}}</a>
+                                        <a href="javascript:void(0);" class="text-decoration-none pointer-events-none" *ngIf="result['_source']['ObjectType'] != undefined && result['_source']['ObjectType'] == 'Documents'">{{result._source.FileName}}</a>
+                                    </div>
+                                    <div class="col-12 pl-0 btm-05-em" *ngIf="result._source.LastUpdated != undefined || result._source.UpdatedBy != undefined">
+                                        <label class="cb-label">Modified</label> 
+                                        <label class="cb-label ml-1" *ngIf="result._source.LastUpdated != undefined">{{getDateString(result._source.LastUpdated)}}</label>
+                                        <label class="cb-label ml-1" *ngIf="result._source.LastUpdatedBy != undefined">by {{result._source.LastUpdatedBy}}</label>
+                                    </div>
+                                    <div class="col-12 pl-0 btm-05-em" *ngIf="(result._source.LastUpdated == undefined ||result._source.LastUpdated == '' ) && (result._source.CreatedDate != undefined )">
+                                        <label class="cb-label">Created</label> 
+                                        <label class="cb-label ml-1" *ngIf="result._source.CreatedDate != undefined">{{getDateString(result._source.CreatedDate)}}</label>
+                                        <label class="cb-label ml-1" *ngIf="result._source.CreatedBy != undefined">by {{result._source.CreatedBy}}</label>
+                                    </div>
+                                    <div class="col-12 pl-0 btm-1-em" *ngIf="result._source.FolderName != undefined">
+                                        <div class="row p-0">
+                                            <label for="pull-req-desc-input" class="pr-0 pl-3 col-form-label">In Folders:</label>
+                                            <div class="col-10 p-t-020rem pl-0 ml-2">
+                                                <label class="cb-label text-break">{{result._source.FolderName}}</label>
+                                                <span *ngIf="result._source.STATUS == 'Removed'"> &nbsp; 
+                                                    <a href="javascript:void(0);" class="f-s-08rem" ngbTooltip="Restore a folder to its' orginal path" *ngIf="result['_source']['ObjectType'] != undefined && result['_source']['ObjectType'] == 'vFolder'" (click)="showrestoreFolderDlg(result._source)">Restore Folder</a> 
+                                                    <a href="javascript:void(0);" class="f-s-08rem" ngbTooltip="Restore a document to its orginal folder" *ngIf="result['_source']['ObjectType'] != undefined && result['_source']['ObjectType'] == 'Documents'" (click)="showrestoreDocumentDlg(result)">Restore Document</a>
+                                                    &nbsp;|&nbsp;
+                                                    <a href="javascript:void(0);" class="f-s-08rem" ngbTooltip="Permenatly Remove a Folder and its' children" *ngIf="result['_source']['ObjectType'] != undefined && result['_source']['ObjectType'] == 'vFolder'" (click)="showhdFolderDlg(result._source)">Remove Folder</a> 
+                                                    <a href="javascript:void(0);" class="f-s-08rem" ngbTooltip="Permenatly Remove a Document" *ngIf="result['_source']['ObjectType'] != undefined && result['_source']['ObjectType'] == 'Documents'" (click)="showhdDocumentDlg(result)">Remove Document</a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer pb-0 pt-3">
+            <div class="row p-0">
+                <div id="advSearchOutput" class="col-4"></div>
+                <div class="col-8">
+                    <app-pagination class="float-right" *ngIf="isAdvSrchTtlRecCountAvail" [totalRecords]="advanceSearchTotalRecords" (changePage)="onAdvSearchChangePage($event)" [initialPage]="1" [pageSize]="20" [maxPages]="10"></app-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

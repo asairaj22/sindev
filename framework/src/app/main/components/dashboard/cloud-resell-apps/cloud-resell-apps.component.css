@@ -1,0 +1,75 @@
+
+
+.resellAppItems{
+    position: relative;
+    max-width:15.2%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.menu-overlay {
+    display: block;
+}
+.mb-25{
+    margin-bottom: 25px;
+}
+.mat-dialog-containe {
+    border-top: solid 4px #ed1a3d !important;
+}
+
+.footer__text{
+  display: -webkit-box;
+  max-width: 100%;
+  height: 35px;
+  margin: 0 auto;
+  font-size: 14px;
+  line-height: 1.3;
+  /* -webkit-line-clamp: 2; */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  white-space: unset;
+
+}
+.blueprint-tiles{
+    width: 100%;
+    height: 200px;
+    border: 2px solid red;
+    border-radius: 4px;
+
+}
+.font_title_family {
+ font-family: 'Museo';
+ font-weight: bold;
+}
+.font_title {
+   
+    font-weight: bold;
+}
+.software-tile__header {
+    display: flex;
+    align-items: center;
+}
+.block__header {
+    font-weight: bold;
+}
+
+.max-width-mobile{
+	max-width: 263px !important;
+    min-width: 263px !important;
+}
+.app-card {
+    max-width: 195px;
+    min-width: 195px;
+    margin: 0 40px 40px 27px;
+}
+.font-sassId{text-align: right;font-size: 18px;}
+
+@media screen and (max-width: 556px) and (min-width: 320px) {
+    .app-card{margin:0 auto 50px auto;}
+    .max-width-mobile{max-width: initial !important;margin: 0 auto;}
+}
+
+@media screen and (max-width: 575px) and (min-width: 320px) {
+    .sub-content-left{float: left; margin-left: 115px; margin-top: -25px; margin-bottom: 10px;}
+    .text-div-left{float: left !important;}
+}

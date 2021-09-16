@@ -1,0 +1,179 @@
+<div class="container h-100">
+	<div class="col-12">
+		<h1 class="log-header-title notification-header-title">Manage Template</h1>
+	</div>
+	<div class="col-12 mb-3">
+		<button class="btn btn-sm btn-outline-primary pull-right" (click)="createTemplate(content, 'Add')">
+			Create Template
+		</button>
+	</div>
+	<div class="col-12 event-report-table-grid">
+		<app-data-grid-notification [gridData]="templatesGridData" [columnDefs]="columnDefs"
+			(getRowData)="getRowData(content, $event)">
+		</app-data-grid-notification>
+	</div>
+</div>
+<ng-template #content let-modal style="width: 900px!important;">
+	<form [formGroup]="templatesForm" #myForm='ngForm' novalidate autocomplete="off" (ngSubmit)="onSubmit($event)">
+		<div class="modal-header">
+			<h4 class="modal-title"> {{action}} Templates</h4>
+			<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-1"><label class="col-12 pt-1" for="name">Event<span class="text-danger">*</span></label></div>
+				<div class="col-4 input-group">
+					<select class="form-control" [(ngModel)]="selectedEvent" formControlName="eventId" [ngClass]="{'disable-dropdown': action === 'Edit'}">
+						<option value="">--Select Event--</option>
+						<option *ngFor="let event of eventsDropDownData" value={{event.id}}>{{event.name}}</option>
+					</select>
+					<div class="form-errors-text text-danger col-12 pl-0"
+					*ngIf="templatesForm.get('eventId').hasError('required') && myForm.submitted">
+					Event is Required
+				</div>
+				</div>
+				<div class="col-1 p-0 pt-1"><label class="col-12 text-right pr-0" for="language">Language</label></div>
+				<div class="col-4 input-group">
+					<select class="form-control" [(ngModel)]="selectedLang" formControlName="lang">
+						<option value="">--Select Language--</option>
+						<option *ngFor="let lang of languageOptions" value={{lang.id}}>{{lang.name}}</option>
+					</select>
+				</div>
+				<div class="col-1 pt-1"><label class="col-12" for="enable">Enable</label></div>
+				<div class="col-1 input-group pt-2">
+					<input type="checkbox" class="p-0" formControlName="enabled">
+				</div>
+			</div>
+			<div class="row p-0">
+				<div class="col-3"><label class="col-12 p-0 font-weight-bold pl-2">Nodes</label></div>
+				<div class="col-4 p-0"><label class="col-12 p-0 font-weight-bold pl-2">Attributes</label></div>
+				<div class="col-5 p-0"><label class="col-12 p-0 font-weight-bold">Templates <span class="text-danger">*</span></label></div>
+			</div>
+			<div class="row">
+				<div class="col-3 input-group nodes-dropdown-scroll">
+					<div *ngFor="let option of nodesData" class="w-100">
+						<p class="text-nowrap mb-0"><input type="radio" name="price" (click)="nodeSeleted(option.model)"
+								[checked]="selectedNode[0] ? selectedNode[0].model == option.model : false " value={{option.id}}><label
+								class="pl-2" style="display: inline">{{option.model}}</label>
+						</p>
+					</div>
+				</div>
+				<div class="col-9 p-0 pl-2 input-group">
+					<div class="row">
+						<div class="col-5">
+							<div class="input-group mb-1">
+								<input type="text" class="form-control form-control-sm" placeholder="Search..."
+									(keyup)="showHighlited($event)" aria-label="Search"
+									aria-describedby="button-addon2">
+							</div>
+							<ul class="unorderList accordian-styles">
+								<ngb-accordion #acc="ngbAccordion">
+									<ngb-panel id="custom{{i}}" class="ngb-panel-wrapper">
+										<ng-template ngbPanelHeader let-opened="opened">
+											<div class="d-flex align-items-center justify-content-between">
+												<button ngbPanelToggle class="btn btn-link p-0 text-decoration-none"
+													*ngIf="node">
+													<i *ngIf="!opened" class="fa fa-plus"></i>
+													<i *ngIf="opened" class="fa fa-minus"></i>
+													<i class="fa fa-bandcamp ml-2 mr-1"></i>
+													{{node}}
+												</button>
+											</div>
+										</ng-template>
+										<ng-template ngbPanelContent>
+											<div cdkDropList [cdkDropListData]="nodeAttribute" id="sourceDivNoti"
+												[cdkDropListConnectedTo]="nodeSecondList" #nodefirstList1="cdkDropList"
+												(cdkDropListDropped)="drop($event, 'body')" class="col-12">
+												<ng-container *ngFor="let eachAttribute of nodeAttribute">
+													<li [cdkDragData]="eachAttribute" class="attributes-child" cdkDrag>
+														<i class="fa fa-envira"></i>
+														{{eachAttribute.name}}</li>
+												</ng-container>
+											</div>
+
+										</ng-template>
+									</ngb-panel>
+								</ngb-accordion>
+							</ul>
+						</div>
+						<div class="col-7 input-group p-0 pl-2">
+							<div class="col-12">
+								<input type="text"
+									[ngClass]="{'form-errors': templatesForm.get('subjectFile').hasError('required')}"
+									formControlName="subjectFile" class="form-control" placeholder="Subject Name">
+								<div class="form-errors-text text-danger"
+									*ngIf="templatesForm.get('subjectFile').hasError('required') && myForm.submitted">
+									Subject Name is Required
+								</div>
+								<div class="form-errors-text text-danger"
+									[hidden]="!templatesForm.get('subjectFile').hasError('duplicateTemplateName')">
+									Subject Name already exists!
+								</div>
+							</div> 
+							<div class="col-12">
+								<div cdkDropList [cdkDropListData]="templates"
+									(cdkDropListDropped)="drop($event, 'system')" #nodeSecondList="cdkDropList">
+									<textarea rows="4" cols="50" cdkDrag
+										[ngClass]="{'form-errors': templatesForm.get('subjectTemplate').hasError('required')}"
+										formControlName="subjectTemplate" class="form-control pop"
+										placeholder="Subject Template"
+										value={{templatesForm.value.subjectTemplate}}></textarea>
+									<div class="form-errors-text text-danger"
+										*ngIf="templatesForm.get('subjectTemplate').hasError('required') && myForm.submitted">
+										Subject Template is Required
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+
+						<div class="col-md-5"><label class="col-12 font-weight-bold">System Attributes</label></div>
+						<div class="col-md-7"><label class="col-12 p-0 font-weight-bold pl-2">Body Templates <span class="text-danger">*</span></label>
+						</div>
+						<div class="col-md-5 pl-4">
+							<div cdkDropList [cdkDropListData]="systemAttribute"
+								[cdkDropListConnectedTo]="systemSecondList" #systemFirstList="cdkDropList"
+								(cdkDropListDropped)="drop($event, 'body')" class="pl-4"
+								style="width: 60%; max-height: 250px; overflow: auto;">
+								<div *ngFor="let nodes of systemAttribute" class="pop" [cdkDragData]="nodes" cdkDrag [cdkDragDisabled]="node == ''"><i
+										class="fa fa-envira"></i>{{nodes.name}}</div>
+							</div>
+						</div>
+						<div class="col-md-7 input-group p-0 pl-2">
+							<div class="col-md-12 mb-4">
+								<input type="text"
+									[ngClass]="{'form-errors': templatesForm.get('bodyFile').hasError('required')}"
+									formControlName="bodyFile" class="form-control" placeholder="Body Name">
+								<div class="form-errors-text text-danger"
+									*ngIf="templatesForm.get('bodyFile').hasError('required') && myForm.submitted">
+									Body Name is Required
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div cdkDropList [cdkDropListData]="templates"
+									(cdkDropListDropped)="drop($event, 'body')" #systemSecondList="cdkDropList">
+									<textarea rows="4" cols="50" cdkDrag
+										[ngClass]="{'form-errors': templatesForm.get('bodyTemplate').hasError('required')}"
+										formControlName="bodyTemplate" class="form-control pop"
+										value="templatesForm.value.bodyTemplate" placeholder="Body Template"></textarea>
+									<div class="form-errors-text text-danger"
+										*ngIf="templatesForm.get('bodyTemplate').hasError('required') && myForm.submitted">
+										Body Template is Required
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer p-2">
+			<button type="submit" class="btn btn-primary event-log-screens">Save</button>
+			<button type="button" class="btn btn-secondary event-log-screens"
+				(click)="modal.close('Close click')">Cancel</button>
+		</div>
+	</form>
+</ng-template>

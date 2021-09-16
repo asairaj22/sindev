@@ -1,0 +1,107 @@
+<div class="row pl-4 pb-0">
+    <div class="col-10 p-2 p-t-0 p-b-0">
+        <div class="form-group w-100 d-flex">
+            <label for="pull-req-desc-input" class="col-2 pr-0 col-form-label">Look For:</label>
+            <div class="col-10 pt-1 pl-0">
+                <div class="dropdown">
+                    <button type="button" class="btn btn-light dropdown-toggle mb-0 mr-5" data-toggle="dropdown">
+                        {{ADVANCED_DOC_SEARCH.label}}
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item f-s-09rem" href="javascript:void(0);" (click)="setSearchType('Content','All')"><span class="font-weight-bold">Content</span> (Searches for all types of content)</a>
+                        <a class="dropdown-item f-s-09rem" href="javascript:void(0);" (click)="setSearchType('Folders','vFolder')"><span class="font-weight-bold">Folders</span> (Searches for all folders and containers)</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row pl-5 pr-5 pt-0 justify-content-center" id="doc-search-screen">
+    <div class="col-12 border p-0 p-t-0">
+        <div class="form-group mb-0">
+            <label for="pullrequest-name-input" class="col subtitle mb-0">Modified Date:</label>
+        </div>
+        <div class="form-group mb-0">
+            <div class="row pt-0">
+                <div class="col-6">
+                    <label for="pullrequest-name-input" class="col subtitle mb-0">From:</label>
+                    <div class="col" id="advanceSearchDatePickFrom">
+                        <angular2-date-picker
+                            [ngModel]="ADVANCED_DOC_SEARCH.fromDatePicked"
+                            [settings]="advanceSearchDatePickerSettings"
+                            (onDateSelect)="onAdvanceSearchDateSelect($event, 'from')">
+                        </angular2-date-picker>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="pullrequest-name-input" class="col subtitle mb-0">To:</label>
+                    <div class="col" id="advanceSearchDatePickTo">
+                        <angular2-date-picker
+                            [ngModel]="ADVANCED_DOC_SEARCH.toDatePicked"
+                            [settings]="advanceSearchDatePickerSettings"
+                            (onDateSelect)="onAdvanceSearchDateSelect($event, 'to')">
+                        </angular2-date-picker>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group mb-0">
+            <label for="pullrequest-name-input" class="col subtitle mb-0">Name:</label>
+            <div class="col">
+                <input type="text" class="form-control" ngbTooltip="Supports partial search on Document Name and Folder Name." [(ngModel)]="ADVANCED_DOC_SEARCH.name">
+            </div>
+        </div>
+        <div class="form-group mb-0"> 
+            <label for="pullrequest-name-input" class="col subtitle mb-0">Modifier:</label>
+            <div class="col">
+                <input type="text" class="form-control" ngbTooltip="Use the local-part of the email address; the search is applied to all domains. For example, to find Jane.Doe@domain.ca <Jane.Doe@domain.ca>, enter the search value of Jane.Doe." [(ngModel)]="ADVANCED_DOC_SEARCH.modifiedBy">
+            </div>
+        </div>
+        <div class="form-group mb-0">
+            <label for="pullrequest-name-input" class="col subtitle mb-0">Title:</label>
+            <div class="col">
+                <textarea type="text" class="form-control" ngbTooltip="Supports partial search on Title and Attachment Title." [disabled]="ADVANCED_DOC_SEARCH.content=='vFolder'" [(ngModel)]="ADVANCED_DOC_SEARCH.title"></textarea>
+            </div>
+        </div>
+        <div class="form-group mb-0">
+            <label for="pullrequest-name-input" class="col subtitle mb-0">Description and Document Content:</label>
+            <div class="col">
+                <textarea type="text" class="form-control" ngbTooltip="Supports partial search on Comments and whole word search on Attachment Content." [disabled]="ADVANCED_DOC_SEARCH.content=='vFolder'" [(ngModel)]="ADVANCED_DOC_SEARCH.description"></textarea>
+            </div>
+        </div>
+        <div class="form-group mb-0">
+            <label for="pullrequest-name-input" class="col subtitle mb-0">Tags:</label>
+            <div class="col">
+                <input type="text" class="form-control" ngbTooltip="Supports partial search on Tags and Attachment keywords." [disabled]="ADVANCED_DOC_SEARCH.content=='vFolder'" [(ngModel)]="ADVANCED_DOC_SEARCH.keywords">
+            </div>
+        </div>
+        <div class="form-group mb-0">
+            <label for="pullrequest-name-input" class="col subtitle mb-0">Status:</label>
+            <div class="col">
+                <select class="custom-select f-s-08rem" [disabled]="ADVANCED_DOC_SEARCH.content=='vFolder'" [(ngModel)]="ADVANCED_DOC_SEARCH.DocStatus">
+                    <option value="" translate>Select</option>
+                    <option value="New" translate>New</option>
+                    <option value="Authorized" translate>Authorized</option>
+                    <option value="In Progress" translate>In Progress</option>
+                    <option value="Completed" translate>Completed</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group mb-0">
+            <label for="pullrequest-name-input" class="col subtitle mb-0">Mime Type:</label>
+            <div class="col">
+                <select class="custom-select f-s-08rem" [disabled]="ADVANCED_DOC_SEARCH.content=='vFolder'" [(ngModel)]="ADVANCED_DOC_SEARCH.DocumentType">
+                    <option value="" translate>Select</option>
+                    <option *ngFor="let list of DOCUMENTTYPE_LIST_Options" value="{{list.label}}"> {{list.label}} </option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group mb-2 mt-3">
+            <div class="col">
+                <button type="button" class="btn btn-primary float-right" (click)="advancedSearch()">
+                    Search
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1640 @@
+<div class="container-fluid overflow-x-hidden mt-2">
+    <div class="container">
+        <div class="row pt-0 p-0">
+            <div class="col-12 page-title d-none">
+                <h1>Dashboard <small *ngIf="dashboard.isAdminUser">Creator</small></h1>
+            </div>
+            <div class="col-12" *ngIf="!dashboard.isAdminUser && commonValidation.isEmpty(dashboard.dashboardInfo)">
+                <i class="fa fa-exclamation-triangle text-warning" aria-hidden="true"></i>&nbsp;&nbsp; <label> No records to view</label>
+            </div>
+            <div class="col-12 p-0" [ngClass]="{'d-none': commonValidation.isEmpty(dashboard.dashboardInfo)}">
+                <ul class="nav nav-pills" [ngClass]="{'d-none': dashboard.epDashboardType == 'Library'}">
+                    <li class="nav-item" *ngFor="let dashboardNameInfo of dashboard.nameList | orderBy: 'position'" (click)="toggle(dashboardNameInfo.name, dashboardNameInfo.dashboard_id)">
+                        <a class="nav-link" data-toggle="pill" href="javascript:void(0)" [ngClass]="{'active': dashboardNameInfo.name == dashboard.currentDasboardInfo.name}"> {{dashboardNameInfo.name}} </a>
+                    </li>
+                </ul>
+                <!-- TODO: Dashboard option buttons -->
+                    <button class="btn btn-primary btn-sm m-l-10" *ngIf="dashboard.isAdminUser && dashboard.epDashboardType == 'Library'" (click)="dashboard.switchToLibrary('Application')" translate>Switch To Dashboard</button>
+                    <button class="btn btn-primary btn-sm m-l-10" *ngIf="dashboard.isAdminUser && dashboard.epDashboardType == 'Application'" (click)="dashboard.switchToLibrary('Library')" translate>Switch To Library</button>
+                    <button class="btn btn-sm btn-primary position-absolute left-auto right-0 top-05em" api-bind="Get Dashboard Widget Data" (click)="refresh();"> <i class="fa fa-refresh"></i> Refresh </button>
+                    <button class="btn btn-primary btn-sm position-absolute left-auto right-6-3em top-05em" *ngIf="dashboard.isAdminUser && dashboard.epDashboardType != 'Library' && hasDashboardBasicAccesss" (click)="initNewDashboard(true);" data-toggle="modal" data-target="#create_dash_modal"  translate>Create Dashboard</button>
+                    <button class="btn btn-primary btn-sm position-absolute left-auto right-6-3em top-05em" *ngIf="dashboard.epDashboardType == 'User' && dashboard.isAdminUser == false && hasDashboardBasicAccesss" (click)="customizeDashboard(dashboard.currentDasboardInfo, true)">Customize</button>
+                    
+                <div class="tab-content border" [ngClass]="{'auto-align': dashboard.currentDasboardInfo.isAutoAlign, 'd-none': !dashboard.currentDasboardInfo.name}">
+                    <div class="container">
+                        <div class="row min-h-400 overflow-hidden pt-0">
+                            <div class="col-12 dashboard-widget-options pb-0">
+                                <div class="row pb-0">
+                                    <div class="col-6">
+                                        <div class="row pt-0">
+                                            <div class="col-4 f-s-09rem pl-1 pr-0 pt-1 col-form-label" *ngIf="dashboard.isAdminUser && dashboard.epDashboardType != 'Library' && hasDashboardBasicAccesss" translate>Dashboard Name: </div>
+                                            <div class="col-6 pl-0" *ngIf="dashboard.isAdminUser && dashboard.epDashboardType != 'Library'">
+                                                <div class="input-group mb-0">
+                                                    <input type="text" class="h-75 form-control dashboard-name-textbox f-s-09rem" [(ngModel)]="dashboard.currentDasboardInfo.name"  placeholder="Enter Dashboard name" disabled>
+                                                    <i class="fa fa-edit btn btn-sm btn-info pt-1 cur-pointer" (click)="initNewDashboard(false);" data-toggle="modal" data-target="#create_dash_modal"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 pr-1">
+                                        <div class="btn-group float-right" *ngIf="hasDashboardBasicAccesss">
+                                            <button class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa fa-th-large" aria-hidden="true"></i>
+                                            </button>
+                                            <div class="dropdown-menu animated fadeInUp grid-options dropdown-menu-right">
+                                                <li class="dropdown-item f-s-08rem text-dark p-0 bg-white">
+                                                    <a class="dropdown-item f-s-08rem cur-pointer" href="javascript:void(0);">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input position-relative" [(ngModel)]="dashboard.currentDasboardInfo.isAutoAlign" id="autoAlignCheck" (change)="dashboard.updateAutoAlign()" name="auto">
+                                                            <label for="autoAlignCheck" translate class="pl-2 custom-control-label cur-pointer top-02em">Auto Align</label>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <hr *ngIf="dashboard.currentDasboardInfo.isAutoAlign" class="m-0">
+                                                <li *ngIf="dashboard.currentDasboardInfo.isAutoAlign" class="dropdown-item f-s-08rem p-0 text-dark bg-white">
+                                                    <a class="dropdown-item f-s-08rem cur-pointer" href="javascript:void(0);">
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" class="position-relative custom-control-input" [(ngModel)]="dashboard.currentDasboardInfo.columnPerRow" (change)="dashboard.updateAutoAlign()" id="colOnePerRow" name="columnPerRow" value="1">
+                                                            <label for="colOnePerRow" translate class="pl-2 custom-control-label cur-pointer top-02em">One per row</label>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li *ngIf="dashboard.currentDasboardInfo.isAutoAlign" class="dropdown-item p-0 f-s-08rem text-dark bg-white">
+                                                    <a class="dropdown-item f-s-08rem cur-pointer" href="javascript:void(0);">
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" class="position-relative custom-control-input" [(ngModel)]="dashboard.currentDasboardInfo.columnPerRow" (change)="dashboard.updateAutoAlign()" id="colTwoPerRow" name="columnPerRow" value="2">
+                                                            <label for="colTwoPerRow" translate class="pl-2 cur-pointer custom-control-label top-02em">Two per row</label>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li *ngIf="dashboard.currentDasboardInfo.isAutoAlign" class="dropdown-item p-0 f-s-08rem text-dark bg-white">
+                                                    <a class="dropdown-item f-s-08rem cur-pointer" href="javascript:void(0);">
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" class="position-relative custom-control-input" [(ngModel)]="dashboard.currentDasboardInfo.columnPerRow" (change)="dashboard.updateAutoAlign()" id="colThreePerRow" name="columnPerRow" value="3">
+                                                            <label for="colThreePerRow" translate class="pl-2 cur-pointer custom-control-label top-02em">Three per row</label>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </div>
+                                        </div>
+                                        <div class="btn-group float-right mr-2" *ngIf="dashboard.isAdminUser && hasDashboardBasicAccesss">
+                                            <button class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa fa-paint-brush" aria-hidden="true"></i>
+                                            </button>
+                                            <div class="dropdown-menu animated fadeInUp grid-options dropdown-menu-right dash-theme-options">
+                                                <li *ngFor="let theme of themeInfo.themeList; let i = index" class="d-flex dropdown-item f-s-08rem p-0 text-dark bg-white">
+                                                    <a class="dropdown-item f-s-08rem cur-pointer" href="javascript:void(0);">
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" class="position-relative custom-control-input" [(ngModel)]="dashboard.currentDasboardInfo.chartTheme" id="dash_theme_{{i}}" (click)="refresh()" name="dashboardThemeOptions" [value]="theme.id">
+                                                            <label for="dash_theme_{{i}}" (click)="dashboard.currentDasboardInfo.chartTheme = theme.id" class="custom-control-label cur-pointer top-02em">{{theme.name}}</label>
+                                                        </div>
+                                                    </a>
+                                                    <div class="mt-2 mr-1" *ngIf="hasDashboardAdminAccess">
+                                                        <i class="fa fa-clone pr-1 cur-pointer" ngbTooltip="Clone Theme" *ngIf="theme.id != 1" placement="left" (click)="themeInfo.clone(theme);"></i>
+                                                        <i class="fa fa-edit pr-1 cur-pointer" ngbTooltip="Edit Theme" *ngIf="theme.isDefault == false" placement="left" (click)="themeInfo.edit(theme);"></i>
+                                                        <i class="fa fa-trash pr-1 cur-pointer" ngbTooltip="Delete Theme" *ngIf="theme.isDefault == false" placement="left" (click)="deleteTheme(theme);"></i>
+                                                    </div>
+                                                </li>
+                                                <hr style="margin: 0px; border-top: 1px solid #988c8c;" *ngIf="hasDashboardAdminAccess">
+                                                <li style="text-align: center; padding-top: 5px;" *ngIf="hasDashboardAdminAccess">
+                                                    <button class="btn btn-sm btn-primary" (click)="themeInfo.createNew();">Create Theme</button>
+                                                </li>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-sm btn-primary float-right mr-2" *ngIf="dashboard.isAdminUser && hasDashboardBasicAccesss" (click)="getLibraryPreviewImgMetadata();"> <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Library Widget </button>
+                                        <button class="btn btn-sm btn-primary float-right mr-2" *ngIf="dashboard.isAdminUser && hasDashboardAdminAccess" api-bind="Get Datasources"  (click)="wizard_widget.init(true);" translate> <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Widget</button>
+                                        <button class="btn btn-sm btn-danger float-right mr-2" *ngIf="dashboard.isAdminUser && dashboard.epDashboardType != 'Library' && hasDashboardBasicAccesss" data-toggle="modal" data-target="#dash_del_modal" [disabled]="dashboard.nameList.length == 1" translate><i class="fa fa-remove"></i> Delete</button>
+                                        <button class="btn btn-sm btn-success float-right mr-2" *ngIf="dashboard.isAdminUser && hasDashboardBasicAccesss" api-bind="Update Dashboard"  (click)="save();" translate> <i class="fa fa-save"></i> Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="dashboard-grid-stack" class="col-12 widget-container grid-stack p-0">
+                                    
+                            </div>
+                            <div class="d-none">
+                                <div #widgetTemplateContainerList class="grid-stack-item" [attr.widget-template-name]="widgetName" [attr.widget-type]="widget.widgetInfo[widgetName].widget.type" *ngFor="let widgetName of dashboard.currentDasboardInfo.widgetNameList">
+                                    <section class="widget grid-stack-item-content overflow-hidden">
+                                        <div class="widget-body overflow-hidden h-100 w-100" [ngClass]="{'bg-white': widget.widgetInfo[widgetName].widget.type == 'table'}">
+                                            <div class="col-12 p-0 position-absolute">
+                                                <div class="toggle-btn-container" *ngIf="(widget.widgetInfo[widgetName].widget.viewList || []).length > 0">
+                                                    <div class="btn-group btn-group-sm h-50" role="group"> 
+                                                        <button class="btn shadow-none h-75" 
+                                                        [ngClass]="[ ((widget.widgetInfo[widgetName].widget.selectedViewId && widget.widgetInfo[widgetName].widget.selectedViewId == view.id) || (!widget.widgetInfo[widgetName].widget.selectedViewId && view.isDefault)) ? 'btn-info' : 'btn-light border']"
+                                                        (click)="widget.toggleView($event.target, view.id);"
+                                                        *ngFor="let view of widget.widgetInfo[widgetName].widget.viewList">{{view.name}}</button>
+                                                    </div>
+                                                </div>
+                                                <div class="float-menu">
+                                                    <i class="fa fa-bars float-title" (click)="_show($event.target)"></i>
+                                                    <div class="float-menu-optionList">
+                                                        <i class="fa fa-arrows widget-move float-option" fullscreen="hide"></i>
+                                                        <i class="fa fa-expand float-option" aria-hidden="true" fullscreen="hide" ngbTooltip="Full Screen" placement="bottom" (click)="widget.fullScreen($event.target);"></i>
+                                                        <i class="fa fa-compress float-option d-none" fullscreen="show" ngbTooltip="Exit Full Screen" placement="bottom" (click)="widget.exitFullScreen($event.target);"></i>
+                                                        <i class="fa fa-gears float-option" fullscreen="hide" *ngIf="dashboard.isAdminUser && hasDashboardAdminAccess" ngbTooltip="Edit Widget" placement="bottom" api-bind="Get Datasources" (click)="widget.edit($event.target);"></i>
+                                                        <i class="fa fa-refresh float-option" ngbTooltip="Refresh Widget" placement="bottom" api-bind="Get Dashboard Widget Data"  (click)="widget.refresh($event.target);"></i>
+                                                        <i class="fa fa-trash float-option" fullscreen="hide" *ngIf="dashboard.isAdminUser && hasDashboardBasicAccesss" ngbTooltip="Delete Widget" placement="bottom" (click)="widget._delete($event.target);"></i>
+                                                        <i class="fa fa-print float-option" fullscreen="hide" widget-table="hide" ngbTooltip="Print Widget" placement="bottom" (click)="widget.print($event.target);"></i>
+                                                        <i class="fa fa-download float-option dropdown-toggle" fullscreen="hide" data-toggle="dropdown" ngbTooltip="Export" placement="bottom"></i>
+                                                        <div class="dropdown-menu dropdown-export-option animated fadeInUp float-right">
+                                                            <a class="dropdown-item f-s-08rem" href="javascript:void(0);" (click)="widget._export($event.target, 'Excel');"><i class="fa fa-file-excel-o"></i> <span class="pl-2">Download Excel</span> </a>
+                                                            <a class="dropdown-item f-s-08rem" href="javascript:void(0);" (click)="widget._export($event.target, 'CSV');"><i class="fa fa-file-excel-o"></i> <span class="pl-2">Download CSV</span> </a>
+                                                            <a class="dropdown-item f-s-08rem" href="javascript:void(0);" (click)="widget._export($event.target, 'Pdf');"><i class="fa fa-file-pdf-o"></i> <span class="pl-2">Download PDF document</span> </a>
+                                                            <a class="dropdown-item f-s-08rem" href="javascript:void(0);" widget-table="hide" (click)="widget._export($event.target, 'image/png');"><i class="fa fa-file-image-o"></i> <span class="pl-2">Download PNG image</span> </a>
+                                                            <a class="dropdown-item f-s-08rem" href="javascript:void(0);" widget-table="hide" (click)="widget._export($event.target, 'image/jpeg');"><i class="fa fa-file-image-o"></i> <span class="pl-2">Download JPEG image</span> </a>
+                                                            <a class="dropdown-item f-s-08rem" href="javascript:void(0);" widget-table="hide" (click)="widget._export($event.target, 'image/svg+xml');"><i class="fa fa-file-image-o"></i> <span class="pl-2">Download SVG vector image</span> </a>
+                                                        </div>
+                                                        <i class="fa fa-cog float-option" fullscreen="hide" *ngIf="dashboard.isAdminUser && hasDashboardAdminAccess" ngbTooltip="Advance Configuration" placement="bottom" (click)="widget.renderConfiguringChart($event.target);"></i>
+                                                        <i class="fa fa-close float-option" ngbTooltip="Close" placement="bottom" (click)="_hide($event.target);"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="widget-body-render h-100 w-100" [ngClass]="{'p-2': widget.widgetInfo[widgetName].widget.type == 'table'}">
+                                                <div class="col-12 text-center mt-0 tabletitle" *ngIf="widget.widgetInfo[widgetName].widget.type == 'table'">
+                                                    <label class="text-dark f-w-500"> {{ widget.widgetInfo[widgetName].displayDetails.title }} </label>
+                                                </div>
+                                                <table datatable [dtOptions]="dtOptions" class="row-border hover w-100" *ngIf="widget.widgetInfo[widgetName].widget.type == 'table' && widget.widgetInfo[widgetName].widgetTable_resp">
+                                                    <thead>
+                                                        <tr>
+                                                            <th *ngFor="let colHeader of widget.widgetInfo[widgetName].widgetTable_resp?.keyList"> {{ colHeader }} </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let rowData of widget.widgetInfo[widgetName].widgetTable_resp?.dbData">
+                                                            <td *ngFor="let colVal of widget.widgetInfo[widgetName].widgetTable_resp?.keyList"> {{ rowData[colVal] }} </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="chartCustomizeTheme" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="min-width: 50%;">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-0">
+                <h6 class="modal-title pl-3 pt-1"><i class="fa fa-pencil" aria-hidden="true"></i> Theme Customization</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1 border-bottom border-top" style="height: 80vh;">
+                <div class="container h-100">
+                    <div class="row p-0 h-100">
+                        <div class="col-5 chartConfig h-100 overflow-auto">
+                            <div class="row">
+                                <label class="col-4 p-0 pt-1 cb-label">Preview Chart Type:</label>
+                                <div class="col-8">
+                                    <select class="custom-select form-control" [(ngModel)]="themeInfo.widgetName" (change)="themeInfo.renderChart();">
+                                        <option [value]="widget.widgetName" *ngFor="let widget of themeInfo.widgetNameList">{{widget.widgetTitle}}</option>
+                                    </select>
+                                </div>
+                                <label class="col-4 p-0 pt-1 cb-label">Theme Name:</label>
+                                <div class="col-8">
+                                    <input class="form-control" [(ngModel)]="themeInfo.themeName"/>
+                                </div>
+                                <div class="col-12 pl-0">
+                                    <div id="chart-customize-theme-accordion">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="card-link acc-title pl-0 f-s-09rem" data-toggle="collapse" href="#chart-custom-theme-series" aria-expanded="false">
+                                                    <i class="fa fa-chevron-right f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                                    <i class="fa fa-chevron-down f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                                    Series Color
+                                                </h6>
+                                            </div>
+                                            <div id="chart-custom-theme-series" class="collapse" data-parent="#chart-customize-theme-accordion">
+                                                <div class="card-body">
+                                                    <div class="row" *ngFor="let color of themeInfo.themeColors_clone; let i = index;">
+                                                        <label class="col-4 cb-label pt-1">Series {{i}}</label>
+                                                        <div class="col-6">
+                                                            <input [(colorPicker)]="color.data" [value]="color.data" (cpInputChange)="themeInfo.updateChartColorSeries($event)" (cpSliderChange)="themeInfo.updateChartColorSeries($event)" style="border-right: 25px solid" [style.border-right-color]="color.data" class="form-control h-75"/>
+                                                        </div>
+                                                        <div class="col-1 d-flex pt-1">
+                                                            <i class="fa fa-plus-circle f-s-1rem cur-pointer text-info pr-2" aria-hidden="true" ngbTooltip="Add" (click)="themeInfo.themeColors_clone.splice(i + 1, 0, {'data': ''});themeInfo.updateChartColorSeries();"></i>
+                                                            <i class="fa fa-minus-circle f-s-1rem cur-pointer text-warning" aria-hidden="true" ngbTooltip="Remove" (click)="themeInfo.themeColors_clone.splice(i, 1);themeInfo.updateChartColorSeries();" *ngIf="themeInfo.themeColors_clone.length > 1"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="card-link acc-title pl-0 f-s-09rem" data-toggle="collapse" href="#chartTheme_accordion_background" aria-expanded="false">
+                                                    <i class="fa fa-chevron-right f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                                    <i class="fa fa-chevron-down f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                                    Background Color
+                                                </h6>
+                                            </div>
+                                            <div id="chartTheme_accordion_background" class="collapse" data-parent="#chart-customize-theme-accordion">
+                                                <div class="card-body">
+                                                    <div class="row" *ngIf="themeInfo.theme.chart">
+                                                        <label class="col-4 cb-label pt-1">Chart</label>
+                                                        <div class="col-6">
+                                                            <input [(colorPicker)]="themeInfo.theme.chart.backgroundColor" [value]="themeInfo.theme.chart.backgroundColor || ''" (cpInputChange)="themeInfo.updateChartThemeToPreview($event)" (cpSliderChange)="themeInfo.updateChartThemeToPreview($event)" style="border-right: 25px solid" [style.border-right-color]="themeInfo.theme.chart.backgroundColor" class="form-control h-75"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" *ngIf="themeInfo.theme.tooltip">
+                                                        <label class="col-4 cb-label pt-1">Tooltip</label>
+                                                        <div class="col-6">
+                                                            <input [(colorPicker)]="themeInfo.theme.tooltip.backgroundColor" [value]="themeInfo.theme.tooltip.backgroundColor || ''" (cpInputChange)="themeInfo.updateChartThemeToPreview($event)" (cpSliderChange)="themeInfo.updateChartThemeToPreview($event)" style="border-right: 25px solid" [style.border-right-color]="themeInfo.theme.tooltip.backgroundColor" class="form-control h-75"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" *ngIf="themeInfo.theme.legend">
+                                                        <label class="col-4 cb-label pt-1">Legend</label>
+                                                        <div class="col-6">
+                                                            <input [(colorPicker)]="themeInfo.theme.legend.backgroundColor" [value]="themeInfo.theme.legend.backgroundColor || ''" (cpInputChange)="themeInfo.updateChartThemeToPreview($event)" (cpSliderChange)="themeInfo.updateChartThemeToPreview($event)" style="border-right: 25px solid" [style.border-right-color]="themeInfo.theme.legend.backgroundColor" class="form-control h-75"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="card-link acc-title pl-0 f-s-09rem" data-toggle="collapse" href="#chartTheme_accordion_font" aria-expanded="false">
+                                                    <i class="fa fa-chevron-right f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                                    <i class="fa fa-chevron-down f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                                    Font Style
+                                                </h6>
+                                            </div>
+                                            <div id="chartTheme_accordion_font" class="collapse" data-parent="#chart-customize-theme-accordion">
+                                                <div class="card-body">
+                                                    <div class="row border-bottom" *ngIf="themeInfo.theme.title">
+                                                        <label class="col-2 cb-label pt-2 p-0">Title</label>
+                                                        <div class="col-10">
+                                                            <div class="row">
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.title.style.fontSize" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">-- Font Size --</option>
+                                                                        <option [value]="font"  *ngFor="let font of themeInfo.fontSize" >{{font}}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.title.style.fontFamily" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">-- Font Family --</option>
+                                                                        <option [value]="fontFamily"  *ngFor="let fontFamily of themeInfo.fontFamily" [style.font-family]="fontFamily" >{{fontFamily}}</option>
+                                                                    </select>												
+                                                                </div>
+                                                            </div>
+                                                            <div class="row ">
+                                                                <div class="col-6 text-center">
+                                                                    <select  [(ngModel)]="themeInfo.theme.title.style.textTransform" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">Default</option>
+                                                                        <option value="uppercase">UpperCase</option>
+                                                                        <option value="lowercase">LowerCase</option>
+                                                                    </select>												
+                                                                </div> 
+                                                                <div class="col-6">
+                                                                    <input [(colorPicker)]="themeInfo.theme.title.style.color" [value]="themeInfo.theme.title.style.color || ''" (cpInputChange)="themeInfo.updateChartThemeToPreview($event)" (cpSliderChange)="themeInfo.updateChartThemeToPreview($event)" style="border-right: 25px solid" [style.border-right-color]="themeInfo.theme.title.style.color" class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row border-bottom" *ngIf="themeInfo.theme.subtitle">
+                                                        <label class="col-2 cb-label pt-2 p-0">Sub-Title</label>
+                                                        <div class="col-10">
+                                                            <div class="row">
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.subtitle.style.fontSize" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">-- Font Size --</option>
+                                                                        <option [value]="font"  *ngFor="let font of themeInfo.fontSize" >{{font}}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.subtitle.style.fontFamily" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">-- Font Family --</option>
+                                                                        <option [value]="fontFamily"  *ngFor="let fontFamily of themeInfo.fontFamily" [style.font-family]="fontFamily" >{{fontFamily}}</option>
+                                                                    </select>												
+                                                                </div>
+                                                            </div>
+                                                            <div class="row ">
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.subtitle.style.textTransform" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">Default</option>
+                                                                        <option value="uppercase">UpperCase</option>
+                                                                        <option value="lowercase">LowerCase</option>
+                                                                    </select>												
+                                                                </div> 
+                                                                <div class="col-6">
+                                                                    <input [(colorPicker)]="themeInfo.theme.subtitle.style.color" [value]="themeInfo.theme.subtitle.style.color || ''" (cpInputChange)="themeInfo.updateChartThemeToPreview($event)" (cpSliderChange)="themeInfo.updateChartThemeToPreview($event)" style="border-right: 25px solid" [style.border-right-color]="themeInfo.theme.subtitle.style.color" class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row border-bottom" *ngIf="themeInfo.theme.xAxis">
+                                                        <label class="col-2 cb-label pt-2 p-0">xAxis-Labels</label>
+                                                        <div class="col-10">
+                                                            <div class="row">
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.xAxis.labels.style.fontSize" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">-- Font Size --</option>
+                                                                        <option [value]="font"  *ngFor="let font of themeInfo.fontSize" >{{font}}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.xAxis.labels.style.fontFamily" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">-- Font Family --</option>
+                                                                        <option [value]="fontFamily"  *ngFor="let fontFamily of themeInfo.fontFamily" [style.font-family]="fontFamily" >{{fontFamily}}</option>
+                                                                    </select>												
+                                                                </div>
+                                                            </div>
+                                                            <div class="row ">
+                                                                <div class="col-6 text-center">
+                                                                    <select  [(ngModel)]="themeInfo.theme.xAxis.labels.style.textTransform" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">Default</option>
+                                                                        <option value="uppercase">UpperCase</option>
+                                                                        <option value="lowercase">LowerCase</option>
+                                                                    </select>												
+                                                                </div> 
+                                                                <div class="col-6">
+                                                                    <input [(colorPicker)]="themeInfo.theme.xAxis.labels.style.color" [value]="themeInfo.theme.xAxis.labels.style.color || ''" (cpInputChange)="themeInfo.updateChartThemeToPreview($event)" (cpSliderChange)="themeInfo.updateChartThemeToPreview($event)" style="border-right: 25px solid" [style.border-right-color]="themeInfo.theme.xAxis.labels.style.color" class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row border-bottom" *ngIf="themeInfo.theme.xAxis">
+                                                        <label class="col-2 cb-label pt-2 p-0">xAxis-Title</label>
+                                                        <div class="col-10">
+                                                            <div class="row">
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.xAxis.title.style.fontSize" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">-- Font Size --</option>
+                                                                        <option [value]="font"  *ngFor="let font of themeInfo.fontSize" >{{font}}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.xAxis.title.style.fontFamily" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">-- Font Family --</option>
+                                                                        <option [value]="fontFamily"  *ngFor="let fontFamily of themeInfo.fontFamily" [style.font-family]="fontFamily" >{{fontFamily}}</option>
+                                                                    </select>												
+                                                                </div>
+                                                            </div>
+                                                            <div class="row ">
+                                                                <div class="col-6 text-center">
+                                                                    <select  [(ngModel)]="themeInfo.theme.xAxis.title.style.textTransform" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">Default</option>
+                                                                        <option value="uppercase">UpperCase</option>
+                                                                        <option value="lowercase">LowerCase</option>
+                                                                    </select>												
+                                                                </div> 
+                                                                <div class="col-6">
+                                                                    <input [(colorPicker)]="themeInfo.theme.xAxis.title.style.color" [value]="themeInfo.theme.xAxis.title.style.color || ''" (cpInputChange)="themeInfo.updateChartThemeToPreview($event)" (cpSliderChange)="themeInfo.updateChartThemeToPreview($event)" style="border-right: 25px solid" [style.border-right-color]="themeInfo.theme.xAxis.title.style.color" class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row border-bottom" *ngIf="themeInfo.theme.yAxis">
+                                                        <label class="col-2 cb-label pt-2 p-0">yAxis-Labels</label>
+                                                        <div class="col-10">
+                                                            <div class="row">
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.yAxis.labels.style.fontSize" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">-- Font Size --</option>
+                                                                        <option [value]="font"  *ngFor="let font of themeInfo.fontSize" >{{font}}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.yAxis.labels.style.fontFamily" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">-- Font Family --</option>
+                                                                        <option [value]="fontFamily"  *ngFor="let fontFamily of themeInfo.fontFamily" [style.font-family]="fontFamily" >{{fontFamily}}</option>
+                                                                    </select>												
+                                                                </div>
+                                                            </div>
+                                                            <div class="row ">
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.yAxis.labels.style.textTransform" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">Default</option>
+                                                                        <option value="uppercase">UpperCase</option>
+                                                                        <option value="lowercase">LowerCase</option>
+                                                                    </select>												
+                                                                </div> 
+                                                                <div class="col-6">
+                                                                    <input [(colorPicker)]="themeInfo.theme.yAxis.labels.style.color" [value]="themeInfo.theme.yAxis.labels.style.color || ''" (cpInputChange)="themeInfo.updateChartThemeToPreview($event)" (cpSliderChange)="themeInfo.updateChartThemeToPreview($event)" style="border-right: 25px solid" [style.border-right-color]="themeInfo.theme.yAxis.labels.style.color" class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row border-bottom" *ngIf="themeInfo.theme.yAxis">
+                                                        <label class="col-2 cb-label pt-2 p-0">yAxis-Title</label>
+                                                        <div class="col-10">
+                                                            <div class="row">
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.yAxis.title.style.fontSize" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">-- Font Size --</option>
+                                                                        <option [value]="font"  *ngFor="let font of themeInfo.fontSize" >{{font}}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.yAxis.title.style.fontFamily" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">-- Font Family --</option>
+                                                                        <option [value]="fontFamily"  *ngFor="let fontFamily of themeInfo.fontFamily" [style.font-family]="fontFamily" >{{fontFamily}}</option>
+                                                                    </select>												
+                                                                </div>
+                                                            </div>
+                                                            <div class="row ">
+                                                                <div class="col-6 text-center">
+                                                                    <select  [(ngModel)]="themeInfo.theme.yAxis.title.style.textTransform" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">Default</option>
+                                                                        <option value="uppercase">UpperCase</option>
+                                                                        <option value="lowercase">LowerCase</option>
+                                                                    </select>												
+                                                                </div> 
+                                                                <div class="col-6">
+                                                                    <input [(colorPicker)]="themeInfo.theme.yAxis.title.style.color" [value]="themeInfo.theme.yAxis.title.style.color || ''" (cpInputChange)="themeInfo.updateChartThemeToPreview($event)" (cpSliderChange)="themeInfo.updateChartThemeToPreview($event)" style="border-right: 25px solid" [style.border-right-color]="themeInfo.theme.yAxis.title.style.color" class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row border-bottom" *ngIf="themeInfo.theme.tooltip">
+                                                        <label class="col-2 cb-label pt-2 p-0">Tooltip</label>
+                                                        <div class="col-10">
+                                                            <div class="row">
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.tooltip.style.fontSize" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">-- Font Size --</option>
+                                                                        <option [value]="font"  *ngFor="let font of themeInfo.fontSize" >{{font}}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.tooltip.style.fontFamily" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">-- Font Family --</option>
+                                                                        <option [value]="fontFamily"  *ngFor="let fontFamily of themeInfo.fontFamily" [style.font-family]="fontFamily" >{{fontFamily}}</option>
+                                                                    </select>												
+                                                                </div>
+                                                            </div>
+                                                            <div class="row ">
+                                                                <div class="col-6 text-center">
+                                                                    <select  [(ngModel)]="themeInfo.theme.tooltip.style.textTransform" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">Default</option>
+                                                                        <option value="uppercase">UpperCase</option>
+                                                                        <option value="lowercase">LowerCase</option>
+                                                                    </select>												
+                                                                </div> 
+                                                                <div class="col-6">
+                                                                    <input [(colorPicker)]="themeInfo.theme.tooltip.style.color" [value]="themeInfo.theme.tooltip.style.color || ''" (cpInputChange)="themeInfo.updateChartThemeToPreview($event)" (cpSliderChange)="themeInfo.updateChartThemeToPreview($event)" style="border-right: 25px solid" [style.border-right-color]="themeInfo.theme.tooltip.style.color" class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row border-bottom" *ngIf="themeInfo.theme.legend">
+                                                        <label class="col-2 cb-label pt-2 p-0">Legend-Item</label>
+                                                        <div class="col-10">
+                                                            <div class="row">
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.legend.itemStyle.fontSize" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">-- Font Size --</option>
+                                                                        <option [value]="font"  *ngFor="let font of themeInfo.fontSize" >{{font}}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.legend.itemStyle.fontFamily" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">-- Font Family --</option>
+                                                                        <option [value]="fontFamily"  *ngFor="let fontFamily of themeInfo.fontFamily" [style.font-family]="fontFamily" >{{fontFamily}}</option>
+                                                                    </select>												
+                                                                </div>
+                                                            </div>
+                                                            <div class="row ">
+                                                                <div class="col-6 text-center">
+                                                                    <select  [(ngModel)]="themeInfo.theme.legend.itemStyle.textTransform" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">Default</option>
+                                                                        <option value="uppercase">UpperCase</option>
+                                                                        <option value="lowercase">LowerCase</option>
+                                                                    </select>												
+                                                                </div> 
+                                                                <div class="col-6">
+                                                                    <input [(colorPicker)]="themeInfo.theme.legend.itemStyle.color" [value]="themeInfo.theme.legend.itemStyle.color || ''" (cpInputChange)="themeInfo.updateChartThemeToPreview($event)" (cpSliderChange)="themeInfo.updateChartThemeToPreview($event)" style="border-right: 25px solid" [style.border-right-color]="themeInfo.theme.legend.itemStyle.color" class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" *ngIf="themeInfo.theme.legend">
+                                                        <label class="col-2 cb-label pt-2 p-0">Legend-Item Hover</label>
+                                                        <div class="col-10">
+                                                            <div class="row">
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.legend.itemHoverStyle.fontSize" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">-- Font Size --</option>
+                                                                        <option [value]="font"  *ngFor="let font of themeInfo.fontSize" >{{font}}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-6 text-center">
+                                                                    <select [(ngModel)]="themeInfo.theme.legend.itemHoverStyle.fontFamily" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">-- Font Family --</option>
+                                                                        <option [value]="fontFamily"  *ngFor="let fontFamily of themeInfo.fontFamily" [style.font-family]="fontFamily" >{{fontFamily}}</option>
+                                                                    </select>												
+                                                                </div>
+                                                            </div>
+                                                            <div class="row ">
+                                                                <div class="col-6 text-center">
+                                                                    <select  [(ngModel)]="themeInfo.theme.legend.itemHoverStyle.textTransform" (ngModelChange)="themeInfo.updateChartThemeToPreview($event)" class="custom-select form-control">
+                                                                        <option value="">Default</option>
+                                                                        <option value="uppercase">UpperCase</option>
+                                                                        <option value="lowercase">LowerCase</option>
+                                                                    </select>												
+                                                                </div> 
+                                                                <div class="col-6">
+                                                                    <input [(colorPicker)]="themeInfo.theme.legend.itemHoverStyle.color" [value]="themeInfo.theme.legend.itemHoverStyle.color || ''" (cpInputChange)="themeInfo.updateChartThemeToPreview($event)" (cpSliderChange)="themeInfo.updateChartThemeToPreview($event)" style="border-right: 25px solid" [style.border-right-color]="themeInfo.theme.legend.itemHoverStyle.color" class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-7 configuringChart"  id="renderChart_theme"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer pb-2 pt-2 pr-4 border-top-0">
+                <div class="row">
+                    <div class="col-12 pr-2">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" (click)="createOrUpdateTheme()">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="chartConfiguration" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="min-width: 50%;">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-0">
+                <h6 class="modal-title pl-3 pt-1">Chart Configurations</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1 border-bottom border-top" style="height: 80vh;">
+                <div class="container h-100">
+                    <div class="row p-0 h-100">
+                        <div class="col-5 chartConfig h-100 overflow-auto">
+                            <div id="chart-config-accordion">
+                                <div class="card" *ngIf="advanceChartConfiguration.showList.indexOf('3D') != -1">
+                                    <div class="card-header">
+                                        <h6 class="card-link acc-title f-s-09rem" data-toggle="collapse" href="#advanceConfig_3d" aria-expanded="false">
+                                            <i class="fa fa-chevron-right f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                            <i class="fa fa-chevron-down f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                            3D Chart
+                                        </h6>
+                                    </div> 
+                                    <div id="advanceConfig_3d" class="collapse" data-parent="#chart-config-accordion">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <label class="col-4 cb-label f-w-500">3D Chart :</label>
+                                                <div class="col-8 p-0">
+                                                    <input type="checkbox" [(ngModel)]="advanceChartConfiguration.chartConfigInfo.chart.options3d.enabled" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" name="advanceConfig_3d_check" class="p-switch" id="advanceConfig_3d_switch" />
+                                                    <label class="p-switch-label" for="advanceConfig_3d_switch">Toggle</label>
+                                                </div>
+                                                <div class="col-12" *ngIf="advanceChartConfiguration.chartConfigInfo.chart.options3d.enabled">
+                                                    <div class="row">
+                                                        <label class="col-4 cb-label">Alpha :</label>
+                                                        <div class="col-8 p-0">
+                                                            <mv-slider class="w-100" [(value)]="advanceChartConfiguration.chartConfigInfo.chart.options3d.alpha" (change)="advanceChartConfiguration.sliderChangeValue($event)" [min]="sliderOption.alpha.floor" [max]="sliderOption.alpha.ceil" [step]="sliderOption.alpha.step" [tooltip]="always" [tooltipPosition]="top"></mv-slider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <label class="col-4 cb-label">Beta :</label>
+                                                        <div class="col-8 p-0">
+                                                            <mv-slider class="w-100" [(value)]="advanceChartConfiguration.chartConfigInfo.chart.options3d.beta" (change)="advanceChartConfiguration.sliderChangeValue($event)" [min]="sliderOption.beta.floor" [max]="sliderOption.beta.ceil" [step]="sliderOption.beta.step" [tooltip]="always" [tooltipPosition]="top"></mv-slider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" *ngIf="advanceChartConfiguration.showList.indexOf('3D-Depth') != -1">
+                                                        <label class="col-4 cb-label">Depth :</label>
+                                                        <div class="col-8 p-0">
+                                                            <mv-slider class="w-100" [(value)]="advanceChartConfiguration.chartConfigInfo.chart.options3d.depth" (change)="advanceChartConfiguration.sliderChangeValue($event)" [min]="sliderOption.depth.floor" [max]="sliderOption.depth.ceil" [step]="sliderOption.depth.step" [tooltip]="always" [tooltipPosition]="top"></mv-slider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" *ngIf="advanceChartConfiguration.showList.indexOf('3D-Thickness') != -1">
+                                                        <label class="col-4 cb-label">Thickness :</label>
+                                                        <div class="col-8 p-0">
+                                                            <mv-slider class="w-100" [(value)]="advanceChartConfiguration.chartConfigInfo.plotOptions.series.depth" (change)="advanceChartConfiguration.sliderChangeValue($event)" [min]="sliderOption.thickness.floor" [max]="sliderOption.thickness.ceil" [step]="sliderOption.thickness.step" [tooltip]="always" [tooltipPosition]="top"></mv-slider>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" *ngIf="advanceChartConfiguration.showList.indexOf('3D-ViewDistance') != -1">
+                                                        <label class="col-4 cb-label">View Distance :</label>
+                                                        <div class="col-8 p-0">
+                                                            <mv-slider class="w-100" [(value)]="advanceChartConfiguration.chartConfigInfo.chart.options3d.viewDistance" (change)="advanceChartConfiguration.sliderChangeValue($event)" [min]="sliderOption.viewDistance.floor" [max]="sliderOption.viewDistance.ceil" [step]="sliderOption.viewDistance.step" [tooltip]="always" [tooltipPosition]="top"></mv-slider>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card" *ngIf="advanceChartConfiguration.showList.indexOf('Legend') != -1">
+                                    <div class="card-header">
+                                        <h6 class="card-link acc-title f-s-09rem" data-toggle="collapse" href="#advanceConfig_legend" aria-expanded="false">
+                                            <i class="fa fa-chevron-right f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                            <i class="fa fa-chevron-down f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                            Legends
+                                        </h6>
+                                    </div>
+                                    <div id="advanceConfig_legend" class="collapse" data-parent="#chart-config-accordion">
+                                        <div class="card-body pt-2 pb-2 pl-2">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="row">
+                                                        <label class="col-4 cb-label f-w-500">Legends:</label>
+                                                        <div class="col-8 p-0">
+                                                            <input type="checkbox" [(ngModel)]="advanceChartConfiguration.chartConfigInfo.legend.enabled" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" name="advanceConfig_legend_check" class="p-switch" id="advanceConfig_legend_switch" />
+                                                            <label class="p-switch-label" for="advanceConfig_legend_switch">Toggle</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12" *ngIf="advanceChartConfiguration.chartConfigInfo.legend.enabled">
+                                                    <div class="row">
+                                                        <label class="col-4 cb-label">Title:</label>
+                                                        <div class="col-8 p-0">
+                                                            <input type="text" class="form-control h-75"  [(ngModel)]="advanceChartConfiguration.chartConfigInfo.legend.title.text" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <label class="col-4 cb-label">Horizontal Align:</label>
+                                                        <div class="btn-group btn-group-sm h-50 col-8 p-0" role="group">
+                                                            <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.legend.align == 'left') ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.legend, 'align', 'left')"> Left </button>
+                                                            <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.legend.align == 'center') ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.legend, 'align', 'center')"> Center </button>
+                                                            <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.legend.align == 'right') ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.legend, 'align', 'right')"> Right </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <label class="col-4 cb-label">Vertical Align:</label>
+                                                        <div class="btn-group btn-group-sm h-50 col-8 p-0" role="group">
+                                                            <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.legend.verticalAlign == 'top') ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.legend, 'verticalAlign', 'top')"> Top </button>
+                                                            <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.legend.verticalAlign == 'middle') ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.legend, 'verticalAlign', 'middle')"> Middle </button>
+                                                            <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.legend.verticalAlign == 'bottom') ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.legend, 'verticalAlign', 'bottom')"> Bottom </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row border-bottom">
+                                                        <label class="col-4 cb-label">Layout:</label>
+                                                        <div class="btn-group btn-group-sm h-50 col-8 p-0" role="group">
+                                                            <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.legend.layout == 'horizontal') ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.legend, 'layout', 'horizontal')"> Horizontal </button>
+                                                            <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.legend.layout == 'vertical') ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.legend, 'layout', 'vertical')"> Vertical </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row border-bottom mt-2">
+                                                        <div class="col-6">
+                                                            <div class="row pr-2">
+                                                                <label class="col-12 cb-label">Symbol Height</label>
+                                                                <div class="col-12 p-0">
+                                                                    <mv-slider class="w-100" [(value)]="advanceChartConfiguration.chartConfigInfo.legend.symbolHeight" (change)="advanceChartConfiguration.sliderChangeValue($event)" [min]="sliderOption.symbolHeight.floor" [max]="sliderOption.symbolHeight.ceil" [step]="sliderOption.symbolHeight.step" [tooltip]="always" [tooltipPosition]="top"></mv-slider>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6" *ngIf="advanceChartConfiguration.showList.indexOf('LegendRadius') != -1">
+                                                            <div class="row pr-2">
+                                                                <label class="col-12 cb-label">Symbol Radius</label>
+                                                                <div class="col-12 p-0">
+                                                                    <mv-slider class="w-100" [(value)]="advanceChartConfiguration.chartConfigInfo.legend.symbolRadius" (change)="advanceChartConfiguration.sliderChangeValue($event)" [min]="sliderOption.symbolRadius.floor" [max]="sliderOption.symbolRadius.ceil" [step]="sliderOption.symbolRadius.step" [tooltip]="always" [tooltipPosition]="top"></mv-slider>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row border-bottom mt-2">
+                                                        <div class="col-6">
+                                                            <div class="row pr-2">
+                                                                <label class="col-12 cb-label">Margin Left</label>
+                                                                <div class="col-12 p-0">
+                                                                    <mv-slider class="w-100" [(value)]="advanceChartConfiguration.chartConfigInfo.legend.x" (change)="advanceChartConfiguration.sliderChangeValue($event)" [min]="sliderOption.legend_x.floor" [max]="sliderOption.legend_x.ceil" [step]="sliderOption.legend_x.step" [tooltip]="always" [tooltipPosition]="top"></mv-slider>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="row pr-2">
+                                                                <label class="col-12 cb-label">Margin Top</label>
+                                                                <div class="col-12 p-0">
+                                                                    <mv-slider class="w-100" [(value)]="advanceChartConfiguration.chartConfigInfo.legend.y" (change)="advanceChartConfiguration.sliderChangeValue($event)" [min]="sliderOption.legend_y.floor" [max]="sliderOption.legend_y.ceil" [step]="sliderOption.legend_y.step" [tooltip]="always" [tooltipPosition]="top"></mv-slider>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card" *ngIf="advanceChartConfiguration.showList.indexOf('PlotLines') != -1">
+                                    <div class="card-header">
+                                        <h6 class="card-link acc-title f-s-09rem" data-toggle="collapse" href="#advanceConfig_plotLine" aria-expanded="false">
+                                            <i class="fa fa-chevron-right f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                            <i class="fa fa-chevron-down f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                            Plot Lines
+                                        </h6>
+                                    </div>
+                                    <div id="advanceConfig_plotLine" class="collapse" data-parent="#chart-config-accordion">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12 p-0">
+                                                    <button class="btn btn-sm btn-primary float-right" (click)="advanceChartConfiguration.chartConfigInfo.yAxis.plotLines.push({color:'rgba(0,0,0,1)',width:2,zIndex:0,label:{text:'text',align:'left',style:{color:'rgba(0,0,0,1)'}}})">Add Line</button>
+                                                </div>
+                                                <div class="col-12 p-0" *ngFor="let plotLine of advanceChartConfiguration.chartConfigInfo.yAxis.plotLines; let i = index; let lastIndex = last;">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <h6 class="f-w-500">&nbsp;Line {{i + 1}}
+                                                                <i class="fa fa-trash-o removePlotLine cur-pointer text-warning ml-2" ngbTooltip="Delete Line" placement="right" (click)="advanceChartConfiguration.chartConfigInfo.yAxis.plotLines.splice(i, 1)"></i>
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <label class="col-4 pt-1 cb-label">&nbsp;Line Position:</label>
+                                                        <div class="col-8">
+                                                            <select class="custom-select form-control" [(ngModel)]="plotLine.zIndex" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)">
+                                                                <option value="0">Behind Plot Lines</option>
+                                                                <option value="3">Above Plot Lines</option>
+                                                                <option value="5">Above Series</option>
+                                                            </select>
+                                                        </div>
+                                                    </div> 
+                                                    <div class="row">
+                                                        <label class="col-4 pt-1 cb-label">&nbsp;Line Dash Style:</label>
+                                                        <div class="col-8">
+                                                            <select class="custom-select form-control" [(ngModel)]="plotLine.dashStyle" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)">
+                                                                <option>Default</option>
+                                                                <option value="Solid" >Solid</option>
+                                                                <option value="ShortDash">ShortDash</option>
+                                                                <option value="ShortDot">ShortDot</option>
+                                                                <option value="ShortDashDot">ShortDashDot</option>
+                                                                <option value="ShortDashDotDot">ShortDashDotDot</option>
+                                                                <option value="Dot">Dot</option>
+                                                                <option value="Dash">Dash</option>
+                                                                <option value="LongDash">LongDash</option>
+                                                                <option value="DashDot">DashDot</option>
+                                                                <option value="LongDashDot">LongDashDot</option>
+                                                                <option value="LongDashDotDot">LongDashDotDot</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <h6 class="f-w-500">&nbsp;Line</h6>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <h6 class="f-w-500">&nbsp;Text</h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6 pl-4 border-right">
+                                                            <div class="row">
+                                                                <label class="col-4 p-0 pt-1 cb-label">&nbsp;Value:</label>
+                                                                <div class="col-8">
+                                                                    <input class="form-control h-75" type="number" [(ngModel)]="plotLine.value" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <label class="col-4 p-0 pt-1 cb-label">&nbsp;Color:</label>
+                                                                <div class="col-8">
+                                                                    <input [(colorPicker)]="plotLine.color" [value]="plotLine.color" (cpInputChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" (cpSliderChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" style="border-right: 25px solid" [style.border-right-color]="plotLine.color" class="form-control h-75"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <label class="col-4 p-0 pt-1 cb-label">&nbsp;Width:</label>
+                                                                <div class="col-8">
+                                                                    <input class="form-control h-75" type="number" [(ngModel)]="plotLine.width" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="row">
+                                                                <label class="col-4 p-0 pt-1 cb-label">&nbsp;Value:</label>
+                                                                <div class="col-8">
+                                                                    <input class="form-control h-75" type="text" [(ngModel)]="plotLine.label.text" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <label class="col-4 p-0 pt-1 cb-label">&nbsp;Color:</label>
+                                                                <div class="col-8">
+                                                                    <input [(colorPicker)]="plotLine.label.style.color" [value]="plotLine.label.style.color" (cpInputChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" (cpSliderChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" style="border-right: 25px solid" [style.border-right-color]="plotLine.label.style.color" class="form-control h-75"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <label class="col-4 p-0 pt-1 cb-label">&nbsp;Align:</label>
+                                                                <div class="col-8">
+                                                                    <div class="btn-group btn-group-sm h-50 col-8 p-0" role="group">
+                                                                        <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.yAxis.plotLines[i].label.align) == 'left' ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.yAxis.plotLines[i].label, 'align', 'left')"> <i class="fa fa-align-left"></i> </button>
+                                                                        <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.yAxis.plotLines[i].label.align || 'center') == 'center' ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.yAxis.plotLines[i].label, 'align', 'center')"> <i class="fa fa-align-center"></i> </button>
+                                                                        <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.yAxis.plotLines[i].label.align) == 'right' ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.yAxis.plotLines[i].label, 'align', 'right')"><i class="fa fa-align-right"></i> </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr *ngIf="!lastIndex"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card" *ngIf="advanceChartConfiguration.showList.indexOf('Series') != -1">
+                                    <div class="card-header">
+                                        <h6 class="card-link acc-title f-s-09rem" data-toggle="collapse" href="#advanceConfig_series" aria-expanded="false">
+                                            <i class="fa fa-chevron-right f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                            <i class="fa fa-chevron-down f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                            Series
+                                        </h6>
+                                    </div>
+                                    <div id="advanceConfig_series" class="collapse" data-parent="#chart-config-accordion">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <label class="col-3 cb-label f-w-500">Series:</label>
+                                                <div class="col-9 p-0">
+                                                    <input type="checkbox" [(ngModel)]="advanceChartConfiguration.chartConfigInfo.series.enabled" (change)="advanceChartConfiguration.toggleSeriesColors()" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" name="advanceConfig_series_check" class="p-switch" id="advanceConfig_series_switch" />
+                                                    <label class="p-switch-label" for="advanceConfig_series_switch">Toggle</label>
+                                                </div>
+                                            </div>
+                                            <div class="row" *ngFor="let color of advanceChartConfiguration.chartSeriesColor_clone; let i = index;">
+                                                <div class="col-4">Series {{i}}</div>
+                                                <div class="col-6">
+                                                    <input [(colorPicker)]="color.data" [value]="color.data" (cpInputChange)="advanceChartConfiguration.updateChartColorSeries($event)" (cpSliderChange)="advanceChartConfiguration.updateChartColorSeries($event)" style="border-right: 25px solid" [style.border-right-color]="color.data" class="form-control h-75"/>
+                                                </div>
+                                                <div class="col-1 d-flex pt-1">
+                                                    <i class="fa fa-plus-circle f-s-1rem cur-pointer text-info pr-2" aria-hidden="true" ngbTooltip="Add" (click)="advanceChartConfiguration.chartSeriesColor_clone.splice(i + 1, 0, {'data': ''});advanceChartConfiguration.updateChartColorSeries();"></i>
+                                                    <i class="fa fa-minus-circle f-s-1rem cur-pointer text-warning" aria-hidden="true" ngbTooltip="Remove" (click)="advanceChartConfiguration.chartSeriesColor_clone.splice(i, 1);advanceChartConfiguration.updateChartColorSeries();" *ngIf="advanceChartConfiguration.chartSeriesColor_clone.length > 1"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card" *ngIf="advanceChartConfiguration.showList.indexOf('BackgroundAndSeriesRange') != -1">
+                                    <div class="card-header">
+                                        <h6 class="card-link acc-title f-s-09rem" data-toggle="collapse" href="#advanceConfig_seriesRange" aria-expanded="false">
+                                            <i class="fa fa-chevron-right f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                            <i class="fa fa-chevron-down f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                            Pane Background and Range Selection
+                                        </h6>
+                                    </div>
+                                    <div id="advanceConfig_seriesRange" class="collapse" data-parent="#chart-config-accordion">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <label class="col-6 cb-label">Pane Background</label>
+                                                <div class="col-6">
+                                                    <input [(colorPicker)]="advanceChartConfiguration.chartConfigInfo.pane.background.backgroundColor" [value]="advanceChartConfiguration.chartConfigInfo.pane.background.backgroundColor" (cpInputChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" (cpSliderChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" style="border-right: 25px solid" [style.border-right-color]="advanceChartConfiguration.chartConfigInfo.pane.background.backgroundColor" class="form-control h-75"/>
+                                                </div>
+                                            </div>
+                                            <div class="row" *ngIf="advanceChartConfiguration.showList.indexOf('Range-Selection') != -1">
+                                                <label class="col-6 cb-label">Range Selection</label>
+                                                <div class="col-6">
+                                                    <button class="btn btn-sm btn-primary float-right" (click)="advanceChartConfiguration.chartConfigInfo.bgColorRangeList.push({cond: '', bgColor: ''})">Add Conditon</button>
+                                                </div>
+                                                <div class="col-12" *ngFor="let bgColorInfo of advanceChartConfiguration.chartConfigInfo.bgColorRangeList; let i = index;">
+                                                    <div class="row">
+                                                        <div class="col-3 pl-2">
+                                                            <select class="custom-select form-control" [(ngModel)]="bgColorInfo.cond" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" (change)="bgColorInfo.value2 = (bgColorInfo.cond == 'Between' ? '' : bgColorInfo.value2)">
+                                                                <option value="">Select</option>
+                                                                <option value="<"><</option>
+                                                                <option value=">">></option>
+                                                                <option value="<="><=</option>
+                                                                <option value=">=">>=</option>
+                                                                <option value="Between">Between</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="pl-0" [ngClass]="{'col-2': bgColorInfo.cond == 'Between', 'col-4': bgColorInfo.cond != 'Between'}">
+                                                            <input class="form-control pr-0" [(ngModel)]="bgColorInfo.value1" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" type="number"/>
+                                                        </div>
+                                                        <div class="col-2 pl-0" *ngIf="bgColorInfo.cond == 'Between'">
+                                                            <input class="form-control pr-0" [(ngModel)]="bgColorInfo.value2" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" type="number">
+                                                        </div>
+                                                        <div class="col-4 pl-0">
+                                                            <input [(colorPicker)]="bgColorInfo.bgColor" [value]="bgColorInfo.bgColor" (cpInputChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" (cpSliderChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" style="border-right: 25px solid" [style.border-right-color]="bgColorInfo.bgColor" class="form-control"/>
+                                                        </div>
+                                                        <div class="col-1 p-0 pt-1">
+                                                            <i class="fa fa-minus-circle f-s-1rem cur-pointer text-warning p-0 pt-1" aria-hidden="true" (click)="advanceChartConfiguration.chartConfigInfo.bgColorRangeList.splice(i, 1);advanceChartConfiguration.rerenderConfiguredAdvChart($event);"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card" *ngIf="advanceChartConfiguration.showList.indexOf('Advance') != -1">
+                                    <div class="card-header">
+                                        <h6 class="card-link acc-title f-s-09rem" data-toggle="collapse" href="#advanceConfig_adv" aria-expanded="false">
+                                            <i class="fa fa-chevron-right f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                            <i class="fa fa-chevron-down f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                            Advance
+                                        </h6>
+                                    </div>
+                                    <div id="advanceConfig_adv" class="collapse" data-parent="#chart-config-accordion">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <label class="col-4 cb-label">Labels:</label>
+                                                <div class="col-8 p-0">
+                                                    <input type="checkbox" [(ngModel)]="advanceChartConfiguration.chartConfigInfo.plotOptions.series.dataLabels.enabled" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" name="advanceConfig_series_advLabel_check" class="p-switch" id="advanceConfig_series_advLabel_switch" />
+                                                    <label class="p-switch-label" for="advanceConfig_series_advLabel_switch">Toggle</label>
+                                                </div>
+                                            </div>
+                                            <div class="row border-bottom mb-2" *ngIf="advanceChartConfiguration.showList.indexOf('Label') != -1 && advanceChartConfiguration.chartConfigInfo.plotOptions.series.dataLabels.enabled == true">
+                                                <div class="col-6">
+                                                    <div class="row pr-2">
+                                                        <label class="col-12 cb-label">Direction</label>
+                                                        <div class="col-12">
+                                                            <mv-slider class="w-100" [(value)]="advanceChartConfiguration.chartConfigInfo.plotOptions.series.dataLabels.rotation" (change)="advanceChartConfiguration.sliderChangeValue($event)" [min]="sliderOption.label_rotate.floor" [max]="sliderOption.label_rotate.ceil" [step]="sliderOption.label_rotate.step" [tooltip]="always" [tooltipPosition]="top"></mv-slider>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6" *ngIf="advanceChartConfiguration.showList.indexOf('Label-YPosition') != -1">
+                                                    <div class="row pr-2">
+                                                        <label class="col-12 cb-label">Y Position</label>
+                                                        <div class="col-12">
+                                                            <mv-slider class="w-100" [(value)]="advanceChartConfiguration.chartConfigInfo.plotOptions.series.dataLabels.y" (change)="advanceChartConfiguration.sliderChangeValue($event)" [min]="sliderOption.label_y.floor" [max]="sliderOption.label_y.ceil" [step]="sliderOption.label_y.step" [tooltip]="always" [tooltipPosition]="top"></mv-slider>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-4 cb-label pt-1"> Symbol: </label>
+                                                <div class="col-8 p-0">
+                                                    <select class="custom-select custom-select-sm form-control" [(ngModel)]="advanceChartConfiguration.chartConfigInfo.plotOptions.series.marker.symbol" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)">
+                                                        <option value="">Default</option>
+                                                        <option value="circle">Circle</option>
+                                                        <option value="square">Square</option>
+                                                        <option value="diamond">Diamond</option>
+                                                        <option value="triangle">Triangle</option>
+                                                        <option value="triangle-down">Triangle Down</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row m-b-10 pr-3" *ngIf="advanceChartConfiguration.showList.indexOf('LineType') != -1">
+                                                <label class="col-4 pt-1 cb-label">Line Type:</label>
+                                                <div class="btn-group btn-group-sm h-50 col-8 p-0" role="group">
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (['', 'line'].indexOf(advanceChartConfiguration.chartConfigInfo.chart.type_ref  || '') != -1) ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.chart, 'type_ref', 'line')"> Normal </button>
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.chart.type_ref == 'spline') ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.chart, 'type_ref', 'spline')"> Curved </button>
+                                                </div>
+                                            </div>
+                                            <div class="row m-b-10 pr-3" *ngIf="advanceChartConfiguration.showList.indexOf('Series') != -1">
+                                                <label class="col-4 pt-1 cb-label">Series:</label>
+                                                <div class="btn-group btn-group-sm h-50 col-8 p-0" role="group">
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.plotOptions.series.stacking || '') == '' ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.plotOptions.series, 'stacking', '')"> Default </button>
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.plotOptions.series.stacking == 'normal') ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.plotOptions.series, 'stacking', 'normal')"> Stacking </button>
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.plotOptions.series.stacking == 'percent') ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.plotOptions.series, 'stacking', 'percent')"> Stacking % </button>
+                                                </div>
+                                            </div>
+                                            <div class="row m-b-10 pr-3" *ngIf="advanceChartConfiguration.showList.indexOf('Zoom') != -1">
+                                                <label class="col-4 pt-1 cb-label">Zoom:</label>
+                                                <div class="btn-group btn-group-sm h-50 col-8 p-0" role="group">
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.chart.zoomType || '') == '' ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.chart, 'zoomType', '')"> No Zoom </button>
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.chart.zoomType == 'x') ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.chart, 'zoomType', 'x')"> X </button>
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.chart.zoomType == 'y') ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.chart, 'zoomType', 'y')"> Y </button>
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.chart.zoomType == 'xy') ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.chart, 'zoomType', 'xy')"> XY </button>
+                                                </div>
+                                            </div>
+                                            <div class="row m-b-10 pr-3">
+                                                <label class="col-4 pt-1 cb-label">Chart Title:</label>
+                                                <div class="btn-group btn-group-sm h-50 col-8 p-0" role="group">
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.title.align == 'left') ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.title, 'align', 'left')"> Left </button>
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.title.align || 'center') == 'center' ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.title, 'align', 'center')"> Center </button>
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.title.align == 'right') ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.title, 'align', 'right')"> Right </button>
+                                                </div>
+                                            </div>
+                                            <div class="row m-b-10 pr-3" *ngIf="advanceChartConfiguration.showList.indexOf('X-Axis-Type') != -1">
+                                                <label class="col-4 pt-1 cb-label">X-Axis Type:</label>
+                                                <div class="btn-group btn-group-sm h-50 col-8 p-0" role="group">
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.xAxis.type || '') == '' ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.xAxis, 'type', '')"> Default </button>
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.xAxis.type == 'datetime') ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.xAxis, 'type', 'datetime')"> Date Time </button>
+                                                </div>
+                                            </div>
+                                            <div class="row m-b-10 pr-3" *ngIf="advanceChartConfiguration.showList.indexOf('Y-Axis-Type') != -1">
+                                                <label class="col-4 pt-1 cb-label">Y-Axis Type:</label>
+                                                <div class="btn-group btn-group-sm h-50 col-8 p-0" role="group">
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.yAxis.type || '') == '' ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.yAxis, 'type', ''); advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.yAxis, 'minorTickInterval ', '')"> Default </button>
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.yAxis.type == 'logarithmic') ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.yAxis, 'type', 'logarithmic'); advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.yAxis, 'minorTickInterval ', '.1')"> Logarithmic </button>
+                                                </div>
+                                            </div>
+                                            <div class="row m-b-10 pr-3" *ngIf="advanceChartConfiguration.showList.indexOf('Chart-Position') != -1">
+                                                <label class="col-4 pt-1 cb-label">X-Axis Position:</label>
+                                                <div class="col-8 p-0" role="group">
+                                                    <input class="form-control" [(ngModel)]="advanceChartConfiguration.chartConfigInfo.pane.center[0]" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" type="text"/>
+                                                </div>
+                                            </div>
+                                            <div class="row m-b-10 pr-3" *ngIf="advanceChartConfiguration.showList.indexOf('Chart-Position') != -1">
+                                                <label class="col-4 pt-1 cb-label">Y-Axis Position:</label>
+                                                <div class="col-8 p-0" role="group">
+                                                    <input class="form-control" [(ngModel)]="advanceChartConfiguration.chartConfigInfo.pane.center[1]" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" type="text"/>
+                                                </div>
+                                            </div>
+                                            <div class="row m-b-10 pr-3" *ngIf="advanceChartConfiguration.showList.indexOf('Chart-Position') != -1">
+                                                <label class="col-4 pt-1 cb-label">Size:</label>
+                                                <div class="col-8 p-0" role="group">
+                                                    <input class="form-control" [(ngModel)]="advanceChartConfiguration.chartConfigInfo.pane.size" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" type="text"/>
+                                                </div>
+                                            </div>
+                                            <div class="row m-b-10 pr-3" *ngIf="advanceChartConfiguration.showList.indexOf('X-Axis-Type') != -1">
+                                                <label class="col-4 pt-1 cb-label">X-Axis Title font weight:</label>
+                                                <div class="btn-group btn-group-sm h-50 col-8 p-0" role="group">
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.xAxis.title.style.fontWeight || '') == 'bold' ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.xAxis.title.style, 'fontWeight', 'bold')"> Bold </button>
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.xAxis.title.style.fontWeight || '') == '' ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.xAxis.title.style, 'fontWeight', '')"> Normal </button>
+                                                </div>
+                                            </div>
+                                            <div class="row m-b-10 pr-3" *ngIf="advanceChartConfiguration.showList.indexOf('X-Axis-Type') != -1">
+                                                <label class="col-4 pt-1 cb-label">X-Axis Title font size:</label>
+                                                <div class="col-8 p-0" role="group">
+                                                    <input class="form-control" [(ngModel)]="advanceChartConfiguration.chartConfigInfo.xAxis.title.style.fontSize" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" type="text"/>
+                                                </div>
+                                            </div>
+                                            <div class="row m-b-10 pr-3" *ngIf="advanceChartConfiguration.showList.indexOf('Y-Axis-Type') != -1">
+                                                <label class="col-4 pt-1 cb-label">Y-Axis Title font weight:</label>
+                                                <div class="btn-group btn-group-sm h-50 col-8 p-0" role="group">
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.yAxis.title.style.fontWeight || '') == 'bold' ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.yAxis.title.style, 'fontWeight', 'bold')"> Bold </button>
+                                                    <button class="btn shadow-none h-75" [ngClass]="[ (advanceChartConfiguration.chartConfigInfo.yAxis.title.style.fontWeight || '') == '' ? 'btn-info' : 'btn-light border']" (click)="advanceChartConfiguration.btnGroupToggleChangeValue(advanceChartConfiguration.chartConfigInfo.yAxis.title.style, 'fontWeight', '')"> Normal </button>
+                                                </div>
+                                            </div>
+                                            <div class="row m-b-10 pr-3" *ngIf="advanceChartConfiguration.showList.indexOf('Y-Axis-Type') != -1">
+                                                <label class="col-4 pt-1 cb-label">Y-Axis Title font size:</label>
+                                                <div class="col-8 p-0" role="group">
+                                                    <input class="form-control" [(ngModel)]="advanceChartConfiguration.chartConfigInfo.yAxis.title.style.fontSize" (ngModelChange)="advanceChartConfiguration.rerenderConfiguredAdvChart($event)" type="text"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card" *ngIf="advanceChartConfiguration.showList.indexOf('Views') != -1">
+                                    <div class="card-header">
+                                        <h6 class="card-link acc-title f-s-09rem" data-toggle="collapse" href="#advanceConfig_Views" aria-expanded="false">
+                                            <i class="fa fa-chevron-right f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                            <i class="fa fa-chevron-down f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                                            Views
+                                        </h6>
+                                    </div>
+                                    <div id="advanceConfig_Views" class="collapse" data-parent="#chart-config-accordion">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12 p-0">
+                                                    <button class="btn btn-sm btn-primary float-right" (click)="advanceChartConfiguration.addView()" translate>Add View</button>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12 p-0">
+                                                    <li class="list-group-item pt-2 pb-2 f-s-09rem cur-pointer" [ngClass]="{'f-w-500': advanceChartConfiguration.selectedView.id == view.id}" (click)="advanceChartConfiguration.toggleView(view);" *ngFor="let view of advanceChartConfiguration.viewList; let i = index;">
+                                                        <a class="f-s-08rem" href="javascript:void(0)">{{view.name}}</a>
+                                                        <i *ngIf="!view.isDefault" ngbTooltip="Delete View" (click)="advanceChartConfiguration.deleteView(view, i, $event);" class="fa fa-trash float-right mt-1 ml-2 f-s-1rem"></i>
+                                                        <i (click)="advanceChartConfiguration.editView(view, $event);" class="fa fa-edit float-right mt-1 f-s-1rem" ngbTooltip="Edit View"></i>
+                                                        <span *ngIf="view.isDefault" class="mr-2 float-right f-s-08rem" style="padding: .1rem">Default</span>
+                                                    </li>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-7 configuringChart" [ngClass]="{'d-none': advanceChartConfiguration.showAdvance}">
+                            <div class="toggle-btn-container" [ngClass]="{'d-none': !(advanceChartConfiguration.viewList.length > 1) }">
+                                <div class="btn-group btn-group-sm h-50" role="group"> 
+                                    <button class="btn shadow-none h-75" 
+                                    [ngClass]="{
+                                        'btn-info': (view.id == advanceChartConfiguration?.selectedView?.id),
+                                        'btn-light border': (view.id != advanceChartConfiguration?.selectedView?.id)}"
+                                        (click)="advanceChartConfiguration.toggleView(view);"
+                                        *ngFor="let view of advanceChartConfiguration.viewList">{{view.name}}</button>
+                                </div>
+                            </div>
+                            <div class="configuringChart w-100 h-100" id="renderConfiguringChart"></div>
+                        </div>
+                        <div class="configuringChart queryBuildChart col-7 h-100 overflow-auto" *ngIf="advanceChartConfiguration.showAdvance" id="renderQueryBuildChart">
+                            <div class="row">
+                                <div class="col-2 p-0">
+                                    View Name 
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" [(ngModel)]="advanceChartConfiguration.selectedView.name">
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-sm btn-secondary float-right" (click)="advanceChartConfiguration.cancelEditView();">Cancel</button>
+                                    <button type="button" class="btn btn-sm btn-primary float-right mr-1" (click)="advanceChartConfiguration.saveView();">Save</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12" *ngIf="dashboard.isAdvanceViewOpen">
+                                    <ep-query-builder></ep-query-builder>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer pb-2 pt-2 pr-4 border-top-0">
+                <div class="row">
+                    <div class="col-12 pr-2">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" (click)="advanceChartConfiguration.save()">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="lib-preview-dlg" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg" style="min-width: 50%;">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-0">
+                <h6 class="modal-title pl-3 pt-1">Select Library Widgets</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1 overflow-auto" style="height: 65vh;">
+                <div class="container pl-4">
+                    <div class="row">
+                        <div class="col-4 text-center pb-2 pr-4" *ngFor="let prevObject of libraryWidgetPreviewList">
+                            <div class="row widget-img-tiles p-2" [ngClass]="{'selected-tile bg-info': prevObject.isSelected}"  (click)="prevObject.isSelected = !prevObject.isSelected">
+                                <div class="col-12 widget-img-cont p-0">
+                                    <img [src]="prevObject.imageBase64" alt="Preview Unavailable" class="w-100 h-100 cur-pointer"/>
+                                </div>
+                                <div class="col-12 text-truncate pt-1 cur-pointer"  [ngClass]="{'text-white': prevObject.isSelected}" ngbTooltip="{{prevObject.title}}"> {{ prevObject.title }} </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-3 pr-4 border-top-0">
+                <div class="row">
+                    <div class="col-12 pr-2">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" (click)="addLibraryWidgets()">
+                            Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="widget_del_modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-1">
+                <h6 class="modal-title pl-3 pt-1 text-warning">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Confirm Delete
+                </h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pb-1 pt-1">
+                <div class="row pl-3">
+                    <div class="col-12">
+                        <p>Are you sure you want to delete <span class="font-weight-bold" id="widget_del_modal_widgetName"></span> Widget?</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-3 pr-4 border-top-0">
+                <div class="row pr-2">
+                    <div class="col-12 pr-0">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-warning" (click)="widget._delete()">
+                            Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="theme_del_modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-1">
+                <h6 class="modal-title pl-3 pt-1 text-warning">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Confirm Delete
+                </h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pb-1 pt-1">
+                <div class="row pl-3">
+                    <div class="col-12">
+                        <p>Are you sure you want to delete <span class="font-weight-bold" id="theme_del_modal_widgetName"></span> Theme?</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-3 pr-4 border-top-0">
+                <div class="row pr-2">
+                    <div class="col-12 pr-0">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-warning" (click)="deleteTheme()">
+                            Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="dash_del_modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-1">
+                <h6 class="modal-title pl-3 pt-1 text-warning">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Confirm Delete
+                </h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pb-1 pt-1">
+                <div class="row pl-3">
+                    <div class="col-12">
+                        <p translate>Are you sure you want to delete <span class="font-weight-bold">{{ dashboard.currentDasboardInfo.name }}</span> Dashboard?</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-3 pr-4 border-top-0">
+                <div class="row pr-2">
+                    <div class="col-12 pr-0">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-warning" (click)="_delete()">
+                            Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="create_dash_modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-1">
+                <h6 class="modal-title pl-3 pt-1">{{isNew ? 'Create New Dashboard' : 'Edit Dashboard' }}</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1 pb-0">
+                <div class="row pl-3">
+                    <div class="form-group w-100 mb-0">
+                        <label for="pullrequest-name-input" class="col col-form-label">Dashboard Name <label class="text-danger"> * </label> :</label>
+                        <div class="col">
+                            <input type="text" class="form-control" [(ngModel)]="dashboardName" placeholder="Dashboard" (keyup)="validateDashboardName();">
+                            <label class="text-danger font-weight-bold">{{errorMsg_dashboardName}}</label>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-0">
+                        <label for="pullrequest-name-input" class="col col-form-label">Refresh Interval (Min):</label>
+                        <div class="col">
+                            <input type="text" class="form-control" [(ngModel)]="refreshInterval" placeholder="In Minutes" (keyup)="validateRefreshInterval();">
+                            <label class="text-danger font-weight-bold">{{errorMsg_refreshInterval}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-3 pr-4 border-top-0">
+                <div class="row pr-2">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" *ngIf="isNew" (click)="createDashboard()" [disabled]="errorMsg_dashboardName != null || errorMsg_refreshInterval != null">
+                            Create
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" *ngIf="!isNew" (click)="updateDashboard()" [disabled]="errorMsg_dashboardName != null || errorMsg_refreshInterval != null">
+                            Update
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="dateFormat">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content p-1">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-1">
+                <h6 class="modal-title pl-3 pt-1">Date Format Types</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1 pb-0 pr-0 border-bottom border-top">
+                <div class="container pl-3">
+                    <div class="row p-0">
+                        <div class="col-12 text-center f-w-500">
+                            <div class="row p-0">
+                                <div class="col-1 text-center f-w-500">Format</div>
+                                <div class="col-8 pl-5">Description</div>
+                            </div>
+                        </div>
+                        <div class="w-100 date-format-cont">
+                            <div class="col-12 mt-1 f-s-09rem" *ngFor="let f of static_date_format">
+                                <div class="row p-0">
+                                    <div class="col-1">{{f.format}}</div>
+                                    <div class="col-2"></div>
+                                    <div class="col-9 pl-5">{{f.desc}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-2 border-top-0">
+                <div class="row pr-2">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="customEditorModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content p-1">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-1">
+                <h6 class="modal-title pl-3 pt-1">Custom Editor</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body p-2 pb-0 pr-0 border-bottom border-top">
+                <div class="container pl-3">
+                    <div class="row p-0">
+                        <div class="col-12 text-center f-w-500">
+                            <textarea id="textarea_customEditor" class="form-control ep-editor" style="width: 100%; height: 300px;"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-2 border-top-0">
+                <div class="row pr-2">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-sm btn-success" (click)="wizard_queryBuilder.saveCustom();">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="wizard_CreateOrEditWidget" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" style="min-width: 50%;">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-1">
+                <h6 class="modal-title pl-3 pt-1"> {{wizard_widget.isNew ? 'Create Widget' : 'Edit Widget'}} </h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1 pb-0">
+                <div class="row f-s-09rem border border-top p-0" style="height: 80vh;">
+                    <div class="col-3 p-0" style="height: calc(100% - 0px) !important; background: whitesmoke;">
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link pl-4 mb-1" data-toggle="pill" href="javascript:void(0);" [ngClass]="{'active': wizard_widget.activeSection == 'widget'}" (click)="wizard_widget.toggleVisitedSection('widget');">Widget<i class="fa fa-lg fa-angle-right float-right pt-1" aria-hidden="true"></i> </a>
+                            <a class="nav-link pl-4 mb-1" data-toggle="pill" href="javascript:void(0);" [ngClass]="{'active': wizard_widget.activeSection == 'filter', 'disabled': wizard_selectedData_filter?.isValid != true}" (click)="wizard_widget.toggleVisitedSection('filter');">Filter<i class="fa fa-lg fa-angle-right float-right pt-1" aria-hidden="true"></i> </a>
+                            <a class="nav-link pl-4 mb-1" data-toggle="pill" href="javascript:void(0);" [ngClass]="{'active': wizard_widget.activeSection == 'displayDetails', 'disabled': wizard_selectedData_displayDetails?.isValid != true}" (click)="wizard_widget.toggleVisitedSection('displayDetails');">Display Details<i class="fa fa-lg fa-angle-right float-right pt-1" aria-hidden="true"></i> </a>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="row border-bottom wizard-card-container pr-0" style="height: 70vh;">
+                            <div class="col-12 wizard-card mt-2" [ngClass]="{'d-none': !(wizard_widget.activeSection == 'widget' && wizard_widget.predefinedWidget == false)}">
+                                <h5 class="mb-3"> Widget Section <label class="text-danger float-right font-weight-normal f-s-09rem mt-1" [ngClass]="{'d-none': wizard_validation?.widget_errorMsg == null}"> {{wizard_validation.widget_errorMsg}} <i class="fa fa-exclamation-triangle"></i></label></h5>
+                                <div class="row">
+                                    <div class="col-4 text-center w-type">
+                                        <label (click)="wizard_selectedData_widget.type='chart'" [ngClass]="{'text-info': wizard_selectedData_widget?.type=='chart'}" class="cur-pointer"><i class="fa fa-bar-chart fa-5x"></i><p class="text-center f-s-09rem">Graph</p></label>
+                                    </div>
+                                    <div class="col-4 text-center w-type">
+                                        <label (click)="wizard_selectedData_widget.type='table'" [ngClass]="{'text-info': wizard_selectedData_widget?.type=='table'}" class="cur-pointer"><i class="fa fa-table fa-5x"></i><p class="text-center f-s-09rem">Table</p></label>
+                                    </div>
+                                    <div class="col-4 text-center w-type">
+                                        <label (click)="wizard_selectedData_widget.type='map'" [ngClass]="{'text-info': wizard_selectedData_widget?.type=='map'}" class="cur-pointer"><i class="fa fa-map fa-5x"></i><p class="text-center f-s-09rem">Map</p></label>
+                                    </div>
+                                </div>
+                                <div class="row" [ngClass]="{'d-none': !(wizard_selectedData_widget.type=='chart')}">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-2 text-center w-sub-type">
+                                                <label (click)="wizard_selectedData_widget.chart_type='column'" [ngClass]="{'text-info': wizard_selectedData_widget?.chart_type=='column'}" class="cur-pointer"><i class="fa fa-bar-chart fa-3x"></i><p class="text-center">Flot Bars</p></label>
+                                            </div>
+                                            <div class="col-2 text-center w-sub-type">
+                                                <label (click)="wizard_selectedData_widget.chart_type='bar'" [ngClass]="{'text-info': wizard_selectedData_widget?.chart_type=='bar'}" class="cur-pointer"><i class="fa fa-bar-chart fa-3x horizontal-bars-icon" aria-hidden="true"></i><p class="text-center">Horizontal Bars</p></label>
+                                            </div>
+                                            <div class="col-2 text-center w-sub-type">
+                                                <label (click)="wizard_selectedData_widget.chart_type='pie'" [ngClass]="{'text-info': wizard_selectedData_widget?.chart_type=='pie'}" class="cur-pointer"><i class="fa fa-pie-chart fa-3x"></i><p class="text-center">Pie Chart</p></label>
+                                            </div>
+                                            <div class="col-2 text-center w-sub-type">
+                                                <label (click)="wizard_selectedData_widget.chart_type='donut'" [ngClass]="{'text-info': wizard_selectedData_widget?.chart_type=='donut'}" class="cur-pointer position-relative bottom-1em">
+                                                <svg id="svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 185" class="width-50px pt-1">
+                                                    <path [style.fill]="wizard_selectedData_widget.chart_type=='donut' ? '#17a2b8' : '#0F074B'" id="p" [attr.stroke]="wizard_selectedData_widget.chart_type=='donut' ? '#17a2b8' : '#0F074B'" d="M100 100m-75,0a75,75,0 1,0 150,0a 75,75 0 1,0 -150,0zM100 97m-40,0a40,40,0 0,1 80,0a 40,40 0 0,1 -80,0z"/>
+                                                </svg>
+                                                <p class="text-center">Donut</p></label>
+                                            </div>
+                                            <div class="col-md-2 text-center w-sub-type">
+                                                <label (click)="wizard_selectedData_widget.chart_type='line'" [ngClass]="{'text-info': wizard_selectedData_widget?.chart_type=='line'}" class="cur-pointer"><i class="fa fa-line-chart fa-3x"></i><p class="text-center">Flot Chart</p></label>
+                                            </div>
+                                            <div class="col-md-2 text-center w-sub-type">
+                                                <label (click)="wizard_selectedData_widget.chart_type='bubble'" [ngClass]="{'text-info': wizard_selectedData_widget?.chart_type=='bubble'}" class="cur-pointer">
+                                                    <svg enable-background="new 0 0 425.941 550.941" [style.fill]="wizard_selectedData_widget.chart_type=='bubble' ? '#17a2b8' : '#0F074B'" height="40" viewBox="0 0 425.941 550.941" width="55" xmlns="http://www.w3.org/2000/svg"><path d="m407.85 41.092c54.788 54.788 54.788 143.618 0 198.406s-143.618 54.788-198.406 0-54.788-143.618 0-198.406 143.618-54.789 198.406 0"/><path d="m167.648 253.235c38.352 38.352 38.352 100.532 0 138.884s-100.532 38.352-138.884 0-38.352-100.532 0-138.884 100.532-38.352 138.884 0"/><path d="m348.329 353.142c21.915 21.915 21.915 57.447 0 79.362s-57.447 21.915-79.362 0-21.915-57.447 0-79.362 57.446-21.915 79.362 0"/></svg>
+                                                    <p class="text-center">Bubble</p>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-md-2 text-center w-sub-type">
+                                                <label (click)="wizard_selectedData_widget.chart_type='candlestick'" [ngClass]="{'selected': wizard_selectedData_widget?.chart_type=='candlestick'}" class="cur-pointer">
+                                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                    width="50px" height="45px" enable-background="new 0 0 400 450" viewBox="0 0 400 450" [style.fill]="wizard_selectedData_widget.chart_type=='candlestick' ? '#17a2b8' : '#0F074B'"
+                                                    xml:space="preserve">
+                                                    <g>
+                                                        <path d="M410.916,375.428v22.415H0V13.072h22.413v362.355H410.916z M89.193,315.652h11.208v-50.431h10.27V145.689h-10.27V93.393
+                                                        H89.193v52.296H78.917v119.533h10.277V315.652z M152.69,241.872h11.207v-51.365h10.276V70.971h-10.276V19.606H152.69v51.365h-10.27
+                                                        v119.536h10.27V241.872z M215.727,279.229h11.207v-49.488h10.271V110.194h-10.271V56.963h-11.207v53.231h-10.276V229.73h10.276
+                                                        V279.229z M287.169,300.243h11.21v-49.965h10.273V130.742h-10.273V77.976h-11.21v52.767h-10.269v119.536h10.269V300.243z
+                                                        M360.484,242.349h11.206v-51.833h10.271V70.971H371.69V20.077h-11.206v50.895h-10.276v119.536h10.276V242.349z"/>
+                                                    </g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
+                                                    </svg>
+                                                    <p class="text-center">Candlestick</p>
+                                                </label>
+                                            </div>
+                                            <div class="col-2 text-center w-sub-type">
+                                                <label (click)="wizard_selectedData_widget.chart_type='gauge'" [ngClass]="{'text-info': wizard_selectedData_widget?.chart_type=='gauge'}" class="cur-pointer"><i class="fa fa-tachometer fa-3x"></i><p class="text-center">Gauge</p></label>
+                                            </div>
+                                            <div class="col-2 text-center w-sub-type">
+                                                <label (click)="wizard_selectedData_widget.chart_type='funnel'" [ngClass]="{'text-info': wizard_selectedData_widget?.chart_type=='funnel'}" class="cur-pointer"><i class="fa fa-filter fa-3x"></i><p class="text-center">Funnel</p></label>
+                                            </div>
+                                            <div class="col-md-2 text-center w-sub-type">
+                                                <label (click)="wizard_selectedData_widget.chart_type='area'" [ngClass]="{'text-info': wizard_selectedData_widget?.chart_type=='area'}" class="cur-pointer"><i class="fa fa-area-chart fa-3x"></i><p class="text-center">Area Chart</p></label>
+                                            </div>
+                                            <div class="col-md-2 text-center w-sub-type">
+                                                <label (click)="wizard_selectedData_widget.chart_type='scatter'" [ngClass]="{'text-info': wizard_selectedData_widget?.chart_type=='scatter'}" class="cur-pointer">
+                                                <svg height="45px" viewBox="0 0 400 450" width="50px" [style.fill]="wizard_selectedData_widget.chart_type=='scatter' ? '#17a2b8' : '#0F074B'" xmlns="http://www.w3.org/2000/svg"><path d="m7 6.519531c-3.867188 0-7 3.132813-7 7v373.480469c.148438 3.925781 3.386719 7.023438 7.316406 7h377.945313c3.867187 0 7-3.132812 7-7s-3.132813-7-7-7h-371.261719v-366.480469c0-3.867187-3.132812-7-7-7zm0 0"/><path d="m99.253906 90c-14.160156.003906-25.640625 11.484375-25.636718 25.644531 0 14.160157 11.480468 25.640625 25.640624 25.640625 14.164063-.003906 25.640626-11.480468 25.640626-25.644531-.015626-14.15625-11.488282-25.628906-25.644532-25.640625zm0 0"/><path d="m43.609375 225.640625c0 14.164063 11.480469 25.644531 25.644531 25.644531 14.160156 0 25.640625-11.480468 25.640625-25.644531 0-14.160156-11.480469-25.640625-25.640625-25.640625-14.15625.015625-25.625 11.488281-25.644531 25.640625zm0 0"/><path d="m133.609375 185.640625c0 14.164063 11.480469 25.644531 25.644531 25.644531 14.160156 0 25.640625-11.480468 25.640625-25.644531 0-14.160156-11.480469-25.640625-25.640625-25.640625-14.15625.015625-25.625 11.488281-25.644531 25.640625zm0 0"/><path d="m123.609375 285.640625c0 14.164063 11.480469 25.644531 25.644531 25.644531 14.160156 0 25.640625-11.480468 25.640625-25.644531 0-14.160156-11.480469-25.640625-25.640625-25.640625-14.15625.015625-25.625 11.488281-25.644531 25.640625zm0 0"/><path d="m213.609375 255.640625c0 14.164063 11.480469 25.644531 25.644531 25.644531 14.160156 0 25.640625-11.480468 25.640625-25.644531 0-14.160156-11.480469-25.640625-25.640625-25.640625-14.15625.015625-25.625 11.488281-25.644531 25.640625zm0 0"/><path d="m233.609375 165.640625c0 14.164063 11.480469 25.644531 25.644531 25.644531 14.160156 0 25.640625-11.480468 25.640625-25.644531 0-14.160156-11.480469-25.640625-25.640625-25.640625-14.15625.015625-25.625 11.488281-25.644531 25.640625zm0 0"/><path d="m199.253906 60c-14.160156.003906-25.640625 11.484375-25.636718 25.644531 0 14.160157 11.480468 25.640625 25.640624 25.640625 14.164063-.003906 25.640626-11.480468 25.640626-25.644531-.015626-14.15625-11.488282-25.628906-25.644532-25.640625zm0 0"/><path d="m282.253906 33c-14.160156.003906-25.640625 11.484375-25.636718 25.644531 0 14.160157 11.480468 25.640625 25.640624 25.640625 14.164063-.003906 25.640626-11.480468 25.640626-25.644531-.015626-14.15625-11.488282-25.628906-25.644532-25.640625zm0 0"/><path d="m359.253906 141.285156c14.160156 0 25.640625-11.480468 25.640625-25.644531 0-14.160156-11.480469-25.640625-25.640625-25.640625-14.164062 0-25.644531 11.480469-25.644531 25.640625.019531 14.15625 11.488281 25.628906 25.644531 25.644531zm0 0"/><path d="m368.253906 0c-14.160156.00390625-25.640625 11.484375-25.636718 25.644531 0 14.160157 11.480468 25.640625 25.640624 25.640625 14.164063-.003906 25.640626-11.480468 25.640626-25.644531-.015626-14.15625-11.488282-25.6289062-25.644532-25.640625zm0 0"/><path d="m313.609375 215.640625c0 14.164063 11.480469 25.644531 25.644531 25.644531 14.160156 0 25.640625-11.480468 25.640625-25.644531 0-14.160156-11.480469-25.640625-25.640625-25.640625-14.15625.015625-25.625 11.488281-25.644531 25.640625zm0 0"/><path d="m293.609375 305.640625c0 14.164063 11.480469 25.644531 25.644531 25.644531 14.160156 0 25.640625-11.480468 25.640625-25.644531 0-14.160156-11.480469-25.640625-25.640625-25.640625-14.15625.015625-25.625 11.488281-25.644531 25.640625zm0 0"/><path d="m69.253906 350.285156c14.160156 0 25.640625-11.480468 25.640625-25.644531 0-14.160156-11.480469-25.640625-25.640625-25.640625-14.164062 0-25.644531 11.480469-25.644531 25.640625.019531 14.15625 11.488281 25.628906 25.644531 25.644531zm0 0"/></svg>
+                                                <p class="text-center">Scatter Chart</p></label>
+                                            </div>
+                                            <div class="col-md-2 text-center w-sub-type">
+                                                <label (click)="wizard_selectedData_widget.chart_type='solidgauge'" [ngClass]="{'text-info': wizard_selectedData_widget?.chart_type=='solidgauge'}" class="cur-pointer">
+                                                <svg enable-background="new 0 0 64 64" height="46" viewBox="0 0 55 65" width="50" [style.fill]="wizard_selectedData_widget.chart_type=='solidgauge' ? '#17a2b8' : '#0F074B'" xmlns="http://www.w3.org/2000/svg"><g id="fuel_meter"><path d="m25.89 19.42c1.601-.778 3.335-1.243 5.11-1.37v-6c-2.827.135-5.593.875-8.11 2.17z"/><path d="m34.12 34.12c-1.13 1.212-3.028 1.279-4.24.15s-1.279-3.028-.15-4.24c.048-.052 3.48-2.88 3.48-2.88-.396-.095-.802-.146-1.21-.15-2.761 0-5 2.239-5 5s2.239 5 5 5 5-2.239 5-5c-.004-.408-.055-.814-.15-1.21z"/><path d="m33 12.05v6c1.775.127 3.509.592 5.11 1.37l3-5.2c-2.517-1.295-5.283-2.035-8.11-2.17z"/><path d="m17.02 45.57 4.4-4.4c-.359-.423-.693-.867-1-1.33l-5.37 3.1c.578.933 1.237 1.813 1.97 2.63z"/><path d="m31 32c-.003.266.102.522.29.71.381.379.993.392 1.39.03l6.28-7.7-7.7 6.28c-.168.187-.26.429-.26.68z"/><path d="m28 47c0 .552.448 1 1 1s1-.448 1-1c-.217-.764-.554-1.489-1-2.146-.445.658-.782 1.382-1 2.146z"/><path d="m34 51c0 .552.448 1 1 1s1-.448 1-1c-.217-.764-.554-1.489-1-2.146-.445.658-.782 1.382-1 2.146z"/><path d="m19.42 25.89-5.2-3c-1.295 2.517-2.035 5.283-2.17 8.11h6c.127-1.775.592-3.509 1.37-5.11z"/><path d="m18.04 33h-6c.109 2.843.8 5.634 2.03 8.2l5.34-3.08c-.782-1.603-1.247-3.341-1.37-5.12z"/><path d="m15.22 21.16 5.19 2.99c1.001-1.471 2.269-2.739 3.74-3.74l-2.99-5.19c-2.378 1.538-4.402 3.562-5.94 5.94z"/><path d="m32 4c-15.464 0-28 12.536-28 28s12.536 28 28 28 28-12.536 28-28c-.017-15.457-12.543-27.983-28-28zm-3 46c-1.657 0-3-1.343-3-3 0-1.278 1.522-3.621 2.177-4.568.349-.455 1.001-.54 1.456-.19.071.055.136.119.19.19.655.947 2.177 3.29 2.177 4.568 0 1.657-1.343 3-3 3zm6 4c-1.657 0-3-1.343-3-3 0-1.278 1.522-3.621 2.177-4.568.349-.455 1.001-.54 1.456-.19.071.055.136.119.19.19.655.947 2.177 3.29 2.177 4.568 0 1.657-1.343 3-3 3zm12.71-6.29c-.191.183-.445.287-.71.29-.265-.001-.52-.105-.71-.29l-5.81-5.81c-.39-.393-.39-1.027 0-1.42 4.204-4.182 4.703-10.817 1.17-15.58l-3.34 4.1c1.679 3.507.197 7.711-3.31 9.39s-7.711.197-9.39-3.31-.197-7.711 3.31-9.39c1.922-.92 4.158-.92 6.08 0l4.1-3.34c-5.325-3.932-12.829-2.803-16.761 2.522-3.527 4.777-3.025 11.416 1.181 15.608.39.393.39 1.027 0 1.42l-5.81 5.81c-.393.39-1.027.39-1.42 0-8.506-8.676-8.368-22.605.309-31.111s22.605-8.368 31.111.309c8.387 8.555 8.387 22.247 0 30.802z"/><path d="m45.41 17.2c-.803-.726-1.663-1.388-2.57-1.98l-2.99 5.19c.29.2.57.42.84.63l4.68-3.81c.01-.01.03-.02.04-.03z"/><path d="m46.77 18.63-3.81 4.68c.21.27.43.55.63.84l5.19-2.99c-.592-.907-1.254-1.767-1.98-2.57-.01.01-.02.03-.03.04z"/><path d="m44.59 38.12 5.34 3.08c1.23-2.566 1.921-5.357 2.03-8.2h-6c-.123 1.779-.588 3.517-1.37 5.12z"/><path d="m45.95 31h6c-.135-2.827-.875-5.593-2.17-8.11l-5.2 3c.778 1.601 1.243 3.335 1.37 5.11z"/><path d="m42.58 41.17 4.4 4.4c.733-.817 1.392-1.697 1.97-2.63l-5.37-3.1c-.307.463-.641.907-1 1.33z"/></g></svg>
+                                                <p class="text-center">Solid Gauge</p></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 wizard-card h-100 overflow-auto mt-2" [ngClass]="{'d-none': !(wizard_widget.activeSection == 'filter')}">
+                                <h5 class="mb-3"> Apply Filters <label class="text-danger float-right font-weight-normal f-s-09rem mt-1" [ngClass]="{'d-none': wizard_validation?.filter_errorMsg == null}"> {{wizard_validation.filter_errorMsg}} <i class="fa fa-exclamation-triangle"></i></label></h5>
+                                <ep-query-builder></ep-query-builder>
+                            </div>
+                            <div class="col-12 wizard-card h-100 overflow-auto mt-2" [ngClass]="{'d-none': !(wizard_widget.activeSection == 'displayDetails')}">
+                                <h5 class="mb-3"> Display Details <label class="text-danger float-right font-weight-normal f-s-09rem mt-1" [ngClass]="{'d-none': wizard_validation?.displayDetails_errorMsg == null}"> {{wizard_validation.displayDetails_errorMsg}} <i class="fa fa-exclamation-triangle"></i></label></h5>
+                                <div class="row">
+                                    <div class="col-12" *ngIf="wizard_selectedData_widget.type == 'chart' || wizard_selectedData_widget.type == 'table'">
+                                        <div class="row">
+                                            <label class="col-3 cb-label pt-1" *ngIf="wizard_selectedData_widget.type == 'chart'">Chart Title</label>
+                                            <label class="col-3 cb-label" *ngIf="wizard_selectedData_widget.type == 'table'">Table Title</label>
+                                            <div class="col-5">
+                                                <input [(ngModel)]="wizard_selectedData_displayDetails.title" type="text" class="form-control" placeholder="Enter the title">
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="wizard_widget.displayFieldList.indexOf('xAxisName') != -1">
+                                            <label class="col-3 cb-label pt-1">X-Axis Name</label>
+                                            <div class="col-5">
+                                                <input [(ngModel)]="wizard_selectedData_displayDetails.xAxisName" type="text" class="form-control" placeholder="x-axis name">
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="wizard_widget.displayFieldList.indexOf('yAxisName') != -1">
+                                            <label class="col-3 cb-label pt-1">Y-Axis Name</label>
+                                            <div class="col-5">
+                                                <input [(ngModel)]="wizard_selectedData_displayDetails.yAxisName" type="text" class="form-control" placeholder="y-axis name">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <label class="col-3 cb-label pt-1">Refresh Interval</label>
+                                            <div class="col-5">
+                                                <input [(ngModel)]="wizard_selectedData_displayDetails.refreshInterval" type="text" class="form-control" placeholder="in minutes">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wizard-footer row mt-2">
+                            <div class="wizard-buttons-container col-12">
+                                <button class="cb-btn-open wizard-cancel wizard-close" type="button" style="display: none;">Cancel</button>
+                                <div class="btn-group-single float-right">
+                                    <button class="btn btn-sm btn-secondary wizard-back mr-2" type="button" [ngClass]="{'d-none': wizard_widget.activeSection == 'widget'}" (click)="wizard_widget.back();">Back</button>
+                                    <button class="btn btn-sm btn-primary wizard-next" type="button" (click)="wizard_widget.next();" *ngIf="wizard_widget.activeSection != 'displayDetails'">Next</button>
+                                    <button class="btn btn-sm btn-primary wizard-next" type="button" api-bind="Get Dashboard Widget Data"  (click)="wizard_widget.create();" *ngIf="wizard_widget.isNew && wizard_widget.activeSection == 'displayDetails'">Create</button>
+                                    <button class="btn btn-sm btn-primary wizard-next" type="button" api-bind="Get Dashboard Widget Data"  (click)="wizard_widget.update();" *ngIf="!wizard_widget.isNew && wizard_widget.activeSection == 'displayDetails'">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <!-- <div class="modal-footer p-0 pb-3 pr-4 border-top-0">
+
+            </div> -->
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->

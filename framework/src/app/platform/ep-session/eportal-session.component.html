@@ -1,0 +1,14 @@
+<div class="ep-session" [style.display]="show && isLogoutConfirmationRequired ? 'block' : 'none'">
+    <div class="page-panel">
+        <h2>Session Expire</h2>
+        <div class="ep-session-expiring-message">
+            <i class="icon icon-warning"></i>
+            Your session is about to Expire in
+            <label>{{countdown_value}}</label>
+        </div>
+        <div class="ep-session-link-outer-container" [hidden]="!isActive">
+            <a (click)="onResetSession()" class="ep-session-link" href="JavaScript:void(0);">click here</a> to continue
+            your session
+        </div>
+    </div>
+</div>

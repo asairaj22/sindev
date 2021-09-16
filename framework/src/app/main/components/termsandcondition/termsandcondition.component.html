@@ -1,0 +1,34 @@
+<section class="main dashboard-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="wysiwyg-content my-0">
+                     <div class="mb-5 row align-items-center">
+                         <a class="col-2" (click)="onGoback()" style="color: #ee3554;">
+                            <i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;Back
+                        </a>
+                        <h1 class="col-8 text-center">Terms and Conditions</h1>
+                     </div>
+                    <div class="form-wrapper-group">
+                        <div class="form__wrapper">
+                            <div class="accordion">
+                                <div class="card">
+                                    <div class="card-header" data-toggle="collapse" href="#accordion__one" aria-expanded="true">
+                                        <h6>Singtel's Terms and Conditions</h6>
+                                    </div>
+                                    <div class="collapse show" id="accordion__one">
+                                        <div class="downloadpdf"><a href="javascript:void(0)" style="cursor:pointer" (click)="downloadPdf()"><i class="fa fa-file-pdf-o"></i><label> Save PDF</label></a></div>
+                                        <div class="clearfix"></div>
+                                        <div class="pdf-container">
+                                            <pdf-viewer [src]="termscontent" [original-size]="false"></pdf-viewer>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

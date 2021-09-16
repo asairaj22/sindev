@@ -1,0 +1,21 @@
+<div class="col-12" style="overflow-x: auto;">
+    <table class="table-gen template_table report-title-table mb-3" id="legend_table_{{secObj.sectionId}}"
+        [ngClass]="{'mb-3': secObj.legend.position == 'top', 'mt-3': secObj.legend.position == 'bottom', 'table-Responsive': secObj.legend.isResponsive}">
+        <tbody>
+            <tr style="height: 0px !important;">
+                <td class="report-grid-cells" *ngFor="let column of secObj.legend.templateDetails.columnList; let i = index"
+                    [style.width.px]="column.width" style="height: 0px !important; padding: 0px !important;">
+                </td>
+            </tr>
+            <tr *ngFor="let row of secObj.legend.templateDetails.title_rowList | slice: 0:secObj.legend.templateDetails.totalRow; let rowIndex = index" [style.width.px]="row.height">
+                <ng-container *ngFor="let cell of row.columnList | slice: 0:secObj.legend.templateDetails.totalColumn; let i = index">
+                    <td class="report-grid-cells tableCell white-space-pre-line" [ngClass]="[ cell.needCustomTheme ? cell.theme : '']" [attr.colspan]="cell.colSpan" [attr.rowspan]="cell.rowSpan"
+                        *ngIf="!cell.hideColumn"  [style.width.px]="secObj.legend.templateDetails.columnList[i].width">
+                        <img [src]="cell.image?.imgTag" [ngStyle]="{'height': row.height + 'px', 'min-width': '100%', 'max-width': '100%'}" 
+                            [ngClass]="{imgDisplay: cell.type=='text'}"> {{cell.type == 'text' ? cell.text : ''}}
+                    </td>
+                </ng-container>
+            </tr>
+        </tbody>
+    </table>
+</div>

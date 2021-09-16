@@ -1,0 +1,13 @@
+<div class="row h-100">
+    <div class="col-12 mb-10"><h1 class="log-header-title">Transaction Logging</h1></div>
+    <h2 class="col-12 l-header-sub mb-10"><i class="fa fa-arrow-circle-o-left audit-back" (click)="triggerBackScreen()" aria-hidden="true"></i>Entire System Log</h2>
+    <div class="col-12 transaction-report-table-grid">
+        <app-data-grid-transaction-log 
+            [gridData]="transactionReportTableData"
+            [context]="context"
+            [columnDefs]="columnDefs"
+            (getRowData)="getRowData($event)"
+            defaultDateTimeFormat="{{defaultDateTimeFormat}}">
+        </app-data-grid-transaction-log>
+    </div>
+</div>

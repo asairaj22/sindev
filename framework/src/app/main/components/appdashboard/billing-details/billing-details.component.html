@@ -1,0 +1,152 @@
+
+<main class="main cloud-billing-details dashboard-page">
+  <!-- Breaddcrumb section start here  -->
+  <div class="container pl-md-0 breadcrumb-wrapper mrt-55">
+    <div class="row pad-left-row">
+      <div class="col-12 pl-md-0"><a href="javascript:void(0)" (click)="navToReports()">‹ Back to Cloud Reports</a></div>
+    </div>
+</div>
+  <!-- Page header start here  -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="page__header" style="padding-bottom: 20px;">
+          <h3 class="mb-1">Usage Billing Details</h3>
+        </div>
+        <div class="save-pdf-wrapper">
+            <button class="pdfcsvicon" (click)="downloadPDF()">
+              <img src="assets/pdficon.png">
+                Save PDF
+            </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row" #invoiceContent id="invoiceContent">
+      <div class="col-12">
+        <form action="" class="form-wrapper-group">
+          
+          <div class="form__wrapper">
+            <div class="accordion">
+              <div class="card">
+                <div class="card-header grey-card-header card-header-billing">
+                  <!-- <h6 class="large mb-1">Password recovery information</h6>
+                  <p>Select preferred method to receive password-related messages</p> -->
+
+                    <div class="row wid-100">
+                        <div class="col-6 first-col-div">
+                            <div _ngcontent-tdh-c9="" class="software-tile__header mb-0"><img _ngcontent-tdh-c9="" alt="image" class="software-tile__image" [src]="convertedBase64PdtImage">
+                                <div _ngcontent-tdh-c9="" class="software-tile__title-wrapper">
+                                    <h3 _ngcontent-tdh-c9="" class="mar-tp-15 cloud_header w-75 cloud-bill-name">{{(selecteBillingDetails && selecteBillingDetails.productName)? selecteBillingDetails.productName : "-"}}</h3>
+                                </div>
+                            </div>   
+                        </div>
+                        <div class="col-6 pdr-0-lg pad-full-subscription">
+                            <div class="mar-tp-15 header-info" >
+                                <div style="text-align: right;margin-bottom:2%;">
+                                  <div class="row1">
+
+                                    <h6 class="left-text font-20 pad-align-left pad-align-mr-top3"><strong>Subscription ID</strong></h6>  
+                                    <span class="colon pad-align-left pad-align-mr-top1">:</span>
+                                    <h5 class="right-text font-20 pad-align-right">{{(selecteBillingDetails && selecteBillingDetails.saasID)? selecteBillingDetails.saasID : "-"}}</h5>
+                                    <!-- <div class="col-6">
+                                  <h6 class="font-20"><strong>Subscription ID: </strong></h6> 
+                                    </div>
+                                    <div class="col-6" style="text-align:left;">
+                                   <h5 class="font-20">{{accDetails.saasID ? accDetails.saasID : '-'}}</h5>
+                                  </div> -->
+                                  </div>
+                                  </div>
+                                   <div style="text-align: right;margin-bottom:2%;">
+                                  <div class="row1">
+                                    <!-- <h6 class="left-text font-20"><strong> {{ selecteBillingDetails.cloudProvider}} Account ID </strong></h6> -->
+                                    <h6 class="left-text font-20 pad-align-left pad-align-mr-top3"><strong> Cloud Account ID </strong></h6>
+                                    <span class="colon pad-align-left pad-align-mr-top1">:</span>
+                                    <h5 class="right-text font-20 pad-align-right">{{(selecteBillingDetails && selecteBillingDetails.cloudAccountNumber)? selecteBillingDetails.cloudAccountNumber : "-"}}</h5>
+                                    <!-- <div class="col-6">
+                                    <h6 class="font-20"><strong>AWS Account ID:</strong></h6> 
+                                    </div>
+                                    <div class="col-6" style="text-align:left;">
+                                    <h5 class="font-20">{{accDetails.accountId ? accDetails.accountId : '-'}}</h5>
+                                    </div> -->
+                                  </div>
+                                  </div>
+                            </div>
+                            <!-- <div class="">
+                                <h5 style="text-align:right;">{{accDetails.saasID}}</h5>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="collapse show">
+                  <div class="card-body billing-card-body">
+                    <div class="form-group">
+                      <div class="row bill-info">
+                        <div class="col-lg-6 mb-25">
+                          <h6 class="caption-text" ><strong>Billing Number </strong></h6> 
+                          <span class="colon">:</span>
+                           <h5 class="value-text">{{(selecteBillingDetails && selecteBillingDetails.id)? selecteBillingDetails.id : "-"}}</h5>
+                        </div>
+                        <div class="col-lg-6 txt-rgt mb-25">
+                          <h6 class="caption-text" ><strong>Bill Date </strong></h6>  
+                          <span class="colon">:</span>
+                          <h5 class="value-text">{{(selecteBillingDetails && selecteBillingDetails.billingBillingDate)? selecteBillingDetails.billingBillingDate : "-"}}</h5>
+                        </div>
+                        <div class="col-lg-6 mt-4 mt-lg-0 mb-25 bill-addr">
+                          <h6 class="caption-text" ><strong>Currency </strong></h6>
+                          <span class="colon">:</span>
+                           <h5 class="value-text">
+                              <span>USD</span>
+                            <!-- <span>68 Orchard Road, #B2-08A Plaza, Singapore 238839</span>  -->
+                          </h5>
+                        </div>
+                        <div class="col-lg-6 txt-rgt mb-25">
+                          <h6 class="caption-text" ><strong>Billing Period </strong></h6> 
+                          <span class="colon">:</span>
+                           <h5 class="value-text">{{(selecteBillingDetails && selecteBillingDetails.billingStartDate)? selecteBillingDetails.billingStartDate : "-"}} - {{(selecteBillingDetails && selecteBillingDetails.billingEndDate)? selecteBillingDetails.billingEndDate : "-"}}</h5>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group total-wrapper w-100 total-border">
+                        <div class="row">
+                            <div class="col-6 caption-text font-mobile">TOTAL</div>
+                            <div class="col-6 txt-rgt-all caption-text total_amt_val font-mobile">&#36; {{(selecteBillingDetails && selecteBillingDetails.usageAmount)? (selecteBillingDetails.usageAmount) : "0.00"}}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group list-wrapper">
+                        <h5 class="caption-text caption-text-header font-mobile">DETAILS</h5>
+                        <!-- <div class="row caption-content-header">
+                            <div class="col-6"><div class="caption-text">AWS Service Charges</div></div>
+                            <div class="col-6 txt-rgt-all"><div class="caption-text">USD 22,000.00</div></div>
+                        </div> -->
+                        <div class="row" *ngFor="let detailItem of selectedSubscriptionDetails; let i = index">
+                            <div class="col-6"><div class="caption-text">{{(detailItem.category)? detailItem.category : '-'}}</div></div>
+                            <div class="col-6 txt-rgt-all"><div class="caption-text">&#36; {{(detailItem.totalPrice)? detailItem.totalPrice : '-'}}</div></div>
+                        </div>
+                    </div>
+
+
+
+                  </div>
+
+                    <div class="form-group footer-wrapper">
+                        <div style="padding:2%;" class="row">
+                            <div>
+                                <img [src]="convertedBase64CmnyImage">
+                            </div>
+                            <div class="footer-text-wrapper"><p>Note: Please refer to your Singtel bill for the final amount to be paid.  Subject to 7% GST.</p></div>
+                            <div>
+                                <span>1/1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>

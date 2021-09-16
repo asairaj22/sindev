@@ -1,0 +1,42 @@
+<div class="col-12 p-0">
+    <div class="row">
+        <div class="col-6">
+            Page Size:
+            <select (change)="onPageSizeChanged()" id="page-size" [(ngModel)]="pageSize">
+                <option value="10" selected="">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+        </div>
+        <div class="col-6" *ngIf="actionComponent != 'document-landing-actions'">
+            <input type="text" id="filter-text-box-1" class="float-right w-50 h-100 f-s-08rem form-control" [(ngModel)]="searchText" placeholder="Search..." (input)="onFilterTextBoxChanged()"/>
+        </div>
+        <div class="col-6 p-0" *ngIf="actionComponent == 'document-landing-actions' && docLandingGridSearchScope && docLandingGridSearchScope != ''">
+            <div class="row p-0">
+                <div class="col-6 p-0">
+                    <input type="text" id="filter-text-box-2" class="w-100 h-100 f-s-08rem form-control" [(ngModel)]="docLandingGridSearchVal" placeholder="Search..."/>
+                </div>
+                <div class="col-5 pl-1 pr-1">
+                    <select class="custom-select w-100 h-100 f-s-08rem btn-light custom-btn-light" [(ngModel)]="docLandingGridSearchScope">
+                        <option value="1"> Current Folder </option>
+                        <option value="0"> All Folders </option>
+                    </select>
+                </div>
+                <div class="col-1 pl-1 pt-1">
+                    <i class="fa fa-search cur-pointer" aria-hidden="true" (click)="invokeDocLandingGridSearch()"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ag-grid-angular class="ag-theme-balham"
+    [rowData]="gridData"
+    [columnDefs]="columnDefs"
+    [pagination]="!isCustomPagination"
+    [rowHeight]="35"
+    [context]="context"
+    [frameworkComponents]="frameworkComponents"
+    [popupParent]="popupParent"
+    (gridReady)="onGridReady($event)">
+</ag-grid-angular>

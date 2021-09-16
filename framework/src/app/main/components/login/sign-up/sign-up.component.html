@@ -1,0 +1,184 @@
+<main id="signup" class="signup-wrapper signup_container">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1>
+          <span id="" class="">Create a Singtel</span>
+          <span>&nbsp;</span> 
+          <span id="" class="text-nowrap">Matrix account</span>
+        </h1>
+      </div>
+    </div>
+  </div>
+  <form class="o365__form-base" [formGroup]="registerForm" 
+  (ngSubmit)="onRegisterUser()" id="signup__form">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-6">
+          <div class="form-group">
+            <label for="name">
+              <h6>Display Name
+                <span class="opt"></span>
+              </h6>
+            </label>
+
+            <input type="text" formControlName="fullName" class="form-control" autocomplete='new-fullName' maxlength="100"
+              [ngClass]="{ 'is-invalid': (formSubmitted || f.fullName.touched) && f.fullName.errors }" />
+            <div *ngIf="(formSubmitted || f.fullName.touched) && f.fullName.errors" class="invalid-feedback">
+              <div *ngIf="f.fullName.errors.required">Full Name is required</div>
+              <div *ngIf="f.fullName.errors.pattern || f.fullName.errors.minlength">Enter the valid Name</div>
+            </div>
+          </div>
+
+
+
+
+          <div class="form-group">
+            <label for="email">
+              <h6 class="mb10">Login ID</h6>
+              <small class="form-text text-muted" id="email-help">You will use this to log in to your Singtel Matrix account.</small>
+            </label>
+            <input type="text" formControlName="email" class="form-control" autocomplete='new-email' maxlength="100"
+              [ngClass]="{ 'is-invalid': (formSubmitted || f.email.touched) && f.email.errors }" oninput="this.value = this.value.toLowerCase()"/>
+            <div *ngIf="(formSubmitted || f.email.touched) && f.email.errors" class="invalid-feedback">
+              <div *ngIf="f.email.errors.required">Login ID is required</div>
+              <div *ngIf="f.email.errors.pattern || f.email.errors.maxlength || f.email.errors.minlength">Login ID must be a valid email address</div>
+              
+            </div>
+            <!-- <div class="form-check">
+                <input class="form-check-input" id="remember-email" type="checkbox">
+                <label class="form-check-label" for="remember-email">Remember email address</label>
+              </div> -->
+          </div>
+
+
+          <div class="form-group">
+            <div class="form-group phoneBox">
+              <label class="phoneLabel" for="mobile">
+              <h6>Business Contact
+                <span class="opt">(Optional)</span>
+              </h6>
+            </label>
+            <div class="countryInput phoneBox">
+              <label class="countryLabel" (click)="getCountryList()">{{countryCodeLabel}}</label>
+              <div class="countryDropdownManual top-none country-search-bar" [class.showdropdown]="phoneDropdown">
+                <input class="form-control w-100percent" type="text" name="search" formControlName="mobileSearch" [(ngModel)]="searchText">
+                <a class="countryLink" *ngFor="let country of countryCodes.default | filterBy: searchText" (click)="getparticularCountry(country.dial_code)">{{country.dial_code}} - {{country.name}}</a>
+              </div>
+            </div>
+            <!-- <div class="countryMobileNumber countryCode-border"> -->
+              <input type="text" maxlength="8" formControlName="phone" autocomplete='new-phone' class="form-control" [ngClass]="{ 'is-invalid': (formSubmitted || f.phone.touched) && f.phone.errors}" numbersOnly  />
+              
+<div *ngIf="(f.phone.touched || formSubmitted) && f.phone.errors && f.phone.errors.minlength" class="invalid-feedback">
+                                                            Please Enter 8 Digit Business Contact Number
+                                                    </div>
+            <!-- </div> -->
+            </div>
+          </div>
+          <!-- <div class="form-group">
+            <label for="mobile">
+              <h6>Mobile
+                <span class="opt">(Optional)</span>
+              </h6>
+            </label>
+
+            // intl-tel-input
+            [onlyCountries]="['sg']"
+            <ngx-intl-tel-input #phPlugin [cssClass]="'form-control custom inputPhone'"
+             [preferredCountries]="preferredCountries"
+              [enableAutoCountrySelect]="false" [enablePlaceholder]="true"
+               [selectFirstCountry]="false"
+              [selectedCountryISO]="CountryISO.Singapore" [maxLength]="15" [tooltipField]="TooltipLabel.Name"
+              [phoneValidation]="true" [separateDialCode]="true" name="dummyphone" (keyup)="onUpdatePhoneNumber(phPlugin)">
+            </ngx-intl-tel-input>
+            <input type="hidden" name="phone" formControlName="phone">
+            // intl-tel-input
+
+            <div class="form-control phone_div password_div" 
+            [ngClass]="{ 'is-invalid': (formSubmitted || f.phone.touched) && f.phone.errors }">
+              <span>
+                <img src="./assets/images/static/singapore_flag.png">
+                <p>+65</p>
+              </span>
+              <input type="number" name="phone" formControlName="phone" onKeyPress="if(this.value.length==8) return false;" />
+            </div>
+            <div *ngIf="f.phone.errors" class="invalid-phone">
+              <div *ngIf="f.phone.errors.pattern">Please enter a valid mobile number</div>
+            </div>
+          </div> -->
+
+          <div class="form-group">
+            <label for="companyName">
+              <h6>Company Name
+                <span class="opt"></span>
+              </h6>
+            </label>
+            <input class="form-control" id="companyName" type="text" maxlength="100" name="companyName" autocomplete='new-companyName' formControlName="companyName" placeholder=""
+              value="" [ngClass]="{ 'is-invalid': (formSubmitted || f.companyName.touched) && f.companyName.errors }">
+            <div *ngIf="(formSubmitted || f.companyName.touched) && f.companyName.errors" class="invalid-feedback">
+              <div *ngIf="f.companyName.errors.required">Company Name is required</div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label for="password">
+              <h6>Password</h6>
+            </label>
+            <div class="form-control password_div" 
+            [ngClass]="{ 'is-invalid': (formSubmitted || f.password.touched) && f.password.errors }">
+            <!-- Dummy for password suggestion -->
+            <input type="text" class="hide-type-password-dummy" name="com" autocomplete='new-com'/>
+            <!-- Dummy for password suggestion -->
+              <input [type]="passwordType" formControlName="password" autocomplete='new-password'/>
+              <i class="fa fa-eye-slash" aria-hidden="true" *ngIf="passwordType == 'password'" (click)="passwordType = 'string'"></i>
+              <i class="fa fa-eye" aria-hidden="true"  *ngIf="passwordType == 'string'" (click)="passwordType = 'password'"></i>
+            </div>
+           
+
+            <div *ngIf="(formSubmitted || f.password.touched) && f.password.errors" class="invalid-feedback">
+              <div *ngIf="f.password.errors.required">Password is required</div>
+              <div *ngIf="f.password.errors.pattern || f.password.errors.minlength">
+                Password must contain at least 8 characters, including uppercase, lowercase, special character and number.
+              </div>
+            </div>
+
+          </div>
+          <div class="form-group terms_condition terms_condition1 sign-up-check-wrapper">
+            <div class="form-check">
+              <input class="form-check-input " formControlName="acceptTerms" id="acceptTerms"
+                style="transform: scale(1.5);" [ngClass]="{ 'is-invalid': (formSubmitted || f.acceptTerms.touched) && f.acceptTerms.errors }"
+                type="checkbox" placeholder="">
+              <label class=" " for="tnc1">I agree
+                to&nbsp;<a href="./terms" target="_blank">Singtel Matrix Specific Terms and Conditions.</a></label>
+              <div *ngIf="(formSubmitted || f.acceptTerms.touched) && f.acceptTerms.errors" class="invalid-feedback">We are unable to create account
+                without your consent. Please review the fields above.</div>
+
+            </div>
+          </div>
+          <div class="form-group terms_condition terms_condition2 sign-up-check-wrapper">
+            <div class="form-check custom-checkbox">
+              <input class="form-check-input " type="checkbox" formControlName="concentTerms"
+                style="transform: scale(1.5);" id="concentTerms"
+                [ngClass]="{ 'is-invalid': (formSubmitted || f.concentTerms.touched) && f.concentTerms.errors }" placeholder="">
+              <label class="" for="tnc2">I consent
+                to receive Portal, Products and Services updates from Matrix.
+                I understand that I have the option to unsubscribe from communications in such email updates.</label>
+              <div *ngIf="(formSubmitted || f.concentTerms.touched) && f.concentTerms.errors" class="invalid-feedback">We are unable to create account
+                without your consent. Please review the fields above.</div>
+
+            </div>
+          </div>
+          <div class="form-group text-lg-left">
+            <button class="btn btn-primary text-bold btn-width-create" id="btn__signup">Create Account</button>
+          </div>
+
+          <div class="form-group text-lg-left">
+            <p> <span id="" class="">Already have an account? </span> <a class=""  id="" routerLink="/auth/login">Log in here.</a></p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>
+</main>

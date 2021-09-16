@@ -1,0 +1,100 @@
+<div class="row m-lo-0 p-0">
+    <div class="col-12 p-0 row m-lo-0">
+        <div class="col-5 p-0"><h5 class="col-12 l-header-sub mb-10 p-0"><i class="fa fa-arrow-circle-o-left audit-back icone-hover" (click)="triggerBackScreen()" aria-hidden="true"></i> Process Log Details</h5></div>
+        <div class="col-7 p-0"><h4 class="col-12 l-header-sub mb-10 tx-clr">{{processStepData.processNodeName}}</h4></div>
+    </div>
+<!--<div class="row m-lo-0 p-3"> 
+    <button type="button" class="btn btn-primary mt-2 copy-btns" ngxClipboard (cbOnSuccess)="copied($event, 'request')" [cbContent]="parsedProcessStepRequestString" *ngIf="selectedNavMenu == 'request'">Copy Request</button>
+    <button type="button" class="btn btn-primary mt-2 copy-btns" ngxClipboard (cbOnSuccess)="copied($event, 'response')" [cbContent]="parsedTransactionResponseString" *ngIf="selectedNavMenu == 'response'">Copy Response</button>
+</div>-->
+
+<div class="col-12 p-0 card">
+    <div class="row m-lo-0">
+        <div class="col-md-1 col-sm-1 pad-0 event-nav-menu shadow-lg bg-white rounded">
+            <ul class="nav nav-pills nav-pills-primary nav-pills-icons flex-column" role="tablist">
+                <li class="nav-item">
+                    <!-- Removed this click from below anchor tag since selectedNavMenu is not used -> (click)="selectedNavMenu = 'transaction-details'" -->
+                    <a class="nav-link active col-md-12 atag" href="#processDetailsTab" role="tab" data-toggle="tab">
+                       <i class="fa fa-list col-md-12 pad-0 icone" aria-hidden="true"></i>
+                       <div class="col-md-12 pad-0 text-align"><span class="col-md-12 pad-0 font-sz">Process Details</span></div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <!-- Removed this click from below anchor tag since selectedNavMenu is not used -> (click)="selectedNavMenu = 'request'" -->
+                    <a class="nav-link col-md-12 atag" href="#processMonitorTab" role="tab" data-toggle="tab">
+                        <i class="fa fa-angle-double-right col-md-12 pad-0 icone" aria-hidden="true"></i>
+                        <div class="col-md-12 pad-0 text-align"><span class="col-md-12 pad-0 font-sz">Process Monitor</span></div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+<!--     -->
+    <div class="col-md-11 col-sm-11 pad-0">
+		<div class="tab-content">
+            <div class="tab-pane active" id="processDetailsTab">
+                <div class="row m-lo-0">
+                    <div class="col-3 text-dark event-detail-label">Instance ID:</div>
+                    <div class="col-8 text-info pl-0 event-detail-data">{{processStepData.instanceId? processStepData.instanceId : 'Failed'}}</div>
+                </div>
+                <div class="row m-lo-0">
+                    <div class="col-3 text-dark event-detail-label">Process Node Name:</div>
+                    <div class="col-8 text-info pl-0 event-detail-data">{{processStepData.processNodeName ? processStepData.processNodeName : 'N/A'}}</div>
+                </div>
+                <div class="row m-lo-0">
+                    <div class="col-3 text-dark event-detail-label">Version:</div>
+                    <div class="col-8 text-info pl-0 event-detail-data">{{processStepData.processNodeVersion ? processStepData.processNodeVersion : 'N/A'}}</div>
+                </div>
+                <div class="row m-lo-0">
+                    <div class="col-3 text-dark event-detail-label">State:</div>
+                    <div class="col-8 text-info pl-0 event-detail-data">{{processStepData.processInstanceNodeState ? processStepData.processInstanceNodeState : 'N/A'}}</div>
+                </div>
+                <div class="row m-lo-0">
+                    <div class="col-3 text-dark event-detail-label">Start Time:</div>
+                    <div class="col-8 text-info pl-0 event-detail-data">{{processStepData.processInstanceStartTime ? processStepData.processInstanceStartTime : 'N/A'}}</div>
+                </div>
+                <div class="row m-lo-0">
+                    <div class="col-3 text-dark event-detail-label">End Time:</div>
+                    <div class="col-8 text-info pl-0 event-detail-data">{{processStepData.processInstanceEndTime ? processStepData.processInstanceEndTime : 'N/A'}}</div>
+                </div>
+                <div class="row m-lo-0">
+                    <div class="col-3 text-dark event-detail-label">Unique Process ID:</div>
+                    <div class="col-8 text-info pl-0 event-detail-data">{{processStepData.flowNodeInstanceId ? processStepData.flowNodeInstanceId : 'N/A'}}</div>
+                </div>
+                <div class="row m-lo-0">
+                    <div class="col-3 text-dark event-detail-label">Summary:</div>
+                    <div class="col-8 text-info pl-0 event-detail-data">{{processStepData.summary ? processStepData.summary : 'N/A'}}</div>
+                </div>
+                <div class="row m-lo-0">
+                    <div class="col-3 text-dark event-detail-label">Next Step Name:</div>
+                    <div class="col-8 text-info pl-0 event-detail-data">{{processStepData.nextStepName ? processStepData.nextStepName : 'N/A'}}</div>
+                </div>
+
+                <div class="row m-lo-0">
+                    <div class="col-3 text-dark event-detail-label">Next Step Type:</div>
+                    <div class="col-8 text-info pl-0 event-detail-data">{{processStepData.nextStepType ? processStepData.nextStepType : 'N/A'}}</div>
+                </div>
+                
+            </div>
+            <div class="tab-pane" id="processMonitorTab">
+                <div class="row m-lo-0 pad-0"> 
+                    <!-- commented below line since trigger back is not used -->
+                    <!-- <app-process-flow-monitor style="width: 100%;"
+                        [processFlowData]="processFlowData" 
+                        (viewProcessStepDetails)="getProcessStepMonitor($event);" 
+                        (triggerBack)="switchEventLogScreens($event)">
+                    </app-process-flow-monitor> -->
+
+                    <app-process-flow-monitor style="width: 100%;"
+                        [processFlowData]="processFlowData" 
+                        (viewProcessStepDetails)="getProcessStepMonitor($event);">
+                    </app-process-flow-monitor>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    </div>
+</div>
+
+</div>

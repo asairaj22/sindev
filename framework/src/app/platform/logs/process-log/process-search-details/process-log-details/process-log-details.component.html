@@ -1,0 +1,14 @@
+<div class="row">
+    <div class="col-md-12 row">
+        <div class="col-5"><h5 class="col-12 l-header-sub mb-10"><i class="fa fa-arrow-circle-o-left audit-back icone-hover" (click)="triggerBackScreen()" aria-hidden="true"></i> Process Log Details</h5></div>
+        <div class="col-7"><h4 class="col-12 l-header-sub mb-10 tx-clr">{{processName}}</h4></div>
+    </div>
+    <div class="col-12">
+       <process-data-grid class="ag-theme-balham"
+       [gridData]="processInstanceLogData"
+        [context]="context"
+        [columnDefs]="columnDefs"
+        (getRowData)="getRowData($event)">
+        </process-data-grid>
+    </div>
+</div>

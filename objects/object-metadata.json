@@ -1,0 +1,41 @@
+{
+  "groups" : [ ],
+  "objects" : [ {
+    "attributes" : [ {
+      "$$hashKey" : "object:95",
+      "format" : "default",
+      "id" : 2,
+      "isEnum" : false,
+      "isPrivate" : false,
+      "name" : "email",
+      "size" : "",
+      "type" : "String",
+      "type_format" : "text"
+    }, {
+      "$$hashKey" : "object:142",
+      "format" : "default",
+      "id" : 3,
+      "isEnum" : false,
+      "isPrivate" : false,
+      "name" : "password",
+      "size" : "",
+      "type" : "String",
+      "type_format" : "text"
+    } ],
+    "auditFields" : false,
+    "data" : [ ],
+    "description" : "Sign in attributes",
+    "groups" : [ ],
+    "id" : "383b72cb-4e48-4bdf-96de-29a758abb3cb",
+    "isObjectNameExists_ignoreCase" : false,
+    "lastUpdatedDate" : "2020-11-03 12:12 pm",
+    "lastUpdatedTime" : 1604385760310,
+    "mapDatabase" : false,
+    "model" : "UserSignInData",
+    "nextId" : 5,
+    "nextRelationId" : 1,
+    "relationships" : [ ],
+    "type" : "OBJECT",
+    "updatedBy" : "rkumar@apptium.com"
+  } ]
+}

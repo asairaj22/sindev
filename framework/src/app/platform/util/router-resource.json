@@ -1,0 +1,152 @@
+[
+	{
+		"path": "/about-us",
+		"isManualRouterPermission": false,
+		"name": "About-us"
+	},
+	{
+		"path": "/auditLogs",
+		"isManualRouterPermission": false,
+		"name": "AuditLogs"
+	},
+	{
+		"path": "/contact-us",
+		"isManualRouterPermission": false,
+		"name": "Contact-us"
+	},
+	{
+		"path": "/dashboard",
+		"isManualRouterPermission": false,
+		"name": "Dashboard"
+	},
+	{
+		"path": "/dms/documentAdmin",
+		"isManualRouterPermission": false,
+		"name": "Dms DocumentAdmin"
+	},
+	{
+		"path": "/dms/documentDeletedItems",
+		"isManualRouterPermission": false,
+		"name": "Dms DocumentDeletedItems"
+	},
+	{
+		"path": "/dms/documentLanding",
+		"isManualRouterPermission": false,
+		"name": "Dms DocumentLanding"
+	},
+	{
+		"path": "/dms/documentLanding2",
+		"isManualRouterPermission": false,
+		"name": "Dms DocumentLanding2"
+	},
+	{
+		"path": "/eventLogs",
+		"isManualRouterPermission": false,
+		"name": "EventLogs"
+	},
+	{
+		"path": "/help-center",
+		"isManualRouterPermission": false,
+		"name": "Help-center"
+	},
+	{
+		"path": "/manageNotifications",
+		"isManualRouterPermission": false,
+		"name": "ManageNotifications"
+	},
+	{
+		"path": "/my-apps",
+		"isManualRouterPermission": false,
+		"name": "My-apps"
+	},
+	{
+		"path": "/auth/login",
+		"isManualRouterPermission": false,
+		"name": "Auth Login"
+	},
+	{
+		"path": "/auth/sign-up",
+		"isManualRouterPermission": false,
+		"name": "Auth Signup"
+	},
+	{
+		"path": "/home",
+		"isManualRouterPermission": false,
+		"name": "Home"
+	},
+	{
+		"path": "/auth/forgot-password",
+		"isManualRouterPermission": false,
+		"name": "Auth Forgot-password"
+	},
+	{
+		"path": "/auth/change-password",
+		"isManualRouterPermission": false,
+		"name": "Auth Change-password"
+	},
+	{
+		"path": "/auth/set-password",
+		"isManualRouterPermission": false,
+		"name": "Auth Set-password"
+	},
+	{
+		"path": "/auth/activate-account/:token",
+		"isManualRouterPermission": false,
+		"name": "Auth Activate-account By Token"
+	},
+	{
+		"path": "/my-apps/my-apps-detail",
+		"isManualRouterPermission": false,
+		"name": "My-apps My-apps-detail"
+	},
+	{
+		"path": "/notificationAdmin",
+		"isManualRouterPermission": false,
+		"name": "NotificationAdmin"
+	},
+	{
+		"path": "/processLog",
+		"isManualRouterPermission": false,
+		"name": "ProcessLog"
+	},
+	{
+		"path": "/reports/:id",
+		"isManualRouterPermission": false,
+		"name": "Reports By Id"
+	},
+	{
+		"path": "/resources",
+		"isManualRouterPermission": false,
+		"name": "Resources"
+	},
+	{
+		"path": "/terms",
+		"isManualRouterPermission": false,
+		"name": "Terms"
+	},
+	{
+		"path": "/transactionLog",
+		"isManualRouterPermission": false,
+		"name": "TransactionLog"
+	},
+	{
+		"path": "/unauthorized",
+		"isManualRouterPermission": false,
+		"name": "Unauthorized"
+	},
+	{
+		"path": "/verify-otp",
+		"isManualRouterPermission": false,
+		"name": "Verify-otp"
+	},
+	{
+		"path": "/workflow",
+		"isManualRouterPermission": false,
+		"name": "Workflow"
+	},
+	{
+		"path": "/workflow_scheduler",
+		"isManualRouterPermission": false,
+		"name": "Workflow_scheduler"
+	}
+]

@@ -1,0 +1,973 @@
+<main class="main dashboard-page">
+	<!-- Page header start here  -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12">
+				<div class="page__header">
+					<h3>My Account</h3>
+				</div>
+			</div>
+		</div>
+		<!-- Info card Start here  -->
+		<div class="row">
+			<div class="col-12 info-card-wrapper info-card-wrapper-mob-new ">
+				<div class="swiper-container">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide">
+							<div class="info-card justify-content-start">
+								<div class="info-card__header">
+									<span class="text-uppercase">MY ROLE</span>
+								</div>
+
+								<div class="info-card__content">
+									<h3 class="info-card__heading">
+										{{userRole}}
+									</h3>
+
+									<small class="mt-1 md-small d-block">{{validDate | date : 'MMMM d, yyyy'}}</small>
+									<small class="mt-1 md-small d-block">{{validDate | date : 'HH:mm'}} (GMT
+										+8:00)</small>
+								</div>
+								<div class="info-card__footer">
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<!-- If we need pagination -->
+				<div class="carousel-container__pagination swiper-pagination"></div>
+				<!-- If we need navigation buttons -->
+				<div class="swiper-button-prev" style="display: none;"><svg class="icon">
+						<use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-left"></use>
+					</svg></div>
+				<div class="swiper-button-next" style="display: none;"><svg class="icon">
+						<use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-right"></use>
+					</svg></div>
+			</div>
+		</div>
+	</div>
+	<!-- tabs-wrapper start here -->
+	<div class="anchor-nav__wrapper" style="height: auto;">
+		<div id="sticky-wrapper" class="anchor-nav__wrapper" style="height: 66px;">
+			<div class="tabs-wrapper anchor-nav" style="height: auto;">
+				<div class="container-fluid tabOverflow">
+					<!-- Nav Tabs Start Here  -->
+
+
+
+
+
+
+					<ul class="responsiveNavScroll nav nav-tabs tabs mx-n3 mx-md-0 ovrflw-hdn tabs-tablet-new"
+						style="overflow-x: unset !important;">
+
+
+						<li class="nav-item">
+							<a id="myaccountpage-navitem-account" data-toggle="tab" class="nav-link active" href="#tab1">
+								Account
+							</a>
+						</li>
+
+						<li class="nav-item">
+							<a data-toggle="tab" id="myaccountpage-navitem-profile" class="nav-link 
+         
+        " href="#tab2">
+								Profile
+							</a>
+						</li>
+
+						<li class="nav-item">
+							<a data-toggle="tab" id="myaccountpage-navitem-changepassword" class="nav-link" href="#tab3">
+								Change Password
+							</a>
+						</li>
+
+						<!-- <li class="nav-item">
+    <a data-toggle="tab" class="nav-link" href="#tab4">
+        Communications
+  </a>
+</li>             -->
+
+						<li class="nav-item">
+							<a data-toggle="tab" id="myaccountpage-navitem-applications" class="nav-link" href="#tab5">
+								Applications
+							</a>
+						</li>
+
+						<li class="nav-item">
+							<a data-toggle="tab" id="myaccountpage-navitem-reports" class="nav-link" href="#tab6">
+								Reports
+							</a>
+						</li>
+					</ul> <!-- Nav Tabs End Here  -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Tab content starts here  -->
+	<div class="tab-content">
+		<div class="tab-pane fade active show tab-align-account" id="tab1">
+			<div class="container-fluid">
+				<!-- <div class="row d-none d-md-flex">
+          <div class="col-12 text-right"><a href="javascript:void(0)" id="btn__collapse" class="m-0 mb-3">Expand all</a></div>
+        </div> -->
+				<div class="row">
+					<div class="col-12">
+						<div class="col-md-12 pl0">
+							<div class="divAcc slideDown">
+								<div class="divAccHeader" (click)="isMyAccountGenTabOpen = !isMyAccountGenTabOpen">
+									<div>
+										<h3>General</h3>
+										<p>View account management settings.</p>
+									</div>
+									<div class="divAccHeader_downicon">
+										<i class="fa"
+                [ngClass]="isMyAccountGenTabOpen ? 'fa-angle-up' : 'fa-angle-down'"
+                 aria-hidden="true"></i>
+									</div>
+								</div>
+								<div class="divAccContent" *ngIf="isMyAccountGenTabOpen">
+									<div class="p-30">
+										<div class="mb-5">
+											<dl class="row">
+												<dt class="col-sm-3 col-md-3 col-xs-3 col-lg-3">Account Status:</dt>
+												<dd class="col-sm-9">{{account}}</dd>
+												<dt class="col-sm-3 col-md-3 col-xs-3 col-lg-3">Matrix Role:</dt>
+												<dd class="col-sm-9">{{userRole}}</dd>
+												<!-- <dt class="col-sm-2 wid-14-per">Access Rights:</dt>
+                    <dd class="col-sm-10">Limited</dd> -->
+												<dt class="col-sm-3 col-md-3 col-xs-3 col-lg-3">Password Recovery:</dt>
+												<dd class="col-sm-9">Email</dd>
+											</dl>
+										</div>
+									</div>
+									<!-- <div class="p-30">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h4>Launch Apps</h4>
+                    <p>Control how you would like to launch the app.</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <label class="activeLabel" [class.labelActive]="essential == 'active'">
+                      <input type="radio" class="radio">
+                      <h4>Same Browser Window</h4>
+                      <p>Application will launch in the same browser window.</p>
+                    </label>
+                  </div>
+                </div>
+              </div> -->
+									<!-- <div class="p-30">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h4>Password Recovery</h4>
+                    <p>User will receive notification through email.</p>
+                    <p>Users can receive notifications on both email and SMS. Atleast 1 channel must be selected.</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <label class="activeLabel"  [class.labelActive]="essential == 'active'">
+                      <input type="radio" class="radio">
+                      <h4>Email</h4>
+                      <p>You can use a different email to receive the notification.</p>
+                    </label>
+                  </div>
+                </div>
+              </div> -->
+									<!-- ********* once multiple fields are entered and then un command the discard button *************** -->
+									<!-- <div class="p-30 col-md-12 changeUser">
+                <button (click)="createUser('appln')" class="btn btn-secondary w-auto mr-2 boldFont">Save Changes</button><br>
+                <a (click)="resetChange()">Discard Changes</a>
+              </div> -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane fade tab-align-account" id="tab2">
+			<form [formGroup]="myForms" class="form-wrapper-group" (ngSubmit)="editProfile()">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+							<h4>Basic Information</h4>
+							<p>All fields marked with asterisks(*) are mandatory.</p>
+							<hr class="mt-30">
+						</div>
+					</div>
+					<div class="colGrid">
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="email">Login ID:</label>
+									<input type="text" class="form-control" disabled formControlName="loginId"
+										[(ngModel)]="customerEmail" name="loginId" id="myaccountpage-myforms-loginId"
+										placeholder="Enter Login ID"
+										appLowercase
+										[ngClass]="{ 'is-invalid': (submitted || f.loginId.touched) && f.loginId.errors}" />
+									<div *ngIf="(submitted || f.loginId.touched) && f.loginId.errors"
+										class="invalid-feedback">
+										<div *ngIf="f.loginId.errors.required">Login ID is
+											required</div>
+										<div *ngIf="f.loginId.errors.pattern">Login ID must be a
+											valid email format</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="email" class="business_email_label">*Business Email Address:
+										<span>
+											<mat-icon class="business_info_icon" (mouseover)="onToolTipShow('show')"
+												(mouseout)="onToolTipShow('hide')">info</mat-icon>
+										</span>
+										<span *ngIf="showToolTip"
+										class="business_email_info_tooltip">All account-related communications will<br>be sent to this Business Email Address</span>
+									</label>
+									<input type="text" class="form-control" formControlName="businessEmailId"
+										name="businessEmailId" id="myaccountpage-myforms-businessEmailId" (keyup)="onValidateBusinessId()"
+										appLowercase
+										placeholder="Enter Business Email Address"
+										[readonly]="myForms.value.loginIdAsBusinessId"
+										[ngClass]="{ 'is-invalid': ((submitted || f.businessEmailId.touched) && f.businessEmailId.errors) || (f.loginIdAsBusinessId.value == false && isLoginIdAsBusinessId == true) }">
+									<div *ngIf="(submitted || f.businessEmailId.touched) && f.businessEmailId.errors &&  f.businessEmailId.errors.required"
+										class="invalid-feedback">Business Email Address is
+										required
+									</div>
+									<div *ngIf="(submitted || f.businessEmailId.touched) && f.businessEmailId.errors && f.businessEmailId.errors.pattern"
+										class="invalid-feedback">Business Email Address must be a valid email format
+									</div>
+									<div *ngIf="f.loginIdAsBusinessId.value == false && isLoginIdAsBusinessId == true"
+										class="invalid-feedback">
+										Login ID and Business Email Address should not be same
+									</div>
+								</div>
+							</div>
+							<!-- new col - loginIdAsBusinessId -->
+							<div class="col-md-4 loginIdAsBusinessId_col">
+								<div class="form-group">
+									<div class="form-check custom-checkbox">
+										<span>
+											<input formControlName="loginIdAsBusinessId"
+												class="form-check-input custom-checkbox__input"
+												id="myaccountpage-myforms-loginIdAsBusinessId" type="checkbox" checked='false'
+												name="loginIdAsBusinessId" placeholder="" value="yes"
+												(change)="onSetBusinessId()" />
+											<label
+												class="form-check-label custom-checkbox__label custom-checkbox__label--small"
+												for="loginIdAsBusinessId_id">Use Login ID as Business Email Address.
+											</label>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- new row -->
+						<div class="row">
+							<!-- name col -->
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="myaccountpage-myforms-name">*Display Name:</label>
+									<input type="text" class="form-control" formControlName="name" [(ngModel)]="fName"
+										name="name" id="myaccountpage-myforms-name" placeholder="Enter Display Name"
+										[ngClass]="{ 'is-invalid': (submitted || f.name.touched) && f.name.errors }" />
+									<div *ngIf="(submitted || f.name.touched) && f.name.errors"
+										class="invalid-feedback">
+										Display Name is required
+									</div>
+								</div>
+							</div>
+							<!-- departmnt col -->
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="myaccountpage-myforms-department">Department: </label>
+									<p-dropdown [options]="departmentDetails"
+										[disabled]="departmentDetails && departmentDetails.length == 0"
+										formControlName="departmentName" placeholder="Select department"
+										(onChange)="changeData($event)" optionLabel="name" [showClear]="true"
+										id="myaccountpage-myforms-department" name="department" tabindex="-1"></p-dropdown>
+									<div *ngIf="(submitted || f.departmentName.touched) && f.departmentName.errors"
+										class="invalid-feedback">
+										Department Name is required
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<!-- business contact col -->
+							<div class="col-md-4">
+								<div class="form-group phoneBox">
+									<label for="mobile" class="phoneLabel">Business Contact:</label>
+									<div class="countryInput">
+										<label class="countryLabel countryLabel-height"
+											(click)="getCountryList()">{{countryCodeLabel}}
+											<i class="fa fa-angle-down" *ngIf="!phoneDropdown"></i>
+											<i class="fa fa-angle-up" *ngIf="phoneDropdown"></i>
+										</label>
+										<div class="countryDropdownManual" [class.showdropdown]="phoneDropdown">
+											<input class="form-control w-100percent" type="text" name="search"
+												maxlength="15" formControlName="mobileSearch" [(ngModel)]="searchText">
+											<a class="countryLink"
+												*ngFor="let country of countryCodes.default | filter: searchText"
+												(click)="getparticularCountry(country.dial_code)">{{country.dial_code}}
+												- {{country.name}}</a>
+										</div>
+									</div>
+									<input appCustomInput type="text" class="form-control"
+										[(ngModel)]="customerphoneNumber" id="myaccountpage-myforms-mobilePhone" numbersOnly maxlength="8"
+										formControlName="mobilePhone" [ngClass]="{ 'is-invalid': (submitted || f.mobilePhone.touched) && f.mobilePhone.errors}" name="mobilePhone"
+										placeholder="Enter Business Contact" />
+									<!-- <div *ngIf="(submitted || f.mobilePhone.touched) && f.mobilePhone.errors &&  f.businessEmailId.errors.required"
+										class="invalid-feedback"> -->
+									<!-- <div *ngIf="f.mobilePhone.errors.required">Business Contact is required
+										</div> -->
+									<!-- <div *ngIf="f.mobilePhone.errors.pattern">Please enter a valid Business
+											Contact
+										</div> -->
+									<div *ngIf="(submitted ||f.mobilePhone.touched) && f.mobilePhone.errors && f.mobilePhone.errors.minlength"
+										class="invalid-feedback">
+										Please Enter 8 Digit Business Contact Number
+									</div>
+									<!-- </div> -->
+								</div>
+							</div>
+							<!-- telephone col -->
+							<div class="col-md-4">
+								<div class="form-group phoneBox">
+									<label for="mobile" class="phoneLabel">Telephone:</label>
+									<div class="countryInput">
+										<label class="countryLabel countryLabel-height"
+											(click)="gettelePhoneCountryList()">{{countrycodeTelephoneLabel}}
+											<i class="fa fa-angle-down" *ngIf="!telePhoneDown"></i>
+											<i class="fa fa-angle-up" *ngIf="telePhoneDown"></i>
+										</label>
+										<div class="countryDropdownManual" [class.showdropdown]="telePhoneDown">
+											<input class="form-control w-100percent" type="text" name="search"
+												formControlName="telePhoneSearch" [(ngModel)]="searchText">
+											<a class="countryLink"
+												*ngFor="let country of countryCodes.default | filter: searchText"
+												(click)="getParticularTelephoneCountry(country.dial_code)">{{country.dial_code}}
+												- {{country.name}}</a>
+										</div>
+									</div>
+									<input appCustomInput type="text" class="form-control"
+										[(ngModel)]="customerTelephoneNumber" numbersOnly
+										maxlength="8" id="myaccountpage-myforms-telephone" formControlName="telephone" [ngClass]="{ 'is-invalid': (submitted || f.telephone.touched) && f.telephone.errors}" name="telephone" id="telephone"
+										placeholder="Enter Telephone Number">
+									<!-- <div *ngIf="(submitted || f.telephone.touched) && f.telephone.errors"
+										class="invalid-feedback">
+										Please enter a valid Telephone
+									</div> -->
+									<div *ngIf="(submitted ||f.telephone.touched) && f.telephone.errors && f.telephone.errors.minlength"
+										class="invalid-feedback">
+										Please Enter 8 Digit Telephone Number
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- new row  -->
+						<div class="row">
+							<!-- fax col  -->
+							<div class="col-md-4">
+								<div class="form-group phoneBox">
+									<label for="mobile" class="phoneLabel">Fax:</label>
+									<div class="countryInput">
+										<label class="countryLabel countryLabel-height"
+											(click)="getFaxCountryList()">{{countryCodeFaxLabel}}
+											<i class="fa fa-angle-down" *ngIf="!faxDropdown"></i>
+											<i class="fa fa-angle-up" *ngIf="faxDropdown"></i>
+										</label>
+										<div class="countryDropdownManual" [class.showdropdown]="faxDropdown">
+											<input class="form-control w-100percent" type="text"
+												formControlName="faxSearch" name="search" [(ngModel)]="searchText">
+											<a class="countryLink"
+												*ngFor="let country of countryCodes.default | filter: searchText"
+												(click)="getParticularFaxCountry(country.dial_code)">{{country.dial_code}}
+												- {{country.name}}</a>
+										</div>
+									</div>
+									<input appCustomInput type="text" class="form-control"
+										[(ngModel)]="customerfaxNumber"  maxlength="8"
+										formControlName="fax" name="fax" id="myaccountpage-myforms-fax" [ngClass]="{ 'is-invalid': (submitted || f.fax.touched) && f.fax.errors}" placeholder="Enter Fax Number" numbersOnly />
+									<!-- <div *ngIf="(submitted || f.fax.touched) && f.fax.errors" class="invalid-feedback">
+										Please enter a valid Fax
+									</div> -->
+									<div *ngIf="(submitted ||f.fax.touched) && f.fax.errors && f.fax.errors.minlength"
+										class="invalid-feedback">
+										Please Enter 8 Digit Fax Number
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- new row - button group -->
+						<div class="row">
+							<div class="col-md-12 changeUser">
+								<button class="btn btn-secondary w-auto mr-2 boldFont"
+									[disabled]="(!myForms.dirty || !myForms.valid)" id="my-account-profilesave">Save Changes</button><br>
+								<a href="javascript:void(0)" (mousedown)="resetChangePersonal()"
+									*ngIf="myForms.dirty" id="my-account-profilediscard">Discard Changes</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="tab-pane fade tab-align-account" id="tab3">
+			<form [formGroup]="changePasswordForm" (ngSubmit)="onSavePassword()" class="form-wrapper-group">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+							<h4 class="mb-7">Change Password</h4>
+							<p>
+								<p>Update your password here. All fields marked with asterisks (*) are mandatory.</p>
+								<hr class="mt-30 mb-30">
+						</div>
+					</div>
+					<div class="">
+						<!-- information bar -->
+						<div id="info-block-change-password" class="info-block info-block--info mb-5"
+							*ngIf="updateSuccess">
+							<svg class="icon icon-info align-self-start">
+								<use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-info"></use>
+							</svg>
+							<div class="pt-1">
+								<p class="xs-small">Your password has been changed successfully</p>
+							</div>
+						</div>
+						<div action="" class="form-wrapper-group">
+							<div class="row">
+								<div class="col-md-4">
+									<!-- Form-group 1 content start here -->
+									<div class="form-group">
+										<label for="myaccountpage-changePasswordForm-currentpassword">
+											<h6 class="mb-2 fnt-wgt-600">*Current Password:
+												<span class="opt"></span>
+											</h6>
+										</label>
+										<input class="form-control" formControlName="oldPassword"
+											autocomplete='new-oldPassword' id="myaccountpage-changePasswordForm-currentpassword"
+											[type]="passFieldTextType ? 'text' : 'password'" name="" placeholder=""
+											value="">
+										<div class="form-check--password mt-2">
+											<!-- <input class="form-check-password" id="show-current-password" type="checkbox">
+    <label class="form-check-label" for="show-current-password"></label> -->
+
+
+											<i class="fa"
+												[ngClass]="{'fa-eye-slash': !passFieldTextType,'fa-eye': passFieldTextType}"
+												(click)="togglePassFieldType()"></i>
+										</div>
+										<div class="input-error" id="form__current-password--error"
+											style="display: none;">
+											<span class="input-error--message md-small">Error message</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<!-- Form-group 2 content start here -->
+									<div class="form-group">
+										<label for="new-password">
+											<h6 class="mb-2 fnt-wgt-600">*New Password:
+												<span class="opt"></span>
+											</h6>
+										</label>
+										<input matInput class="form-control" #password id="myaccountpage-changePasswordForm-password" formControlName="password"
+											autocomplete='new-password'
+											[type]="newPassFieldTextType ? 'text' : 'password'" name=""
+											[(ngModel)]="passwordModel" (ngModelChange)="detectChange($event)"
+											placeholder="" value="">
+										<div class="form-check--password mt-2">
+											<!-- <input class="form-check-password" id="show-new-password" type="checkbox">
+    <label class="form-check-label" for="show-new-password"></label> -->
+											<i class="fa"
+												[ngClass]="{'fa-eye-slash': !newPassFieldTextType,'fa-eye': newPassFieldTextType}"
+												(click)="toggleNewPassFieldType()"></i>
+										</div>
+										<div class="input-error" id="form__new-password--error"
+											*ngIf="changePasswordForm.controls.password && changePasswordForm.controls.password.touched && changePasswordForm.controls.confirmPassword && changePasswordForm.controls.confirmPassword.touched && (changePasswordForm.controls.confirmPassword.value!==changePasswordForm.controls.password.value)">
+											<span class="input-error--message">Passwords doesn't match</span>
+										</div>
+										<p class="pwdNotesset"><strong>Note: </strong> Password must contain at least 8
+											characters, including uppercase, lowercase, special character and number.
+										</p>
+									</div> <!-- Form-group 3 button start here -->
+
+									<div class="form-group mb-4">
+										<!-- <p>Weak</p>
+    <div class="custom-progress progress progress-danger">
+    <div class="progress-bar bg-danger" role="progressbar" style="width: 33.33%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <ul class="pass-info-list">
+    <li class="">Between 8 to 32 characters</li>
+    <li class="danger">Password strength requirement: Medium</li>
+    </ul> -->
+										<div>
+											<!-- <mat-password-strength class="green" [password]="password.value">
+    </mat-password-strength> -->
+										</div>
+										<!-- <p class="md-small mt-2"><strong>Note:</strong> Password strength and security requirements are configured by your company administrator to secure your account</p> -->
+									</div>
+								</div>
+								<!-- <div class="col-md-4">
+        <div class="form-group">
+          <label for="confirm-password">
+            <h6 class="mb-2">Confirm password*
+            <span class="opt"></span>
+            </h6>
+            </label>
+          <input matInput class="form-control" formControlName="confirmPassword" type="password"
+          name="" placeholder=""
+          value=""> <div class="form-check--password mt-2">
+          <input class="form-check-password" id="show-confirm-password" type="checkbox">
+          <label class="form-check-label" for="show-confirm-password"></label>
+        </div>
+        <div class="input-error" id="form__confirm-password--error" style="display: none;"><span class="input-error--message md-small">Error message</span></div>
+        </div> 
+      </div> -->
+							</div>
+							<!-- Form-group 4 button start here -->
+							<div class="form-wrapper-group__footer">
+								<button id="btn__signup" [disabled]="!changePasswordForm.valid"
+									class="btn btn-secondary">Save Changes</button>
+								<p class="py-3"><a class="md-small link link-color" (click)="discardPasswordChanges()"
+										*ngIf="changePasswordForm.dirty">Discard Changes</a></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+
+		</div>
+		<!-- <div class="tab-pane fade" id="tab4">
+       <div class="container-fluid communicationTab">
+         <div class="row">
+             <div class="col-md-12">
+              <h4>Communications</h4>
+              <p>Choose what messages Matrix sends you.</p>
+              <hr class="mt-30">
+           </div>
+         </div>
+         <div class="row">
+           <div class="col-md-9 col-sm-8">
+             <p><strong>Information you would like to receive</strong></p>
+             <p>Relevent Information such as training, workshops and future product releases. This will send to your main email address</p>
+             <p><strong>Note:</strong> You will only receive 1 newsletter per month</p>
+           </div>
+           <div class="col-md-3 col-sm-4">
+          <div class="custom-control custom-switch flexCenter">
+            <input type="checkbox" class="custom-control-input" id="customSwitches">
+            <label class="custom-control-label" for="customSwitches"></label>
+          </div>
+           </div>
+         </div>
+         <div class="row mt-30">
+           <div class="col-md-9 col-sm-8">
+             <p><strong>Content Preferences</strong></p>
+             <p>Choose relevant topics that interest you:</p>
+             <div class="row">
+               <div class="col-md-4">
+				<div class="form-check mb-2">
+					<input type="checkbox" class="form-check-input filled-in" id="filledInCheckbox" checked>
+					<label class="form-check-label " for="filledInCheckbox">Communications and Collaboration</label>
+				</div>
+               </div>
+               <div class="col-md-3">
+				<div class="form-check mb-2">
+					<input type="checkbox" class="form-check-input filled-in" id="filledInCheckbox" >
+					<label class="form-check-label " for="filledInCheckbox">Sales and Marketing</label>
+				</div>
+               </div>
+               <div class="col-md-3">
+				<div class="form-check mb-2">
+					<input type="checkbox" class="form-check-input filled-in" id="filledInCheckbox" >
+					<label class="form-check-label " for="filledInCheckbox">Security and Protection</label>
+				</div>
+               </div>
+               <div class="col-md-2">
+				<div class="form-check mb-2">
+					<input type="checkbox" class="form-check-input filled-in" id="filledInCheckbox" >
+					<label class="form-check-label " for="filledInCheckbox">Digitalization</label>
+				</div>
+               </div>
+             </div>
+           </div>
+         </div>
+         <div class="row mt-30">
+               <div class="col-md-9 col-sm-8">
+                 <div class="row">
+           <div class="col-md-8 col-sm-6">
+             <p><strong>Contact Email Address</strong></p>
+             <p>Please provide the email you wish to receive communications.</p>
+           </div>
+           <div class="col-md-4 col-sm-6 align-self-end">
+          <div class="form-group m0">
+            <input type="text" placeholder="Enter your Email Id" class="form-control" id="usr">
+          </div>
+           </div>
+                 </div>
+               </div>
+         </div>
+         <div class="row">
+           <div class="pt-30 col-md-12 changeUser">
+                <button class="btn btn-secondary w-auto mr-2 boldFont">Save Changes</button><br>
+                <a>Discard Changes</a>
+              </div>
+         </div>
+       </div>
+     </div> -->
+		<div class="tab-pane fade tab-align-account" id="tab5">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-12">
+						<h4 class="mb-5">Applications Assigned To You</h4>
+					</div>
+				</div>
+				<div class="users-table import-table">
+					<p-table #dt [value]="getInstanceDetails" [(selection)]="selectedCustomers" dataKey="id"
+						[rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+						[resizableColumns]="true" [paginator]="paginationBoolean"
+						currentPageReportTemplate="&#123;first&#125; - &#123;last&#125; of &#123;totalRecords&#125;"
+						[filterDelay]="0" [globalFilterFields]="['productName','instanceName','saasId','custRoles']">
+
+						<ng-template pTemplate="header">
+							<tr>
+								<th class="table_column" pSortableColumn="productName">Application Name <p-sortIcon
+										class="sorTableIcon" field="productName"></p-sortIcon>
+								</th>
+								<th class="table_column" pSortableColumn="instanceName">Instance Name<p-sortIcon
+										class="sorTableIcon" field="instanceName"></p-sortIcon>
+								</th>
+								<th class="table_column" pSortableColumn="saasId">Subscription ID<p-sortIcon
+										class="sorTableIcon" field="saasId">
+									</p-sortIcon>
+								</th>
+								<!-- <th class="table_column" pSortableColumn="custRoles">App Role <p-sortIcon class="sorTableIcon" field="custRoles">
+                                </p-sortIcon>
+                            </th> -->
+							</tr>
+							<tr>
+
+								<th class="table_column">
+									<input pInputText type="text"
+										(input)="dt.filter($event.target.value, 'productName', 'contains')"
+										class="ui-column-filter">
+								</th>
+								<th class="table_column">
+									<input pInputText type="text"
+										(input)="dt.filter($event.target.value, 'instanceName', 'contains')"
+										class="ui-column-filter">
+								</th>
+								<th class="table_column">
+									<input pInputText type="text"
+										(input)="dt.filter($event.target.value, 'saasId', 'contains')"
+										class="ui-column-filter">
+								</th>
+									<!-- <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'custRoles', 'contains')"
+                                    class="ui-column-filter">
+                            </th> -->
+
+							</tr>
+						</ng-template>
+						<ng-template pTemplate="body" let-customer>
+							<tr class="ui-selectable-row">
+								<td class="table_column" data-label="Application Name">
+									&#123;&#123;customer.productName&#125;&#125;
+								</td>
+								<td class="table_column" data-label="Instance Name">
+									<!-- <span class="ui-column-title">Login Id</span>   (click)="goToDetailsApp(customer)"-->
+									&#123;&#123;customer.instanceName&#125;&#125;
+								</td>
+								<td class="table_column" data-label="Saas ID">
+									&#123;&#123;customer.saasId&#125;&#125;
+
+								</td>
+								<!-- <td class="table_column"  data-label="App Role">
+                                &#123;&#123;customer.custRoles&#125;&#125;
+                            </td> -->
+
+
+							</tr>
+						</ng-template>
+						<ng-template pTemplate="emptymessage">
+							<tr>
+								<td class="table_column" colspan="8" style="text-align:left">No Records found.</td>
+							</tr>
+						</ng-template>
+					</p-table>
+					<!-- <span class="totalCountPagination" *ngIf="getInstanceDetails.length > 0"> of {{getInstanceDetails.length}}</span> -->
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane fade tab-align-account" id="tab6">
+			<div class="container-fluid">
+				<div class="row reportsShad mb-30">
+					<div class="col-md-12">
+						<h4>Reports</h4>
+						<p>Generate useful reports related to your Matrix account.</p>
+						<div class="row mt-20">
+							<div class="col-md-12 cardFlex">
+								<div class="card customCard" (click)="getAuditorService('login')"
+									[class.active]="auditstring == 'login'">
+									<div class="card-body text-center">
+										<div class="reportDiv">
+											<img src="assets/login.png" class="reportImage">
+										</div>
+											<p class="card-text minHeight">
+												<strong>Login Audit</strong> <br>
+											Successful/failed login attempts
+										</p>
+										</div>
+									</div>
+									<div class="card customCard hide-for-phase1" (click)="getAuditorService('service')"
+										[class.active]="auditstring == 'service'">
+										<div class="card-body text-center">
+											<div class="reportDiv">
+												<img src="assets/add-folder.png" class="reportImage">
+										</div>
+												<p class="card-text minHeight">
+													<strong>Service Access</strong> <br>
+											Access attempts to Services provided
+										</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="mt-30 col-md-12">
+										<h4>Timeframe</h4>
+									</div>
+								</div>
+								<div class="row align-items-end m-800">
+									<div class="col-md-2">
+										<div class="custom-control custom-radio custom-control-inline">
+											<input type="radio" class="custom-control-input" id="myaccountpage-reports-customRadio1" checked
+										name="optradio">
+											<label class="custom-control-label" for="myaccountpage-reports-customRadio1"
+										(click)="getCurrentMonthData('Current month')">Current Month</label>
+										</div>
+									</div>
+									<div class="col-md-2">
+										<div class="custom-control custom-radio custom-control-inline">
+											<input type="radio" class="custom-control-input" id="myaccountpage-reports-customRadio2" name="optradio">
+											<label class="custom-control-label" for="myaccountpage-reports-customRadio2"
+										(click)="getLastThreeMonth('Last 3 months')">Last 3 Months</label>
+										</div>
+									</div>
+									<div class="col-md-2">
+										<div class="custom-control custom-radio custom-control-inline">
+											<input type="radio" class="custom-control-input" id="myaccountpage-reports-customRadio3" name="optradio">
+											<label class="custom-control-label" for="myaccountpage-reports-customRadio3"
+										(click)="getCustomMonth('custom')">Custom</label>
+										</div>
+									</div>
+									<div class="col-md-5">
+										<div class="">
+											<ejs-daterangepicker class="customDisableClass"
+												[class.removeDisable]="monthInput == 'custom'" id="myaccountpage-reports-datepicker" format='d MMM yyyy'
+												placeholder='Select a range' [startDate]='start' [endDate]='end'
+												(change)="getDater($event)"></ejs-daterangepicker>
+										</div>
+									</div>
+								</div>
+								<div class="row mt-30">
+									<div class="col-md-12">
+										<button class="btn btn-primary" id="myaccountpage-reports-generateReport" (click)="getAuditLogReport()">Generate Report</button>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<hr class="line_reports mb-30">
+						<!-- code for Login Audit -->
+						<ng-container *ngIf="loginAudit == 1">
+							<div class="row mb-30">
+								<div class="col-md-12">
+									<h4>{{logService}}</h4>
+								</div>
+							</div>
+							<div class="row justify-content-end mb-30" *ngIf="auditReportTableData.length > 0">
+								<div class="col-md-12 text-right">
+									<button (click)="downloadPDF()" class="pdfcsvicon" id="my-account-savepdf"><img src="assets/pdficon.png"> Save
+								PDF</button>
+									<button class="pdfcsvicon" (click)="exportAsXLSXLogin()" id="my-account-savecsv"><img src="assets/csvicon.png"> Save
+								CSV</button>
+								</div>
+							</div>
+							<div #reportContent>
+								<div class="row">
+									<div class="col-md-12" *ngIf="getReportDetails">
+										<div class="table-responsive users-table import-table">
+											<p-table #reportData [value]="auditReportTableData"
+												[(selection)]="dateReport" dataKey="id" [rowHover]="true" [rows]="10"
+												[showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+												[resizableColumns]="true" [paginator]="auditPaginatorBoolean"
+												[responsive]="true"
+												currentPageReportTemplate="&#123;first&#125; - &#123;last&#125; of &#123;totalRecords&#125;"
+												[filterDelay]="0"
+												[globalFilterFields]="['createdDate','userName','changeSummary']">
+
+												<ng-template pTemplate="header">
+													<tr>
+														<th class="table_column" pSortableColumn="createdDate">Date &
+															Time<p-sortIcon class="sorTableIcon" field="createdDate">
+															</p-sortIcon>
+														</th>
+														<th class="table_column" pSortableColumn="userName">Login ID
+															<p-sortIcon class="sorTableIcon" field="userName">
+															</p-sortIcon>
+														</th>
+														<th class="table_column" pSortableColumn="changeSummary">Status
+															<p-sortIcon class="sorTableIcon" field="changeSummary">
+															</p-sortIcon>
+														</th>
+													</tr>
+													<tr>
+
+														<th class="table_column">
+															<input pInputText type="text"
+														(input)="reportData.filter($event.target.value, 'formattedCreatedDate', 'contains')"
+														class="ui-column-filter">
+												</th>
+														<th class="table_column">
+															<input pInputText type="text"
+														(input)="reportData.filter($event.target.value, 'userName', 'contains')"
+														class="ui-column-filter">
+												</th>
+														<th class="table_column">
+															<input pInputText type="text"
+														(input)="reportData.filter($event.target.value, 'changeSummary', 'contains')"
+														class="ui-column-filter">
+												</th>
+													</tr>
+												</ng-template>
+												<ng-template pTemplate="body" let-report>
+													<tr class="ui-selectable-row">
+														<td class="table_column" data-label="Date and Time">
+															{{report.createdDate | date : 'd MMM yyyy'}}
+															{{report.createdDate | date : 'HH:mm'}} (GMT +8:00)
+
+														</td>
+														<td class="table_column" data-label="Login ID">
+															{{report.userName}}
+														</td>
+														<td class="table_column" data-label="Status">
+															<div class="replaceTxt">{{report.changeSummary}}</div>
+														</td>
+													</tr>
+												</ng-template>
+												<ng-template pTemplate="emptymessage">
+													<tr>
+														<td class="table_column" colspan="8" style="text-align:left">No
+															Records found.</td>
+													</tr>
+												</ng-template>
+											</p-table>
+											<!-- <span class="totalCountPaginationReport" *ngIf="auditReportTableData.length > 0"> of {{auditReportTableData.length}}</span> -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</ng-container>
+
+
+						<!-- code for Service Access -->
+						<ng-container *ngIf="loginAudit == 2">
+							<div class="row mb-30">
+								<div class="col-md-12">
+									<h4>{{logService}}</h4>
+								</div>
+							</div>
+							<div class="row justify-content-end mb-30" *ngIf="tableAccount.length > 0">
+								<div class="col-md-12 text-right">
+									<button (click)="downloadPDF()" class="pdfcsvicon"><img src="assets/pdficon.png"> Save
+								PDF</button>
+									<button class="pdfcsvicon" (click)="exportAsXLSXService()"><img src="assets/csvicon.png">
+								Save CSV</button>
+								</div>
+							</div>
+							<div #reportContent>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="table-responsive users-table import-table">
+											<p-table #dt [value]="tableAccount" [(selection)]="selectedCustomers"
+												dataKey="id" [rowHover]="true" [rows]="10"
+												[showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+												[resizableColumns]="true" [paginator]="tableAccountBoolean"
+												[responsive]="true"
+												currentPageReportTemplate="&#123;first&#125; - &#123;last&#125; of &#123;totalRecords&#125;"
+												[filterDelay]="0"
+												[globalFilterFields]="['orderdate','offername','saasId']">
+
+												<ng-template pTemplate="header">
+													<tr>
+														<th class="table_column" pSortableColumn="orderdate">Order Date
+															<p-sortIcon class="sorTableIcon" field="orderdate">
+															</p-sortIcon>
+														</th>
+														<th class="table_column" pSortableColumn="offername">Service
+															Name<p-sortIcon class="sorTableIcon" field="offername">
+															</p-sortIcon>
+														</th>
+														<th class="table_column" pSortableColumn="saasId">Subscription
+															ID<p-sortIcon class="sorTableIcon" field="saasId">
+															</p-sortIcon>
+														</th>
+													</tr>
+													<tr>
+
+														<th class="table_column">
+															<input pInputText type="text"
+														(input)="dt.filter($event.target.value, 'orderdate', 'contains')"
+														class="ui-column-filter">
+												</th>
+														<th class="table_column">
+															<input pInputText type="text"
+														(input)="dt.filter($event.target.value, 'offername', 'contains')"
+														class="ui-column-filter">
+												</th>
+														<th class="table_column">
+															<input pInputText type="text"
+														(input)="dt.filter($event.target.value, 'saasId', 'contains')"
+														class="ui-column-filter">
+												</th>
+													</tr>
+												</ng-template>
+												<ng-template pTemplate="body" let-customer>
+													<tr class="ui-selectable-row">
+														<td class="table_column" data-label="Order Date">
+															<!-- {{customer.orderdate | date : 'd MMM yyyy'}} {{customer.orderdate | date:'d:mm:ss z'}} -->
+															{{customer.orderdate | date : 'd MMM yyyy'}}
+															{{customer.orderdate | date : 'HH:mm'}} (GMT +8:00)
+														</td>
+														<td class="table_column" data-label="Service Name">
+															&#123;&#123;customer.offername&#125;&#125;
+														</td>
+														<td class="table_column" data-label="Saas ID">
+															&#123;&#123;customer.saasId&#125;&#125;
+														</td>
+													</tr>
+												</ng-template>
+												<ng-template pTemplate="emptymessage">
+													<tr>
+														<td class="table_column" colspan="8" style="text-align:left">No
+															Records found.</td>
+													</tr>
+												</ng-template>
+											</p-table>
+											<!-- <span class="totalCountPagination" *ngIf="tableAccount.length > 0"> of {{tableAccount.length}}</span> -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</ng-container>
+					</div>
+				</div>
+			</div>
+			<!-- Tab content Ends here  -->
+</main>

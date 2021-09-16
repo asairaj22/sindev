@@ -1,0 +1,42 @@
+.process-details-tab-content .tab-pane{
+    height: 100vh;
+    overflow: hidden;
+}
+.process-details-tab-content pre{
+    font-size: 0.8em;
+}
+.processDetailsTab > .ngx-json-viewer{
+    max-height: 100vh;
+    min-height: 95vh;
+    overflow: auto;
+    height: 450px;
+}
+div > section{
+    max-height: 100vh;
+    min-height: 95vh;
+    overflow: auto;
+    height: 450px;
+}
+.pad-0{
+    padding: 0rem;
+}
+.m-lo-0{
+    margin: 0rem;
+}
+#nav-tab>.nav-link.active{
+    color: #fff;
+    background-color: #007bff;
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+.highcharts-credits{
+    display: none;
+}
+#processMetricsTab .processMontrInstToRep> .highcharts-container{
+    display: none;
+}
+.highcharts-container{
+    display: none;
+}
+.font-sz{
+    font-size: 12px;
+}

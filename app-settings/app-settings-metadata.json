@@ -1,0 +1,35 @@
+{
+  "defaultLanding" : "/dashboard",
+  "fontProperties" : {
+    "exportOpts" : {
+      "footer" : {
+        "center" : "{{DEFAULT TEXT}}",
+        "left" : "{{DEFAULT TEXT}}",
+        "right" : "{{DEFAULT TEXT}}"
+      },
+      "header" : {
+        "center" : "{{DEFAULT TEXT}}",
+        "left" : "{{DEFAULT TEXT}}",
+        "right" : "{{DEFAULT TEXT}}"
+      },
+      "isExcelFileUploaded" : false
+    },
+    "fontColor" : "inherit",
+    "fontFamily" : "inherit",
+    "fontSize" : 15,
+    "fontWeight" : "inherit",
+    "footerProperties" : {
+      "fontColor" : "black",
+      "fontFamily" : "inherit",
+      "fontSize" : 15,
+      "fontWeight" : "inherit",
+      "isItalic" : false,
+      "isUnderline" : false,
+      "name" : "Powered by APPTIUM"
+    },
+    "isItalic" : false,
+    "isSameWindowTab" : false,
+    "isUnderline" : false
+  },
+  "publicAccessPages" : [ "/about-us", "/contact-us", "/auth/login", "/auth/sign-up", "/home", "/auth/forgot-password", "/auth/change-password", "/auth/set-password", "/auth/activate-account/:token", "/terms" ]
+}

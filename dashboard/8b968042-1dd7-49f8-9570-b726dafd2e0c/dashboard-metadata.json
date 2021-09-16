@@ -1,0 +1,16 @@
+{
+  "appName" : "smrkt",
+  "chartTheme" : "1",
+  "columnPerRow" : "3",
+  "dashboard_id" : "8b968042-1dd7-49f8-9570-b726dafd2e0c",
+  "epDashboardType" : "Application",
+  "isActive" : true,
+  "isAutoAlign" : true,
+  "isSaved" : false,
+  "name" : "Dashboard_Default",
+  "position" : 1,
+  "refreshInterval" : 0,
+  "state" : "Active",
+  "widgetInfo" : { },
+  "widgetNameList" : [ ]
+}

@@ -1,0 +1,101 @@
+<div class="row m-lo-0 p-0">
+    <div class="col-md-12 log-screens p-0" id="log-main-screen">
+         <div class="col-md-12"><h1 class="log-header-title" translate>Process Audit</h1></div>
+		 <div class="col-md-12"><h2 class="l-header-sub m-t-0" translate>Create Report</h2></div>
+		<div class="col-md-12" translate>To create a targeted transaction report, specify the date range and additional parameters.<br></div>
+            
+            <div class="row m-lo-0 p-3">
+                <div class="col-md-3">
+					<input type="text" [(ngModel)]="filter.instanceId" class="form-control" id="processId" placeholder="Process Instance ID">
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control"(change)="filterVersion($event.target.value)" [(ngModel)]="filter.processNodeName">
+                        <option value="">Select Process Name</option>
+                        <option *ngFor="let psName of processNamesObj" [value]="psName">
+                          {{psName}}
+                        </option>
+                      </select>
+					<!--<select class="form-control sel-act" ng-model="filter.processNodeName" id="processNodeName"
+						ng-options="attrvalue.processName as attrvalue.processName for (attrkey,attrvalue) in processNames | unique:'processName' | filter:{'processNodeState':'ACTIVE'}">
+							<option value="">Select Name</option>
+					</select>-->
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" [(ngModel)]="filter.processNodeVersion">
+                        <option value="">Select Version</option>
+                        <option *ngFor="let v of processVersion">{{v}}</option>
+                      </select>
+				<!--<select class="form-control" style="height: 34px;" ng-model="filter.processNodeVersion" id="processNodeVersion">
+						<option value="">Select aaaa Version</option>
+						<option value="{{versionValue.processVersion}}" ng-repeat=" (versionKey,versionValue) in filterVersion(processNames)">{{versionValue.processVersion}}</option>
+					</select>-->
+				</div>
+				<div class="col-md-3">
+					<select id="processInstanceNodeState" [(ngModel)]="filter.processInstanceNodeState" class="form-control sel-act" data-placeholder="Pick a status">
+						<option value=""> Select Status </option>
+						<option value="COMPLETED">COMPLETED</option> 
+						<option value="RUNNING">RUNNING</option>
+					</select> 
+				</div>
+            </div>
+
+            <div class="row m-lo-0 p-3">
+                <div class="col-md-3" id="start-time">
+                    <angular2-date-picker 
+                        [ngModel]="filter.processInstanceStartTime" 
+                        placeholder="Datepicker" 
+                        [settings]="settings"
+                        (onDateSelect)="onDateSelect($event, 'processInstanceStartTime')">
+                    </angular2-date-picker>
+                    <!-- <input [ngModel]="filter.processInstanceStartTime" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" style="width: inherit;">
+                    <owl-date-time pickerType='both' #dt1="owlDateTime"></owl-date-time> -->
+                </div>
+    
+                <div class="col-md-3" id="end-time">
+                    <angular2-date-picker 
+                        [ngModel]="filter.processInstanceEndTime" 
+                        placeholder="Datepicker" 
+                        [settings]="settings"
+                        (onDateSelect)="onDateSelect($event, 'processInstanceEndTime')">
+                    </angular2-date-picker>
+                    <!-- <input [ngModel]="filter.processInstanceStartTime" [owlDateTime]="dt" [owlDateTimeTrigger]="dt" style="width: inherit;">
+                    <owl-date-time #dt></owl-date-time> -->
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-clr1 btn-size" (click)="getProcessLogData()">Search</button>
+                    <button class="btn btn-clr2 btn-size" (click)="resetFields()">Clear</button>
+                </div>
+			</div>
+            <div class="row m-lo-0 p-3">
+            <app-process-search-table style="width: 100%" 
+                *ngIf="processLogScreen == 'process-log-table'" 
+                [processSearchTableData]="processSearchTableData"
+                defaultDateTimeFormat="{{defaultDateTimeFormat}}"
+                (viewProcessDetails)="detailedView($event);" 
+                (viewProcessFlowDetails)="processFlowDetails($event);" 
+                (triggerBack)="switchEventLogScreens($event)">
+            </app-process-search-table>
+            <app-process-log-details style="width: 100%"
+                *ngIf="processLogScreen == 'process-log-details'" 
+                [processInstanceLogData]="processInstanceLogData" 
+                defaultDateTimeFormat="{{defaultDateTimeFormat}}" 
+                (viewProcessLogDetails)="getProcessLogDetails($event);" 
+                (triggerBack)="switchEventLogScreens($event)">
+            </app-process-log-details>
+            <app-process-step-details style="width: 100%"
+                *ngIf="processLogScreen == 'process-step-details'" 
+                [processStepData]="processStepLogData" 
+                defaultDateTimeFormat="{{defaultDateTimeFormat}}" 
+                (viewProcessStepDetails)="getProcessStepDetails($event);" 
+                (triggerBack)="switchEventLogScreens($event)">
+            </app-process-step-details>
+            <app-process-flow-details style="width: 100%"
+                *ngIf="processLogScreen == 'process-flow-details'" 
+                [processFlowData]="processInstanceLogData" 
+                defaultDateTimeFormat="{{defaultDateTimeFormat}}" 
+                (viewProcessStepDetails)="getProcessStepDetails($event);" 
+                (triggerBack)="switchEventLogScreens($event)">
+            </app-process-flow-details>
+            </div>
+    </div>
+</div>

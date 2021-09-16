@@ -1,0 +1,198 @@
+.dummyTr * {
+    padding: 0px !important;
+    height: 0px !important;
+}
+.imgDisplay{
+	display: none;
+}
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+.custom-border-form-control{
+	border-radius: 0px;
+    border-width: .078em;
+    border-style: solid;
+    border-color: rgb(169, 169, 169);
+    border-image: initial;
+}
+.matrix-table-header {
+    table-layout: fixed;
+}
+.matrix-table {
+    margin-bottom: 0px !important;
+}
+table tbody tr {
+	text-align: center;
+}
+table th {
+	font-size: 16px;
+	font-family: 'Source Sans Pro', sans-serif;
+	/* text-transform: capitalize !important; */
+	color: #184676 !important;
+	font-weight: unset !important;
+	padding: 12px 5px 12px 5px!important;
+	background-color: #FFF !important;
+	text-align: center;
+}
+table tbody tr td {
+	color: #5c5b60;
+	font-size: 16px;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-weight: unset;
+	/* padding: 10px 0 10px !important; */
+	text-align: center;
+}
+.matrix-table-header, .matrix-table-body {
+    table-layout: fixed;
+}
+.matrix-table-outer table.matrix-table-body > thead {
+	visibility: hidden !important;
+    opacity: 0 !important;
+}
+.matrix-table-outer.scroll-visiable {
+	 padding-right: 5px;
+}
+.thin-scrollbar::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+.thin-scrollbar::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+	background-color: #F5F5F5;
+}
+.thin-scrollbar:hover::-webkit-scrollbar{
+	width: 8px;
+	height: 8px;
+}
+.thin-scrollbar::-webkit-scrollbar-thumb {
+	background-color: #c1c1c1;
+}
+#previewHeader .columnLabel{
+	min-width: 150px !important;
+}
+.report-title-table {
+	table-layout: fixed;
+    width: 0px;
+}
+.report-title-table td {
+    color: inherit;
+    word-wrap: break-word;
+}
+.table-Responsive{
+	width: 100%;
+    table-layout: auto;
+}
+.report-hyperlink[href=''] {
+	display: none !important;
+}
+.report-hyperlink:not([href='']) + .report-ignore-hyperlink {
+	display: none !important;
+}
+.freeHandTextBox{
+	display: block;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    background-color: unset;
+}
+.ep_report_section_container{
+	display: table;
+}
+.ep_report_section_header{
+	display: table-cell;
+}
+.ep_report_section_additional_header_container{
+	display: table;
+}
+.ep_report_section_additional_header{
+	display: table-cell;
+}
+.table-gen>thead>tr>th,.table-gen>thead>tr>td,.table-gen>tbody>tr>th,.table-gen>tbody>tr>td,.table-gen>tfoot>tr>th,.table-gen>tfoot>tr>td {
+    padding: 8px;
+    line-height: 1.42857;
+}
+td, th, th>li{
+	word-wrap: break-word;
+	padding-left: 5px !important;
+	padding-right: 5px !important;
+    text-transform: none !important;
+}
+table.ui-datepicker-calendar td {
+	padding: 1px !important;
+}
+.ep-infinite-scroll{
+	overflow-x: auto;
+}
+.filter-criteria-container {
+    flex-wrap: wrap;
+}
+.mandatory:after{
+	content:"*";
+	color: #a94442;
+}
+.mandatoryGroup:after{
+	content:"**";
+	color: #a94442;
+	border: 0;
+}
+.mandatoryGroup-label {
+	max-width: calc(100% - 10px);
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.filter-criteria-container input, .filter-criteria-container select, .filter-criteria-container eplmsdlist{
+	font-size: .9rem;
+}
+.ngb-dp-arrow-btn{
+    padding: 0 0.25rem !important;
+    margin: 0 0.5rem;
+    border: none;
+    background-color: transparent;
+    z-index: 1;
+}
+#manage_filter_Modal .dropdown-toggle::after, 
+
+ep-report-year-picker .dropdown-toggle::after, 
+ep-report-month-picker .dropdown-toggle::after{
+	content: none;
+}
+/* #manage_filter_Modal i{
+	position: relative;
+	bottom: .20em;
+} */
+#manage_filter_Modal i:hover{
+	color: #ffc107!important;
+}
+dl-date-time-picker .oi{
+	display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+dl-date-time-picker .oi-chevron-left:before {
+    content: "\f053";
+}
+dl-date-time-picker .oi-chevron-right:before {
+    content: "\f054";
+}
+dl-date-time-picker .oi-chevron-top:before {
+    content: "\f077";
+}
+.caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-top: 4px dashed;
+    border-top: 4px solid \9;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}

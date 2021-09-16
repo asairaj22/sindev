@@ -1,0 +1,31 @@
+<div class="input-group mr-2" (click)="updateDefaultEndDate()">
+    <input [ngClass]="ngControl?.valid ? 'ng-valid' : 'ng-invalid'" class="form-control h-100 p-1" style="min-height: 34px;" [placeholder]="widgetDetails.placeHolder ? widgetDetails.placeHolder : ''" (blur)="inputBlur($event)" [ngModel]="dateString | date:inputDatetimeFormat" (change)="onInputChange($event)" [disabled]='disabled' />
+
+    <div class="input-group-append">
+        <button class="btn btn-outline-secondary" [ngbPopover]="calendarContent" [disabled]='disabled' type="button">
+            <i class="fa fa-calendar-o" aria-hidden="true"></i>
+        </button>
+    </div>
+</div>
+
+<ng-template #calendarContent>
+    <div >
+        <div *ngIf="!showTimePickerToggle" >
+            <ngb-datepicker #dp name="datepicker" [ngModel]="datetime" [minDate]="widgetConfOptions.minDate" [maxDate]="widgetConfOptions.minDate" (ngModelChange)="onDateChange($event)">
+            </ngb-datepicker>
+            <button class="btn btn-block btn-outline-secondary" *ngIf="dateWidgetType == 'DATETIME'" [disabled]="!datetime?.day" [ngbPopover]="timePickerContent" type="button" (click)="toggleDateTimeState($event)">
+                <i class="fa fa-clock-o" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div *ngIf="showTimePickerToggle && dateWidgetType == 'DATETIME'" >
+            <button class="btn btn-block btn-outline-secondary" [ngbPopover]="calendarContent" type="button" (click)="toggleDateTimeState($event)">
+                <i class="fa fa-calendar-o" aria-hidden="true"></i>
+            </button>
+            <div class="mt-auto">
+            <ngb-timepicker #tp name="timepicker" [ngModel]="datetime" (ngModelChange)="onTimeChange($event)" [seconds]="seconds"
+            [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep"></ngb-timepicker>
+            </div>
+        </div>
+    </div>
+</ng-template>
+

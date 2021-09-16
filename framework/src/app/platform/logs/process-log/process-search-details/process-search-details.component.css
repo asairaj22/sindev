@@ -1,0 +1,33 @@
+
+.l-header-sub {
+	font-weight: 300;
+	font-size: 21px;
+	color: orange;
+}
+.btn-size{
+	width: 40%;
+    margin-right: 12px
+}
+.btn-clr1{
+	color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.btn-clr2{
+	color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.modal-dialog {
+    max-width: 96% !important;
+}
+.test {
+    max-width: 100vw;
+    width: 96vw;
+}
+.word-break{
+    word-break: break-all;
+}
+.m-lo-0{
+    margin: 0rem;
+}

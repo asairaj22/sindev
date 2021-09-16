@@ -1,0 +1,146 @@
+:host ::ng-deep .p-datatable-gridlines {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+
+
+//     .ui-sortable-column-icon {
+    
+// }
+
+
+   
+    
+   
+    .ui-paginator {
+        .ui-dropdown {
+            float: left;
+        }
+    
+        .ui-paginator-current {
+            float: right;
+        }
+    }
+
+    .ui-progressbar {
+        height: 8px;
+        background-color: #D8DADC;
+    
+        .ui-progressbar-value {
+            background-color: #00ACAD;
+        }
+    }
+
+
+    .ui-column-filter {
+        display: block;
+    
+        input {
+            width: 100%;
+        }
+    }
+
+    .ui-table-globalfilter-container {
+        float: right;
+    
+        input {
+            width: 200px;
+        }
+    }
+
+
+
+    .ui-table-caption {
+        border: 0 none;
+        padding: 12px;
+        text-align: left;
+        font-size: 20px;
+    }
+
+    .ui-paginator {
+        border: 0 none;
+        padding: 1em;
+    }
+
+    .ui-table-thead > tr > th {
+        border: 0 none;
+        text-align: left;
+        color: #007ad9;
+        // color: #ed1a3d;
+        
+
+        &.ui-filter-column {
+            border-top: 1px solid #c8c8c8;
+        }
+
+        // &:first-child {
+        //     width: 5em;
+        //     text-align: center;
+        // }
+
+        // &:last-child {
+        //     width: 8em;
+        //     text-align: center;
+        // }
+    }
+
+    .ui-table-tbody > tr > td {
+        // border: 0 none;
+        border: 1px solid #dee2e6;
+        cursor: auto;
+        padding: 0.75rem;
+
+        // &:first-child {
+        //     width: 3em;
+        //     text-align: center;
+        // }
+
+        // &:last-child {
+        //     width: 8em;
+        //     text-align: center;
+        // }
+    }
+
+    .ui-dropdown-label:not(.ui-placeholder) {
+        text-transform: uppercase;
+    }
+
+    .ui-table-tbody > tr > td .ui-column-title {
+        display: none;
+    }
+}
+:host ::ng-deep .ui-table .ui-sortable-column.ui-state-highlight {
+    background-color: #f4f4f4;
+    color: #333333;
+}
+:host ::ng-deep .ui-table .ui-sortable-column.ui-state-highlight .ui-sortable-column-icon {
+    color: #848484;
+}
+
+/* Responsive */
+@media screen and (max-width: 64em) {
+    :host ::ng-deep .ui-table {
+        &.p-datatable-gridlines {
+            .ui-table-thead > tr > th,
+            .ui-table-tfoot > tr > td {
+                display: none !important;
+            }
+
+            .ui-table-tbody > tr > td {
+                text-align: left;
+                display: block;
+                border: 0 none !important;
+                width: 100% !important;
+                float: left;
+                clear: left;
+                border: 0 none;
+
+                .ui-column-title {
+                    padding: .4em;
+                    min-width: 30%;
+                    display: inline-block;
+                    margin: -.4em 1em -.4em -.4em;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}

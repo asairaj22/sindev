@@ -1,0 +1,385 @@
+<div class="row">
+    <div class="col-12 form-group d-flex mb-1">
+        <div class="custom-control custom-radio pr-4" (click)="wizard_widget.toDynamicQuerySection();">
+            <input type="radio" [(ngModel)]="wizard_selectedData_filter.type" class="custom-control-input" id="dynamicBuilder" name="Filter_Type" value="Build Query">
+            <label class="custom-control-label f-s-09rem cur-pointer" [ngClass]="{'f-w-500': wizard_selectedData_filter.type == 'Build Query'}" for="dynamicBuilder">Dynamic Builder</label>
+        </div>
+        <div class="custom-control custom-radio pr-4" (click)="wizard_widget.toCustomQuerySection();">
+            <input type="radio" [(ngModel)]="wizard_selectedData_filter.type" class="custom-control-input" id="customBuilder" name="Filter_Type" value="Custom Query">
+            <label class="custom-control-label f-s-09rem cur-pointer" [ngClass]="{'f-w-500': wizard_selectedData_filter.type == 'Custom Query'}" for="customBuilder">Custom Query</label>
+        </div>
+    </div>
+    <div class="col-12">
+        <div id="dynamicAccordion" [ngClass]="{'d-none': !(wizard_selectedData_filter.type == 'Build Query')}">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="card-link acc-title" data-toggle="collapse" href="#acc" aria-expanded="false">
+                        <i class="fa fa-chevron-right f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                        <i class="fa fa-chevron-down f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                        Objects
+                    </h6>
+                </div>
+                <div id="acc" class="collapse" data-parent="#dynamicAccordion">
+                    <div class="card-body p-2 pt-1 pl-5 pr-5">
+                        <div class="row pt-0">
+                            <div class="col-12">
+                                <button type="button" class="btn btn-sm btn-info float-right" (click)="wizard_queryBuilder.add(wizard_selectedData_filter.queryAttributes.dimension)">
+                                    <i class="fa fa-plus-circle pr-1" aria-hidden="true"></i>Add Objects
+                                </button>
+                            </div>
+                            <div class="col-12" *ngFor="let dim of wizard_selectedData_filter.queryAttributes?.dimension; let i = index;">
+                                <div class="row">
+                                    <label class="col-2 cb-label text-right pt-2">Objects:</label>
+                                    <div class="col-4">
+                                        <input [attr.list]="'customisedNode_' + i" class="form-control input-sm" (blur)="wizard_queryBuilder.createAlias(dim);" [(ngModel)]="dim.node">
+                                        <datalist [id]="'customisedNode_' + i">
+                                            <option *ngFor="let objectMeta of wizard_queryBuilder.objectMetadataInfo | keyvalue" [value]="objectMeta.value.model">{{objectMeta.value.model}}</option>
+                                        </datalist>
+                                    </div>
+                                    <label class="col-2 cb-label text-right pt-2">Alias:</label>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control input-sm" [(ngModel)]="dim.alias" />
+                                    </div>
+                                    <i class="fa fa-trash pt-2 cur-pointer fa-lg" aria-hidden="true" *ngIf="wizard_selectedData_filter?.queryAttributes.dimension.length > 1" (click)="wizard_queryBuilder._delete(wizard_selectedData_filter.queryAttributes?.dimension, i)"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" (click)="wizard_queryBuilder.loadDimension_attribute()">
+                    <h6 class="card-link acc-title" data-toggle="collapse" href="#acc1" aria-expanded="false">
+                        <i class="fa fa-chevron-right f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                        <i class="fa fa-chevron-down f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                        Where
+                    </h6>
+                </div>
+                <div id="acc1" class="collapse" data-parent="#dynamicAccordion">
+                    <div class="card-body p-2 pt-1 pl-5 pr-5">
+                        <div class="row pt-0">
+                            <div class="col-12">
+                                <button type="button" class="btn btn-sm btn-info float-right" (click)="wizard_queryBuilder.addLogic(wizard_selectedData_filter.queryAttributes.condition)">
+                                    <i class="fa fa-plus-circle pr-1" aria-hidden="true"></i>Add Logic
+                                </button>
+                            </div>
+                            <div class="col-12 grouping-outer-container">
+                                <div class="row p-0" *ngFor="let con of wizard_selectedData_filter.queryAttributes?.condition; let i = index;">
+                                    <div class="groupingIcon" [ngClass]="{'grouping-selected': con.isGrouped}" *ngIf="wizard_selectedData_filter.queryAttributes?.condition.length > 1">
+                                        <div class="start"></div>
+                                        <div class="middle middle-start" (click)="con.isGrouped = !con.isGrouped"></div>
+                                        <div class="middle middle-end" (click)="con.isGrouped = !con.isGrouped"></div>
+                                        <div class="end" [ngClass]="{'extended': ['current_datetime', 'datetime'].indexOf((con.attrValue || '').toLowerCase()) != -1}"></div>
+                                    </div>
+                                    <div class="col-12" [ngClass]="{'d-none': i == 0}">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <select [(ngModel)]="con.logic" class="form-control dash-dropdown">
+                                                    <option value="">Select</option>
+                                                    <option value="AND">AND</option>
+                                                    <option value="OR">OR</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <input [attr.list]="'modelAttributes_' + i" class="form-control input-sm" [(ngModel)]="con.attr">
+                                                <datalist [id]="'modelAttributes_' + i">
+                                                    <option *ngFor="let attr of wizard_queryBuilder.objectMetadata_attributeInfo | keyvalue" [value]="attr.key">{{attr.key}}</option>
+                                                </datalist>
+                                            </div>
+                                            <div class="col-2">
+                                                <select [(ngModel)]="con.operation" class="form-control dash-dropdown select-dropdown" >
+                                                    <option value="">Select</option>
+                                                    <option value="=">=</option>
+                                                    <option value="!=">!=</option>
+                                                    <option value=">">></option>
+                                                    <option value=">=">>=</option>
+                                                    <option value="<"><</option>
+                                                    <option value="<="><=</option>
+                                                    <option value="<>"><></option>
+                                                    <option value="IN">IN</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-5">
+                                                <div class="row p-0">
+                                                    <div class="col-12">
+                                                        <input [attr.list]="'modelAttributes_value_' + i" class="form-control input-sm" [(ngModel)]="con.attrValue">
+                                                        <datalist [attr.id]="'modelAttributes_value_' + i">
+                                                            <option value="DATETIME">DATETIME</option>
+                                                            <option value="CURRENT_DATETIME">CURRENT_DATETIME</option>
+                                                            <option *ngFor="let attr of wizard_queryBuilder.objectMetadata_attributeInfo | keyvalue" [value]="attr.key">{{attr.key}}</option>
+                                                        </datalist>
+                                                    </div>
+                                                    <div class="col-6 mt-2" *ngIf="(con.attrValue || '').toLowerCase() == 'datetime'">
+                                                        <input type="text" class="form-control input-sm" [(ngModel)]="con.attrDateKey">
+                                                    </div>
+                                                    <div class="col-6 mt-2 d-flex pl-1" *ngIf="(con.attrValue || '').toLowerCase() == 'datetime'">
+                                                        <input type="text" class="w-75 form-control input-sm" [(ngModel)]="con.attrDateFormat">
+                                                        <i class="fa fa-info-circle btn btn-sm btn-info pt-1 mt-1 position-relative bottom-025em cur-pointer" (click)="openPopup()"></i>
+                                                    </div>
+                                                    <div class="col-6 mt-2" *ngIf="(con.attrValue || '').toLowerCase() == 'current_datetime'">
+                                                        <input type="number" class="form-control input-sm" [(ngModel)]="con.interval">
+                                                    </div>
+                                                    <div class="col-6 pl-1 mt-2" *ngIf="(con.attrValue || '').toLowerCase() == 'current_datetime'" style="padding-left: 5px;">
+                                                        <select [(ngModel)]="con.intervalType" class="form-control dash-dropdown select-dropdown" >
+                                                            <option value="">Select</option>
+                                                            <option *ngFor="let val of static_interval" value="{{val}}">{{val}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <i class="fa fa-trash pt-2 cur-pointer fa-lg" aria-hidden="true" (click)="wizard_queryBuilder._delete(wizard_selectedData_filter.queryAttributes.condition, i)"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" (click)="wizard_queryBuilder.loadDimension_attribute()">
+                    <h6 class="card-link acc-title" data-toggle="collapse" href="#acc2" aria-expanded="false">
+                        <i class="fa fa-chevron-right f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                        <i class="fa fa-chevron-down f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                        Return
+                    </h6>
+                </div>
+                <div id="acc2" class="collapse" data-parent="#dynamicAccordion">
+                    <div class="card-body p-2 pt-3 pl-5 pr-5">
+                        <div class="row pt-0 pl-4">
+                            <div class="col-12 mb-2" [ngClass]="{'d-none': !(wizard_selectedData_widget.type == 'table')}" >
+                                <button type="button" class="btn btn-sm btn-info float-right" (click)="wizard_queryBuilder.addReturn(wizard_selectedData_filter.queryAttributes.returnDynamic)">
+                                    <i class="fa fa-plus-circle pr-1" aria-hidden="true"></i>Add Return
+                                </button>
+                            </div>
+                            <div class="col-12" *ngFor="let ret of wizard_selectedData_filter.queryAttributes?.returnDynamic; let i = index;">
+                                <div class="row p-0">
+                                    <label class="col-1 p-0 cb-label text-right mt-2" *ngIf="wizard_selectedData_widget.type == 'table'">Column {{i + 1}}:</label>
+                                    <label class="col-1 p-0 cb-label text-right mt-2" *ngIf="wizard_selectedData_widget.type == 'chart'">{{chartInfo[wizard_selectedData_widget.chart_type]?.returnObjects[i]}}</label>
+                                    <div class="col-3" [ngClass]="{'d-none': !(ret.aggr!='CUSTOM')}">
+                                        <input [attr.list]="'modelAttributes_return_' + i" class="form-control input-sm" [(ngModel)]="ret.attr">
+                                        <datalist [attr.id]="'modelAttributes_return_' + i">
+                                            <option *ngFor="let attr of wizard_queryBuilder.objectMetadata_attributeInfo | keyvalue" [value]="attr.key">{{attr.key}}</option>
+                                        </datalist>
+                                    </div>
+                                   <!-- //TODO  -->
+                                    <div class="col-md-3" *ngIf="ret.aggr=='CUSTOM'">
+                                        <div class="input-group">
+                                            <input class="js-tree-drop-attr form-control input-sm" [(ngModel)]="ret.attr">
+                                            <i class="fa fa-code btn btn-sm btn-info pt-1 mt-1 position-relative bottom-025em cur-pointer" (click)="wizard_queryBuilder.openCustomEditor(ret.attr, i);"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-7">
+                                        <div class="row p-0">
+                                            <div class="col-4 pl-0">
+                                                <select id="" class="form-control select-dropdown"  [(ngModel)]="ret.aggr">
+                                                    <option value = "">SELECT</option>
+                                                    <option value = "SUM">SUM</option>
+                                                    <option value = "COUNT">COUNT</option>
+                                                    <option value = "AVG">AVG</option>
+                                                    <option value = "DATE">DATE</option>
+                                                    <option value = "CUSTOM">CUSTOM</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-4 pl-0">
+                                                <input type ="text" class="form-control input-sm" [(ngModel)]="ret.aliasName" placeholder="Alias">
+                                            </div>
+                                            <div class="col-4 d-flex p-0">
+                                                <input class="form-control input-sm" [(ngModel)]="ret.additionalInfo">
+                                                <i class="fa fa-info-circle btn btn-sm btn-info pt-1 mt-1 position-relative bottom-025em cur-pointer" *ngIf="ret.aggr=='DATE'" (click)="openPopup()"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <i class="fa fa-trash pt-2 cur-pointer fa-lg pl-3" *ngIf="wizard_selectedData_widget.type == 'table'" aria-hidden="true" (click)="wizard_queryBuilder._delete(wizard_selectedData_filter.queryAttributes.returnDynamic, i)"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" (click)="wizard_queryBuilder.loadDimension_attribute()">
+                    <h6 class="card-link acc-title" data-toggle="collapse" href="#acc3" aria-expanded="false">
+                        <i class="fa fa-chevron-right f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                        <i class="fa fa-chevron-down f-s-09rem float-right pt-1" aria-hidden="true"></i>
+                        Advanced
+                    </h6>
+                </div>
+                <div id="acc3" class="collapse" data-parent="#dynamicAccordion">
+                    <div class="card-body p-2 pt-1">
+                        <div class="row pt-0">
+                            <div class="col-12 mb-2">
+                                <button type="button" class="btn btn-sm btn-info float-right" (click)="wizard_queryBuilder.addOrderBy(wizard_selectedData_filter.queryAttributes.orderByList)">
+                                    <i class="fa fa-plus-circle pr-1" aria-hidden="true"></i>Add Order By
+                                </button>
+                                <button type="button" class="btn btn-sm btn-info mr-2 float-right" (click)="wizard_queryBuilder.addGroupBy(wizard_selectedData_filter.queryAttributes.groupByList)">
+                                    <i class="fa fa-plus-circle pr-1" aria-hidden="true"></i>Add Group By
+                                </button>
+                            </div>
+                            <div class="col-12 mb-2" *ngIf="wizard_selectedData_filter.queryAttributes?.groupByList.length > 0">
+                                <div class="row p-0" *ngFor="let adv of wizard_selectedData_filter.queryAttributes?.groupByList; let i = index;">
+                                    <label class="col-2 cb-label text-right pt-2">Group By :</label>
+                                    <div class="col-4 pl-0">
+                                        <input [attr.list]="'modelAttributes_groupBy_' + i" class="form-control input-sm" [(ngModel)]="adv.groupby">
+                                        <datalist [id]="'modelAttributes_groupBy_' + i">
+                                            <option *ngFor="let attr of wizard_queryBuilder.objectMetadata_attributeInfo | keyvalue" [value]="attr.key">{{attr.key}}</option>
+                                        </datalist>
+                                    </div>
+                                    <div class="col-5 p-0">
+                                        <div class="row p-0">
+                                            <div class="col-5">
+                                                <select [(ngModel)]="adv.type" (change)="adv.format = (adv.type == 'DATE' ? adv.format: '')" class="form-control select-dropdown">
+                                                    <option value="">Select</option>
+                                                    <option value="DATE">Date</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-7 pl-0 d-flex">
+                                                <input type="text" [disabled]="adv.type != 'DATE'" class="form-control input-sm" [(ngModel)]="adv.format" />
+                                                <i class="fa fa-info-circle btn btn-sm btn-info pt-1 mt-1 position-relative bottom-025em cur-pointer" (click)="openPopup()"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <i class="fa fa-trash pt-2 cur-pointer pl-3 fa-lg" aria-hidden="true" (click)="wizard_queryBuilder._delete(wizard_selectedData_filter.queryAttributes.groupByList , i)"></i>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-2" *ngIf="wizard_selectedData_filter.queryAttributes?.orderByList.length > 0">
+                                <div class="row p-0" *ngFor="let adv of wizard_selectedData_filter.queryAttributes?.orderByList; let i = index">
+                                    <label class="col-2 cb-label text-right pt-2">Order By :</label>
+                                    <div class="col-4 pl-0">
+                                        <input [attr.list]="'modelAttributes_orderBy_' + i" class="form-control input-sm" [(ngModel)]="adv.orderby">
+                                        <datalist [id]="'modelAttributes_orderBy_' + i">
+                                            <option *ngFor="let attr of wizard_queryBuilder.objectMetadata_attributeInfo | keyvalue" [value]="attr.key">{{attr.key}}</option>
+                                        </datalist>
+                                    </div>
+                                    <label class="col-1 cb-label text-right p-0 pt-2">Sort :</label>
+                                    <div class="col-4 pr-0">
+                                        <select [(ngModel)]="adv.sort" class="form-control dash-dropdown select-dropdown">
+                                            <option value="ASC">ASC</option>
+                                            <option value="DESC">DESC</option>
+                                        </select>
+                                    </div>
+                                    <i class="fa fa-trash pt-2 cur-pointer pl-3 fa-lg" aria-hidden="true" (click)="wizard_queryBuilder._delete(wizard_selectedData_filter.queryAttributes.orderByList, i)"></i>
+                                </div>
+                            </div>
+                            <div class="col-12" *ngIf="wizard_selectedData_filter.queryAttributes">
+                                <div class="row p-0">
+                                    <label class="col-2 cb-label text-right">Skip :</label>
+                                    <div class="col-4 pl-0">
+                                        <input type="number" min="1" step="1" class="form-control input-sm" [(ngModel)]="wizard_selectedData_filter.queryAttributes.skip" />
+                                    </div>
+                                    <label class="col-1 cb-label text-right p-0 pt-2">Limit :</label>
+                                    <div class="col-4 pr-0">
+                                        <input class="form-control input-sm" type="number" min="1" step="1" [(ngModel)]="wizard_selectedData_filter.queryAttributes.limit">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-2" *ngIf="chartInfo[wizard_selectedData_widget.chart_type]?.isFillPlotOptionRequired == true">
+                                <hr>
+                                <div class="row">
+                                    <label class="col-2 cb-label text-right">Fill Plot :</label>
+                                    <div class="col-9 p-0">
+                                        <input type="checkbox" [checked]="wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlot=='true'" class="p-switch" id="switch" />
+                                        <label class="p-switch-label" (click)="updateCheck('switch');" for="switch">Toggle</label>
+                                    </div>
+                                    <div class="col-12" *ngIf="wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlot=='true'">
+                                        <div class="row p-0">
+                                            <label class="col-2 pt-2 cb-label text-right">Start :</label>
+                                            <div class="col-10 pl-0">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <input [attr.list]="'modelAttributes_value_' + i" class="form-control input-sm" [(ngModel)]="wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.start">
+                                                        <datalist [attr.id]="'modelAttributes_value_' + i">
+                                                            <!-- <option value="DATETIME">DATETIME</option> -->
+                                                            <option value="CURRENT_DATETIME">CURRENT_DATETIME</option>
+                                                            <!-- <option ng-repeat="(key, val) in wizard_queryBuilder.objectMetadata_attributeInfo" value="{{key}}">{{key}}</option> -->
+                                                        </datalist>
+                                                    </div>
+                                                    <div class="col-3" *ngIf="(wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.start || '').toLowerCase() == 'datetime'">
+                                                        <input type="text" class="form-control input-sm" [(ngModel)]="wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.startAttrDateKey">
+                                                    </div>
+                                                    <div class="col-3" *ngIf="(wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.start || '').toLowerCase() == 'datetime'">
+                                                        <div class="input-group">
+                                                            <input class="form-control input-sm" [(ngModel)]="wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.startAttrDateFormat">
+                                                            <i class="fa fa-info-circle btn btn-sm btn-info pt-1 mt-1 position-relative bottom-025em cur-pointer" (click)="openPopup()"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-3" *ngIf="(wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.start || '').toLowerCase() == 'current_datetime'">
+                                                        <input type="number" class="form-control input-sm" [(ngModel)]="wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.startInterval">
+                                                    </div>
+                                                    <div class="col-3" *ngIf="(wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.start || '').toLowerCase() == 'current_datetime'">
+                                                        <select [(ngModel)]="wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.startIntervalType" class="form-control select-dropdown"  >
+                                                            <option value="">Select</option>
+                                                            <option *ngFor="let val of static_interval" [value]="val">{{val}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-0">
+                                            <label class="col-2 pt-2 cb-label text-right">End :</label>
+                                            <div class="col-10 pl-0">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <input [attr.list]="'modelAttributes_value_' + i" class="form-control input-sm" [(ngModel)]="wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.end">
+                                                        <datalist [attr.id]="'modelAttributes_value_' + i">
+                                                            <!-- <option value="DATETIME">DATETIME</option> -->
+                                                            <option value="CURRENT_DATETIME">CURRENT_DATETIME</option>
+                                                            <!-- <option ng-repeat="(key, val) in wizard_queryBuilder.objectMetadata_attributeInfo" value="{{key}}">{{key}}</option> -->
+                                                        </datalist>
+                                                    </div>
+                                                    <div class="col-3" *ngIf="(wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.end || '').toLowerCase() == 'datetime'">
+                                                        <input type="text" class="form-control input-sm" [(ngModel)]="wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.endAttrDateKey">
+                                                    </div>
+                                                    <div class="col-3" *ngIf="(wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.end || '').toLowerCase() == 'datetime'">
+                                                        <div class="input-group">
+                                                            <input class="form-control input-sm" [(ngModel)]="wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.endAttrDateFormat">
+                                                            <i class="fa fa-info-circle btn btn-sm btn-info pt-1 mt-1 position-relative bottom-025em cur-pointer" (click)="openPopup()"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-3" *ngIf="(wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.end || '').toLowerCase() == 'current_datetime'">
+                                                        <input type="number" class="form-control input-sm" [(ngModel)]="wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.endInterval">
+                                                    </div>
+                                                    <div class="col-3" *ngIf="(wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.end || '').toLowerCase() == 'current_datetime'">
+                                                        <select [(ngModel)]="wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.endIntervalType" class="form-control select-dropdown"  >
+                                                            <option value="">Select</option>
+                                                            <option *ngFor="let val of static_interval" [value]="val">{{val}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-0">
+                                            <label class="col-2 pt-2 cb-label text-right">Plot Range :</label>
+                                            <div class="col-10 pl-3">
+                                                <div class="row">
+                                                    <div class="col-2 p-0">
+                                                        <select class="form-control search-dropdown" 
+                                                            (change)="wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.plotIntervalType == ''? wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.plotAttrDateFormat = '' : undefined" 
+                                                            [(ngModel)]="wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.plotIntervalType">
+                                                            <option value="">Select</option>
+                                                            <option *ngFor="let val of static_interval" [value]="val">{{val}}</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-3 d-flex">
+                                                        <input type="text" class="form-control input-sm" [disabled]="wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.plotIntervalType == '' || wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.plotIntervalType == undefined" 
+                                                            [(ngModel)]="wizard_selectedData_filter.queryAttributes.fillPlotDetails.fillPlotObj.plotAttrDateFormat">
+                                                        <i class="fa fa-info-circle btn btn-sm btn-info pt-1 mt-1 position-relative bottom-025em cur-pointer" (click)="openPopup()"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <textarea [ngClass]="{'d-none': !(wizard_selectedData_filter.type == 'Custom Query')}" class="autogrow form-control transition-height" [(ngModel)]="wizard_selectedData_filter.EQL_query" style="height: 250px;"></textarea>
+    </div>
+</div>

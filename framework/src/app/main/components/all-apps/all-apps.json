@@ -1,0 +1,307 @@
+{
+    "appDetails": [
+        {   
+            "name": "Financio",
+            "description": "Easy-to-use accounting software for small businesses",
+            "shortDesc": "Finance & Accounting",
+            "logo":"./assets/images/app-apps/Financio_Logo.png",
+            "category": ["Featured Apps","Finance & Accounting"]
+        },
+        {   
+            "name": "Essentials Engage",
+            "description": "Manage and track your enquiries digitally",
+            "shortDesc": "Productivity",
+            "logo":"./assets/images/app-apps/Engage_Icon.png",
+            "category": ["Featured Apps","Productivity"]
+        },
+        {   
+            "name": "SPADE",
+            "description": "Procure and manage Office 365 licences with this Software Procurement and Distribution for Enterprise (SPADE) Portal",
+            "shortDesc": "Enterprise Apps",
+            "logo":"./assets/images/app-apps/filePAlWBh.jpg",
+            "category": []
+        },
+        {   
+            "name": "Essentials Workflow (Leave & Claims)",
+            "description": "Digitalise your leave and claim processes",
+            "shortDesc": "Productivity, Human Resources",
+            "logo":"./assets/images/app-apps/Essentials Leave and Claims 4C_0.png",
+            "category": ["Productivity","Human Resources"]
+        },
+        {   
+            "name": "DocuSign",
+            "description": "Send, track and retain documents with electronic signatures",
+            "shortDesc": "Enterprise Apps",
+            "logo":"./assets/images/app-apps/fileKhuose.png",
+            "category": []
+        },
+        {   
+            "name": "Business Backup Suite",
+            "description": "Enterprise-grade data backup and recovery service",
+            "shortDesc": "Enterprise Apps, Online Backup & Security",
+            "logo":"./assets/images/app-apps/fileTBXb01.jpg",
+            "category": ["Online Backup & Security"]
+        },
+        {   
+            "name": "Shoptiq",
+            "description": "Create, build and grow your online business",
+            "shortDesc": "Sales & Marketing",
+            "logo":"./assets/images/app-apps/Shoptiq-120x120-square_1_0.jpg",
+            "category": ["Featured Apps","Sales & Marketing"]
+        },
+        {   
+            "name": "Singtel Professional Services",
+            "description": "Implement a customised data compliance strategy",
+            "shortDesc": "Enterprise Apps",
+            "logo":"./assets/images/app-apps/Singtel icon.png",
+            "category": []
+        },
+        {   
+            "name": "Microsoft 365",
+            "description": "Your familiar Office apps in the cloud",
+            "shortDesc": "Enterprise Apps",
+            "logo":"./assets/images/software-tile/icon--office.jpg",
+            "category": ["Communications & Collaboration"]
+        },
+        {   
+            "name": "Microsoft 365",
+            "description": "Your familiar Office apps in the cloud",
+            "shortDesc": "Communications & Collaboration",
+            "logo":"./assets/images/software-tile/icon--office.jpg",
+            "category": ["Communications & Collaboration"]
+        },
+        {   
+            "name": "Microsoft 365 Security and Compliance",
+            "description": "Protect data, user identity and control access with zero-day attack protection.",
+            "shortDesc": "Enterprise Apps",
+            "logo":"./assets/images/app-apps/fileLpbGMJ.png",
+            "category": ["Featured Apps"]
+        },
+        {   
+            "name": "Essentials HR",
+            "description": "Manage payslips, leave and claims digitally",
+            "shortDesc": "Essentials, Human Resources",
+            "logo":"./assets/images/app-apps/essential-logo.png",
+            "category": ["Featured Apps","Productivity","Human Resources"]
+        },
+        {   
+            "name": "Web Builder",
+            "description": "Create a website instantly",
+            "shortDesc": "Sales & Marketing",
+            "logo":"./assets/images/app-apps/fileOrWpEp.jpg",
+            "category": ["Sales & Marketing"]
+        },
+        {   
+            "name": "Business Web Hosting",
+            "description": "Secure and reliable website hosting",
+            "shortDesc": "Online Backup & Security",
+            "logo":"./assets/images/app-apps/fileSA8M1V.jpg",
+            "category": ["Online Backup & Security"]
+        },
+        {   
+            "name": "ONEOffice",
+            "description": "Organise your work communications",
+            "shortDesc": "Communications & Collaboration",
+            "logo":"./assets/images/app-apps/OneOffice.jpg",
+            "category": ["Featured Apps","Communications & Collaboration"]
+        },
+        {   
+            "name": "Business Domain Name & Hosting",
+            "description": "Register a custom domain name",
+            "shortDesc": "Communications & Collaboration, Online Backup & Security",
+            "logo":"./assets/images/app-apps/fileBokCek.jpg",
+            "category": ["Communications & Collaboration","Online Backup & Security"]
+        },
+        {
+            "name": "Essentials Payslip",
+            "description": "Create payslip for employees",
+            "shortDesc": "Productivity, Human Resources",
+            "logo":"./assets/images/app-apps/Essentials Payslip 4C_0.png",
+            "category": ["Featured Apps","Productivity","Human Resources"]
+        },
+        {   
+            "name": "sendQuick",
+            "description": "Web-based SMS management",
+            "shortDesc": "Sales & Marketing",
+            "logo":"./assets/images/app-apps/fileNMYYAY.png",
+            "category": ["Sales & Marketing"]
+        },
+        {   
+            "name": "eShop Builder",
+            "description": "Create your online store using advanced controls",
+            "shortDesc": "Sales & Marketing",
+            "logo":"./assets/images/app-apps/fileA9GEQN.jpg",
+            "category": ["Sales & Marketing"]
+        },
+        {   
+            "name": "Business Broadband Security Suite",
+            "description": "Essential protection against online threats",
+            "shortDesc": "Online Backup & Security",
+            "logo":"./assets/images/app-apps/filePUOucl.jpg",
+            "category": ["Online Backup & Security"]
+        },
+        {   
+            "name": "Essential Cloud Resell (AWS)",
+            "description": "Amazon Web Services (AWS) is the world’s most comprehensive and broadly adopted cloud platform, offering over 175 fully featured services from data centers globally. Millions of customers—including the fastest-growing startups, largest enterprises, and leading government agencies—are using AWS to lower costs, become more agile, and innovate faster.",
+            "shortDesc": "Cloud Resell",
+            "logo":"./assets/images/app-apps/aws.png",
+            "category": ["Cloud Resell"]
+        },
+        {   
+            "name": "Essential Cloud Resell (Azure)",
+            "description": "Microsoft Azure is a cloud computing service created by Microsoft for building, testing, deploying, and managing applications and services through Microsoft-managed data centers.",
+            "shortDesc": "Cloud Resell",
+            "logo":"./assets/images/app-apps/azure.png",
+            "category": ["Cloud Resell"]
+        },
+        {   
+            "name": "Essential Cloud Resell (GCP)",
+            "description": "Google Cloud Platform, offered by Google, is a suite of cloud computing services that runs on the same infrastructure that Google uses internally for its end-user products, such as Google Search, Gmail, file storage, and YouTube",
+            "shortDesc": "Cloud Resell",
+            "logo":"./assets/images/app-apps/gcp.png",
+            "category": ["Cloud Resell"]
+        },
+
+
+        {   
+            "name": "Monitoring",
+            "description": "Enhance visibility into the performance, uptime, and overall health of cloud-powered applications",
+            "shortDesc": "Managed Services",
+            "logo":"./assets/images/app-apps/monitoring.png",
+            "category": ["Managed Services"]
+        },
+        {   
+            "name": "Build with blueprint",
+            "description": "Drive extraordinary levels of efficiency and effectiveness, increase quality of service, and reduce cost",
+            "shortDesc": "Managed Services",
+            "logo":"./assets/images/app-apps/Blueprint.png",
+            "category": ["Managed Services"]
+        },
+        {   
+            "name": "OS patching",
+            "description": "Keep your laptops, desktops, servers and other devices free from vulnerabilities and centralizes it in the cloud",
+            "shortDesc": "Managed Services",
+            "logo":"./assets/images/app-apps/OS_patching.png",
+            "category": ["Managed Services"]
+        },
+        {   
+            "name": "Security",
+            "description": "Protect cloud data, applications, and infrastructure from threats",
+            "shortDesc": "Managed Services",
+            "logo":"./assets/images/app-apps/Security.png",
+            "category": ["Managed Services"]
+        },
+        {   
+            "name": "Backup and recovery",
+            "description": "Leverage our team of dedicated business continuity experts for white-glove deployment and management of your disaster recovery solution",
+            "shortDesc": "Managed Services",
+            "logo":"./assets/images/app-apps/Recovery.png",
+            "category": ["Managed Services"]
+        },
+        {   
+            "name": "Jenkins",
+            "description": "Jenkins is a self-contained, open source automation server which can be used to automate all sorts of tasks related to building, testing, and delivering or deploying software.",
+            "shortDesc": "Click to Deploy",
+            "logo":"./assets/images/app-apps/jenkins.png",
+            "category": ["Click to Deploy"]
+        },
+        {   
+            "name": "Tomcat",
+            "description": "The Apache Tomcat software is an open source implementation of the Java Servlet, JavaServer Pages, Java Expression Language and Java WebSocket technologies. The Java Servlet, JavaServer Pages, Java Expression Language and Java WebSocket specifications are developed under the Java Community Process.",
+            "shortDesc": "Click to Deploy",
+            "logo":"./assets/images/app-apps/tomcat.png",
+            "category": ["Click to Deploy"]
+        },
+
+        {   
+            "name": "Singtel SDN (Singtel)",
+            "description": "Singtel SDN facilitates networking vendors to accelerate their product development processes and rapidly deploy their products",
+            "shortDesc": "Networks",
+            "logo":"./assets/images/app-apps/SDN.png",
+            "category": ["Networks"]
+        },
+        {   
+            "name": "Express Route (Azure)",
+            "description": "Azure Express Route create private connections between Azure datacenters and infrastructure on your premises or in a colocation environment",
+            "shortDesc": "Networks",
+            "logo":"./assets/images/app-apps/express_route_azure.png",
+            "category": ["Networks"]
+        },
+        {   
+            "name": "Direct Connect (AWS)",
+            "description": "AWS Direct Connect cloud service solution that makes it easy to establish a dedicated network connection from your premises to AWS",
+            "shortDesc": "Networks",
+            "logo":"./assets/images/app-apps/direct_connect_aws.png",
+            "category": ["Networks"]
+        },
+        {   
+            "name": "Cloud Interconnect (GCP)",
+            "description": "Googcle Cloud Interconnect provides low latency, highly available connections that enable you to reliably transfer data between your on-premises and Google Cloud Virtual Private Cloud (VPC) networks",
+            "shortDesc": "Networks",
+            "logo":"./assets/images/app-apps/cloud_interconnect_gcp.png",
+            "category": ["Networks"]
+        }
+    ],
+    "category": [
+        {
+            "name" : "All Apps",
+            "count": 34,
+            "catImg" : "./assets/images/app-apps/all-apps.png"
+        },
+        {
+            "name" : "Productivity",
+            "count": 4,
+            "catImg" : "./assets/images/app-apps/Essentials_Icon_resize1.png"
+        },
+        {
+            "name" : "Featured Apps",
+            "count": 7,
+            "catImg" : "./assets/images/app-apps/feature-apps.png"
+        },
+        {
+            "name" : "Communications & Collaboration",
+            "count": 4,
+            "catImg" : "./assets/images/app-apps/conversation.png"
+        },
+        {
+            "name" : "Finance & Accounting",
+            "count": 1,
+            "catImg" : "./assets/images/app-apps/chart.png"
+        },
+        {
+            "name" : "Human Resources",
+            "count": 3,
+            "catImg" : "./assets/images/app-apps/people.png"
+        },
+        {
+            "name" : "Online Backup & Security",
+            "count": 4,
+            "catImg" : "./assets/images/app-apps/maintenance.png"
+        },
+        {
+            "name" : "Sales & Marketing",
+            "count": 4,
+            "catImg" : "./assets/images/app-apps/speaker.png"
+        },
+        {
+            "name" : "Cloud Resell",
+            "count": 3,
+            "catImg" : "./assets/images/app-apps/speaker.png"
+        },
+        {
+            "name" : "Managed Services",
+            "count": 5,
+            "catImg" : "./assets/images/app-apps/speaker.png"
+        },
+        {
+            "name" : "Click to Deploy",
+            "count": 2,
+            "catImg" : "./assets/images/app-apps/speaker.png"
+        },
+        {
+            "name" : "Networks",
+            "count": 4,
+            "catImg" : "./assets/images/app-apps/speaker.png"
+        }
+    ]
+}

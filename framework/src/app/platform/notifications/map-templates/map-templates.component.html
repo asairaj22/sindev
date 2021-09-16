@@ -1,0 +1,116 @@
+<div class="row h-100">
+    <div class="col-12 mb-10">
+        <h1 class="log-header-title notification-header-title">Map Template</h1>
+    </div>
+    <div class="col-12 mb-3">
+        <button class="btn btn-sm btn-outline-primary pull-right" (click)="createMapTemplate(content, 'Add')">
+            Create Template
+        </button>
+    </div>
+    <div class="col-12 event-report-table-grid">
+        <app-data-grid-notification [gridData]="GET_ALL_NOTIFICATION_TEMPLATES_output" [columnDefs]="columnDefs"
+            (getRowData)="getRowData(content, $event)">
+        </app-data-grid-notification>
+    </div>
+</div>
+<ng-template #content let-modal>
+    <form [formGroup]="mapTemplateForm" #myForm='ngForm' novalidate autocomplete="off"
+        (ngSubmit)="onSubmit(mapTemplateForm)">
+        <div class="modal-header">
+            <h4 class="modal-title"> {{action}} Template</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body p-0">
+            <div class="col-12 text-dark p-2 pl-0">
+                <div class="form-group col-12 mb-1">
+                    <div class="input-group  p-0 pl-3 pr-3 pt-3 ">
+                        <label for="domain" class="col-3">Domain<span class="text-danger">*</span></label>
+                        <div class="col-9">
+                            <select class="form-control" [(ngModel)]="NOTIFICATION_TEMPLATE.domainId"
+                                [ngClass]="{'disable-dropdown': action === 'Edit'}"
+                                (change)="getSubdomains(NOTIFICATION_TEMPLATE.domainId,NOTIFICATION_TEMPLATE)"
+                                formControlName="domainid">
+                                <option value="">--Select Domain--</option>
+                                <option *ngFor="let domain of DOMAINS" value={{domain.id}}>{{domain.name}}</option>
+                            </select>
+                            <div class="form-errors-text text-danger col-12"
+                                *ngIf="mapTemplateForm.get('domainid').hasError('required') && myForm.submitted">
+                                Domain is Required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-12 mb-1">
+                    <div class="input-group  p-0 pl-3 pr-3 pt-3 ">
+                        <label for="subdomainid" class="col-3">Subdomain<span class="text-danger">*</span></label>
+                        <div class="col-9">
+                            <select class="form-control" [(ngModel)]="NOTIFICATION_TEMPLATE.subDomainId"
+                                [ngClass]="{'disable-dropdown': action === 'Edit'}"
+                                (change)="getEvents(NOTIFICATION_TEMPLATE.subDomainId,NOTIFICATION_TEMPLATE)"
+                                formControlName="subdomainid">
+                                <option value="">--Select Subdomain--</option>
+                                <option *ngFor="let subdomain of NOTIFICATION_TEMPLATE.SUBDOMAINS"
+                                    value={{subdomain.id}}>{{subdomain.name}}</option>
+                            </select>
+                            <div class="form-errors-text text-danger col-12"
+                                *ngIf="mapTemplateForm.get('subdomainid').hasError('required') && myForm.submitted">
+                                Subdomain is Required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-12 mb-1">
+                    <div class="input-group  p-0 pl-3 pr-3 pt-3 ">
+                        <label for="eventid" class="col-3">Event<span class="text-danger">*</span></label>
+                        <div class="col-9">
+                            <select class="form-control" [(ngModel)]="NOTIFICATION_TEMPLATE.eventId"
+                                [ngClass]="{'disable-dropdown': action === 'Edit'}"
+                                (change)="getTemplate(NOTIFICATION_TEMPLATE.eventId,NOTIFICATION_TEMPLATE)"
+                                formControlName="eventid">
+                                <option value="">--Select Event--</option>
+                                <option *ngFor="let event of NOTIFICATION_TEMPLATE.EVENTS" value={{event.id}}>
+                                    {{event.name}}</option>
+                            </select>
+                            <div class="form-errors-text text-danger col-12"
+                                *ngIf="mapTemplateForm.get('eventid').hasError('required') && myForm.submitted">
+                                Event is Required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-12 mb-1">
+                    <div class="input-group  p-0 pl-3 pr-3 pt-3">
+                        <label for="templateid" class="col-3">Template<span class="text-danger">*</span></label>
+                        <div class="col-9">
+                            <select class="form-control" [(ngModel)]="NOTIFICATION_TEMPLATE.body"
+                                [ngClass]="{'disable-dropdown': action === 'Edit'}"
+                                (change)="setTemplateData(NOTIFICATION_TEMPLATE)" formControlName="templateid">
+                                <option value="">--Select Template--</option>
+                                <option *ngFor="let template of NOTIFICATION_TEMPLATE.TEMPLATES" value={{template.id}}>
+                                    {{template.name}}</option>
+                            </select>
+                            <div class="form-errors-text text-danger col-12"
+                                *ngIf="mapTemplateForm.get('templateid').hasError('required') && myForm.submitted">
+                                Template is Required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-12 mb-1">
+                    <div class="input-group  p-0 pl-3 pr-3 pt-3">
+                        <label for="enable" class="col-3">Enabled</label>
+                        <input type="checkbox" [(ngModel)]="NOTIFICATION_TEMPLATE.enabled" class="mt-2 ml-3"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer p-2">
+            <button type="submit" class="btn btn-primary event-log-screens">Save</button>
+            <button type="button" class="btn btn-secondary event-log-screens"
+                (click)="modal.close('Close click')">Cancel</button>
+        </div>
+    </form>
+</ng-template>

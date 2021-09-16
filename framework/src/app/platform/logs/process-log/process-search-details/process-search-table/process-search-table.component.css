@@ -1,0 +1,9 @@
+.word-break{
+    word-break: break-all;
+}
+.icone-hover{
+    cursor: pointer;
+}
+i.icone-hover:hover, i.icone-hover:active {
+    color: #5390d1;
+}

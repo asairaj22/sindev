@@ -1,0 +1,443 @@
+<button class="btn btn-primary  mb-2" style="display: none;" (click)="open(mymodal1)" #myDiv>Login Wizard</button>
+<button class="btn btn-lg btn-outline-primary" style="display: none;" (click)="finalOpen(mymodal2)" #myDivFinal>Open My Modal 2</button>
+
+<ng-template #mymodal1 let-modal>
+
+    <div class="modal-header">
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+        <!-- Tab content starts here  -->
+        <!-- <div class="tab-content"> -->
+          <mat-tab-group  class="first-login-tab-group" [selectedIndex]="selectedIndex">
+          <!-- Step 1 -->
+          
+          <mat-tab>
+          <!-- <div class="tab-pane text-center show active" id="tab1"> -->
+            <div class="container-fluid text-center">
+              <div class="row justify-content-center my-5a pb-3">
+                <div class="col-10">
+                  <h3 class="mt-0 mb-3">Welcome to Matrix!</h3>
+                  <p class="w-md-75 mx-auto">Complete the details to finish setting up your account and review the recommended default settings we have provided to ensure your security.</p>
+                  <a href="javascript:void(0)" (click)="nextStep(event);" class="btn btn-primary next-btn my-4">Let's Go</a>
+                </div>
+              </div>
+            </div>
+          <!-- </div> -->
+          </mat-tab>
+          <!-- Step 2 -->
+          <mat-tab>
+          <!-- <div class="tab-pane " id="tab2"> -->
+            <form action="" class="form-wrapper-group">
+              <!-- Tab Header Start Here  -->
+              <div class="tab-header">
+                <div class="container-fluid">
+                  <div class="row justify-content-center">
+                    <div class="col-11">
+                      <h3 class="mb-2">About Yourself</h3>
+                      <p class="large">Your profile can be found in the top navigation area, under <a href="javascript:void(0)" (click)="pageNavigateTo('my-account')" class="link large color-link">My Account</a></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container-fluid">
+                <form class="o365__form-base biz-billing-account-details__form" [formGroup]="personalForms" >
+                <div class="row justify-content-center">
+                  <div class="col-11">
+                    <div class="row">
+                      <div class="col-12 col-lg-6">
+                        <!-- *Department: -->
+                        <div class="form-group clearfix">
+                          <label class="">
+                            <label for="department-selectized">
+                              <h6 class="mb-2">Your Department:
+                                <span class="opt"></span>
+                              </h6>
+                            </label>
+                            </label>
+
+                          <!-- <select (change)="changeDepartment($event)" formControlName="department" class="form-control selectized" id="department" name="department" tabindex="-1" >
+                            <option value="" disabled>Select department</option>
+                            <option *ngFor="let item of department; let i = index" [ngValue]="item.id">{{item.name}}</option>
+                          </select> -->
+
+                          <!-- <p-dropdown [options]="department" formControlName="department" placeholder="Select department" (onChange)="changeDepartment($event)"
+	                        optionLabel="name" [showClear]="true" id="department" name="department" tabindex="-1"></p-dropdown> -->
+                          <input class="form-control" formControlName="department" id="department" [(ngModel)]="selectedDepartmentname" type="text" name="department" placeholder="" value="" >
+                          <div class="input-error" id="department--error" style="display: none;">
+                            <span class="input-error--message md-small">Error message</span>
+                          </div>
+                        </div>                      
+                        </div>
+                    </div>
+                    <!-- Form-group 2 content start here  -->
+                    <div class="form-group mt-5 hide-for-phase1">
+                      <div class="row">
+                        <div class="col-9">
+                          <label class="mb-2">
+                            <h6 class="d-flex justify-content-between mb-3 mb-md-2">Information you would like to receive</h6>
+                            <p>Relevant information such as training, workshops, and future product releases. This will be sent to your main email address</p>
+                          </label>
+                          <p class="md-small"><strong>Note:</strong> You will only receive 1 newsletter per month</p>
+                        </div>
+                        <div class="col-3 text-right">
+                          <label class="switch" for="checked1"><input type="checkbox" formControlName="receiveInfo" (change) = "receiveInfo($event)" id="checked1"><span class="slider round"></span></label>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Form-group 3 content start here  -->
+                    <div class="form-group mt-5 hide-for-phase1" id="toggleContent">
+                      <div class="row mb-3">
+                        <div class="col-12">
+                          <h6 class="d-flex justify-content-between mb-3 mb-md-2">Content preferences : </h6>
+                          <p>Choose relevant topics that interest you: </p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <!-- <ng-container *ngIf="newsletterLoaded | async"> -->
+                          <div class="col-md-6" formArrayName="newsletter" *ngFor="let order1 of  personalForms.controls.newsletter.controls; let i = index">
+                            <div class="form-group">
+                              <div class="form-check custom-checkbox">
+                                  <input class="form-check-input custom-checkbox__input" id="cc_{{i}}" type="checkbox" type="checkbox" [formControlName]="i" >
+                                  <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="cc_{{i}}">{{newsletter[i].newsLetterType}}</label>
+                              </div>
+                            </div>                        
+                          </div>
+                        <!-- </ng-container> -->
+
+
+                        <!-- <div class="col-md-6" >
+                          <div class="form-group">
+                            <div class="form-check custom-checkbox">
+                                <input class="form-check-input custom-checkbox__input" id="cc" type="checkbox" name="cc" placeholder="" value="yes" checked="">
+                                <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="cc">Communications &amp; collaboration</label>          
+                            </div>
+                          </div>                        
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <div class="form-check custom-checkbox">
+                              <input class="form-check-input custom-checkbox__input" id="sm" type="checkbox" name="sm" placeholder="" value="yes" checked="">
+                              <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="sm">Sales &amp; marketing</label>
+                            </div>
+                          </div>                        
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <div class="form-check custom-checkbox">
+                              <input class="form-check-input custom-checkbox__input" id="sp" type="checkbox" name="sp" placeholder="" value="yes" checked="">
+                              <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="sp">Security &amp; protection</label>          
+                            </div>
+                          </div>                        
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <div class="form-check custom-checkbox">
+                                <input class="form-check-input custom-checkbox__input" id="digitalisation" type="checkbox" name="digitalisation" placeholder="" value="yes">
+                                <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="digitalisation">Digitalisation</label>                
+                                <div class="input-error" id="form__digitalisation--error" style="display: none;">
+                                  <span class="input-error--message md-small">Error message</span>
+                                </div>
+                            </div>
+                          </div>                        
+                        </div> -->
+                      </div>
+                      <div class="row mt-5">
+                        <div class="col-12">
+                          <div class="form-group">
+                            <label for="contactEmail">
+                              <h6 class="mb-2">Contact Email address
+                                <span class="opt"></span>
+                              </h6>
+                            </label>        
+                            <small class="form-text text-muted mb-2">Please provide the email you wish to receive communications</small>    
+                            <input formControlName="contactEmail" class="form-control" id="contactEmail" type="email" name="contactEmail" (keyup)= "emailVal($event)" placeholder="" value=""
+                            [ngClass]="{ 'is-invalid': personalForms.controls.contactEmail.errors && personalForms.controls.contactEmail.touched }"> 
+
+                             <div *ngIf="personalForms.controls.contactEmail.errors && personalForms.controls.contactEmail.touched"
+                           class="invalid-feedback" >
+                              <div *ngIf="personalForms.controls.contactEmail.errors.required">
+                                  Email Address is required
+                              </div>
+                              <div *ngIf="personalForms.controls.contactEmail.errors.pattern">
+                                  Enter Valid Email Address
+                              </div>
+                            </div>   
+                        
+                         
+                            <div class="input-error" id="form__contactEmail--error" style="display: none;">
+                              <span class="input-error--message md-small">Error message</span>
+                            </div>
+                          </div>                        
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </form>
+              </div>
+              <!-- Form-group 4 button start here  -->
+              <div class="form-wrapper-group__footer mt-5 py-4">
+                <div class="row justify-content-center">
+                  <div class="col-11">
+                    <div class="row justify-content-end align-items-middle">
+                      <div class="col-lg-6 text-center text-lg-left order-2 order-lg-1 mt-3 pt-1 pt-lg-0 mt-lg-0">
+                        <a href="javascript:void(0)" (click)="skipStep('1')" class="link d-none md-small d-lg-inline-block underline-color-link">Skip This Step</a>
+                        <p class="xs-small text-battleship-grey p-0">You can add or amend your selection anytime</p>
+                      </div>
+                      <div class="col-lg-6 text-center text-lg-right order-1 order-lg-2">
+                        <button href="javascript:void(0)" (click)="previousStep(event)" class="btn btn-secondary mr-2">Back</button>
+                        <button href="javascript:void(0)" [disabled]="personalForms.invalid" (click)="personalInforSave();" class="btn btn-primary next-btn">Continue</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          <!-- </div> -->
+          </mat-tab>
+          <!-- Step 3 -->
+          <mat-tab>
+          <!-- <div class="tab-pane" id="tab3"> -->
+            <form [formGroup]="companyForms" class="form-wrapper-group form__wrapper shadow-none p-0">
+              <!-- Tab Header Start Here  -->
+              <div class="tab-header">
+                <div class="container-fluid">
+                  <div class="row justify-content-center">
+                    <div class="col-11">
+                      <h3 class="mb-2">Company Info</h3>
+                      <p>You can also access this information under your name (top right) and clicking <a class="color-link" href="javascript:void(0)" (click)="pageNavigateTo('my-company')">My Company</a></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container-fluid">
+                <div class="row justify-content-center">
+                  <div class="col-11">
+                    <!-- UEN/BRN: -->
+                    <div class="mb-5 col-8 p0">
+                      <!-- <h6>{{(this.companyDetail && this.companyDetail.companyIdType) ? this.companyDetail.companyIdType : ''}}</h6>
+                      <p>{{(this.companyDetail && this.companyDetail.companyId) ? this.companyDetail.companyId : ''}}</p> -->
+
+                      <div class="form-group">
+                        <label for="cname">
+                          <h6 class="mb-2">BRN/UEN/NRIC:
+                            <span class="opt"></span>
+                          </h6>
+                        </label>        
+                        <input class="form-control" formControlName="companyId" id="companyId" type="text" name="companyId" placeholder="" value="" 
+                        [ngClass]="{ 'is-invalid': companyForms.controls.companyId.errors && companyForms.controls.companyId.touched }">
+                        <div *ngIf="companyForms.controls.companyId.errors && companyForms.controls.companyId.touched"
+                           class="invalid-feedback">
+                           <div *ngIf="companyForms.controls.companyId.errors.pattern">
+                              Enter valid BRN/UEN/NRIC
+                           </div>
+                        </div>
+                      </div> 
+                    </div>
+                    <!-- Company Logo: -->
+                    <div class="mb-5">
+                      <h6>Company Logo</h6>
+                      <div class="upload-img-block">
+                        <div class="logo-img">
+                          <!-- <img src="./assets/images/dashboard/upload-img/upload_img.jpg" alt="image"> -->
+
+                          <svg xmlns="http://www.w3.org/2000/svg" width="26.336" height="20.728" viewBox="0 0 26.336 20.728" style="margin-top: 32%;"><defs>
+                            <style>.a{fill:#fff;}</style></defs>
+                            <g transform="translate(0 -44.8)"><g transform="translate(0 44.8)"><g transform="translate(0)">
+                            <path class="a" d="M25.46,48.029a2.831,2.831,0,0,0-2.078-.876H19.226V47.1a2.248,2.248,0,0,0-.676-1.627,2.291,2.291,0,0,0-1.627-.676H9.413a2.308,2.308,0,0,0-2.328,2.3v.05H2.954a2.831,2.831,0,0,0-2.078.876A2.976,2.976,0,0,0,0,50.107V62.574a2.831,2.831,0,0,0,.876,2.078,2.976,2.976,0,0,0,2.078.876H23.382a2.831,2.831,0,0,0,2.078-.876,2.976,2.976,0,0,0,.876-2.078V50.107A2.831,2.831,0,0,0,25.46,48.029Zm-.426,14.545h-.025A1.624,1.624,0,0,1,23.382,64.2H2.954a1.624,1.624,0,0,1-1.627-1.627V50.107A1.624,1.624,0,0,1,2.954,48.48H7.786a.673.673,0,0,0,.676-.676v-.726a.942.942,0,0,1,.976-.976h7.485a.942.942,0,0,1,.976.976V47.8a.673.673,0,0,0,.676.676h4.832a1.624,1.624,0,0,1,1.627,1.627Z" transform="translate(0 -44.8)">
+                            </path>
+                            <path class="a" d="M118.158,130.8a6.154,6.154,0,1,0,4.356,1.8A6.169,6.169,0,0,0,118.158,130.8Zm3.4,9.588a4.835,4.835,0,0,1-6.809,0,4.786,4.786,0,0,1-1.4-3.4,4.892,4.892,0,0,1,1.4-3.4,4.786,4.786,0,0,1,3.4-1.4,4.892,4.892,0,0,1,3.4,1.4,4.786,4.786,0,0,1,1.4,3.4A4.684,4.684,0,0,1,121.563,140.388Z" transform="translate(-104.99 -125.418)"></path></g></g></g>
+                          </svg>
+
+                          <img [src]="imgURL" class="preview-img" *ngIf="imgURL">
+                        </div>
+                        <div class="d-flex flex-column">
+                           <input (change)="imagePicked($event,1)" hidden style="display: none !important" accept="image/*" type="file" #imageInput>
+                          <a href="javascript:void(0)" (click)="imageInput.click()" class="link underline-color-link">Upload Image</a>
+                          <div>{{companyLogoName}}</div>
+                          <p><small class="text-battleship-grey">Maximum upload file size: 1MB</small></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mb-5">
+                      <!-- *Company Name: -->
+                      <div class="form-group">
+                        <label for="cname">
+                          <h6 class="mb-2">*Company Name:
+                             <!-- - {{companyForms.controls.companyName.errors.required}}- {{companyForms.controls.companyName.touched}} -->
+                            <span class="opt"></span>
+                          </h6>
+                        </label>        
+                        <input class="form-control" formControlName="companyName" id="cname" type="text" name="cname" (keyup)="conpanyNameChange()" placeholder="ACME Company" 
+                        [ngClass]="{ 'is-invalid': companyForms.controls.companyName.errors && companyForms.controls.companyName.touched }">  
+                        <div class="input-error" id="form__cname--error" style="display: none;">
+                          <span class="input-error--message md-small">Error message</span>
+                        </div>
+                        <div *ngIf="companyForms.controls.companyName.errors && companyForms.controls.companyName.touched"
+                           class="invalid-feedback">
+                           <div *ngIf="companyForms.controls.companyName.errors.required">
+                              Company Name is required
+                           </div>
+                        </div>
+                      </div>                    
+                    </div>
+                    <div class="">
+                      <!-- Industry: -->
+                      <div class="form-group clearfix">
+                        <label class="">
+                          <label for="industry-selectized">
+                            <h6 class="mb-2">Industry:
+                              <span class="opt"></span>
+                            </h6>
+                          </label>
+                          <small class="form-text text-muted mb-2">This information will be used to recommend useful products &amp; services</small>  
+                        </label>
+  
+                        <!-- <select class="form-control selectized" id="industry" name="industry" tabindex="-1" >
+                          <option value="industry1" selected="selected">industry1</option>
+                          <option value="industry2" selected="selected">industry2</option>
+                          <option value="industry3" selected="selected">industry3</option>
+                        </select> -->
+
+                        <!-- <select (change)="changeIndustry($event)" formControlName="industry" class="form-control selectized" id="industry" name="industry" tabindex="-1" >
+                            <option value="" disabled>Select industry</option>
+                            <option *ngFor="let item of industryType; let i = index" [ngValue]="item.id">{{item.name}}</option>
+                          </select> -->
+
+                          <p-dropdown [options]="industryType" formControlName="industry" placeholder="Select industry" (onChange)="changeIndustry($event)"
+	                        optionLabel="name" [showClear]="true" id="industry" name="industry" tabindex="-1"></p-dropdown>
+                        <!-- <div class="selectize-control form-control single">
+                          <div class="selectize-input items not-full has-options">
+                            <input type="select-one" autocomplete="off" tabindex="" id="industry-selectized" placeholder="- Please select -" style="width: 115.366px;">
+                          </div>
+                          <div class="selectize-dropdown single form-control" style="display: none;">
+                            <div class="selectize-dropdown-content"></div>
+                          </div>
+                        </div>   -->
+                        <div class="input-error" id="industry--error" style="display: none;">
+                          <span class="input-error--message md-small">Error message</span>
+                        </div>
+                      </div>                    
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Form-group 4 button start here  -->
+              <div class="form-wrapper-group__footer mt-5 py-4">
+                <div class="row justify-content-center">
+                  <div class="col-11">
+                    <div class="row justify-content-end align-items-middle">
+                      <div class="col-lg-6 text-center text-lg-left order-2 order-lg-1 mt-3 pt-1 pt-lg-0 mt-lg-0">
+                        <a href="javascript:void(0)" (click)="skipStep('2')" class="link d-none md-small d-lg-inline-block underline-color-link">Skip This Step</a>
+                        <p class="xs-small text-battleship-grey p-0">You can add or amend your selection anytime</p>
+                      </div>
+                      <div class="col-lg-6 text-center text-lg-right order-1 order-lg-2">
+                        <button href="javascript:void(0)" (click)="previousStep(event)" class="btn btn-secondary prev-btn mr-2">Back</button>
+                        <button href="javascript:void(0)" [disabled]="companyForms.invalid" (click)="companyStep()" class="btn btn-primary next-btn">Continue</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          <!-- </div> -->
+          </mat-tab>
+          <!-- Step 4 -->
+          <mat-tab class="hide-for-phase1">
+          <!-- <div class="tab-pane" id="tab4"> -->
+            <form action="" class="form-wrapper-group form__wrapper shadow-none p-0">
+              <!-- Tab Header Start Here  -->
+              <div class="tab-header">
+                <div class="container-fluid">
+                  <div class="row justify-content-center">
+                    <div class="col-11">
+                      <h3 class="mb-2">Security policies</h3>
+                      <p>Matrix has included a set of default security recommendations. If you wish to change this, please visit the Policies page after set up</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container-fluid">
+                <div class="row justify-content-center">
+                  <div class="col-11">
+                    <div class="row justify-content-center">
+                      <div class="col-11 col-md-10 text-center">
+                        <img class="img-fluid d-none d-lg-inline image-rendering-crisp-edges" src="./assets/images/dashboard/popup-img/onboarding-security-policies--desktop.jpg" alt="img">
+                        <img class="d-lg-none image-rendering-crisp-edges" src="./assets/images/dashboard/popup-img/onboarding-security-policies--mobile.jpg" alt="img">
+                        <h5 class="mt-4 mb-2">These can be managed on the Policies page.</h5>
+                        <p>These include password criteria, logout times and password expiration limits.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Form-group 4 button start here  -->
+              <div class="form-wrapper-group__footer mt-5 py-4">
+                <div class="row justify-content-center">
+                  <div class="col-11">
+                    <div class="row justify-content-end align-items-middle">
+                      <div class="col-lg-6 text-center text-lg-left order-2 order-lg-1 mt-3 pt-1 pt-lg-0 mt-lg-0">
+                        <a href="javascript:void(0)" (click)="skipStep(event)" class="link d-none underline-color-link">Skip This Step</a>
+                        <p class="xs-small d-none text-battleship-grey p-0">You can edit your selection anytime</p>
+                      </div>
+                      <div class="col-lg-6 text-center text-lg-right order-1 order-lg-2">
+                        <button href="javascript:void(0)" (click)="previousStep(event)" class="btn btn-secondary prev-btn mr-2">Back</button>
+                        <button href="javascript:void(0)" (click)="finalStep(event)" class="btn btn-primary next-btn ">Continue</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          <!-- </div> -->
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+
+      <div class="modal-footer">
+        <ul class="steps-list nav m-0 px-3">
+          <li><a id="progress-indicator-tab1" [ngClass]="{'active': this.selectedIndex == 0, 'completed': completeStep1}" data-step="1" data-toggle="tab" href="#tab1" class="active"><small></small><span>Welcome</span></a></li>
+          <li><a id="progress-indicator-tab2" [ngClass]="{'active': this.selectedIndex == 1, 'completed': completeStep2}" data-step="2" data-toggle="tab" href="#tab2"><small></small><span>About Yourself</span></a></li>
+          <li><a id="progress-indicator-tab3" [ngClass]="{'active': this.selectedIndex == 2, 'completed': completeStep3}" data-step="3" data-toggle="tab" href="#tab3"><small></small><span>Company Info</span></a></li>
+          <li class="hide-for-phase1"><a id="progress-indicator-tab4" [ngClass]="{'active': this.selectedIndex == 3, 'completed': completeStep4}" data-step="4" data-toggle="tab" href="#tab4"><small></small><span>Security policies</span></a></li>
+          <!-- <li><a id="progress-indicator-tab5" [ngClass]="{'active': this.selectedIndex == 4, 'completed': completeStep5}" data-step="5" data-toggle="tab" href="#tab5"><small></small><span>Free apps</span></a></li> -->
+        </ul>
+        <a id="skip-step-mobile" href="javascript:void(0)" (click)="skipStep(event)" class="d-none d-lg-none link md-small skip-linkunderline-color-link underline-color-link">Skip This Step</a>
+      </div>
+</ng-template>
+
+
+
+
+  <ng-template #mymodal2 let-modal>
+
+    <div class="modal-header border-0">
+      <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> -->
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+
+    
+
+    <div class="modal-body my-3 mb-5">
+      <div class="container-fluid">
+        <div class="row justify-content-center text-center">
+          <div class="col-12">
+            <h3>You're all set!</h3>
+            <a href="javascript:void(0)" class="btn btn-primary next-btn my-4"  (click)="launchDashboard()" >Go to My Dashboard</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer justify-content-center dark-grey-blue-10 border-0">
+      <svg class="icon icon-50 green-icon">
+        <use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-check"></use>
+      </svg>
+    </div>
+  </ng-template>

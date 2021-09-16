@@ -1,0 +1,146 @@
+{
+  "UserSignInData" : [ {
+    "actionMetadata" : {
+      "childStepDetails" : [ {
+        "id" : "78b7c7ac-7603-7280-80cc-1d0f2599b377",
+        "name" : "Child Flow",
+        "steps" : [ {
+          "name" : "Login Flow",
+          "type" : "ChildFlowStart"
+        }, {
+          "configured_id" : "PLATFORM_SERVICECALL",
+          "connector_apiId" : "ActionFlow_bb0578dd-e084-7fa1-bc21-de4e8dd460d4",
+          "connector_appName" : "cust",
+          "failOver" : "CONTINUE",
+          "name" : "Service Call",
+          "request_epModelName" : "UserSignInData",
+          "response_epModelName" : "UserLoginResponse",
+          "type" : "Service Call"
+        }, {
+          "name" : "Business Logic",
+          "script" : "  var body = request.body;\n  var query = request.query;\n  var params = request.params;\n  var headers = scope.headers;\n  var output = scope;\n\n  if(scope.stepError){\n    scope.user = {};\n    scope.errMessage = scope.stepError.message ? scope.stepError.message.split('.') : \"\";\n    scope.user.errorMessage = scope.errMessage && scope.errMessage.length > 0 ?scope.errMessage[0] : '';\n    if(scope.user.errorMessage.includes(\"Password attempts exceeded\")){\n      scope.user.errorMessage = \"Your account is locked please try after sometime\";\n    }\n    response.send(HTTP_STATUS_CODE.BAD_REQUEST, scope.user.errorMessage);\n  }\n\n  return output;",
+          "scriptType" : "JavaScript",
+          "type" : "Business Logic"
+        }, {
+          "category" : "Groups",
+          "configured_id" : "PLATFORM_USER_MANAGEMENT",
+          "name" : "Get User Group",
+          "operationId" : "6",
+          "type" : "User Management"
+        }, {
+          "name" : "Business Logic",
+          "script" : "  var body = request.body;\n  var query = request.query;\n  var params = request.params;\n  var headers = scope.headers;\n  var output = scope;\n  \n  \n  if(scope.UserLoginResponse){\n    scope.user = {};\n    scope.user.userGroups = [];\n    scope.user.userName = scope.UserLoginResponse.email;\n    scope.user.firstName = scope.UserLoginResponse.name;\n    scope.user.lastName = scope.UserLoginResponse.family_name;\n    scope.user.email = scope.UserLoginResponse.email;\n\n    if(scope.userGroup){\n      scope.userGroup.map(function(userGroupObj){\n        scope.user.userGroups.push(userGroupObj.groupName);\n      });   \n    }\n  }  \n  \n  \n  \n  return output;",
+          "scriptType" : "JavaScript",
+          "type" : "Business Logic"
+        } ],
+        "type" : "Child Flow"
+      }, {
+        "id" : "4be08fad-9829-723c-b986-a6239a1e81a1",
+        "name" : "Child Flow",
+        "steps" : [ {
+          "name" : "Error Flow",
+          "type" : "ChildFlowStart"
+        }, {
+          "name" : "Business Logic",
+          "script" : "  var body = request.body;\n  var query = request.query;\n  var params = request.params;\n  var headers = scope.headers;\n  var output = scope;\n\n  scope.user = {};\n\n  if(scope.Individual.status == \"Terminated\"){\n    scope.user.errorMessage = \"Account does not exist. Please signup for Matrix marketplace or contact your company administrator for assistance\";\n  }\n  if(scope.Individual.status == \"Suspended\"){\n    scope.user.errorMessage = \"  Sorry! Your account is suspended. Please contact your company administrator for assistance\";\n  }\n  if(scope.Individual.status == \"Open\"){\n    scope.user.errorMessage = \"Your account is not activated! Please click here to send activation link\"; \n  }\n  if(scope.Individual.status == \"Expired Token\"){\n    scope.user.errorMessage = \"Your account is not activated! Please click here to send activation link\"; \n  }\n  if(scope.Individual.status == 'Inactive'){\n    scope.user.errorMessage = 'Incorrect username or password';\n  }\n\n  response.send(HTTP_STATUS_CODE.BAD_REQUEST, scope.user.errorMessage);\n  \n  return output;",
+          "scriptType" : "JavaScript",
+          "type" : "Business Logic"
+        } ],
+        "type" : "Child Flow"
+      }, {
+        "id" : "a236db7a-6db8-7e62-87e1-29e9c7b6bd67",
+        "name" : "Child Flow",
+        "steps" : [ {
+          "name" : "Mock Flow",
+          "type" : "ChildFlowStart"
+        }, {
+          "category" : "Groups",
+          "configured_id" : "PLATFORM_USER_MANAGEMENT",
+          "name" : "User Management",
+          "operationId" : "6",
+          "type" : "User Management"
+        }, {
+          "name" : "Business Logic",
+          "script" : "  var body = request.body;\n  var query = request.query;\n  var params = request.params;\n  var headers = scope.headers;\n  var output = scope;\n  \n  \n    scope.user = {};\n    scope.user.userGroups = [];\n    scope.user.userName = scope.UserSignInData.email;\n    var nameArray = scope.UserSignInData.email.split('@');\n    scope.user.firstName = nameArray[0];\n    scope.user.lastName = nameArray[0];\n    scope.user.email = scope.UserSignInData.email;\n\n    if(scope.userGroup){\n      scope.userGroup.map(function(userGroupObj){\n        scope.user.userGroups.push(userGroupObj.groupName);\n      });   \n    }\n \n  \n  return output;",
+          "scriptType" : "JavaScript",
+          "type" : "Business Logic"
+        } ],
+        "type" : "Child Flow"
+      } ],
+      "steps" : {
+        "end" : { },
+        "start" : {
+          "nextStep" : "step_1"
+        },
+        "step_1" : {
+          "name" : "Login Request",
+          "nextStep" : "step_2",
+          "script" : "  var body = request.body;\n  var query = request.query;\n  var params = request.params;\n  var headers = scope.headers;\n  var output = scope;\n  \n  scope.IndvMediumCharacteristic = {};\n  scope.IndvMediumCharacteristic.emailAddress = scope.UserSignInData.email;\n  \n  scope.user = {};\n  scope.user.email = scope.UserSignInData.email;\n  \n  return output;",
+          "scriptType" : "JavaScript",
+          "type" : "Business Logic"
+        },
+        "step_2" : {
+          "configured_id" : "PLATFORM_SERVICECALL",
+          "connector_apiId" : "ActionFlow_78b87907-5d04-7b1b-b8de-857e8aea3028",
+          "connector_appName" : "cust",
+          "name" : "Check user Status",
+          "nextStep" : "step_3",
+          "request_epModelName" : "IndvMediumCharacteristic",
+          "response_epModelName" : "Individual",
+          "type" : "Service Call"
+        },
+        "step_3" : {
+          "configured_id" : "PLATFORM_SERVICECALL",
+          "connector_apiId" : "ActionFlow_a5456729-069c-70aa-81d6-175aeb4d4efd",
+          "connector_appName" : "cust",
+          "name" : "Read Master Data",
+          "nextStep" : "step_4",
+          "request_epModelName" : "MasterData",
+          "response_epModelName" : "MasterData",
+          "type" : "Service Call"
+        },
+        "step_4" : {
+          "name" : "Business Logic",
+          "nextStep" : "step_5",
+          "script" : "  var body = request.body;\n  var query = request.query;\n  var params = request.params;\n  var headers = scope.headers;\n  var output = scope;\n  \n  if(Array.isArray(scope.Individual)){\n    scope.Individual ={\"status\":\"Inactive\"};\n  }\n  \n  if(scope.MasterData && scope.MasterData.length > 0) {\n    var masterData = scope.MasterData.filter(function(obj){return obj.parameterName == \"MOCK_Login\";});\n    if(masterData && masterData.length > 0){\n      if(masterData[0].parameterValue === 'true'){\n        scope.mockFlow = true;\n      }\n    }\n    \n  }  \n  return output;",
+          "scriptType" : "JavaScript",
+          "type" : "Business Logic"
+        },
+        "step_5" : {
+          "decisionList" : [ {
+            "childFlowId" : "a236db7a-6db8-7e62-87e1-29e9c7b6bd67",
+            "key" : "scope.mockFlow",
+            "operation" : "==",
+            "value" : "true"
+          }, {
+            "childFlowId" : "78b7c7ac-7603-7280-80cc-1d0f2599b377",
+            "key" : "scope.Individual.status",
+            "operation" : "==",
+            "value" : "Active"
+          }, {
+            "childFlowId" : "4be08fad-9829-723c-b986-a6239a1e81a1",
+            "key" : "scope.Individual.status",
+            "operation" : "!=",
+            "value" : "Active"
+          } ],
+          "name" : "Check Email exists",
+          "nextStep" : "end",
+          "type" : "Decision"
+        }
+      }
+    },
+    "actionTagName" : "Login",
+    "api" : "/login",
+    "apiAccess" : "Public",
+    "createdBy" : "rkumar@apptium.com",
+    "createdDate" : 1604386816713,
+    "id" : "ActionFlow_c9412117-0128-76b0-9e16-d9f864dece1b",
+    "input" : "UserSignInData",
+    "method" : "POST",
+    "name" : "Login",
+    "output" : "user",
+    "tag" : "Login",
+    "updatedBy" : "Thamarai",
+    "updatedDate" : 1616419681983
+  } ]
+}

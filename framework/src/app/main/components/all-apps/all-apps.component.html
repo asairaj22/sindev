@@ -1,0 +1,62 @@
+<!-- <div>hi</div> -->
+
+<section class="featured">
+    <div class="container mt-5">
+      <div class="row">
+
+        <div class="col-lg-4">
+          <a class="chevron-left1" >
+            <h6 id="" class="d-flex justify-content-between pb-10" style=" font-weight: normal; "> App Categories</h6>
+            </a>
+
+            <div class="list-group list-group-flush list-group--secondary-list nav nav-tabs">
+                <a href="javascript:void(0)" (click)="showApps(appCat.name)" class="list-group-item" *ngFor = "let appCat of category; let i = index">
+                    {{appCat.name}} 
+            <span class="badge badge-secondary float-right">{{appCat.count}} </span>
+            </a>
+        <!-- <a href="#tab1a" data-toggle="tab" class="list-group-item active">All SaaS Apps 
+            <span class="badge badge-secondary float-right">18</span>
+            </a>
+
+
+        <a href="#tab1b" data-toggle="tab" class="list-group-item">Enterprise 
+            <span class="badge badge-secondary float-right">1</span>
+        </a>
+
+
+        <a href="#tab1c" data-toggle="tab" class="list-group-item">Productivity <span class="badge badge-secondary float-right">3</span></a>
+
+
+        <a href="#tab1d" data-toggle="tab" class="list-group-item">Communications &amp; Collaboration <span class="badge badge-secondary float-right">4</span></a>
+
+
+        <a href="#tab1e" data-toggle="tab" class="list-group-item">Finance &amp; Accounting <span class="badge badge-secondary float-right">2</span></a>
+
+
+        <a href="#tab1f" data-toggle="tab" class="list-group-item">Sales &amp; Marketing <span class="badge badge-secondary float-right">4</span></a>
+
+
+        <a href="#tab1g" data-toggle="tab" class="list-group-item">Online, Backup &amp; Security <span class="badge badge-secondary float-right">4</span></a> -->
+
+          </div>        </div>
+
+        <div class="col-lg-8 pl-lg-5 mt-5 mt-lg-0">
+            <div class="row text-center">
+              <h2 id="" class="col col-12 mb-5" style="font-size: 40px;">{{selectedText}}</h2>
+                 <div class="col col-6 col-lg-4" *ngFor = "let appFeature of appData.appDetails; let i = index">
+                    <a class="d-block all-app-indiv-wrapper">
+                        <div class="app-img-wrapper">
+                        <img id="" class="img-fluid img-thumbnail rounded3 all-app-img" src={{appFeature.logo}} alt={{appFeature.name}} width="" height="">         
+                        </div>
+                        <div class="all-app-name">{{appFeature.name}}</div>
+                        <p class="all-app-desc" *ngIf="appFeature.description.length < 75" matTooltip = "{{appFeature.description}}">{{appFeature.description | slice:0:75}}</p>
+                        <p class="all-app-desc" *ngIf="appFeature.description.length >= 75" matTooltip = "{{appFeature.description}}">{{appFeature.description | slice:0:75}}...</p>
+                        <p class="all-app-shdeec">{{appFeature.shortDesc}}</p>
+                    </a>
+                </div>
+</div>
+        </div>
+
+      </div>
+    </div>
+    </section>

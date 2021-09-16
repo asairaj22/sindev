@@ -1,0 +1,21 @@
+<div class="mb-2">
+    Page Size:
+    <select (change)="onPageSizeChanged()" id="page-size" [(ngModel)]="pageSize">
+        <option value="10" selected="">10</option>
+        <option value="100">100</option>
+        <option value="500">500</option>
+        <option value="1000">1000</option>
+    </select>
+    <input type="text" id="filter-text-box" class="float-right" [(ngModel)]="searchText" placeholder="Search..." (input)="onFilterTextBoxChanged()"/>
+</div>
+<ag-grid-angular class="ag-theme-balham"
+    [rowData]="gridData"
+    [columnDefs]="columnDefs" 
+    [pagination]="true"
+    [rowHeight]="35"
+    [context]="context"
+    [defaultColDef]="defaultColDef"
+    [rowSelection]="rowSelection"
+    [frameworkComponents]="frameworkComponents"
+    (gridReady)="onGridReady($event)">
+</ag-grid-angular>

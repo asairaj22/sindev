@@ -1,0 +1,88 @@
+
+/* Grouping Widget CSS Starts */
+
+.groupingIcon {
+	height: 100%;
+	width: 25px;
+	left: -20px;
+	position: absolute;
+}
+.groupingIcon .middle {
+	left: -2px;
+	top: 9px;
+	z-index: 1;
+	position: absolute;
+	cursor: pointer;
+	border: 4px solid lightgray;
+	border-radius: 50%;
+}
+
+.groupingIcon > div:first-child {
+	border-left: 2px solid lightgray;
+	height: 15px;
+	width: 100%;
+	position: absolute;
+}
+
+.groupingIcon > div:last-child {
+	border-left: 2px solid lightgray;
+	top: 15px;
+	height: 87px;
+	width: 100%;
+	position: absolute;
+}
+.groupingIcon>div.extended:last-child {
+	height: 103px;
+}
+.grouping-outer-container {
+	margin-left: 20px;
+}
+.grouping-outer-container > div {
+	padding: 5px 0px;
+}
+.grouping-outer-container > div > div{
+	padding: 0px 5px;
+}
+
+.grouping-outer-container > div:first-child  .groupingIcon > .start,
+.grouping-outer-container > div:first-child  .groupingIcon > .middle {
+	display: none;
+}
+
+.grouping-outer-container > div:first-child .groupingIcon > .end {
+	border-top: 2px solid lightgray;
+	border-top-left-radius: 10px;
+    height: 40px;
+    top: 45px;
+}
+.grouping-outer-container > div:last-child  .groupingIcon > .end {
+	border-bottom: 2px solid lightgray;
+	border-bottom-left-radius: 10px;
+}
+.grouping-outer-container>div:first-child .groupingIcon>.end.extended {
+	height: 76px;
+}
+.groupingIcon.grouping-selected .start {
+	border-bottom: 2px solid lightgray;
+	border-bottom-left-radius: 10px;
+	height: 8px;
+}
+
+.groupingIcon.grouping-selected .middle.middle-start {
+	left: 26px;
+	top: 3px;
+}
+
+.groupingIcon.grouping-selected .middle.middle-end {
+	left: 26px;
+	top: 20px;
+}
+
+.groupingIcon.grouping-selected .end {
+	border-top: 2px solid lightgray;
+	border-top-left-radius: 10px;
+	top: 23px;
+	height: 80px;
+}
+
+/* Grouping Widget CSS End */

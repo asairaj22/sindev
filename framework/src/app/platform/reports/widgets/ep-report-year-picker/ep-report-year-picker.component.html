@@ -1,0 +1,13 @@
+<div class="input-group mr-2">
+    <input id="date-input" type="text" class="form-control" aria-label="Date" dlDateTimeInput [dlDateTimeInputFilter]="dateInputFilter" [(ngModel)]="enteredDate">
+    <div class="input-group-append">
+        <button class="btn btn-outline-secondary dropdown-toggle year-picker-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-calendar-o"></i></button>
+        <div class="dropdown-menu dropdown-menu-right" (click)="keepDropDownOpen($event)">
+                <div style="width:360px;">
+                    <dl-date-time-picker [(ngModel)]="enteredDate" (change)="dateSelected($event)"
+                        [selectFilter]="datePickerFilter" maxView="year" minView="year" startView="year">
+                    </dl-date-time-picker>
+                </div>
+        </div>
+    </div>
+</div>

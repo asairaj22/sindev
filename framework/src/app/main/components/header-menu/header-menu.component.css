@@ -1,0 +1,94 @@
+.active-route {
+    color: #4996b2;
+}
+.dashboardBorder ul{
+        padding: 20px 0;
+    margin: 0 20px;
+    border-top: 1px solid #dddddd;
+}
+.dropdown-menu.show {
+    margin: .125rem 0 0 !important;
+    display: block;
+    left:-20px !important;
+}
+#main-header.sticky-header{
+    position: fixed;
+    top: 0px;
+    width: 100%;
+}
+
+.main-header__primary-nav .nav-link:hover {
+    color:  #4996b2 !important;
+}
+
+.dropdown-item{
+    border-bottom: 1px solid #eaeaea !important;
+}
+.dropdown-menu {
+    
+    left: -30px !important;
+}
+.customIcons{
+    position: relative;
+    top: 8%;
+    left: -2%;
+}
+img {
+    max-height: 100%;
+}
+#main-header.header-wrapper{
+    position: fixed;
+    width: 100%;
+    border-top:4px solid #ed1a3d;
+}
+.username-dropdown{
+    color: #231F20 !important;
+    margin-top: 20px;
+    font-size: 14px;
+    padding: 5px 20px !important;
+}
+.username-dropdown-menu{
+    top: 15px;
+    left: 60px !important;
+    border-radius: 0px !important;
+}
+.username-dropdown-menu-item{
+    border-bottom: 0px !important;
+    padding: 15px 25px;
+    font-size: 14px;
+    cursor: pointer;
+
+}
+.header-logo-div{
+    width: 50%;
+    padding:5px 0;
+    /* width: 100%; */
+    display: flex;
+    trannsition: all 0.2s linear;
+    -webkit-transition: all 0.2s linear;
+}
+.header-item-div{
+width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+.header-wrapper, .header-wrapper *{transition:all 0.2s linear;-webkit-transition:all 0.2s linear;color: #231F20;font-weight: 600;}
+/* .stickSingtel .main-header__secondary-nav{height:22px}
+.stickSingtel .main-header__primary-nav{height:50px;} */
+.dropdownImg img{max-width:12px;margin-left:5px;}
+.dropdown.nav-item.show .dropdownImg img{transform:rotate(180deg)}
+.header-wrapper .login-btn{ color: #fff;}
+#main-header.header-wrapper.cloudClass{position:absolute;top:-120px;transition:unset !important;-webkit-transition: unset !important;}
+#main-header.header-wrapper.cloudTopscroll.cloudClass{position:fixed;transition:all 0.2s linear !important;top:0px;-webkit-transition:all 0.2s linear;}
+.hamberger-login-btn{padding: 20px 0; margin: 0 auto;text-align: center;}
+.hamberger-logout-btn{padding: 20px 0; margin: 0 auto;text-align: center;}
+
+@media (max-width:768px){
+    .header-logo-div{width:265px;display: flex;align-items: center;}
+    .header-logo-div img{max-height:unset;max-width:100%}
+    .header-item-div{justify-content: flex-start;padding-left:20px;}
+}
+
+@media screen and (max-width: 1199px) and (min-width: 769px) {
+    .hamburger__ico.expanded {top: 40px;}
+}

@@ -1,0 +1,12 @@
+.mat-list-item .active {
+    background: blue;
+}
+/* active */
+
+::ng-deep .mat-divider {
+    border-top-style: none!important;
+}
+
+::ng-deep .selected-amml-item{
+    background-color: rgba(199, 199, 199, .25)!important;
+}

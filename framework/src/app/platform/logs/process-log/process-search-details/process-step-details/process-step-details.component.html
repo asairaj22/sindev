@@ -1,0 +1,157 @@
+<div class="row m-lo-0">
+    <div class="col-md-12 p-0 row m-lo-0">
+        <div class="col-5"><h5 class="col-12 l-header-sub mb-10"><i class="fa fa-arrow-circle-o-left audit-back icone-hover" (click)="triggerBackScreen()" aria-hidden="true"></i>Transaction Log Details</h5></div>
+        <div class="col-7"><h4 class="col-12 l-header-sub mb-10 tx-clr">{{processStepName}}</h4></div>
+    </div>
+</div>
+<div class="row m-lo-0">
+    <div class="col-md-12">
+        <process-data-grid class="ag-theme-balham" style="width: 100%" 
+            [gridData]="processStepData" 
+            [context]="context" 
+            [columnDefs]="columnDefs" 
+            (getRowData)="getprocessStepData($event)">
+        </process-data-grid>
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-lo">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">{{parsedModelName}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div role="tabpanel process-details-body" class="stepDetailss" id="stepDetails">
+                    <!-- Nav tabs -->
+                        <nav>
+                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                            <a href="#rawTab" aria-controls="rawTab" role="tab" class="nav-item nav-link active" data-toggle="tab"><div class="col-"> Raw </div></a>
+                            <a href="#perttyTab" aria-controls="perttyTab" role="tab" class="nav-item nav-link" data-toggle="tab"><div class="col-" style="margin-left: 10px;"> Json </div></a>
+                        </div>
+                    </nav>
+                    <!-- Tab panes -->
+                    <div class="tab-content process-details-tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="rawTab">
+                            <code class="form-control h-100 bg-light" (ngModel)="parsedProcessStepString">{{parsedProcessStepString}}</code>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="perttyTab">
+                            <ngx-json-viewer *ngIf="isJSONReq" class="form-control bg-light" [json]="parsedProcessStepObject"></ngx-json-viewer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="transactionDetails" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-lo">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">{{processStepDetailData.stepName}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body word-break">
+                <div role="tab-pane active">
+
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Status:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.status? processStepDetailData.status : 'Failed'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Client:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.client ? processStepDetailData.client : 'N/A'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Connector ID:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.connectorId ? processStepDetailData.connectorId : 'N/A'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Connector Name:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.connectorName ? processStepDetailData.connectorName : 'N/A'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Connector Sub Type:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.connectorSubType ? processStepDetailData.connectorSubType : 'N/A'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Created Date:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.createdDate ? processStepDetailData.createdDate : 'N/A'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">FlowNode Instance Id:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.flowNodeInstanceId ? processStepDetailData.flowNodeInstanceId : 'N/A'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Start Time:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.startTime ? processStepDetailData.startTime : 'N/A'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">End Time:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.endTime ? processStepDetailData.endTime : 'N/A'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Process Instance Id:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.processInstanceId ? processStepDetailData.processInstanceId : 'N/A'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Endpoint:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.endpoint ? processStepDetailData.endpoint : 'N/A'}}</div>
+                    </div>
+    
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Flow Instance ID:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.flowNodeInstanceId ? processStepDetailData.flowNodeInstanceId : 'N/A'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Endpoint:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.endpoint ? processStepDetailData.endpoint : 'N/A'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Method:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.method ? processStepDetailData.method : 'N/A'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Operation:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.operation ? processStepDetailData.operation : 'N/A'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Endpoint:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.endpoint ? processStepDetailData.endpoint : 'N/A'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Process Instance Id:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.processInstances && processStepDetailData.processInstances.processInstanceId ? processStepDetailData.processInstances.processInstanceId : 'N/A'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Process Name:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.processInstances && processStepDetailData.processInstances.processName ? processStepDetailData.processInstances.processName : 'N/A'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Response Time:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.responseTime ? processStepDetailData.responseTime : 'N/A'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Request:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.request ? processStepDetailData.request : 'N/A'}}</div>
+                    </div>
+                    <div class="row m-lo-0">
+                        <div class="col-3 text-dark event-detail-label">Response:</div>
+                        <div class="col-8 text-info pl-0 event-detail-data">{{processStepDetailData.response ? processStepDetailData.response : 'N/A'}}</div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

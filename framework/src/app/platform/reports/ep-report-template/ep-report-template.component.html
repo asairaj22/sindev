@@ -1,0 +1,12 @@
+<table class="table-gen template_table report-title-table w-100" ng-class="{'isResponsive': reports.previewTemplate.isResponsive}" id="template_table">
+    <tbody>
+        <tr *ngFor="let row of reports.previewTemplate.title_rowList | slice: 0:reports.previewTemplate.totalRow; let rowIndex = index" [style.height.px]="row.height">
+            <ng-container *ngFor="let cell of row.columnList | slice: 0:reports.previewTemplate.totalColumn">
+                <td class="white-space-pre-line" [ngClass]="{'cell-selected': cell.isSelected}" [attr.colspan]="cell.colSpan" [attr.rowspan]="cell.rowSpan" 
+                    *ngIf="!cell.hideColumn"  [attr.style]="reports.getCellStyle(cell)">
+                    <img [src]="cell.image?.imgTag" style="min-width:100%;max-width:100%;" [ngClass]="{imgDisplay: cell.type=='text'}">{{cell.type == 'text' ? cell.text : ''}}
+                </td>
+            </ng-container>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,112 @@
+.invalid-feedback {display: block !Important;}
+.labelColorBold h6{font-weight:bold}
+.customDisable{opacity:0.8}
+.pwdProgress{border:1px solid #ccc;width:100%;height:6px;border-radius:5px;position:relative;margin-bottom:25px;margin-top: 12px;}
+.pwdProgress::before{content: "";left: 0;width: 0%;height: 5px;background: red;top: 0px;bottom:1px;z-index: 1;position: absolute;transition:all 0.2a linear;-webkit-transition:all 0.2s linear;}
+.pwdProgress.weak::before{width: 30%;height: 5px;background: #a71702;}
+.pwdProgress.medium::before{width: 60%;height: 5px;background:orange}
+.pwdProgress.strong::before{width: 100%;height: 5px;background:green}
+.errorPassword{margin:15px 0 0 0;font-weight: bold;}
+.pwdNote{font-size:14px;}
+.eyeButtonClick{position: absolute;right: 16px;top: 7px;}
+.activeLabelSelect{width: 100%;cursor:pointer;background: #fff;padding: 20px;margin: 0px 0 0 0;border: 2px solid #94afb6;border-radius: 5px;}
+.notemedium{overflow: hidden;width: 100%;margin: 5px 0 10px 0;}
+.tichCheck{border: 1px solid #3eb73e;color: #3eb73e;border-radius: 50%;padding: 2px;font-size: 11px;}
+.closeCheck{border: 1px solid #ef2909;color: #ef2909;border-radius: 50%;padding: 2px;font-size: 10px;width: 17px;height: 17px;text-align: center;margin: 2px 5px 0 0;float: left;}
+.disableAliert{}
+.mt-4{margin-top:4px !important}
+.back_button {
+    color: #50a3bc;
+}
+.discard_changes {
+    text-decoration: underline !important;
+    color: #35a3bb !important;
+    display: inline-block;
+    margin: 10px 0 0 0;
+}
+.password_recovery_title {
+    font-weight: bold;
+}
+.bold_label {
+    font-weight: bold;
+}
+#emailID {
+    font-weight: bold;
+}
+.passwordRecoveryActiveLabel {
+    border: 2px solid #94afb6;
+}
+@media only screen and (max-width:991px){
+    .passwordResponsive{margin-top:30px;}
+ }
+
+ 
+.business_info_icon {
+    color: #304b60;
+    font-size: 16px;
+    position: relative;
+    top: 3px;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+}
+.loginIdAsBusinessId_col {
+    display: flex;
+    align-items: center;
+}
+
+@media (min-width: 992px){
+    .form__wrapper .form-group .form-check {
+        margin-top: 10px !important;
+    }
+}
+
+.emailid_row {
+    margin-bottom: 60px !important;
+    margin-top: 0px !important;
+}
+.password_inner_col {
+    padding: 0px;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+.password_input_col {
+    margin-top: 15px !important;
+}
+
+.password_input_field_row {
+    margin-top: 6px !important;
+}
+.business_email_label {
+    position: relative;
+}
+
+.dashboard-page .form-check-label {
+    background-color: #fdfdfd !important;
+   
+}
+
+.user_info_row {
+    margin-top: 0px !important;
+    min-height: 100px;
+    height: 100px;
+}
+
+.user_info_col {
+   
+}
+.phoneBox input[type=number]{
+    height: 40px;
+}
+.phoneBox .countryInput label{
+    height: 40px;
+}

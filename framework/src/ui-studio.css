@@ -1,0 +1,76 @@
+.container {
+	max-width: 100%;
+	padding: 5px 17px;
+}
+
+.container, .col, .row, [class^="col-"], [class*=" col-"] {
+	min-height: 35px;
+}
+
+.row, [ep-widget-name] {
+	padding: 5px;
+}
+
+.ep-enable-grid .container, .ep-enable-grid .row, .ep-enable-grid .col, .ep-enable-grid [class^="col-"],
+	.ep-enable-grid [class*=" col-"] {
+	border: 1px dashed gray;
+}
+
+.ep-hovered-dom-outline {
+	border: 1px dashed #02ACC5 !important;
+}
+
+[ep-widget-name] {
+	display: block;
+}
+
+.ep-enable-grid [ep-widget-name] {
+	border: 1px dashed #F46817;
+}
+
+.ep-selected-dom-outline, .ep-mouseover-dom-outline, .ep-mapped-dom-outline {
+	z-index: 2000;
+	position: absolute;
+	pointer-events: none;
+	opacity: 0.99;
+	user-select: none;
+	display: none;
+}
+
+.ep-selected-dom-outline {
+	z-index: 2000;
+	border: 2px solid #178df7 !important;
+}
+
+.ep-mouseover-dom-outline {
+	z-index: 2001;
+	border: 1px dashed #178df7 !important;
+}
+
+.ep-mapped-dom-outline {
+	z-index: 2000;
+	border: 2px solid #0064bd !important;
+}
+
+.ep-enable-grid .ep-selected-dom {
+	border: none !important;
+}
+
+.property-header {
+	position: absolute;
+    right: 0;
+    background: #1a8ef7;
+	width: 21px;
+	border-bottom-left-radius: 4px;
+}
+
+.property-header i {
+	cursor: pointer;
+	pointer-events: auto;
+	margin-right: 2px;
+	color: white;
+}
+
+.property-header i:hover {
+	color: #3955ce;
+}

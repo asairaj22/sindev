@@ -1,0 +1,200 @@
+button.btn{
+    padding: .1rem 1rem .3rem 1rem;
+}
+.title-header{
+    color: #007bff;
+    font-weight: 400;
+    font-size: 2em;
+}
+.subtitle{
+    font-weight: 600;
+    font-size: 1.3rem;
+    line-height: 2.7rem;
+    letter-spacing: 0;
+    color: #0F074B;
+}
+.container {
+	max-width: 100%;
+	padding: 5px 17px;
+}
+.container, .col, .row, [class^="col-"], [class*=" col-"] {
+	min-height: 35px;
+}
+.row, [ep-widget-name] {
+	padding: 5px;
+}
+.pointer-events-none{
+    pointer-events: none;
+}
+.mb-10{
+    margin-bottom: 1.5rem;
+}
+.event-log-screens{
+    font-size: 0.9em !important; 
+}
+.log-header-title{
+    color: #007bff;
+    font-weight: 400;
+    font-size: 2em;
+}
+.cur-pointer {
+	cursor: pointer;
+}
+.dropdown-item{
+    cursor: pointer;
+}
+.copy-btns{
+    font-size: 1em;
+    position: absolute;
+    right: 20px;
+}
+.multiselect-dropdown h5{
+    font-size: 0.9em !important;
+}
+.multiselect-dropdown .selected-item {
+    margin: 3px;
+}
+.multiselect-dropdown .dropdown-list{
+    margin-top: 0 !important;
+}
+.dropdown .dropdown-toggle, .dropdown .dropdown-menu{
+    font-size: 1em;
+}
+.l-header-sub {
+    font-weight: 300;
+    font-size: 1.3em;
+    color: orange;
+}
+.audit-back {
+    margin-right: 6px;
+    color: black;
+    cursor: pointer;
+}
+.log-details-header{
+    display: flex;
+}
+.log-details-header i{
+    font-size: 1.5em;
+}
+.event-detail-label{
+    font-weight: 500;
+    font-size: 1.1em;
+}
+.col-form-label, .filter-labels-cont:hover, .selectFilter{
+    font-size: .75rem;
+    line-height: 1.19rem;
+    font-weight: bold;
+    letter-spacing: 0;
+    color: #0F074B;
+}
+label.cb-label{
+    font-size: .90rem;
+    line-height: 1.19rem;
+    letter-spacing: 0;
+    color: #0F074B;
+}
+.modal.cb-modal{
+	color: #0F074B;
+	box-shadow: 0px 1px 6px #00000029;
+}
+.modal.cb-modal .modal-header{
+	border-bottom: 0!important;
+}
+.modal.cb-modal .modal-footer{
+	border-top: 0!important;
+}
+.modal.cb-modal .modal-header button.close {
+	position: absolute;
+    right: 10px;
+    top: 5px;
+    outline: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+.modal.cb-modal .modal-header > .modal-title {
+    text-align: left;
+    font-weight: 600;
+    font-size: 1.31rem;
+    line-height: 2.7rem;
+    letter-spacing: 0;
+    color: #0F074B;
+}
+.modal.cb-modal .modal-body label, .modal.cb-modal .modal-body .form-control{ 
+    font-size: .7rem;
+    letter-spacing: 0;
+    color: #0F074B;
+}
+.f-s-08rem{
+    font-size: .8rem;
+}
+.f-s-09rem{
+    font-size: .9rem;
+}
+.f-s-1rem{
+    font-size: 1rem !important;
+}
+.p-t-0{
+    padding-top: 0 !important;
+}
+.p-t-020rem{
+    padding-top: .20rem !important;
+}
+.p-b-0{
+    padding-bottom: 0 !important;
+}
+.p-l-1-9rem{
+    padding-left: 1.9rem !important;
+}
+.btm-05-em{
+    bottom: .5em;
+}
+.btm-1-em{
+    bottom: 1em;
+}
+.top-05-em{
+    top: .5em;
+}
+.topp-1-em{
+    top: 1em;
+}
+.overflow-x-hidden{
+    overflow-x: hidden;
+}
+.left-auto{
+    left: auto;
+}
+.right-0{
+    right: 0;
+}
+.right-1-em{
+    right: 1em;
+}
+.right-1-5-em{
+    right: 1.5em;
+}
+.right-05-em{
+    right: 0.50em;
+}
+.border-bottom-custom{
+    border-bottom: 1px solid #dee2e6!important;
+}
+.bg-light-custom{
+    background-color: #eee !important;
+}
+.download-file-link{
+    color: #000 !important;
+}
+.custom-btn-light{
+    color: #212529;
+    background-color: #e2e6ea;
+    border-color: #dae0e5;
+}
+.visibility-hide{
+    visibility: hidden;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+}

@@ -1,0 +1,63 @@
+<div id="product" class="page-layout carded fullwidth inner-scroll main">
+  <div>
+    <!-- <div class="header_report">
+    <div class="namehighlight">
+       <h3>Reports</h3>
+       </div>
+    </div> -->
+		<div class="row">
+            <div class="col-12">
+                <div class="page__header">
+                    <h3 class="mb-2">
+                        <mat-icon>person_outline</mat-icon> Reports
+                    </h3>
+
+                </div>
+            </div>
+        </div>
+
+    <div class="content-card reportcard">
+
+      <div class="content">
+
+        <mat-tab-group>
+
+          <mat-tab label="Billing">
+            <div class="tab-content p-24">
+      <mat-table class="products-table" #table1 [dataSource]="dataSource" matSort>
+				<ng-container matColumnDef="displayName">
+					<mat-header-cell *matHeaderCellDef>Report name</mat-header-cell>
+					<mat-cell *matCellDef="let data">
+						<button mat-icon-button 
+							  [style.visibility]="!data.expandable ? 'hidden' : ''"
+							  [style.marginLeft.px]="data.level * 32"
+							  (click)="treeControl.toggle(data)">
+						<mat-icon class="mat-icon-rtl-mirror">
+						  {{treeControl.isExpanded(data) ? 'expand_more' : 'chevron_right'}}
+						</mat-icon>
+					  </button>
+						<a *ngIf="!data.expandable" class="m-14 brk-wrd m0" (click)="detailreport(data)">{{data.displayName}}</a>
+            <p *ngIf="data.expandable"  class="m-14 brk-wrd m0" (click)="treeControl.toggle(data)">{{data.displayName}}</p>
+					</mat-cell>
+				</ng-container>
+                <ng-container matColumnDef="createdBy">
+					<mat-header-cell *matHeaderCellDef mat-sort-header>Last updated by</mat-header-cell>
+					<mat-cell *matCellDef="let data">						
+						<p class="m-14 brk-wrd" [style.marginLeft.px]="!data.expandable ? 'data.level * 32' :'data.level * 32' ">{{data.createdBy}}</p>
+					</mat-cell>
+				</ng-container>
+				<mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+				<mat-row *matRowDef="let row; columns: displayedColumns;" class="element" style="cursor: pointer" matRipple></mat-row>
+			</mat-table>
+            </div>
+          </mat-tab>
+
+          
+
+        </mat-tab-group>
+
+      </div>
+
+    </div>
+  </div>
+</div>

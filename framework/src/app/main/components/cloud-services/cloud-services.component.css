@@ -1,0 +1,106 @@
+.secondToolbar {
+    position: fixed;
+    background: #eee;
+    top: 0;
+    height: 0;
+    opacity: 0;
+    transition: opacity .25s ease-out, height .15s ease;
+    cursor: default;
+    user-select: none;
+}
+.sticky-nav-ul-topReach-true {
+  position: fixed;
+   top: 120px; 
+  width: 100%;
+  z-index: 99;
+  transition: all 0.2s linear;
+  -webkit-transition: all 0.2s linear;
+  }
+.sticky-nav-ul-topReach-false {
+  position: fixed;
+   top: 60px; 
+  width: 100%;
+  z-index: 99;
+  transition: all 0.2s linear;
+  -webkit-transition: all 0.2s linear;
+  }
+.sticky-nav-ul-logout-topReach-true {
+  position: fixed;
+  top: 63px;
+  width: 100%;
+  z-index: 99;
+}
+.sticky-nav-ul-logout-topReach-false {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  z-index: 99;
+}
+
+.sticky {
+    height: 64px;
+    opacity: 1;
+    transition: opacity .25s ease-out, height .15s ease;
+}
+
+.software-tile__image {
+    width: 110px !Important;
+    height: 110px!Important;
+    background-color: white!Important;
+}
+.border-none-hide-for-phase1{
+  border-right: none !important;
+}
+.exp-ftr{
+  border-radius:40px;
+}
+.exp-ftr a{
+  font-weight: 600;
+}
+.tile-header{
+  font: normal normal normal 32px/38px Museo;
+  width: 60%;
+}
+.cloudImageBanner{position:relative;display: flex;align-items: center;min-height:480px;background-position: center !important;background-size: cover !important;}
+.cloudImageBanner .masthead-banner__wrapper{position: relative;width: 100%;transform: unset;top: unset;z-index: 1;}
+addCloudBtm .anchor-nav__wrapper.is-sticky.sticky-nav-ul{top:60px;}
+.mobileClickShow{display:none;background: #fff;padding: 15px 15px 15px 15px;text-align: center;box-shadow: 0 6px 10px -3px rgba(0, 0, 0, 0.15);}
+@media (max-width:992px){
+  .responsiveChooseTop{margin-top:30px;}
+  .mobileToggle{display:none}
+  .mobileClickShow{display: block}
+  .showToggle{display:block;}
+  section.anchor-nav .anchor-nav__list{padding:0}
+  .fixBtm{position:fixed !important;bottom:0px;top:unset !important;height: auto !important;}
+  .fixBtm section.anchor-nav .anchor-nav__list{display: flex;justify-content: center;padding:0}
+  .fixBtm section.anchor-nav{padding:0 !important;border-top:solid 1px #ed1a3d !important}
+  section.anchor-nav .anchor-nav__list .anchor-nav__list-item{}
+  .cloudImageBanner{position:relative;justify-content: center}
+  .cloudImageBanner::before{content: "";position: absolute;background: rgba(0,0,0,0.3);top: 0;left: 0;right: 0;bottom: 0;z-index: 0;width: 100%;height: 100%;}
+}
+@media (max-width:768px){
+  .software-tile .container{max-width:100%}
+  .cloudImageBanner .masthead-banner__wrapper{width:100%}
+.tile-header{font: normal normal normal 18px/30px Museo;}
+.software-tile__image{width: 80px !Important;height: 80px!Important;}
+.software-tile__wrapper .card {box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);margin: 30px 0px 5px 0px;}
+}
+
+@media only screen and (max-width:600px){
+  .sticky-nav-ul{top:110px;}
+  .addCloudBtm .anchor-nav__wrapper.is-sticky.sticky-nav-ul{top:50px;transition:all 0.02s linear;-webkit-transition:all 0.02s linear;}
+}
+
+@media (max-width:480px){
+  .fixBtm section.anchor-nav .anchor-nav__list .anchor-nav__list-item a{font-size:12px;}
+}
+
+.highLightWhyChooseSingtel {
+  color: #e62e3b !important;
+  font-weight: 600 !important;
+}
+
+@media screen and (max-width: 600px) and (min-width: 320px) {
+  .sticky-nav-ul-topReach-true {top: 109px !important; }
+  .sticky-nav-ul-topReach-false { top: 49px !important; }
+}

@@ -1,0 +1,134 @@
+<div class="main">
+	<div class="header_report">
+		<div class="namehighlight">
+				<div class="breadcrumb-wrapper">
+            <div class="row">
+                <div class="col-12 back_nav">
+                    <a [routerLink]="['/reports']" style="color: #ee3554;">
+                        <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to Reports</a>
+                </div>
+            </div>
+        </div>
+		<ng-container *ngIf="!tableShowBoolean">
+			<h3 class="text-center">{{displayName}}</h3>
+			<p class="text-center" *ngIf="displayName">{{starttoend}} ({{startDate | date: 'd/M/y' }}, {{endDate | date: 'd/M/y' }})</p>
+		</ng-container>
+		<ng-container *ngIf="tableShowBoolean">
+			<h3 class="text-center">Reports Details</h3>
+		</ng-container>
+		</div>
+	</div>
+	<div class="admin_container">
+		<ng-container *ngIf="!tableShowBoolean">
+			<div class="d-flex_reports">
+				<mat-form-field class="color_black">
+					<mat-label>Date Range</mat-label>
+					<mat-select name="selectedMonth" [(ngModel)]="selectedMonth"
+						(selectionChange)="selectedMonths($event.value)">
+						<mat-option *ngFor="let md of monthtoDate" [value]="md.id">{{md.name}}</mat-option>
+					</mat-select>
+				</mat-form-field>
+				<div class="fr_right">
+					<!-- <button>Save Report</button> -->
+					<mat-form-field class="color_black">
+						<mat-select name="defaultCurrency" [(ngModel)]="defaultCurrency">
+							<mat-option *ngFor="let symbol of currencySymbol" [value]="symbol.name">{{symbol.name}}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+					<!-- <mat-form-field class="color_black">
+      <mat-select name="countryString" [(value)]="selectedCountry" placeholder="Options">
+        <mat-option [value]="'GB'">Great Britain</mat-option>
+        <mat-option [value]="'US'">United States</mat-option>
+        <mat-option [value]="'CA'">Canada</mat-option>
+      </mat-select>
+    </mat-form-field> -->
+				</div>
+
+			</div>
+			<div class="table_mat">
+				<mat-table class="products-table cust_poptable" #table1 [dataSource]="dataSource" matSort>
+					<ng-container matColumnDef="customername">
+						<mat-header-cell *matHeaderCellDef class="mat_cust_head">
+							<div matTooltip="{{thcustomname}}" class="trunc_report"> {{thcustomname}}</div>
+
+						</mat-header-cell>
+						<mat-cell *matCellDef="let data">
+							<button mat-icon-button
+							  [style.visibility]="!data.expandable ? 'hidden' : ''"
+							  [style.marginLeft.px]="data.level * 8"
+							  (click)="treeControl.toggle(data)">
+						<mat-icon class="mat-icon-rtl-mirror">
+						  {{treeControl.isExpanded(data) ? 'expand_more' : 'chevron_right'}}
+						</mat-icon>
+					  </button>
+							<!-- <a *ngIf="!data.expandable" class="m-14 brk-wrd m0" (click)="detailreport(data)">{{data.displayName}}</a> -->
+							<p *ngIf="data.expandable" class="m-14 brk-wrd m0" (click)="detailreport(data)">
+								{{data.displayName}}</p>
+						</mat-cell>
+						<mat-footer-cell *matFooterCellDef> Total </mat-footer-cell>
+					</ng-container>
+					<ng-container matColumnDef="pricebook">
+						<mat-header-cell mat-header-cell *matHeaderCellDef>Price Book</mat-header-cell>
+						<mat-cell *matCellDef="let data"><span>{{data.priceBook}}</span></mat-cell>
+						<mat-footer-cell *matFooterCellDef> </mat-footer-cell>
+						<!-- *ngIf="!data.expandable" -->
+					</ng-container>
+					<ng-container matColumnDef="sellercost">
+						<mat-header-cell mat-header-cell *matHeaderCellDef>Seller Cost (USD)</mat-header-cell>
+
+						<mat-cell *matCellDef="let data">
+							<ng-container *ngIf="data.totalSellerCost">USD ${{data.totalSellerCost | number : '1.2-2'}}
+							</ng-container>
+							<ng-container *ngIf="data.sellerCost >= 0">USD ${{data.sellerCost}}</ng-container>
+						</mat-cell>
+						<mat-footer-cell *matFooterCellDef> USD ${{totalsellerCosts | number : '1.2-2'}}
+						</mat-footer-cell>
+					</ng-container>
+					<ng-container matColumnDef="customercost">
+						<mat-header-cell mat-header-cell *matHeaderCellDef>Customer Cost (USD)</mat-header-cell>
+						<mat-cell *matCellDef="let data">
+							<ng-container *ngIf="data.totalCustomerCost">USD
+								${{data.totalCustomerCost | number : '1.2-2'}}</ng-container>
+							<ng-container *ngIf="data.customerCost >= 0">USD ${{data.customerCost}}</ng-container>
+						</mat-cell>
+						<mat-footer-cell *matFooterCellDef> USD ${{totalcustomercosts | number : '1.2-2'}}
+						</mat-footer-cell>
+					</ng-container>
+					<ng-container matColumnDef="margin">
+						<mat-header-cell mat-header-cell *matHeaderCellDef>Margin</mat-header-cell>
+						<mat-cell *matCellDef="let data">
+							<ng-container *ngIf="data.totalMargin">USD ${{data.totalMargin | number : '1.2-2'}}
+							</ng-container>
+							<ng-container *ngIf="data.margin >= 0">USD ${{data.margin}}</ng-container>
+						</mat-cell>
+						<mat-footer-cell *matFooterCellDef> USD ${{totalMargins | number : '1.2-2'}} </mat-footer-cell>
+					</ng-container>
+					<ng-container matColumnDef="usagequantity">
+						<mat-header-cell mat-header-cell *matHeaderCellDef>Usage Quantity</mat-header-cell>
+						<mat-cell *matCellDef="let data">{{data.usage}}</mat-cell>
+						<mat-footer-cell *matFooterCellDef> </mat-footer-cell>
+					</ng-container>
+					<!-- <ng-container matColumnDef="unit">
+						<mat-header-cell mat-header-cell *matHeaderCellDef>Unit</mat-header-cell>
+						<mat-cell *matCellDef="let data">{{data.unit}}</mat-cell>
+						<mat-footer-cell *matFooterCellDef> </mat-footer-cell>
+					</ng-container>
+					<ng-container matColumnDef="region">
+						<mat-header-cell mat-header-cell *matHeaderCellDef>Region</mat-header-cell>
+						<mat-cell *matCellDef="let data">{{data.region}}</mat-cell>
+						<mat-footer-cell *matFooterCellDef> </mat-footer-cell>
+					</ng-container> -->
+					<mat-header-row *matHeaderRowDef="reportColumns; sticky:true"></mat-header-row>
+					<mat-row *matRowDef="let row; columns: reportColumns;" class="element" style="cursor: pointer"
+						matRipple></mat-row>
+					<mat-footer-row *matFooterRowDef="reportColumns"></mat-footer-row>
+				</mat-table>
+
+			</div>
+		</ng-container>
+		<ng-container *ngIf="tableShowBoolean">
+			<h2 class="text-center nodata">No Data Available</h2>
+		</ng-container>
+	</div>
+</div>

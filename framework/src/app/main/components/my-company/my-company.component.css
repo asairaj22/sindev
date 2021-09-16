@@ -1,0 +1,237 @@
+.myCompGridbtn {
+	cursor: pointer;
+	padding: 7px 38px;
+	color: #ED1A3D !important;
+	font-size: 16px;
+	font-weight: 700;
+    background-color: #fff;
+	border: 1px solid #ED1A3D;
+	border-radius: 40px;
+	white-space: nowrap;
+}
+.myCompGridHeading{
+    margin-bottom: 9%;
+    width: 100%;
+    /* padding-left: 35%; */
+    color: #636363;
+    font: normal normal 900 14px/15px Avenir;
+    letter-spacing: 0.28px;
+}
+.myCompGridNumber{
+    /* display: block; */
+    margin-bottom: 24%;
+    width: 100%;
+    /* padding-left: 49%; */
+    font-weight: bold;
+    font-size: 24px;
+}
+.myCompGridBtnDiv{
+    /* display: block; */
+    margin-bottom: 4%;
+    width: 100%;
+    /* padding-left: 18%; */
+    font-weight: bold;
+    font-size: 24px;
+    color: black; 
+}
+.MyCompUploadImg{
+text-decoration: underline !important;
+color: #007ad9 !important;
+font-size: 16px;
+font-family: 'Avenir', sans-serif;
+font-weight: 700;
+letter-spacing: 0.025em;line-height: 24px;
+display: inline-block;
+}
+.myCompanyReport{
+    padding: 40px 30px !important;
+}
+.md-drppicker.ltr.shown.double {
+width: 126% !important;
+}
+.custom-day {
+      text-align: center;
+      padding: 0.185rem 0.25rem;
+      display: inline-block;
+      height: 2rem;
+      width: 2rem;
+    }
+    .custom-day.focused {
+      background-color: #e6e6e6;
+    }
+    .custom-day.range, .custom-day:hover {
+      background-color: rgb(2, 117, 216);
+      color: white;
+    }
+    .custom-day.faded {
+      background-color: rgba(2, 117, 216, 0.5);
+    }
+    .reportstable{
+    overflow: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    }
+    p-table .ui-table .ui-table-wrapper {
+    width: inherit;
+    overflow-x: auto;
+
+    }
+    .small-table-column{
+      width: 5% !important;
+    }
+    /* .users-table {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+    border: solid 1px #dedddd;
+    border-radius: 5px;
+    overflow: hidden;
+    } */
+    .ui-table-wrapper{
+      width: inherit !important;
+    overflow-x: auto !important;
+    }
+    .p-datatable-gridlines::ng-deep th {
+      background-color: greenyellow !important;
+    }
+    .preview-img{
+    position: absolute;
+    left: 0;
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    min-height: 58px;
+    border-radius: 7px;
+    background-color: #c6c6c6;
+    overflow: hidden;
+
+    }
+    .dept-modal-dialog{
+    min-width: 28%;
+    max-width: 33%;
+    }
+    .dept-modal{
+    height: 62%;
+    top: 9%;
+    }
+    .dept-modal-body{
+    padding: .75rem 3rem .75rem 3rem !important;
+    border: none !important;
+    }
+    .padding-label{
+      padding-bottom: 2rem !important;
+    }
+    .padding-sub-label{
+      padding-bottom: 0.5rem !important;
+    }
+    .table_column {
+        /* width: 240px !important; */
+        /* width: 34% !important; */
+    }
+    .table-responsive {
+    overflow: inherit !important;
+    
+}
+.my-company-wrapper .btn.btn-primary:disabled{
+    background-color: #ED1A3D;
+}
+.zindex-one{
+ z-index: 1 !important;
+}
+.clickable-span{
+  cursor: pointer;
+  text-decoration: underline !important;
+}
+.clickable-span:hover{
+  cursor: pointer;
+  /* border-bottom: 1px solid; */
+}
+.bold{
+  font-weight: bold;
+}
+.table-container .ui-paginator-current{
+    order: 7 !important;
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+}
+.no-y-oflow{
+  overflow-y: hidden !important;
+}
+.payment-mode-font{
+  font-size: 20px;
+}
+
+.assignShow{position: absolute;background: #ffffff;box-shadow: 0 2px 3px #ccc;padding: 6px 10px;z-index: 1;width: 78px;}
+.assignShow:hover {background-color: #eaeaea;}
+.buttonDeleteOverlay { border: none; background: #fff; color: #000;}
+.buttonDeleteOverlay:disabled { 
+  background-color: #ffffff !important;
+  border-color: transparent !important;
+  color: #000000 !important;
+  opacity: 0.4;
+}
+.buttonDeleteOverlay:hover { background: none; }
+.pdfcsvicon{background: #fff;border: 1px solid #ccc;padding: 6px 16px 5px 16px;margin-left:15px;color: #6f777f;
+    font-weight: bold;}
+.pdfcsvicon img{max-width: 16px;float: left;margin: 0 8px 0 0px;}
+.pdfcsvicon:hover{border:1px solid #ED1A3D}
+.customDisableClass{cursor: no-drop;pointer-events: none;background: #fbf7f7;padding: 10px 0px 8px 0px;position:relative}
+.customDisableClass::before{content: "";width: calc(100% - 50px);height: calc(100% - 2px);left: 1px;right: 0px;position: absolute;background: #fbf7f7;z-index: 1;bottom: 1px;top: 1px;}
+.removeDisable{cursor:pointer;pointer-events: unset;background: #fff;}
+.removeDisable::before{display:none;}
+.quantityInputClass{max-width:98px !important;}
+.company-header{font-size : 34px !important; font-weight: bold;}
+.primary-contant-style{font-size: 14px; color: #8c9399 !important; font-weight: 600;}
+.white_space_alignment {white-space: pre;}
+.bold_head {font-weight: bold;}
+.preview-img_change{width: 130px;height: 30px;object-fit: contain;}
+.logo-img_change{}
+.fxWrap{flex-wrap: wrap !important}
+	.uploadLogoDiv{margin-left: 15px;}	
+.discardLink{display: block;margin: 10px 0 0 0;text-decoration: underline !important;color: #35a3bb !important;}	
+.fileuploadSizeDiv{margin: 20px 0 0 5px;line-height: 20px;}	
+@media only screen and (max-width:992px){	
+  .company-header{font-size:18px !important}	
+}
+
+.account_department_table .table_column .ui-column-filter {
+  max-width: 100%;
+}
+
+@media (max-width:991px) {
+  .company_information_formWrapper .ui-dropdown-label-container {
+    max-width: 100%;
+  }
+  .tab-content {
+    margin-top: 100px;
+  }
+  .company_information_formWrapper {
+    /* margin-top: 108px; */
+  }
+  .my_company_tabs {
+    padding: 15px 0px;
+  }
+  .my_company_tabs .nav-link {
+    border: 1px solid #acacac;
+  }
+  .info-card-wrapper {
+    padding-bottom: 0px;
+  }
+  .assignShow {
+    right: 0;
+    z-index: 999;
+  }
+  #tab5 .d-md-flex {
+    display: flex !important;
+  }
+  .dashboard-page .tabs-wrapper {
+    border-bottom: none;
+  }
+  .date_picker_responsive {
+    margin-top: 25px;
+  }
+}
+
+@media (max-width:420px) {
+  .tab-content {
+    margin-top: 155px;
+  }
+}

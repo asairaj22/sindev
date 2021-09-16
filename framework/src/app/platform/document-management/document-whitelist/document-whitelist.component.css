@@ -1,0 +1,6 @@
+input[type='checkbox'].form-control{
+    height: calc(.5em + .55rem + 1px);
+}
+input[type='checkbox'].form-control:focus{
+    box-shadow: none;
+}

@@ -1,0 +1,19 @@
+<div class="col-12 pl-4 pr-4" *ngIf="!secObj.isChartTop && (secObj.additionalHeader || '') != ''">
+    <div class="row">
+        <div class="col-12 ep_report_section_additional_header_container">
+            <label class="ep_report_section_additional_header">{{secObj.additionalHeader}}</label>
+        </div>
+    </div>
+</div>
+<div class="col-12 matrix-table-outer scrollContainer ep-report p-0 pl-3 pr-3" id="ep_grid_preview" style="padding-top:15px;min-height:300px;height: 450px;">
+    <div class="row multipleView chartView p-0 h-100">
+        <epReportGraph [secObj]="secObj" class="w-100" render-chart></epReportGraph>
+    </div>
+</div> 
+<div class="col-12 pl-4 pr-4" *ngIf="secObj.isChartTop && (secObj.additionalHeader || '') != ''">
+    <div class="row">
+        <div class="col-12 ep_report_section_additional_header_container">
+            <label class="ep_report_section_additional_header">{{secObj.additionalHeader}}</label>
+        </div>
+    </div>
+</div>

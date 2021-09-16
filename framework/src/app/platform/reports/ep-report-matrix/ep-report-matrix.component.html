@@ -1,0 +1,90 @@
+<div class="col-12 matrix-table-outer scrollContainer ep-report p-0 overflow-hidden" id="ep_grid_preview_{{secObj.sectionId}}">
+    <div class="row p-0 pt-2 pb-1">
+        <div class="pl-3 right-0 d-flex" *ngIf="!secObj.hideMatrixPagination">
+            <label class="mr-1 mt-1 cb-label" translate>Show</label>
+            <select [(ngModel)]="secObj.itemsPerPage" (change)="changePageSize(secObj);" class="form-control itemsPerPage f-s-08rem w-50 p-1 cur-pointer">
+                <option *ngFor="let entry of secObj.defaultEntryList" value="{{entry}}">{{entry}}</option>
+            </select>
+            <label class="ml-1 mt-1 cb-label">entries</label>
+        </div>
+        <div class="col-3 d-flex position-absolute pr-0 right-0 left-auto" *ngIf="!secObj.lazyLoading?.needLazyLoading">
+            <button class="btn btn-primary" *ngIf="secObj.showFilter">Clear Filter</button>
+            <button class="btn btn-primary m-r-5" *ngIf="secObj.allowCustomizeColumns">Customize Fields</button>
+            <label *ngIf="secObj.hideMatrixGlobalSearch" class="cb-label mt-1 mr-1">Search:</label> 
+            <input type="text" *ngIf="secObj.hideMatrixGlobalSearch" [(ngModel)]="secObj.searchTable" (keyup)="applyGlobalSearch(secObj);"  class="form-control f-s-08rem h-75" placeholder="Search any text...">
+            <i class="fa fa-times position-absolute right-1-5-em left-auto mt-2 cur-pointer" aria-hidden="true"  (click)="clearSearchText()" *ngIf="(secObj.searchTable || '') != ''"></i>
+        </div>
+    </div>
+    <table class="table matrix-table matrix-table-header" id="previewHeader">
+        <thead>
+            <tr class="repeatMatrixHeader cellCustom colHeaders" *ngFor="let header of secObj.additionalHeaderList; let matrixAddHeaderIndex = index;">
+                <ng-container *ngFor="let field of header; let i = index">
+                    <th class="report-grid-cells {{themeBuilder.getHeaderThemeNameByCondition(field, secObj, matrixAddHeaderIndex, i, true)}}" [attr.colspan]="field.colSpan" 
+                        *ngIf="!field.isRowMerge || (field.isRowMerge && (i == 0 || field.type == 'dynamicColumn'))" [style.width]="field.width"
+                        [attr.rowspan]="(field.isRowMerge && field.type != 'dynamicColumn') ? (secObj.additionalHeaderList.length + 1) : 1">
+                        <span class="rep_dropdown w-100">
+                            {{(field.isRowMerge && field.type != 'dynamicColumn') ? secObj.displayFields[field.displayFieldIndex].name : field.name}}
+                        </span>
+                    </th>
+                </ng-container>
+            </tr>
+            <tr class="colHeaders cellCustom">
+                <ng-container *ngFor="let field of secObj.displayFields; let i = index;">
+                    <th class="report-grid-cells {{themeBuilder.getHeaderThemeNameByCondition(secObj.displayFields[field.displayFieldIndex], secObj, 0, i, false)}}" [attr.data-index]="i" 
+                        (click)="sort(secObj, field.mapping)" *ngIf="!field.isRowMerge || (field.isRowMerge && (secObj.additionalHeaderList || []).length == 0 || field.type == 'calculatedData')" [style.width]="field.width">
+                        <span class="rep_dropdown" style="width:100%;">
+                            {{field.name}}
+                        </span>
+                    </th>
+                </ng-container>
+            </tr>
+        </thead>
+    </table>
+    <div id="scrollDynamic_{{secObj.sectionId}}" class="scrollDynamic ep-infinite-scroll thin-scrollbar matrix-table-body-outer" (scroll)="gridScrollEvent($event);">
+        <table class="table matrix-table matrix-table-body">
+            <tbody>
+                <tr *ngFor="let record of secObj.filteredRecordsPerPage; let parentRecordIndex = index;" [attr.pagination-id]="secObj.sectionId">
+                    <td class="report-grid-cells white-space-pre-line {{themeBuilder.getThemeNameByCondition(record, field, parentRecordIndex, i, secObj.displayFields, null, secObj)}}" 
+                        *ngFor="let field of secObj.displayFields; let i = index;"
+                        [ngClass]="{'d-none': (record.isRowCummulative && i > 0 && i < record.rowCummulative_colSpan) || getCellDetails(record, field, parentRecordIndex + 1, i + 1, filteredRecord).hide}"
+                        [style.width]="field.width"
+                        [attr.colspan]="getCellDetails(record, field, parentRecordIndex + 1, i + 1, filteredRecord).colSpan"
+                        [attr.rowspan]="getCellDetails(record, field, parentRecordIndex + 1, i + 1, filteredRecord).rowSpan">
+                        {{(field.type == 'DrillDown' || field.type == 'HyperLink') ? '' : getCellDetails(record, field, parentRecordIndex + 1, i + 1, filteredRecord).data}}
+                        <a class="report-hyperlink" *ngIf="field.type == 'HyperLink'" target="_blank" [href]="reports.editProperties.updateLinkName(record,field)">
+                            {{record[field.mapping]}}
+                        </a>
+                        <span class="report-ignore-hyperlink" *ngIf="field.type == 'HyperLink'">
+                            {{record[field.mapping]}}
+                        </span>
+                        <span class="report-drillDown-link" *ngIf="field.type == 'DrillDown'" [title]="field.drillDownDetails.hoverText" 
+                            (click)="report_drillDown.navigate($event, field, record, secObj, section_parent_index);" 
+                            [attr.drilldown-value]="record[field.mapping]" [attr.section-id]="section_parent_index">{{record[field.mapping]}}
+                        </span>
+                    </td>
+                </tr>
+                <tr *ngIf="secObj.matrixData.rowTotal && !showNoDataFoundCont">
+                    <td class="report-grid-cells {{themeBuilder.getThemeNameByCondition(secObj.records_rowTotal, secObj.displayFields[0], 0, 0, secObj.displayFields,'rowCount_title', secObj)}}" 
+                        [attr.colspan]="secObj.matrixData.rowList.length">{{secObj.matrixData.rowTotal_name}}
+                    </td>
+                    <td class="report-grid-cells {{themeBuilder.getThemeNameByCondition(secObj.records_rowTotal, field, 0, $index, secObj.displayFields,'rowCount',secObj)}}" 
+                        [style.width]="field.width" [ngClass]="{'d-none': i < secObj.matrixData.rowList.length}"
+                        *ngFor="let field of secObj.displayFields; let i = index">{{secObj.records_rowTotal[field.mapping]}}
+                    </td>
+                </tr>
+                <tr style="height: 35px;" *ngIf="showNoDataFoundCont">
+                    <td class="report-grid-cells text-left" [style.width.px]="reports.calculateWidth(secObj.displayFields)">
+                        <span class="ml-2 position-relative f-s-09rem" no-record-text>No matching records found</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Grid pagination container starts -->
+    <div class="row p-0 mt-2" *ngIf="secObj.reportType == 'Matrix' && !secObj.hideMatrixPagination">
+        <div class="col-12">
+            <ep-report-grid-pagination [secObj]="secObj" [items]="secObj.filteredSectionRecords" [pageSize]="secObj.paginationDetails.itemsPerPage" (changePage)="onChangePage($event)"></ep-report-grid-pagination>
+        </div>
+    </div>
+    <!-- Grid pagination container ends -->
+</div>

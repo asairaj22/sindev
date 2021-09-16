@@ -1,0 +1,131 @@
+<div class="row h-100 p-3">
+    <div class="col-12 mb-10 log-details-header">
+        <i class="fa fa-arrow-circle-o-left audit-back mt-2" (click)="triggerBackScreen()" aria-hidden="true"></i>
+        <h1 class="log-header-title">Event Log Details</h1>
+    </div>
+    <button type="button" class="btn btn-primary mt-2 copy-btns" ngxClipboard (cbOnSuccess)="copied($event, 'request')" [cbContent]="parsedApiRequestString" *ngIf="selectedNavMenu == 'request'">Copy Request</button>
+    <button type="button" class="btn btn-primary mt-2 copy-btns" ngxClipboard (cbOnSuccess)="copied($event, 'response')" [cbContent]="parsedApiResponseString" *ngIf="selectedNavMenu == 'response'">Copy Response</button>
+    <div class="col-12 p-0 card">
+        <div class="row">
+            <div class="col-md-2 event-nav-menu">
+                <ul class="nav nav-pills nav-pills-primary nav-pills-icons flex-column" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#event-details-nav-body" role="tab" data-toggle="tab" (click)="selectedNavMenu = 'api-details'">
+                            <i class="fa fa-list" aria-hidden="true"></i>
+                            API Details
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#event-request-nav-body" role="tab" (click)="selectedNavMenu = 'request'" data-toggle="tab">
+                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            Request
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#event-steps-nav-body" role="tab" data-toggle="tab" (click)="selectedNavMenu = 'steps-flow'">
+                            <i class="fa fa-random" aria-hidden="true"></i>
+                            Steps flow
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#event-response-nav-body" role="tab" (click)="selectedNavMenu = 'response'" data-toggle="tab">
+                            <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                            Response
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-10 pl-2">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="event-details-nav-body">
+                        <div class="row">
+                            <div class="col-3 text-dark event-detail-label">User:</div>
+                            <div class="col-8 text-info pl-0 event-detail-data">{{eventReportDetailsData.userName}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-dark event-detail-label">Account:</div>
+                            <div class="col-8 text-info pl-0 event-detail-data">{{eventReportDetailsData.accountName}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-dark event-detail-label">Application:</div>
+                            <div class="col-8 text-info pl-0 event-detail-data">{{eventReportDetailsData.applicationName}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-dark event-detail-label">Task:</div>
+                            <div class="col-8 text-info pl-0 event-detail-data">{{eventReportDetailsData.taskName}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-dark event-detail-label">Event Type:</div>
+                            <div class="col-8 text-info pl-0 event-detail-data">{{eventReportDetailsData.eventType}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-dark event-detail-label">Api:</div>
+                            <div class="col-8 text-info pl-0 event-detail-data">{{eventReportDetailsData.apiName}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-dark event-detail-label">Api Path:</div>
+                            <div class="col-8 text-info pl-0 event-detail-data">{{eventReportDetailsData.apiPath}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-dark event-detail-label">Created Date:</div>
+                            <div class="col-8 text-info pl-0 event-detail-data">{{eventReportDetailsData.eventDate}}</div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="event-request-nav-body">
+                        <div class="row event-report-details-body m-0 p-0">
+                            <div class="col-12 text-dark p-0 event-detail-data">
+                                <ul class="nav nav-pills nav-justified" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#rawApiRequest">Raw</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#prettyApiRequest">Pretty</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content event-details-tab-content">
+                                    <div id="rawApiRequest" class="container tab-pane p-0 active">
+                                        <pre class="form-control h-100 bg-light" (ngModel)="parsedApiRequestObject"></pre>
+                                    </div>
+                                    <div id="prettyApiRequest" class="container tab-pane p-0 fade">
+                                        <ngx-json-viewer class="form-control bg-light" [json]="parsedApiRequestObject"></ngx-json-viewer>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="event-steps-nav-body" style="height: 480px;">
+                        <app-data-grid-event-log *ngIf="selectedNavMenu == 'steps-flow'"
+                            [gridData]="childGridData"
+                            [context]="context"
+                            [columnDefs]="columnDefs"
+                            (getRowData)="getRowData($event)"
+                            defaultDateTimeFormat="{{defaultDateTimeFormat}}">
+                        </app-data-grid-event-log>
+                    </div>
+                    <div class="tab-pane" id="event-response-nav-body">
+                        <div class="row event-report-details-body m-0 p-0">
+                            <div class="col-12 text-dark p-0 event-detail-data">
+                                <ul class="nav nav-pills nav-justified" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#rawApiResponse">Raw</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#prettyApiResponse">Pretty</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content event-details-tab-content">
+                                    <div id="rawApiResponse" class="container tab-pane p-0 active">
+                                        <pre class="form-control h-100 bg-light" (ngModel)="parsedApiResponseObject"></pre>
+                                    </div>
+                                    <div id="prettyApiResponse" class="container tab-pane p-0 fade">
+                                        <ngx-json-viewer class="form-control bg-light" [json]="parsedApiResponseObject"></ngx-json-viewer>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

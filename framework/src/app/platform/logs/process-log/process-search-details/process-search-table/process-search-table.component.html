@@ -1,0 +1,10 @@
+<div class="row">
+    <div class="col-md-12">
+       <process-data-grid class="ag-theme-balham" style="width: 100%"
+       [gridData]="processSearchTableData"
+        [context]="context"
+        [columnDefs]="columnDefs"
+        (getRowData)="getRowData($event)">
+        </process-data-grid>
+    </div>
+</div>

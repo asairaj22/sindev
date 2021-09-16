@@ -1,0 +1,291 @@
+<main class="main dashboard-page">
+    <div class="container-fluid">
+      <div class="container breadcrumb-wrapper">
+            <div class="row">
+                <div class="col-12 back_nav" style="cursor:pointer;">
+                    <a style="color: #ee3554;" (click)="navigateToCloudResell()">
+                        <i class="fa fa-chevron-left"  aria-hidden="true"></i>  Back to Cloud Resell</a>
+                </div>
+            </div>
+        </div>
+       
+    <div class="row">
+            <div class="col-6">
+             <div _ngcontent-tdh-c9="" class="software-tile__header"><img _ngcontent-tdh-c9="" alt="image" class="software-tile__image" src="../../../SIN/ep-cms/images/aws.png">
+             <div _ngcontent-tdh-c9="" class="software-tile__title-wrapper">
+                 <h3 _ngcontent-tdh-c9="">Essential Cloud Resell (AWS) </h3>
+                 <p _ngcontent-tdh-c9="">Instance Name</p>
+                 </div>
+                 </div>   
+            </div>
+            <div class="col-6">
+            <div class="">
+                 <h6 style="text-align:right;"><strong>Subscription ID </strong></h6>
+             </div>
+            <div class="">
+                <h5 style="text-align:right;">{{accDetails.saasID}}</h5>
+             </div>
+
+            </div>
+        </div>
+
+<!-- Report tabs -->
+<!-- tabs-wrapper start here -->
+<div class="anchor-nav__wrapper anchor-nav__wrapper--reset" style="height: auto;">
+<div id="sticky-wrapper" class="anchor-nav__wrapper" style="height: 66px;"><div class="tabs-wrapper anchor-nav" style="height: auto;">
+  <div class="">
+    <!-- Nav Tabs Start Here  -->
+    
+
+            
+
+
+
+<ul class="nav nav-tabs tabs mx-n3 mx-md-0">
+        
+<li class="nav-item">
+<a data-toggle="tab" class="nav-link active" href="#tab1">
+    Cost Summary
+</a>
+</li> 
+<!-- <li class="nav-item">
+<a data-toggle="tab" class="nav-link" href="#tab2">
+    Cloud Health
+</a></li> -->
+           
+
+          
+ </ul>        <!-- Nav Tabs End Here  -->
+  </div>
+</div></div>
+</div>
+
+<div class="tab-content">
+  <div class="tab-pane fade active show" id="tab1">
+
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+           <div style="border-bottom:2px solid #1c1cd4;padding: 0 0.5% 1% 0.5%;margin-bottom: 0.5%;">
+             <div class="row">
+               <div class="col-md-6">
+             <label class="text-navy">RECOMMENDATIONS</label>
+             <label class="text-navy">></label>
+             <label class="text-navy">RIGHT SIZING</label>
+             <label class="text-navy">></label>
+             <label class="text-navy">EC2 RIGHT SIZING BY INSTANCE</label>
+               </div>
+               <div class="col-md-6">
+                 <div class="row">
+                   <div class="col-md-3">
+                   </div>
+                   <div class="col-md-3">
+                   </div>
+                   <div class="col-md-3">
+                 <!-- <select class="cost-Actions-btn">
+                   <option>Actions</option>
+                 </select> -->
+                   </div>
+                   <div class="col-md-3">
+                 <select class="cost-subscribe-btn">
+                   <option>Subscribe</option>
+                 </select>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+           <div>
+             <div class="row" style="margin-bottom: 0.5%;">
+               <div class="col-md-1">
+           <select class="cost-summary-btn">
+                    <option>Filter</option>
+             </select>
+             </div>
+             <div class="col-md-1">
+           <input type="text" class="search-input-box" placeholder="Search...">
+             </div>
+             <!-- <div class="col-md-1 top-action-btns">
+           <select class="cost-Actions-btn">
+                    <option>Edit Columns</option>
+             </select>
+             </div> -->
+             <div class="col-md-1 top-action-btns">
+           <select class="cost-Actions-btn">
+                    <option>25 results per page</option>
+             </select>
+             </div>
+             <div class="col-md-1 top-action-btns">
+           <select class="cost-Actions-btn">
+                    <option>period:September</option>
+                    <option>period:August</option>
+                    <option>period:July</option>
+                    <option>period:June</option>
+             </select>
+             </div>
+             <div class="col-md-1 top-action-btns">
+           <select class="cost-Actions-btn">
+                    <option>Order:Decreasing</option>
+                    <option>Order:Increasing</option>
+             </select>
+             </div>
+             <div class="col-md-1 top-action-btns">
+           <select class="cost-summary-btn">
+                    <option>Policy:Default</option>
+             </select>
+             </div>
+
+             </div>
+             <div class="row">
+               <div class="col-md-12">
+             <select class="cost-summary-btn">
+                    <option>Bulk Actions</option>
+             </select>
+             </div>
+             </div>
+           </div>
+           <div>
+             <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>
+          <input class="" id="" type="checkbox" placeholder="" value="yes">
+        </th>
+        <th class="heading-text">Total Score</th>
+        <th class="heading-text">CPU Score</th>
+        <th class="heading-text">Memory Score</th>
+        <th class="heading-text">Disc Score</th>
+        <th class="heading-text">Network In Score</th>
+        <th class="heading-text">Network Out Score</th>
+        <th class="heading-text">Instance Name</th>
+        <th class="heading-text">API Name</th>
+        <th class="heading-text">Zone Name</th>
+        <th class="heading-text">Projected Cost</th>
+        <th class="text-navy heading-text">Recommendation Savings</th>
+        <th class="heading-text">Recommendation</th>
+        <!-- <th class="heading-text">Action</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="data-text"><input class="" id="" type="checkbox" placeholder="" value="yes"></td>
+        <td class="data-text"><div><label>20</label></div><img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/red_2.PNG"></td>
+        <td class="data-text"><div><label>26</label></div><img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/orange_3.PNG"></td>
+        <td class="data-text"><div><label>53</label></div><img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/yellow_4.PNG"></td>
+        <td class="data-text"><div><label>7</label></div> <img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/red_1.PNG"></td>
+        <td class="data-text"><div><label><1</label></div></td>
+        <td class="data-text"><div><label>1</label></div><img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/red_1.PNG"></td>
+        <td class="text-navy data-text" ><div><label>tf-chef-redis-master-2</label></div></td>
+        <td class="text-navy data-text"><div><label>r3.2xlarge</label></div></td>
+        <td class="text-navy data-text"><div><label>us-east-1b</label></div></td>
+        <td class="data-text"><div><label>$119.49</label></div></td>
+        <td class="data-text"><div><label>$108.73</label></div></td>
+        <td class="data-text"><div><label>Downgrade to r3.xlarge</label></div></td>
+        <!-- <td class="data-text">
+          <select  class="cost-summary-btn" value="">
+            <option>Actions</option>
+          </select>
+          </td> -->
+      </tr>
+      <tr>
+        <td class="data-text"><input class="" id="" type="checkbox" placeholder="" value="yes"></td>
+        <td class="data-text"><div><label>15</label></div><img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/red_2.PNG"></td>
+        <td class="data-text"><div><label>42</label></div><img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/orange_3.PNG"></td>
+        <td class="data-text"><div><label>53</label></div><img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/red_2.PNG"></td>
+        <td class="data-text"><div><label>6</label></div> <img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/yellow_4.PNG"></td>
+        <td class="data-text"><div><label><1</label></div></td>
+        <td class="data-text"><div><label>1</label></div><img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/red_1.PNG"></td>
+        <td class="text-navy data-text" ><div><label>tf-chef-redis-master-2</label></div></td>
+        <td class="text-navy data-text"><div><label>r3.2xlarge</label></div></td>
+        <td class="text-navy data-text"><div><label>us-east-1b</label></div></td>
+        <td class="data-text"><div><label>$46.55</label></div></td>
+        <td class="data-text"><div><label>$108.73</label></div></td>
+        <td class="data-text"><div><label>Downgrade to r3.xlarge</label></div></td>
+        <!-- <td class="data-text">
+          <select  class="cost-summary-btn" value="">
+            <option>Actions</option>
+          </select>
+          </td> -->
+      </tr>
+      <tr>
+        <td class="data-text"><input class="" id="" type="checkbox" placeholder="" value="yes"></td>
+        <td class="data-text"><div><label>15</label></div><img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/red_2.PNG"></td>
+        <td class="data-text"><div><label>38</label></div><img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/orange_3.PNG"></td>
+        <td class="data-text"><div><label>23</label></div><img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/red_2.PNG"></td>
+        <td class="data-text"><div><label>15</label></div> <img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/yellow_4.PNG"></td>
+        <td class="data-text"><div><label><1</label></div></td>
+        <td class="data-text"><div><label>1</label></div><img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/red_1.PNG"></td>
+        <td class="text-navy data-text" ><div><label>tf-chef-redis-master-2</label></div></td>
+        <td class="text-navy data-text"><div><label>r3.2xlarge</label></div></td>
+        <td class="text-navy data-text"><div><label>us-east-1b</label></div></td>
+        <td class="data-text"><div><label>$35.47.49</label></div></td>
+        <td class="data-text"><div><label>$34.73</label></div></td>
+        <td class="data-text"><div><label>Downgrade to r3.xlarge</label></div></td>
+        <!-- <td class="data-text">
+          <select  class="cost-summary-btn" value="">
+            <option>Actions</option>
+          </select>
+          </td> -->
+      </tr>
+     <tr>
+        <td class="data-text"><input class="" id="" type="checkbox" placeholder="" value="yes"></td>
+        <td class="data-text"><div><label>18</label></div><img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/red_2.PNG"></td>
+        <td class="data-text"><div><label>38</label></div><img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/orange_3.PNG"></td>
+        <td class="data-text"><div><label>23</label></div><img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/red_2.PNG"></td>
+        <td class="data-text"><div><label>7</label></div> <img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/yellow_4.PNG"></td>
+        <td class="data-text"><div><label><1 </label></div></td>
+        <td class="data-text"><div><label>1</label></div><img alt="image" width="30px" height="10px" class="" src="./assets/images/dashboard/cloud-resell/red_1.PNG"></td>
+        <td class="text-navy data-text" ><div><label>tf-chef-redis-master-2</label></div></td>
+        <td class="text-navy data-text"><div><label>r3.2xlarge</label></div></td>
+        <td class="text-navy data-text"><div><label>us-east-1b</label></div></td>
+        <td class="data-text"><div><label>$35.49</label></div></td>
+        <td class="data-text"><div><label>$34.73</label></div></td>
+        <td class="data-text"><div><label>Downgrade to r3.xlarge</label></div></td>
+        <!-- <td class="data-text">
+          <select  class="cost-summary-btn" value="">
+            <option>Actions</option>
+          </select>
+          </td> -->
+      </tr>
+    </tbody>
+  </table>
+           </div>
+        </div>
+        </div>
+        
+    </div>
+   
+  </div>
+</div>
+
+<!-- <div class="tab-pane fade" id="tab2">
+
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+            <div class="flexStyle" id="chart1wrapper">
+          <mat-card class="mat-card mat-card-chart">
+            <mat-card-title style="font-weight: 500;display:flex;">Cost Driver History
+        </mat-card-title>
+         <div style="display:block;">
+            <canvas [legend]="true" baseChart style="height:465px;width:100%;" [datasets]="chart3Data" [colors]="chart3Colors"  [labels]="chart3Labels" [options]="chart3Options" [chartType]="chart3Type">
+			</canvas>
+        </div>
+          </mat-card>
+        </div>
+        </div>
+        </div>
+        
+    </div>
+   
+  </div>
+</div> -->
+
+
+
+</div>
+
+ </div>
+</main>

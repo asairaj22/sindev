@@ -1,0 +1,116 @@
+{
+    "keyfeature": [
+        {
+            "header" : "Enterprise Bootstrap",
+            "description" : "Build the business for moving to Azure Conduct an application and tooling readiness assessment for migrating your workloads to Azure"
+        },
+        {
+            "header" : "Landing Zone",
+            "description" : "Landing Zone is a blueprint of your Azure infrastructure environment designed to include components for Azure accounts, networking, logging, security, identity, and access management."
+        },
+        {
+            "header" : "Windows Server Migration",
+            "description" : "Migrate your Windows Server to Azure to accelerate innovation with improve cost savings and security. Extended security updates will be available for free in Azure for 2008 and 2008 R2."
+        },
+        {
+            "header" : "Microsoft SQL Server Migration",
+            "description" : "Migrate your Microsoft SQL Server (MSSQL) databases to MSSQL Windows Server environment running on Azure or Azure SQL Database and get free three-year extended security updates."
+        },
+        {
+            "header" : "Azure VMware Solutions",
+            "description" : "A cloud service jointly developed by VMware and Azure which brings the same technologies enterprise customers use on premises such as VMware vSphere eSXi, vSAN, NSX into the cloud."
+        },
+        {
+            "header" : "Migration Readiness Assessment & Business Case",
+            "description" : "We assess your cloud maturity and develop a migration roadmap to guide and accelerate your cloud adoption. Dispel cloud migration myths and get started in building your cloud migration business case."
+        }
+    ],
+    "bannerDetials": [{
+        "bannerName" : "Essential Cloud Resell (AWS)",
+        "bannerImg" : "./assets/images/masthead/enterprise-product-details.jpg",
+        "bannerProdImg" : "./assets/images/software-tile/icon--spade.jpg",
+        "bannerText" : "AWS services can offer an organization tools such as compute power, database storage and content delivery services.",
+        "bannerSubcripAmt" : "$0.00",
+        "bannerSubcripTime": "month"
+    }],
+    "whyChooseSyntel" : [{
+        "tileImg": "./assets/images/static/small-tile__support.png",
+        "tileText": "Get dedicated support over phone and email."
+    },{
+        "tileImg": "./assets/images/static/small-tile__cloud.png",
+        "tileText": "Migrate your data seamlessly with Singtel."
+    },{
+        "tileImg": "./assets/images/static/small-tile__manage.png",
+        "tileText": "Manage all your apps from one account."
+    },{
+        "tileImg": "./assets/images/static/small-tile__phone.png",
+        "tileText": "One consolidated bill for all your Singtel products and services."
+    }
+    ],
+    "testimonials": [{
+        "testimonialName" : "Eric Koh",
+        "testimonialText" : "With the operations process now streamlined, we can take on more jobs. Our costs in terms of manpower hours and mistakes made are reduced. With faster response time, it is good for businesses looking to scale up and grow bigger!",
+        "testimonialCompany":"ABC Group Pte Ltd",
+        "testimonialDesignation" : "Manager",
+        "testimonialImage" : "data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+    },{
+        "testimonialName" : "Jess Tan",
+        "testimonialText" : "Sending SMS reminders to customers to pick up their prints has raised our service standards by a notch. By using sendQuick's SMS solution, it frees up our front-line staff for other areas which translates to lower total costs.",
+        "testimonialCompany":"XZY Hub Pte Ltd",
+        "testimonialDesignation" : "CEO",
+        "testimonialImage" : "data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+    },{
+        "testimonialName" : "Xavier Goh",
+        "testimonialText" : "We needed a secure server and ONEOffice was on the cloud and had an email service.",
+        "testimonialCompany":"LMD Collections",
+        "testimonialDesignation" : "CEO",
+        "testimonialImage" : "data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+    },{
+        "testimonialName" : "Hoe Ziqian",
+        "testimonialText" : "This is where good customer support from Singtel helped — there might be features that could help benefit our business that we are not aware of.",
+        "testimonialCompany":"Crystal Jade Culinary Concepts",
+        "testimonialDesignation" : "Senior Regional Manager",
+        "testimonialImage" : "data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+    }],
+    "subcriptionDetail": [{
+        "subcriptionName" : "Essential Cloud Resell (AWS)",
+        "subcriptionProdImg" : "./assets/images/software-tile/icon--spade.jpg",
+        "subcriptionText" : "AWS services can offer an organization tools such as compute power, database storage and content delivery services.",
+        "subcriptionSubcripAmt" : "$0.00",
+        "subcriptionSubcripTime": "month"
+    }],
+    "faq" : [{
+        "Google Drive FAQs" : [{
+            "question": "What is Singtel ONEOffice?",
+            "answer":"Singtel ONEOffice is a next –generation service which features a suite of collaboration tools which runs on the web browser without having to install a client."
+        },{
+            "question": "What do I need to do to setup ONEOffice?",
+            "answer":"You do not need to worry about the setup as this service is included when you purchase the solution. The one-time setup includes assisting customers to update the CNAME & MX records with your domain provider, creating up to 5 users and assigning licenses, updating the POP/IMAP password and configuring ONEOffice on email clients. You can use the solution immediately when the setup is completed."
+        },{
+            "question": "How does ONEOffice work?",
+            "answer":"Since ONEOffice is web-based, your employees can be productive from anywhere, whether they're at their own desk, using a different computer, or on the go with a mobile device."
+        },{
+            "question": "How is ONEOffice different from a free @gmail.com account?",
+            "answer":"You may have had experience using many of these applications with your user@gmail.com account, and while these applications are similar, ONEOffice solution for business has been enhanced with critical differences:"
+        },{
+            "question": "Can I set retention rules under ONEOffice?",
+            "answer":"Yes you can set retention rules to control the duration of the data to be retained from user accounts. - For ONEOffice users, you will need to purchase Vault add-on first in order to do so. - For ONEOffice Unlimited users, you can set rules straight away."
+        }]
+    },
+    {
+        "ONEOffice free trial" : [{
+            "question": "Can I use my own domain name for the free trial?",
+            "answer":"Yes, you can use your own domain for the free trial."
+        },{
+            "question": "Can I take the free trial if I do not own a domain name?",
+            "answer":"No, you can’t. Domain name is mandatory for ONEOffice."
+        },{
+            "question": "What is included in the complimentary assistance for Free Trial?",
+            "answer":"Our representative will contact you within 3 business days from the service provision date to assist you in setting up your ONEOffice Account. This includes support to update CNAME and MX Records, create up to 5 users and assign licenses."
+        },{
+            "question": "Can I use the same domain name when I convert from trial to paid?",
+            "answer":"Yes, you can directly convert from Trial to Paid by clicking the Upgrade button on the Manage Licenses Page and proceed to Shopping Cart."
+        }]
+    }]
+    
+}

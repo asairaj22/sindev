@@ -1,0 +1,352 @@
+<!-- Orbitera main Div -->
+<main class="main dashboard-page app-dash-page">
+  <!-- Page header start here  -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="page__header">
+          <div class="d-flex flex-row">
+              <img _ngcontent-icb-c4="" class="icon-edit m-lg-2" src="./assets/images/dashboard/cloud-resell/Group2.png">
+              <h3 class="mb-2">Cloud Reports</h3>
+              </div>
+          <strong class="pl-3cent">Get more information on your purchased cloud accounts.</strong>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  <!-- tabs-wrapper start here -->
+  <div class="anchor-nav__wrapper" style="height: auto;">
+    <div id="sticky-wrapper" class="anchor-nav__wrapper" style="height: 66px;"><div class="tabs-wrapper tabs-bg-color anchor-nav">
+      <div class="container-fluid">
+        <!-- Nav Tabs Start Here  -->
+        
+    
+                
+
+
+
+<ul class="nav nav-tabs tabs mx-n3 mx-md-0 pl-8cent hide-scroll">
+            
+
+<li class="nav-item">
+    <a class="nav-link active nav-link-right-border" data-toggle="tab" href="#tab1">
+        Summary Report
+  </a>
+</li>            
+
+<li class="nav-item">
+    <a class="nav-link" (click)="getBillingInvoice()" data-toggle="tab" href="#tab2">
+        Billing Details
+  </a>
+</li>                                 
+  </ul>        <!-- Nav Tabs End Here  -->
+      </div>
+    </div></div>
+  </div>
+  <!-- Tab content starts here  -->
+  <div class="tab-content tab-padding-card">
+    <div class="tab-pane fade show active" id="tab1">
+      <div class="container-fluid">
+        <!-- Summary chart Div -->
+<div class="page-layout carded fullwidth inner-scroll">
+    <div class="filterWrapper rangeRelative card-pad-left card-min-height">
+        <div class="white_bg">
+            <div class="filterContentLeft mar-20left">
+                <!-- <mat-select [(value)]="dateRangeFilterd">
+                            <mat-option value="MONTH_TO_DATE" (click)="dateFilterFun('MONTH_TO_DATE')">
+                                Month to Date
+                            </mat-option>
+                            <mat-option value="YEAR_TO_DATE" (click)="dateFilterFun('YEAR_TO_DATE')">
+                                Year to Date
+                            </mat-option>
+                            <hr style="margin: 3% 0;border-color: #949494;">
+                            <mat-option value="LAST_MONTH" (click)="dateFilterFun('LAST_MONTH')">
+                                Last Month
+                            </mat-option>
+                            <mat-option value="LAST_QUARTER" (click)="dateFilterFun('LAST_QUARTER')">
+                                Last Quarter
+                            </mat-option>
+                            <mat-option value="LAST_YEAR" (click)="dateFilterFun('LAST_YEAR')">
+                                Last Year
+                            </mat-option>
+                            <mat-option value="CUSTOM">
+                               CUSTOM DATE
+                            </mat-option>
+                        </mat-select> -->
+                <!-- <h3>Date Range</h3> -->
+                <div class="select_field rangeDropShow">
+                        <button class="rangeDropdown rangeDropdown-font" type="button" id="dropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						{{dateRangeFilterdLabel}}  <img class="imgDropdown" src="./assets/banner/dropdownBtnHeader.jpg">
+					        </button>
+				        <div class="dropdown-menu username-dropdown-menu" aria-labelledby="dropdownButton">
+                            <a class="dropdown-item username-dropdown-menu-item" (click)="dateFilterFun('MONTH_TO_DATE','Month to Date')">
+                                Month to Date
+                            </a>
+                            <a class="dropdown-item username-dropdown-menu-item" (click)="dateFilterFun('QUARTER_TO_DATE','Quarter to Date')">
+                                Quarter to Date
+                            </a>
+                            <a class="dropdown-item username-dropdown-menu-item" (click)="dateFilterFun('YEAR_TO_DATE','Year to Date')">
+                                Year to Date
+                            </a>
+                            <a class="dropdown-item username-dropdown-menu-item" (click)="dateFilterFun('LAST_MONTH','Last Month')">
+                                Last Month
+                            </a>
+                            <a class="dropdown-item username-dropdown-menu-item" (click)="dateFilterFun('LAST_QUARTER','Last Quarter')">
+                                Last Quarter
+                            </a>
+                            <a class="dropdown-item username-dropdown-menu-item" (click)="dateFilterFun('LAST_YEAR','Last Year')">
+                                Last Year
+                            </a>
+                            <a class="dropdown-item username-dropdown-menu-item" value="CUSTOM" (click)="dateFilterFun('CUSTOM','Custom Date')">
+                               Custom Date
+                            </a>
+				</div>
+
+                </div>
+
+                <ejs-daterangepicker #reportsDateRange [class.removeDisable]="dateRangeFilterd == 'CUSTOM'" class="disableClass ejs_daterangepicker" placeholder='Select A Range' [startDate]='startDate' [endDate]='endDate' format="dd-MM-yyyy" (change)="dateChanged($event)"></ejs-daterangepicker>
+                <!--<h3>Currency</h3>
+                 <div class="select_field">
+                    <mat-form-field>
+                        <mat-select [value]="currencySelected">
+                            <mat-option *ngFor="let currency of currencyList" [value]="currency">{{currency}}
+                            <mat-option value="usDollar">U.S. Dollar
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div> -->
+            </div>
+            <!-- <div class="filterContentRight">
+                <mat-sidenav-container class="graphReorder-container">
+                    <mat-sidenav-content>
+                        <button mat-flat-button>Reorder Cards</button>
+                         (click)="sidenav1.open()" 
+                    </mat-sidenav-content>
+                </mat-sidenav-container>
+
+                <div class="select_field">
+                    <mat-form-field>
+
+                        <mat-select (selectionChange)="change($event)">
+                            <mat-option *ngFor="let product of productList" [value]="product.name">{{product.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="filterBtnWrapper">
+                    <button mat-button class="filterBtn" [matMenuTriggerFor]="filtermenu">Filter Options</button>
+                    <mat-menu #filtermenu="matMenu">
+                        <button mat-menu-item (click)="dashboardServiceCall('thisYear')">This Year</button>
+                        <button mat-menu-item (click)="dashboardServiceCall('thisMonth')">This Month</button>
+                        <hr>
+                        <button mat-menu-item (click)="dashboardServiceCall('previousYear')">Previous Year</button>
+                        <button mat-menu-item (click)="dashboardServiceCall('previousMonth')">Previous Month</button>
+                    </mat-menu>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    
+    
+
+    
+
+<div class="flexStyle">
+    <mat-card class="mat-card mat-card-chart">
+        <!-- *ngIf="spendTotalValue > 0" -->
+        <div fxLayout="row" fxLayoutAlign="space-between right"  class="fxlayoutrow">
+            <mat-card-title style="font-weight: 500;">Daily Spend</mat-card-title>
+           
+        </div>
+        <!-- <div id="locloader1" class="spinner_div loaderMargin" *ngIf="!dailySpendData.length">
+            <mat-progress-spinner [mode]="'indeterminate'" [diameter]="50" class="spinner_cont">
+            </mat-progress-spinner>
+        </div> -->
+         <div *ngIf="!dailyChartExist">
+            <span>No data available for this chart with selected date range or filters</span>
+        </div>
+        <div class="chartCanvasWrapper">
+            <!-- <canvas id="dailyspend" baseChart [legend]="true" style="height:270px;width:100%;" [datasets]="dailySpendData" [colors]="dailySpendColors" [labels]="dailySpendLabels" [options]="dailySpendOptions" [chartType]="dailySpendType"></canvas> -->
+                <canvas baseChart id="chart1" style="height:270px;width:100%;" #chart1></canvas>
+           
+        </div>
+    </mat-card>
+    <!-- <mat-card style="flex:1;margin:15px;" *ngIf="!dailySpendChart && !dailySpendData.length">
+        <h2>Daily Spend</h2>
+        <div>No data available for this chart with selected date range or filters.</div>
+    </mat-card> -->
+</div>
+<div class="flexStyle">
+    <mat-card class="mat-card mat-card-chart">
+        <!-- *ngIf="spendTotalValue > 0" -->
+        <div fxLayout="row" fxLayoutAlign="space-between right"  class="fxlayoutrow">
+            <mat-card-title style="font-weight: 500;">Top 5 Spend by Product</mat-card-title>
+           
+        </div>
+        <!-- <div id="locloader1" class="spinner_div loaderMargin" *ngIf="">
+            <mat-progress-spinner [mode]="'indeterminate'" [diameter]="50" class="spinner_cont">
+            </mat-progress-spinner>
+        </div> -->
+        <div *ngIf="!productChartExist">
+            <p>No data available for this chart with selected date range or filters</p>
+        </div>
+        <div class="chartCanvasWrapper">
+            <!-- <canvas id="top5spendProd" [legend]="true" baseChart style="height:270px;width:100%;" [datasets]="top5ProdData" [colors]="top5SpendColors" [labels]="top5ProdLabels" [options]="top5ProdOptions" [chartType]="top5ProdChartType"></canvas> -->
+            <canvas baseChart id="chart2" style="height:270px;width:100%;" #chart2></canvas>
+        </div>
+    </mat-card>
+    <!-- <mat-card style="flex:1;margin:15px;">
+        <h2>Daily Spend</h2>
+        <div>No Data</div>
+    </mat-card> -->
+</div>
+<div class="flexStyle">
+    <!-- <mat-card class="mat-card mat-card-chart" *ngIf="top5SpendProdMarketChart" >
+        <div fxLayout="row" fxLayoutAlign="space-between right"  class="fxlayoutrow">
+            <mat-card-title style="font-weight: 500;">Top 5 Marketplace Spend by Product</mat-card-title>
+           
+        </div>
+        <div id="locloader1" class="spinner_div loaderMargin" *ngIf="!top5ProdMarketData.length">
+            <mat-progress-spinner [mode]="'indeterminate'" [diameter]="50" class="spinner_cont">
+            </mat-progress-spinner>
+        </div>
+        <div class="chartCanvasWrapper">
+            <canvas id="top5spendMarketProd" baseChart style="height:270px;width:100%;" [datasets]="top5ProdMarketData" [colors]="top5SpendColors" [labels]="top5ProdMarketLabels" [options]="top5ProdMarketOptions" [chartType]="top5ProdMarketChartType">
+			</canvas>
+        </div>
+    </mat-card> -->
+    <!-- <mat-card style="flex:1;margin:15px;" *ngIf="!top5SpendProdMarketChart && !top5ProdMarketData.length">
+        <h2>Daily Spend</h2>
+        <div>No data available for this chart with selected date range or filters.</div>
+    </mat-card> -->
+    <mat-card class="mat-card mat-card-chart" style="flex:1;">
+        <mat-card-title style="font-weight: 500;">Spend Trend by Accounts</mat-card-title>
+         <div *ngIf="!customerChartExist">
+            <p>No data available for this chart with selected date range or filters</p>
+        </div>
+        <div class="chartCanvasWrapper">
+	<canvas baseChart id="myChart" style="height:270px;width:100%;" #mychart></canvas>
+        </div>
+    <!-- <div class="chartCanvasWrapper">
+            <canvas id="topCustomerCost" baseChart [legend]="true" style="height:270px;width:100%;" [datasets]="topCustomerCostData" [colors]="topCustomerCostColors" [labels]="topCustomerCostLabels" [options]="topCustomerCostOptions" [chartType]="topCustomerCostType">
+			</canvas>
+           
+        </div> -->
+    </mat-card>
+</div>
+
+</div>
+<!-- Summary chart Div end -->
+      </div>
+    </div>
+    <div class="tab-pane fade" id="tab2">
+        <div class="container-fluid">
+        <div class="filterWrapper pl-3cent">
+            <div class="white_bg">
+                <div class="filterContentLeft mar-27left">
+                    <h3 class="p-0 date-range-text">Date Range</h3>
+                    <ejs-daterangepicker class="ejs_daterangepicker" placeholder='Select A Range' [startDate]='billingStartDate' format="dd-MM-yyyy" [endDate]='billingEndDate' (cleared)="billingDateClear()" (change)="billingDateChanged($event)"></ejs-daterangepicker>
+                </div>
+            </div>
+        </div>
+        <div class="row pt-4 pb-5 pl-8cent w-100">
+            <div class="col-12 pb-5">
+                <div class="table-responsive users-table import-table">
+                <p-table #dt [value]="billingInvoiceData" [(selection)]="selectedBilling" dataKey="id"
+                 [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" currentPageReportTemplate="&#123;first&#125; - &#123;last&#125; of &#123;totalRecords&#125;" 
+                    [rowsPerPageOptions]="[10,25,50]" [resizableColumns]="true" [paginator]="true"    
+                    [filterDelay]="0" [globalFilterFields]="['productName','instanceName','billingBillingDate','usagePeriod','usageAmount']">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+
+                            <th class="table_column" pSortableColumn="name">Cloud Account <p-sortIcon class="sorTableIcon" field="productName"></p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="loginid">Instance Name <p-sortIcon class="sorTableIcon" field="instanceName"></p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="role">Billing Date<p-sortIcon class="sorTableIcon" field="billingBillingDate">
+                                </p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="count">Usage Period<p-sortIcon class="sorTableIcon" field="usagePeriod">
+                                </p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="status">Usage Amount(USD) <p-sortIcon class="sorTableIcon" field="usageAmount"></p-sortIcon>
+                            </th>
+                        </tr>
+                        <tr>
+
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'productName', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'instanceName', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'billingBillingDate', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'usagePeriod', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'usageAmount', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-billingitem>
+                        <tr class="ui-selectable-row">
+
+                            <td class="table_column" data-label="Cloud Name">
+                                <a (click)="navigateToDetails(billingitem)" class="first_col underline"><span>&#123;&#123;(billingitem.productName) ? billingitem.productName : '-' &#125;&#125;</span></a>
+                                <!-- <span class="ui-column-title">Name</span> -->
+                                
+                            </td>
+                            <td class="table_column" data-label="Instance Name">
+                                <!-- <span class="ui-column-title">Login ID</span> -->
+                                &#123;&#123;(billingitem.instanceName)? billingitem.instanceName : '-' &#125;&#125;
+                            </td>
+                            <td class="table_column" data-label="Billing Date">
+                                <!-- <span class="ui-column-title">User Role</span> -->
+                                &#123;&#123;(billingitem.billingBillingDate)? billingitem.billingBillingDate : '-' &#125;&#125;
+                            </td>
+                            <td class="table_column" data-label="Usage Period">
+                                <!-- <span class="ui-column-title">Apps Assigned</span> -->
+                                &#123;&#123;(billingitem.usagePeriod)? billingitem.usagePeriod :'-' &#125;&#125;
+                            </td>
+                            <td class="table_column" data-label="Usage Amount">
+                                <!-- <span class="ui-column-title">Status</span> -->
+                                <!-- &#36; -->
+                                &#123;&#123;(billingitem.usageAmount)? billingitem.usageAmount : '0.00' &#125;&#125; 
+                            </td>
+
+                        </tr>
+                    </ng-template>
+					<ng-template pTemplate="emptymessage">
+						<tr>
+							<td colspan="5">
+								No records found 
+							</td>
+						</tr>
+					</ng-template>
+                </p-table>
+                </div>
+            </div>
+        </div>
+        </div>
+        
+    </div>
+  </div>
+</main>
+<!-- Orbitera main Div end -->
+	 

@@ -1,0 +1,21 @@
+<div class="col-12 mb-5" style="overflow-x: auto;" *ngFor="let formRecord of secObj.formRecords; let objIndex = index;" >
+    <table class="table-gen matrix-table matrix-table-body rep-table-border" id="template_table_{{secObj.sectionId}}"> 
+        <tbody>
+            <tr *ngFor="let row of formRecord.title_rowList; let rowIndex = index;" [style.height.px]="row.height"> 
+                <ng-container *ngFor="let cell of row.columnList; let i = index;">
+                    <td class="tableCell report-grid-cells white-space-pre-line {{cell.rowTheme}} {{cell.theme}}" [ngClass]="{'cell-selected': cell.isSelected}"  
+                        [attr.colspan]="cell.colSpan" [attr.rowspan]="cell.rowSpan" *ngIf="!cell.hideColumn" [style.width.px]="formRecord.columnList[i].width">
+                        <img *ngIf="cell.type == 'image'" [src]="cell.image.imgTag" [style.height.px]="row.height" style="min-width:100%;max-width:100%;" 
+                            [ngClass]="{imgDisplay: cell.type=='text' && cell.type == 'textarea'}">
+                        <span *ngIf="cell.type == 'text'">{{cell.text || ''}}</span>
+                        <input *ngIf="cell.type == 'textbox'" [placeholder]="cell.placeHolder ? cell.placeHolder : ''" class="form-control" [(ngModel)]="cell.handText" (blur)="report_template.updateFreeHandText(cell.handText, secObj, objIndex, rowIndex, i)"/> 
+                        <textarea *ngIf="cell.type == 'textarea'" [placeholder]="cell.placeHolder ? cell.placeHolder : ''" [maxlength]="cell.maxLength"  class="text-content" [(ngModel)]="cell.handText" (blur)="report_template.updateFreeHandText(cell.handText, secObj, objIndex, rowIndex, i)"></textarea>
+                        <div class="input-group date" *ngIf="cell.type == 'Date' || cell.type == 'CustomDate' || cell.type == 'DateTime' || cell.type == 'CustomDateTime'">
+                            <ep-report-datetime-time-picker form-date-field [widgetDetails]="cell" [(ngModel)]="cell.handText" [formCellDetails]="{'secObj': secObj, 'objIndex': objIndex, 'rowIndex': rowIndex, 'i': i}"></ep-report-datetime-time-picker>
+                        </div>
+                    </td> 
+                </ng-container>
+            </tr>
+        </tbody>
+    </table>
+</div>

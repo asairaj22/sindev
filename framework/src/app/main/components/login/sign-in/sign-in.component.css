@@ -1,0 +1,94 @@
+.password_div {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+.password_div input {
+    border: none;
+}
+
+.password_div i {
+    font-size: 20px;
+    margin: 6px;
+}
+
+a {
+    color: #38a3bb !important;
+}
+a:hover {
+    color: #38a3bb;
+}
+.eyeButtonClick{position: absolute;right: 16px;top: 32px;z-index: 99;}
+.mt-15{margin-top:15px}
+.font-300{
+    font-weight: 300;
+}
+
+#login .form-check-input[type="checkbox"] {
+    width: 0px;
+    height: 0px;
+    display: block !important;
+    opacity: 0;
+    z-index: 0;
+}
+.success-tick-icon{
+    font-size: 17px;
+    justify-content: center;
+    color: #7ecc77;
+    height: 100%;
+    /* position: relative;
+    top: 5px; */
+}
+.error-cross-icon{
+    font-size: 17px;
+    /* border: 1px solid; */
+    border-radius: 25px;
+   width: 16px;
+    height: 16px;
+    /* align-items: center; */
+    justify-content: space-evenly;
+    background-color: #c22c45;
+    color: #ffffff;
+    /* position: relative;
+    top: 5px; */
+    margin-right: 8px;
+    border: none;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    padding-left: .5px;
+}
+@media (max-width: 1024px) {
+	h1 {
+		font-size: 4.2vw;
+		line-height: 60px;
+	}
+}
+.align-ver-middle{
+vertical-align: -webkit-baseline-middle;
+}
+.btn{
+    padding: 3% 7% !important;
+}
+p-right0{
+    padding-right: 0;
+}
+
+.a_click_here {
+    font-size: 16px;
+}
+.xs-small {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login_container {
+    position: relative;
+    top: 0px;
+    background: #fff;
+}
+.need-space{padding:0px 4px}

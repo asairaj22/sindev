@@ -1,0 +1,316 @@
+
+<main class="main cloud-billing-details">
+  <!-- Breaddcrumb section start here  -->
+  <div class="container pl-md-0 breadcrumb-wrapper" style="margin-top: 55px;">
+    <div class="row">
+      <div class="col-12 pl-md-0"><a href="javascript:void(0)" (click) = "navToReports()">‹ Back to Billing Details</a></div>
+    </div>
+</div>
+  <!-- Page header start here  -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="page__header" style="padding-bottom: 20px;">
+          <h3 class="mb-1">Usage Billing Details</h3>
+        </div>
+        <div class="save-pdf-wrapper">
+            <button>
+                Save PDF
+            </button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <form action="" class="form-wrapper-group">
+          
+          <div class="form__wrapper">
+            <div class="accordion">
+              <div class="card">
+                <div class="card-header grey-card-header">
+                  <!-- <h6 class="large mb-1">Password recovery information</h6>
+                  <p>Select preferred method to receive password-related messages</p> -->
+
+                    <div class="row wid-100">
+                        <div class="col-6">
+                            <div _ngcontent-tdh-c9="" class="software-tile__header mb-0"><img _ngcontent-tdh-c9="" alt="image" class="software-tile__image" src="../../../SIN/ep-cms/images/aws.png">
+                                <div _ngcontent-tdh-c9="" class="software-tile__title-wrapper">
+                                    <h3 _ngcontent-tdh-c9="" class="mar-tp-15">Essential Cloud Resell (AWS) </h3>
+                                </div>
+                            </div>   
+                        </div>
+                        <div class="col-6 pdr-0-lg">
+                            <div class="mar-tp-15 header-info" >
+                                <div style="text-align: right;margin-bottom:2%;">
+                                  <div class="row1">
+
+                                    <h6 class="left-text" style="font-size: 20px;" ><strong>Subscription ID </strong></h6>  
+                                    <span class="colon">:</span>
+                                    <h5 class="right-text" style="font-size: 20px;">{{accDetails.saasID ? accDetails.saasID : '-'}}</h5>
+                                    <!-- <div class="col-6">
+                                  <h6 class="" style="font-size: 20px;" ><strong>Subscription ID: </strong></h6> 
+                                    </div>
+                                    <div class="col-6" style="text-align:left;">
+                                   <h5 class="" style="font-size: 20px;">{{accDetails.saasID ? accDetails.saasID : '-'}}</h5>
+                                  </div> -->
+                                  </div>
+                                  </div>
+                                   <div style="text-align: right;margin-bottom:2%;">
+                                  <div class="row1">
+                                    <h6 class="left-text" style="font-size: 20px;" ><strong>AWS Account ID </strong></h6>  
+                                    <span class="colon">:</span>
+                                    <h5 class="right-text" style="font-size: 20px;">{{accDetails.accountId ? accDetails.accountId : '-'}}</h5>
+                                    <!-- <div class="col-6">
+                                  <h6 class="" style="font-size: 20px;"><strong>AWS Account ID:</strong></h6> 
+                                    </div>
+                                    <div class="col-6" style="text-align:left;">
+                                    <h5 class="" style="font-size: 20px;">{{accDetails.accountId ? accDetails.accountId : '-'}}</h5>
+                                    </div> -->
+                                  </div>
+                                  </div>
+                            </div>
+                            <!-- <div class="">
+                                <h5 style="text-align:right;">{{accDetails.saasID}}</h5>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="collapse show">
+                  <div class="card-body billing-card-body">
+                    <div class="form-group">
+                      <div class="row bill-info">
+                        <div class="col-lg-6 mb-25">
+                          <h6 class="caption-text" ><strong>Billing Number </strong></h6> 
+                          <span class="colon">:</span>
+                           <h5 class="value-text">6245343625</h5>
+                        </div>
+                        <div class="col-lg-6 txt-rgt mb-25">
+                          <h6 class="caption-text" ><strong>Bill Date </strong></h6>  
+                          <span class="colon">:</span>
+                          <h5 class="value-text">07 Sep 2020</h5>
+                        </div>
+                        <div class="col-lg-6 mt-4 mt-lg-0 mb-25 bill-addr">
+                          <h6 class="caption-text" ><strong>Currency </strong></h6>
+                          <span class="colon">:</span>
+                           <h5 class="value-text">
+                              <span>USD</span>
+                            <!-- <span>68 Orchard Road, #B2-08A Plaza, Singapore 238839</span>  -->
+                          </h5>
+                        </div>
+                        <div class="col-lg-6 txt-rgt mb-25">
+                          <h6 class="caption-text" ><strong>Billing Period </strong></h6> 
+                          <span class="colon">:</span>
+                           <h5 class="value-text">01 Aug - 31 Aug 2020</h5>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group total-wrapper">
+                        <div class="row">
+                            <div class="col-6 caption-text">TOTAL</div>
+                            <div class="col-6 txt-rgt-all caption-text">USD 24,500.00</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group summary-wrapper list-wrapper">
+                        <h5 class="caption-text caption-text-header">Summary</h5>
+                        <div class="row">
+                            <div class="col-6"><div class="caption-text">AWS Service Charges</div></div>
+                            <div class="col-6 txt-rgt-all"><div class="caption-text">USD 22,000.00</div></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6"><div class="caption-text">AWS Marketplace Charges</div></div>
+                            <div class="col-6 txt-rgt-all"><div class="caption-text">USD 1,500.00</div></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6"><div class="caption-text">AWS Service Support Charges</div></div>
+                            <div class="col-6 txt-rgt-all"><div class="caption-text">USD 1,100.00</div></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6"><div class="caption-text">Discount</div></div>
+                            <div class="col-6 txt-rgt-all"><div class="caption-text">(USD 100.00)</div></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group list-wrapper">
+                        <h5 class="caption-text caption-text-header">Details</h5>
+                        <div class="row caption-content-header">
+                            <div class="col-6"><div class="caption-text">AWS Service Charges</div></div>
+                            <div class="col-6 txt-rgt-all"><div class="caption-text">USD 22,000.00</div></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6"><div class="caption-text">Amazon Simple storage services</div></div>
+                            <div class="col-6 txt-rgt-all"><div class="caption-text">USD 10,100.00</div></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6"><div class="caption-text">Amazon Relational database service</div></div>
+                            <div class="col-6 txt-rgt-all"><div class="caption-text">USD 2,100.00</div></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6"><div class="caption-text">Amazon SimpleDB</div></div>
+                            <div class="col-6 txt-rgt-all"><div class="caption-text">USD 2,000.00</div></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6"><div class="caption-text">Amazon Elastic Compute Cloud</div></div>
+                            <div class="col-6 txt-rgt-all"><div class="caption-text">USD 8,000.00</div></div>
+                        </div>
+                    </div>
+
+
+
+                  </div>
+
+                    <div class="form-group footer-wrapper">
+                        <div class="row">
+                            <div>
+                                <img src="./assets/images/static/singtel_logo.png">
+                            </div>
+                            <div class="footer-text-wrapper"><p>Note: Please refer to your Singtel bill for the final amount to be paid.Subject to 7% GST.</p></div>
+                            <div>
+                                <span>1/2</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      
+      <div class="col-12">
+        <form action="" class="form-wrapper-group">
+          
+          <div class="form__wrapper">
+            <div class="accordion">
+              <div class="card">
+                <div class="card-header grey-card-header">
+                  <!-- <h6 class="large mb-1">Password recovery information</h6>
+                  <p>Select preferred method to receive password-related messages</p> -->
+
+                    <div class="row wid-100">
+                        <div class="col-6">
+                            <div _ngcontent-tdh-c9="" class="software-tile__header mb-0"><img _ngcontent-tdh-c9="" alt="image" class="software-tile__image" src="../../../SIN/ep-cms/images/aws.png">
+                                <div _ngcontent-tdh-c9="" class="software-tile__title-wrapper">
+                                    <h3 _ngcontent-tdh-c9="" class="mar-tp-15">Essential Cloud Resell (AWS) </h3>
+                                </div>
+                            </div>   
+                        </div>
+                        <div class="col-6 pdr-0-lg">
+                            <!-- <div class="mar-tp-15">
+                                <div style="text-align: right;margin-bottom:2%;">
+                                  <div class="row">
+                                    <div class="col-6">
+                                  <h6 class="" ><strong>Subscription ID: </strong></h6> 
+                                    </div>
+                                    <div class="col-6" style="text-align:left;">
+                                   <h5 class="">{{accDetails.saasID ? accDetails.saasID : '-'}}</h5>
+                                  </div>
+                                  </div>
+                                  </div>
+                                   <div style="text-align: right;margin-bottom:2%;">
+                                  <div class="row">
+                                    <div class="col-6">
+                                  <h6 class="" ><strong>AWS Account ID:</strong></h6> 
+                                    </div>
+                                    <div class="col-6" style="text-align:left;">
+                                   <h5 class="">{{accDetails.accountId ? accDetails.accountId : '-'}}</h5>
+                                  </div>
+                                  </div>
+                                  </div>
+                            </div> -->
+
+                            <div class="mar-tp-15 header-info" >
+                                <div style="text-align: right;margin-bottom:2%;">
+                                  <div class="row1">
+
+                                    <h6 class="left-text" style="font-size: 20px;" ><strong>Subscription ID </strong></h6>  
+                                    <span class="colon">:</span>
+                                    <h5 class="right-text" style="font-size: 20px;">{{accDetails.saasID ? accDetails.saasID : '-'}}</h5>
+                                    <!-- <div class="col-6">
+                                  <h6 class="" style="font-size: 20px;" ><strong>Subscription ID: </strong></h6> 
+                                    </div>
+                                    <div class="col-6" style="text-align:left;">
+                                   <h5 class="" style="font-size: 20px;">{{accDetails.saasID ? accDetails.saasID : '-'}}</h5>
+                                  </div> -->
+                                  </div>
+                                  </div>
+                                   <div style="text-align: right;margin-bottom:2%;">
+                                  <div class="row1">
+                                    <h6 class="left-text" style="font-size: 20px;" ><strong>AWS Account ID </strong></h6>  
+                                    <span class="colon">:</span>
+                                    <h5 class="right-text" style="font-size: 20px;">{{accDetails.accountId ? accDetails.accountId : '-'}}</h5>
+                                    <!-- <div class="col-6">
+                                  <h6 class="" style="font-size: 20px;"><strong>AWS Account ID:</strong></h6> 
+                                    </div>
+                                    <div class="col-6" style="text-align:left;">
+                                    <h5 class="" style="font-size: 20px;">{{accDetails.accountId ? accDetails.accountId : '-'}}</h5>
+                                    </div> -->
+                                  </div>
+                                  </div>
+                            </div>
+                            <!-- <div class="">
+                                <h5 style="text-align:right;">{{accDetails.saasID}}</h5>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="collapse show">
+                  <div class="card-body billing-card-body">
+                    <div class="form-group list-wrapper">
+                        <div class="row caption-content-header">
+                            <div class="col-6"><div class="caption-text">AWS Marketplace Charge</div></div>
+                            <div class="col-6 txt-rgt-all"><div class="caption-text">$1,500.00</div></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6"><div class="caption-text">Datadog Pro</div></div>
+                            <div class="col-6 txt-rgt-all"><div class="caption-text">$1,000.00</div></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6"><div class="caption-text">N2WS Backup & Recovery</div></div>
+                            <div class="col-6 txt-rgt-all"><div class="caption-text">$200.00</div></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6"><div class="caption-text">Trend Micro Cloud One</div></div>
+                            <div class="col-6 txt-rgt-all"><div class="caption-text">$100.00</div></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6"><div class="caption-text">Ebs-prod-management</div></div>
+                            <div class="col-6 txt-rgt-all"><div class="caption-text">$100.00</div></div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="form-group list-wrapper">
+                        <!-- <h5 class="caption-text caption-text-header">Details</h5> -->
+                        <div class="row caption-content-header">
+                            <div class="col-6"><div class="caption-text">AWS Service Support Charges</div></div>
+                            <div class="col-6 txt-rgt-all"><div class="caption-text">$1,000.00</div></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6"><div class="caption-text">AWS Premium Support</div></div>
+                            <div class="col-6 txt-rgt-all"><div class="caption-text">$1,000.00</div></div>
+                        </div>
+                    </div>
+                  </div>
+
+                    <div class="form-group footer-wrapper">
+                        <div class="row">
+                            <div>
+                                <img src="./assets/images/static/singtel_logo.png">
+                            </div>
+                            <div class="footer-text-wrapper"><p>Note: Please refer to your Singtel bill for the final amount to be paid.Subject to 7% GST.</p></div>
+                            <div>
+                                <span>2/2</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>

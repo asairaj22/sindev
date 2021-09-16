@@ -1,0 +1,16 @@
+{
+    "signin": {
+        "accountName": "",
+        "userEmail": "mbervindas@apptium.com",
+        "userPassword": "password",
+        "recaptchaToken": "",
+        "domainName": ""
+    },
+     "signinSandbox": {
+        "accountName": "",
+        "userEmail": "prakashmn@apptium.com",
+        "userPassword": "axiata$123",
+        "recaptchaToken": "",
+        "domainName": ""
+    }
+}

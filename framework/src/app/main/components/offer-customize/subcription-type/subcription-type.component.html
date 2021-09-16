@@ -1,0 +1,129 @@
+
+<main id="o365-recommend-plan">
+
+
+
+<div class="modal fade" id="recommendedPlanModal" aria-labelledby="customiseDomainModalTitle" aria-hidden="true" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg "  role="document">
+<div class="modal-content">
+    <div class="modal-header">
+    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="modal-body">
+<div class="modal-row">
+<!-- Used in 0365-recommend-plan modal -->
+<div class="modal-product-header">
+<img id="" class="modal-product-header__icon" src="././assets/images/software-tile/icon--office.jpg" alt="imageAlt" width="" height="" />
+<h3 id="" class="modal-product-header__title">Office 365 Business Premium</h3></div>  </div>
+<div class="modal-row">
+    <!-- Used in 0365-recommend-plan modal -->
+<h6>Office online&nbsp;
+
+    <img id="" class="" src="././assets/images/small-tile/icon-office-online.png" alt="" width="" height="" />  </h6>
+<p id="" class="">Use Word, Excel and PowerPoint in your browser.</p>  </div>
+<div class="modal-row">
+    <!-- Used in 0365-recommend-plan modal -->
+<h6>Desktop versions of the latest Office applications&nbsp;
+
+    <img id="" class="" src="././assets/images/small-tile/icon-desktop-latest.png" alt="" width="" height="" />  </h6>
+<p id="" class="">Install Word, Excel, PowerPoint, OneNote, OneDrive and Publisher on your computer.</p>  </div>
+<div class="modal-row">
+    <!-- Used in 0365-recommend-plan modal -->
+<h6>Email &amp; hosting&nbsp;
+
+    <img id="" class="" src="././assets/images/small-tile/icon-email.png" alt="" width="" height="" />  </h6>
+<p id="" class="">Get 50GB mailbox and a custom email domain address (e.g. support@yourcompany.com).</p>  </div>
+<div class="modal-row">
+    <!-- Used in 0365-recommend-plan modal -->
+<h6>Collaboration tools&nbsp;
+
+    <img id="" class="" src="././assets/images/small-tile/icon-collaboration.png" alt="" width="" height="" />  </h6>
+<p id="" class="">Online meetings & instant messaging, intranet site, corporate social network.</p>  </div>
+<div class="modal-row">
+    <!-- Used in 0365-recommend-plan modal -->
+<h6>1TB OneDrive cloud storage&nbsp;
+
+</h6>
+<p id="" class="">Work across multiple devices locally or on OneDrive, with 1TB of storage per user.</p>    
+</div>  
+</div>    </div>
+</div>
+</div>  
+<div class="container breadcrumb-wrapper">
+<div class="row">
+    <div class="col-12"><a href="javascript:void(0)">‹ Back to Cloud Service</a></div>
+</div>
+</div>
+
+
+<div class="container o365__header-wrapper text-center">
+<div class="row">
+    <div class="col-12">
+    <h1>Your subscription type</h1>
+    </div>
+</div>
+</div>
+    <form class="o365__form-base recommend-plan__form" action="">
+        <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12">
+            <div class="form__wrapper">
+                <div class="recommended-plan__header"><img class="header__image" src="./assets/images/software-tile/icon--spade.jpg" alt="image">
+                <div class="header__content">
+                    <div class="header__content-details">
+                    <h3>Essential Cloud Resell (AWS)</h3>
+                    <!-- <p><span class="users">0 users,</span><span class="plan">12-month plan</span></p><a href="javascript:void(0)" data-toggle="modal" data-target="#recommendedPlanModal" id="btn__plan--features">View features</a> -->
+                    
+                    <p><span class="users">1 Account</span></p>                    
+                    </div>
+                    <div class="header__content-cost">
+                    <h6><span class="cost">$0.00</span>
+                    <!-- <span class="time">per month</span> -->
+                    </h6>
+                    <p>Per Account</p>
+                    </div>
+                </div>
+                <div class="header__cta-wrapper">
+                    <button class="btn btn-primary" [disabled]="radioSelected" (click) = "proceedBtn()">
+                        Proceed 
+                    </button>
+                </div>
+                </div>
+                <div class="form-group">
+                <h6 class="form-label">Subscription Type:</h6><span class="form-sub-label">Select the subscription type to proceed further</span>
+                <div class="row form-group--row">
+                    <div class="col-12 col-lg-6">
+                        <div class="form-check custom-radio">
+                            <!-- <input class="form-check-input custom-radio__input" id="billingPlan1" type="radio" name="billingPlanOptions" placeholder="" value="yes" > -->
+                            <input type="radio" class="form-check-input custom-radio__input" value="greenField" (change)="subscriTypeChange($event)" id="greenField" name="greenOrBrown" >
+                            <label class="form-check-label custom-selector-panel custom-selector-panel--radio" for="greenField">
+                                <!-- <div class="custom-selector-panel-content custom-selector-panel-content--left">
+                                    <h6 id="" class="">Create new AWS Subscription</h6>
+                                    <div class="custom-radio-panel-content__more">
+                                    </div>
+                                </div> -->
+                                <div class="custom-selector-panel-content">
+                                    <h6 id="" class="">Create new AWS Subscription</h6>
+                                </div>
+                            </label>
+                        </div>                       
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        
+                        <div class="form-check custom-radio">
+                            <input type="radio" class="form-check-input custom-radio__input" value="brownField" (change)="subscriTypeChange($event)" id="brownField" name="greenOrBrown">
+                            <label class="form-check-label custom-selector-panel custom-selector-panel--radio" for="brownField">
+                                <div class="custom-selector-panel-content">
+                                    <h6 id="" class="">Transfer my existing AWS Subscription</h6>
+                                </div>
+                            </label>
+                        </div>                          
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </form>
+</main>

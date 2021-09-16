@@ -1,0 +1,24 @@
+<div class="container o365__header-wrapper text-center">
+    <div class="container row-mt200">
+        <div class="col-12 text-center label-header-h1">
+            <h1 class="font-300">OTP Request</h1>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group otp-width">
+                    <label for="email"><h6 class="font-600">Request ID</h6></label>
+                    <input type="string" [(ngModel)]="otpRequestId"  class="form-control"/>
+                </div>
+            </div>
+            <div class="col-sm">
+                <button (click)="getOTP()" class="btn btn-secondary otp-btn boldFont">Get OTP</button>
+            </div>
+            <div class="col-sm">
+                <div class="form-group otp-width">
+                    <label for="email"><h6 class="font-600">OTP</h6></label>
+                    <input type="tel" class="form-control" [value]='otpValue' [disabled]="true"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

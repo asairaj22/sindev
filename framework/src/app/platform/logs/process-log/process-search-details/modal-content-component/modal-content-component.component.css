@@ -1,0 +1,22 @@
+.modal-dialog{
+    max-width: 96% !important;
+}
+.word-wr{
+    word-break: break-all;
+}
+
+.test {
+    max-width: 100vw;
+    width: 96vw;
+}
+
+.modal.fade {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+.modal-dialog {
+    vertical-align:middle;
+    height:18em;
+    background-color: rgba(0,0,0,0.5); 
+}

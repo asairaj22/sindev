@@ -1,0 +1,21 @@
+<div class="h-100 row p-0">
+    <div class="col-12 mb-0 pl-4 d-flex">
+        <h1 class="subtitle w-50">Configure DMS App</h1>
+        <div class="mb-2 mt-2 w-75">
+            <button class="btn btn-primary float-right" type="button" (click)="saveDmsAppConfigure()">Save</button>
+        </div>
+    </div>
+    <div *ngFor="let proj of GET_APP_DATA_output; let i = index" class="dms-configuration-cont col-2">
+        <div class="row pl-3">
+            <div class="col-12 text-center">
+                <label for="{{'appTileRadio' + i}}" class="cb-label text-truncate pl-3">
+                    <div class="row pl-0">
+                        <input type="radio" [checked]="proj.contextPath == DMS_APP_CONFIGURED.appName" id="{{'appTileRadio' + i}}" name="appTileRadioName" class="cur-pointer" (change)="setConfiguredApp(proj)">
+                        <img title="{{proj.description}}" class="col-10 h-75 cur-pointer" src="./../images/icon/{{proj.icon}}" width="78" height="60" alt=""/>
+                        <span class="col-12 app-ctxt-path text-truncate cur-pointer pl-4">{{proj.contextPath}}</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

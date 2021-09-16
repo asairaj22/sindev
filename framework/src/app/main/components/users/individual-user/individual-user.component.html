@@ -1,0 +1,822 @@
+<main class="main dashboard-page individualUser">
+	<div class="container breadcrumb-wrapper">
+		<div class="row">
+			<div class="col-12"><a class="back-btn-color" (click)="gotoManageUser()">‹ Back to Users</a></div>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="row mar-left-none-user">
+			<div class="col-12 pad-left-none-user">
+				<div class="cust__name">
+					<h3 class="cust-heading">{{customerName}}</h3>
+				</div>
+			</div>
+			<div class="col-12 page__header reset__btn">
+				<button (click)="triggerEmail()" class="btn btn-secondary w-auto mr-2 boldFont">Reset Password</button>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12 info-card-wrapper info-card-wrapper-mob">
+				<div class="swiper-container">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide">
+							<div class="info-card justify-content-start">
+								<div class="info-card__header">
+									<span class="text-uppercase">ACCOUNT STATUS</span>
+								</div>
+								<div class="info-card__content">
+									<h3 class="info-card__heading">
+										<strong>{{accountSet}}</strong>
+									</h3>
+									<small class="mt-1 md-small d-block">{{validDate | date : 'd MMM yyyy'}}</small>
+									<small class="mt-1 md-small d-block">{{validDate | date : 'HH:mm'}} (GMT
+										+8:00)</small>
+								</div>
+								<div class="info-card__footer"></div>
+
+
+							</div>
+						</div>
+						<div class="swiper-slide hide-for-phase1">
+							<div class="info-card ">
+								<div class="info-card__header">
+									<span class="text-uppercase">Last login</span>
+								</div>
+
+								<div class="info-card__content">
+									<h3 class="info-card__heading">
+										{{(lastSuccess)? (lastSuccess | date : 'd MMM yyyy') : 'None'}}
+									</h3>
+
+									<small class="mt-1 md-small d-block">{{lastSuccess | date : 'HH:mm'}} GMT+8</small>
+
+
+								</div>
+
+								<div class="info-card__footer">
+									<small>Singapore</small>
+								</div>
+
+
+							</div>
+						</div>
+						<div class="swiper-slide hide-for-phase1">
+							<div class="info-card ">
+								<div class="info-card__header">
+									<span class="text-uppercase">Last failed login</span>
+								</div>
+
+								<div class="info-card__content">
+									<h3 class="info-card__heading">
+										{{(lastFailure)? (lastFailure | date : 'd MMM yyyy') : 'None' }}
+									</h3>
+
+									<small class="mt-1 md-small d-block">{{lastFailure | date : 'HH:mm'}} GMT+8</small>
+
+
+								</div>
+
+								<div class="info-card__footer">
+									<small>Singapore</small>
+								</div>
+
+
+							</div>
+						</div>
+						<div class="swiper-slide hide-for-phase1">
+							<div class="info-card ">
+								<div class="info-card__header">
+									<span class="text-uppercase">Invalid login attempts</span>
+								</div>
+
+								<div class="info-card__content">
+									<h3 class="info-card__heading">
+										{{(invalidAttempts)? invalidAttempts : '0'}}
+									</h3>
+
+
+									<small class="md-small d-block">in the past 30 days</small>
+
+								</div>
+
+								<div class="info-card__footer">
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="carousel-container__pagination swiper-pagination"></div>
+
+				<div class="swiper-button-prev" style="display: none;"><svg class="icon">
+						<use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-left"></use>
+					</svg></div>
+				<div class="swiper-button-next" style="display: none;"><svg class="icon">
+						<use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-right"></use>
+					</svg></div>
+			</div>
+		</div>
+	</div>
+	<div class="anchor-nav__wrapper" style="height: auto;">
+		<div id="sticky-wrapper" class="anchor-nav__wrapper" style="height: 66px;">
+			<div class="tabs-wrapper anchor-nav" style="height: auto;">
+				<div class="container-fluid">
+					<ul class="nav nav-tabs tabs tabs-tablet mx-n3 mx-md-0 indivual-li-a-active scroll-unset" style="overflow-x: unset !important;">
+						<li class="nav-item" *appCustomDirectiveIf="getAccessSet['accountPageRead']">
+							<a data-toggle="tab" class="nav-link" href="#tab1">
+								Account
+							</a>
+						</li>
+
+						<li class="nav-item" *appCustomDirectiveIf="getAccessSet['applicationPage']">
+							<a data-toggle="tab" class="nav-link " href="#tab2">
+								Application
+							</a>
+						</li>
+
+						<li class="nav-item" *appCustomDirectiveIf="getAccessSet['personalInfo']">
+							<a data-toggle="tab" class="nav-link " href="#tab3">
+								Personal Information
+							</a>
+						</li>
+
+						<li class="nav-item" *appCustomDirectiveIf="getAccessSet['terminate']"
+							[class.noDrop]="isPrimaryContact || assignNumber > 0 || sameCustomer">
+							<a data-toggle="tab" class="nav-link" 
+								[class.disableTab]="isPrimaryContact|| accountSet=='Inactive' || sameCustomer" href="#tab4">
+								Termination
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tab-content">
+		<div class="tab-pane fade active show mr-top120" id="tab1" *appCustomDirectiveIf="getAccessSet['accountPageRead']">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12">
+						<form action="" class="form-wrapper-group" #generalForm="ngForm">
+							<div class="form__wrapper">
+								<div class="accordion">
+									<div class="card hide-for-phase1">
+										<div class="card-header" data-toggle="collapse" href="#accordion__one-time"
+											aria-expanded="false">
+											<h6>Account information</h6>
+											<p>View a summary of last login and password reset activities.</p>
+										</div>
+										<div class="collapse" id="accordion__one-time">
+											<div class="card-body pb-3">
+
+
+												<table class="table table-borderless info-table ">
+													<tbody>
+														<tr>
+															<th class="d-block d-sm-table-cell" scope="row">Last login:
+															</th>
+															<td class="d-block d-sm-table-cell"> {{(lastSuccess)?
+																(lastSuccess | date : 'd MMM yyyy') : 'None'
+																}},{{lastSuccess | date : 'HH:mm'}} GMT+8</td>
+														</tr>
+														<tr>
+															<th class="d-block d-sm-table-cell" scope="row">Invalid
+																login attempts:</th>
+															<td class="d-block d-sm-table-cell">
+																{{(invalidAttempts)?invalidAttempts: '0'}}</td>
+														</tr>
+														<tr>
+															<th class="d-block d-sm-table-cell" scope="row">Last update:
+															</th>
+															<td class="d-block d-sm-table-cell">{{(lastSuccess)?
+																(lastSuccess | date : 'd MMM yyyy') : 'None'
+																}},{{lastSuccess | date : 'HH:mm'}} GMT+8</td>
+														</tr>
+														<tr>
+															<th class="d-block d-sm-table-cell" scope="row">Last failed
+																login:</th>
+															<td class="d-block d-sm-table-cell">{{(lastFailure)?
+																(lastFailure | date : 'd MMM yyyy') :
+																'None'}},{{lastFailure | date : 'HH:mm'}} GMT+8</td>
+														</tr>
+														<tr>
+															<th class="d-block d-sm-table-cell" scope="row">Last
+																logout::
+															</th>
+															<td class="d-block d-sm-table-cell">{{(lastLogout)?
+																(lastLogout | date : 'd MMM yyyy') :
+																'None'}},{{lastLogout | date : 'HH:mm'}} GMT+8</td>
+														</tr>
+														<!-- <tr>
+ <th class="d-block d-sm-table-cell" scope="row">Password reset</th>
+ <td class="d-block d-sm-table-cell">Yes</td>
+ </tr> -->
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-header no_bgimage" data-toggle="open" href="#generalInfo"
+											aria-expanded="false">
+											<h6>General</h6>
+											<p>View and modify account management settings</p>
+										</div>
+										<div class="open" id="generalInfo">
+											<div class="card-body pb-3">
+												<div class="">
+													<div class="row">
+														<div class="col-md-12">
+															<div class="divAcc"
+																[class.slideDown]="accNo == 1 || accNo == 100">
+																<!-- <div class="divAccHeader" (click)="accData(1)">
+			   <h3>General</h3>
+			   <p>.</p>
+			 </div> -->
+																<div class="divAccContent">
+																	<div class="">
+																		<div class="row">
+																			<div class="col-md-12">
+																				<h4>Account Status</h4>
+																				<p class="displayNone">Change if account
+																					should be locked</p>
+																			</div>
+																		</div>
+																		<div class="row">
+																			<!-- ACTIVE -->
+																			<div class="col-md-6">
+																				<label for="active" class="activeLabel"
+																					[class.disablelabel]="accountSet!=='Suspended'" [class.labelActive]="account == 'Active'"
+																					(mousedown)="accountActive('Active')">
+																					<input type="radio" id="active"
+																						class="radio"
+																						name="accountStatus"
+																						value="Active"
+																						[disabled]="account == 'active'"
+																						[(ngModel)]="account">
+																					<h4>Active</h4>
+																					<p>User can login to Matrix</p>
+																				</label>
+																			</div>
+																			<!-- SUSPEND  -->
+																			<div class="col-md-6">
+																				<label for="suspend" class="activeLabel"
+																					[class.disablelabel]="isPrimaryContact || sameCustomer || accountSet!=='Active'"
+																					[class.labelActive]="account == 'Suspended'"
+																					(mousedown)="accountActive('Suspended')">
+																					<input type="radio" id="suspend"
+																						class="radio"
+																						name="accountStatus"
+																						value="Suspended"
+																						[disabled]="account == 'Suspended'"
+																						[(ngModel)]="account">
+																					<h4>Suspended</h4>
+																					<p>User account is disabled</p>
+																				</label>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="">
+																		<div class="row midAlignCenter">
+																			<div class="col-md-12 mb-20">
+																				<h4>Matrix Role</h4>
+																				<p>Change the user role on this portal
+																				</p>
+																			</div>
+																			<!-- <div class="col-md-3">
+					 <select class="form-control" 
+						 name="roleset" [ngModel]="primaryRole" (change)="changePrimary($event)">
+						 <option *ngFor="let roles of getRoleDetails"  [value]="roles.parameterName">{{roles.parameterName}}</option>
+					 </select>
+				   </div> -->
+
+																			<div class="col-md-3">
+																				<!-- [disabled]="isPrimaryContact" -->
+																				<!-- <select class="form-control" 
+						 name="roleset" [ngModel]="primaryRole" (change)="changePrimary($event)">
+						 <option *ngFor="let roles of getRoleDetails"  [value]="roles.parameterName">{{roles.parameterName}}</option>
+					 </select> -->
+																				<div *ngIf="roleBoolean"
+																					[class.disabledropdown]="isPrimaryContact">
+																					<p-dropdown
+																						[options]="getRoleDetails"
+																						[(ngModel)]="roleObj"
+																						[disabled]="true"
+																						[ngModelOptions]="{standalone: true}"
+																						placeholder="Select Admin"
+																						(onChange)="changePrimary($event)"
+																						optionLabel="parameterName"
+																						[showClear]="true"></p-dropdown>
+																				</div>
+																			</div>
+																			<div class="col-md-3"
+																				*ngIf="account == 'Active'">
+																				<!-- <input type="checkbox" [checked]="isPrimaryContact" [disabled]="primaryRole != '' && primaryRole != 'Primary Admin'" class="checkClass" (click)="getassignPrimary($event)">Assign as Primary Contact -->
+																				<!-- <input type="checkbox" [checked]="isPrimaryContact" name="tnc1" id="tnc1" [disabled]="primaryRole != '' && primaryRole != 'Primary Admin'" class="checkClass form-check-input custom-checkbox__input bg-transparent" (click)="getassignPrimary($event)"> -->
+																				<input type="checkbox"
+																					[checked]="isPrimaryContact ? true : false"
+																					[ngModel]="isPrimaryContact ? true : false"
+																					name="selectPrimaryContact"
+																					id="selectPrimaryContact_id"
+																					[disabled]="isPrimaryContact"
+																					class="checkClass form-check-input custom-checkbox__input bg-transparent"
+																					(change)="onTrackAssignPrimaryContact()">
+																				<!-- Assign as Primary Contact -->
+																				<label
+																					class="form-check-label pt1 custom-checkbox__label custom-checkbox__label--small bg-transparent"
+																					for="selectPrimaryContact_id">Assign
+																					as Primary
+																					Contact</label>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="hide-for-phase1">
+																		<div class="row">
+																			<div class="col-md-12">
+																				<h4>Limit Access</h4>
+																				<p>Control what users when they are
+																					logged-in</p>
+																			</div>
+																		</div>
+																		<div class="row">
+																			<div class="col-md-12">
+																				<label class="activeLabel"
+																					[class.labelActive]="essential == 'active'">
+																					<input type="radio" class="radio"
+																						name="wholesite" ngModel>
+																					<h4>Whole site</h4>
+																					<p>Users can access all areas of
+																						this site.</p>
+																				</label>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="hide-for-phase1">
+																		<div class="row">
+																			<div class="col-md-12">
+																				<h4>Application Launching</h4>
+																				<p>Control how applications are launched
+																					for this user</p>
+																			</div>
+																		</div>
+																		<div class="row">
+																			<div class="col-md-12">
+																				<label class="activeLabel"
+																					[class.labelActive]="essential == 'active'">
+																					<input type="radio" class="radio"
+																						ngModel name="samebrowser">
+																					<h4>Same Browser Window</h4>
+																					<p>Application will launch in the
+																						same browser window</p>
+																				</label>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="hide-for-phase1">
+																		<div class="row">
+																			<div class="col-md-12">
+																				<h4>Password Recovery</h4>
+																				<p>Users can receive notifications on
+																					both email and SMS. Atleast 1
+																					channel must be selected.</p>
+																			</div>
+																		</div>
+																		<div class="row">
+																			<div class="col-md-12">
+																				<label class="activeLabel"
+																					[class.labelActive]="essential == 'active'">
+																					<input type="radio" class="radio"
+																						ngModel name="_email">
+																					<h4>Email</h4>
+																					<p>You can use a different email to
+																						receive the notification.</p>
+																				</label>
+																			</div>
+																		</div>
+																	</div>
+																	<div class=" col-md-12 changeUser">
+																		<button
+																			(click)="createUser('appln', generalForm)"
+																			class="btn btn-secondary w-auto mr-2 boldFont"
+																			[disabled]="!generalForm.dirty">Save
+																			Changes</button><br>
+																		<a href="javascript:void(0)"
+																			(mousedown)="resetChange()"
+																			*ngIf="generalForm.dirty">Discard
+																			Changes</a>
+																	</div>
+																</div>
+															</div>
+															<!-- <div class="divAcc" [class.slideDown]="accNo == 2 || accNo == 100">
+			 <div class="divAccHeader" (click)="accData(2)">
+			   Testing Title 2
+			 </div>
+			 <div class="divAccContent">
+			   <div class="p-30">
+				 testing 2
+			   </div>
+			 </div>
+		   </div> -->
+
+														</div>
+
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane fade mr-top120" id="tab2" *appCustomDirectiveIf="getAccessSet['applicationPage']">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="table-responsive users-table import-table">
+							<p-table #dt [value]="getInstanceDetails" [(selection)]="selectedCustomers" dataKey="id" [rowHover]="true" [rows]="10"
+								[showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+								[resizableColumns]="true" [paginator]="paginationBoolean"
+								currentPageReportTemplate="&#123;first&#125; - &#123;last&#125; of &#123;totalRecords&#125;"
+								[filterDelay]="0"
+								[globalFilterFields]="['productName','instanceName','saasId','custRoles','custStatus']">
+
+								<ng-template pTemplate="header">
+									<tr>
+										<th class="table_column" pSortableColumn="productName">Application Name
+											<p-sortIcon class="sorTableIcon" field="productName"></p-sortIcon>
+										</th>
+										<th class="table_column" pSortableColumn="instanceName">Instance Name<p-sortIcon
+												class="sorTableIcon" field="instanceName"></p-sortIcon>
+										</th>
+										<th class="table_column" pSortableColumn="saasId">Subscription ID<p-sortIcon
+												class="sorTableIcon" field="saasId">
+											</p-sortIcon>
+										</th>
+										<th class="table_column" pSortableColumn="custRoles">App Role <p-sortIcon
+												class="sorTableIcon" field="custRoles">
+											</p-sortIcon>
+										</th>
+										<th class="table_column" pSortableColumn="custStatus">Status<p-sortIcon
+												class="sorTableIcon" field="custStatus"></p-sortIcon>
+										</th>
+
+									</tr>
+									<tr>
+
+										<th class="table_column">
+											<input pInputText type="text"
+												(input)="dt.filter($event.target.value, 'productName', 'contains')"
+												class="ui-column-filter">
+										</th>
+										<th class="table_column">
+											<input pInputText type="text"
+												(input)="dt.filter($event.target.value, 'instanceName', 'contains')"
+												class="ui-column-filter">
+										</th>
+										<th class="table_column">
+											<input pInputText type="text"
+												(input)="dt.filter($event.target.value, 'saasId', 'contains')"
+												class="ui-column-filter">
+										</th>
+										<th class="table_column">
+											<input pInputText type="text"
+												(input)="dt.filter($event.target.value, 'custRoles', 'contains')"
+												class="ui-column-filter">
+										</th>
+										<th class="table_column">
+											<input pInputText type="text"
+												(input)="dt.filter($event.target.value, 'custStatus', 'contains')"
+												class="ui-column-filter">
+										</th>
+
+									</tr>
+								</ng-template>
+								<ng-template pTemplate="body" let-customer>
+									<tr class="ui-selectable-row" data-label="Application Name">
+										<td class="table_column">
+											<a class="decoration-none">&#123;&#123;customer.productName&#125;&#125;</a>
+										</td>
+										<td class="table_column" data-label="Instance Name">
+											<!-- <span class="ui-column-title">Login ID</span>   (click)="goToDetailsApp(customer)"-->
+											&#123;&#123;customer.instanceName&#125;&#125;
+										</td>
+										<td class="table_column" data-label="Saas ID">
+											&#123;&#123;customer.saasId&#125;&#125;
+
+										</td>
+										<td class="table_column" data-label="App Role">
+											&#123;&#123;customer.custRoles&#125;&#125;
+										</td>
+										<td class="table_column" data-label="Status">
+											&#123;&#123;customer.custStatus&#125;&#125;
+										</td>
+
+									</tr>
+								</ng-template>
+								<ng-template pTemplate="emptymessage">
+									<tr>
+										<td class="table_column" colspan="8" style="text-align:left">No Records found.
+										</td>
+									</tr>
+								</ng-template>
+							</p-table>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane fade mr-top120" id="tab3" *appCustomDirectiveIf="getAccessSet['personalInfo']">
+			<form [formGroup]="myForms" class="form-wrapper-group" (ngSubmit)="createUser('inputData', myForms)">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+							<h4>Basic Information</h4>
+							<p>All fields marked with asterisks(*) are mandatory.</p>
+							<hr class="mt-30">
+						</div>
+					</div>
+					<div class="colGrid">
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="email">Login ID:</label>
+									<input type="text" class="form-control" disabled formControlName="loginId"
+										[(ngModel)]="customerEmail" name="loginId" id="loginId"
+										placeholder="Enter Login ID"
+										appLowercase
+										[ngClass]="{ 'is-invalid': (submitted || f.loginId.touched) && f.loginId.errors}" />
+									<div *ngIf="(submitted || f.loginId.touched) && f.loginId.errors"
+										class="invalid-feedback">
+										<div *ngIf="f.loginId.errors.required">Login ID is
+											required</div>
+										<div *ngIf="f.loginId.errors.pattern">Login ID must be a
+											valid email format</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="email" class="business_email_label">*Business Email Address:
+										<span>
+											<mat-icon class="business_info_icon" (mouseover)="onToolTipShow('show')"
+												(mouseout)="onToolTipShow('hide')">info</mat-icon>
+										</span>
+										<span *ngIf="showToolTip" 
+										class="business_email_info_tooltip">All account-related communications will<br>be sent to this Business Email Address</span>
+									</label>
+									<input type="text" class="form-control" formControlName="businessEmailId"
+										placeholder="Enter Business Email Address" name="businessEmailId"
+										id="businessEmailId" (keyup)="onValidateBusinessId()"
+										appLowercase
+										[readonly]="myForms.value.loginIdAsBusinessId"
+										[ngClass]="{ 'is-invalid': ((submitted || f.businessEmailId.touched) && f.businessEmailId.errors) || (f.loginIdAsBusinessId.value == false && isLoginIdAsBusinessId == true) }">
+									<div *ngIf="(submitted || f.businessEmailId.touched) && f.businessEmailId.errors &&  f.businessEmailId.errors.required"
+										class="invalid-feedback">Business Email Address is
+										required
+									</div>
+									<div *ngIf="(submitted || f.businessEmailId.touched) && f.businessEmailId.errors  && f.businessEmailId.errors.pattern"
+										class="invalid-feedback">Business Email Address must be a valid email format
+
+									</div>
+									<div *ngIf="f.loginIdAsBusinessId.value == false && isLoginIdAsBusinessId == true"
+										class="invalid-feedback">
+										Entered ID is Login ID. Please enter different ID as Business Email Address
+									</div>
+								</div>
+							</div>
+							<!-- new col - loginIdAsBusinessId -->
+							<div class="col-md-4 loginIdAsBusinessId_col">
+								<div class="form-group">
+									<div class="form-check custom-checkbox">
+										<span>
+											<input formControlName="loginIdAsBusinessId"
+												class="form-check-input custom-checkbox__input"
+												id="loginIdAsBusinessId_id" type="checkbox" checked='false'
+												name="loginIdAsBusinessId" placeholder="" value="yes"
+												(change)="onSetBusinessId()" />
+											<label
+												class="form-check-label custom-checkbox__label custom-checkbox__label--small"
+												for="loginIdAsBusinessId_id">Use Login ID as Business Email Address.
+											</label>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- new row -->
+						<div class="row">
+							<!-- name col -->
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="name">*Display Name:</label>
+									<input type="text" class="form-control" formControlName="name"
+										placeholder="Enter Display Name" [(ngModel)]="customerNameInput" name="name"
+										id="name"
+										[ngClass]="{ 'is-invalid': (submitted || f.name.touched) && f.name.errors }" />
+									<div *ngIf="(submitted || f.name.touched) && f.name.errors"
+										class="invalid-feedback">
+										Display Name is required
+									</div>
+								</div>
+							</div>
+							<!-- departmnt col -->
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="department">Department: </label>
+									<p-dropdown [options]="departmentDetails"
+										[disabled]="departmentDetails && departmentDetails.length == 0"
+										formControlName="departmentName" placeholder="Select department"
+										(onChange)="changeData($event)" optionLabel="name" [showClear]="true"
+										id="department" name="department" tabindex="-1"></p-dropdown>
+									<div *ngIf="(submitted || f.departmentName.touched) && f.departmentName.errors"
+										class="invalid-feedback">
+										Department Name is required
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<!-- business contact col -->
+							<div class="col-md-4">
+								<div class="form-group phoneBox">
+									<label for="mobile" class="phoneLabel">Business Contact:</label>
+									<div class="countryInput">
+										<label class="countryLabel countryLabel-height"
+										(click)="getCountryList()">{{countryCodeLabel}}
+								<i class="fa fa-angle-down"
+									*ngIf="!phoneDropdown"></i>
+								<i class="fa fa-angle-up" *ngIf="phoneDropdown"></i>
+											</label>
+										<div class="countryDropdownManual" [class.showdropdown]="phoneDropdown">
+											<input class="form-control w-100percent" type="text" name="search"
+												maxlength="15" formControlName="mobileSearch" [(ngModel)]="searchText">
+											<a class="countryLink"
+												*ngFor="let country of countryCodes.default | filter: searchText"
+												(click)="getparticularCountry(country.dial_code)">{{country.dial_code}}
+												- {{country.name}}</a>
+										</div>
+									</div>
+									<input appCustomInput type="text" class="form-control"
+										[(ngModel)]="customerphoneNumber" [ngClass]="{ 'is-invalid': (submitted || f.mobilePhone.touched) && f.mobilePhone.errors}" numbersOnly maxlength="8"
+										formControlName="mobilePhone" name="mobilePhone"
+										placeholder="Enter Business Contact" />
+									<div *ngIf="(submitted ||f.mobilePhone.touched) && f.mobilePhone.errors && f.mobilePhone.errors.minlength" class="invalid-feedback">
+                                                            Please Enter 8 Digit Business Contact Number
+                                                    </div>
+								</div>
+							</div>
+							<!-- telephone col -->
+							<div class="col-md-4">
+								<div class="form-group phoneBox">
+									<label for="mobile" class="phoneLabel">Telephone:</label>
+									<div class="countryInput">
+										<label class="countryLabel countryLabel-height"
+											(click)="gettelePhoneCountryList()">{{countrycodeTelephoneLabel}}
+											<i class="fa fa-angle-down"
+									*ngIf="!telePhoneDown"></i>
+								<i class="fa fa-angle-up" *ngIf="telePhoneDown"></i>
+											</label>
+										<div class="countryDropdownManual" [class.showdropdown]="telePhoneDown">
+											<input class="form-control w-100percent" type="text" name="search"
+												formControlName="telePhoneSearch" [(ngModel)]="searchText">
+											<a class="countryLink"
+												*ngFor="let country of countryCodes.default | filter: searchText"
+												(click)="getParticularTelephoneCountry(country.dial_code)">{{country.dial_code}}
+												- {{country.name}}</a>
+										</div>
+									</div>
+									<input appCustomInput type="text" class="form-control"
+										[(ngModel)]="customerTelephoneNumber" numbersOnly
+										maxlength="8" [ngClass]="{ 'is-invalid': (submitted || f.telephone.touched) && f.telephone.errors}" formControlName="telephone" name="telephone" id="telephone"
+										placeholder="Enter Telephone Number">
+										<div *ngIf="(submitted ||f.telephone.touched) && f.telephone.errors && f.telephone.errors.minlength" class="invalid-feedback">
+                                                            Please Enter 8 Digit Telephone Number
+                                                    </div>
+									<!-- <div *ngIf="(submitted || f.telephone.touched) && f.telephone.errors"
+										class="invalid-feedback">
+										Please enter a valid Telephone
+									</div> -->
+								</div>
+							</div>
+						</div>
+						<!-- new row  -->
+						<div class="row">
+							<!-- fax col  -->
+							<div class="col-md-4">
+								<div class="form-group phoneBox">
+									<label for="mobile" class="phoneLabel">Fax:</label>
+									<div class="countryInput">
+										<label class="countryLabel countryLabel-height"
+											(click)="getFaxCountryList()">{{countryCodeFaxLabel}}
+											<i class="fa fa-angle-down"
+									*ngIf="!faxDropdown"></i>
+								<i class="fa fa-angle-up" *ngIf="faxDropdown"></i>
+											</label>
+										<div class="countryDropdownManual" [class.showdropdown]="faxDropdown">
+											<input class="form-control w-100percent" type="text"
+												formControlName="faxSearch" name="search" [(ngModel)]="searchText">
+											<a class="countryLink"
+												*ngFor="let country of countryCodes.default | filter: searchText"
+												(click)="getParticularFaxCountry(country.dial_code)">{{country.dial_code}}
+												- {{country.name}}</a>
+										</div>
+									</div>
+									<input appCustomInput type="text" class="form-control"
+										[(ngModel)]="customerfaxNumber"  maxlength="8"
+										formControlName="fax" name="fax" id="fax" placeholder="Enter Fax Number" [ngClass]="{ 'is-invalid': (submitted || f.fax.touched) && f.fax.errors}" numbersOnly/>
+									<!-- <div *ngIf="(submitted || f.fax.touched) && f.fax.errors" class="invalid-feedback">
+										Please enter a valid Fax
+									</div> -->
+									<div *ngIf="(submitted ||f.fax.touched) && f.fax.errors && f.fax.errors.minlength" class="invalid-feedback">
+                                                            Please Enter 8 Digit Fax Number
+                                                    </div>
+								</div>
+							</div>
+						</div>
+						<!-- new row - button group -->
+						<div class="row">
+							<div class="col-md-12 changeUser">
+								<button class="btn btn-secondary w-auto mr-2 boldFont"
+									[disabled]="(!myForms.dirty || !myForms.valid)">Save Changes</button><br>
+								<a href="javascript:void(0)" (mousedown)="resetChangePersonal()"
+									*ngIf="myForms.dirty">Discard Changes</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="tab-pane fade mr-top120" id="tab4" *appCustomDirectiveIf="getAccessSet['terminate']">
+			<div class="container-fluid">
+				<h4 class="redColor">Warning</h4>
+				<hr class="warningLine" />
+				<!-- <p>You are about to terminate <strong>{{customerName}}</strong> account. This may result in irreversible loss of data.</p> -->
+				<p>Complete the Below to Terminate Account</p>
+				<div class="inputCaptcha">
+					Complete the challenge to continue: <span>{{randomOne}}</span> + <span>{{randomTwo}} = </span>
+					<input type="number" class="captchaInput" [(ngModel)]="captchaNumber"
+						(keyup)="getCaptchaVal($event)"> <i class="arrowHide"></i><a (click)="getRefresh()"><img
+							class="refreshIcon" src="assets/refresh.png"></a>
+					<div class="errorCaptcha" *ngIf="terminateSubmitted && !captchaTrue">Captcha is Incorrect</div>
+				</div>
+				<!-- <input type="checkbox" class="checkClass" [checked]="checkTerminateEvent" (click)="checkConfirmEvent()"> You are about to terminate <strong>{{customerName}}</strong> account. This may result in irreversible loss of data. -->
+
+				<input type="checkbox" class="checkClass form-check-input custom-checkbox__input bg-transparent"
+					name="tnc2" id="tnc2" [checked]="checkTerminateEvent" (click)="checkConfirmEvent()">
+				<label class="pt1 form-check-label custom-checkbox__label custom-checkbox__label--small bg-transparent"
+					for="tnc2">You are about to terminate <strong>{{customerName}}</strong> account. This may result in
+					irreversible loss of data.</label>
+				<div class="errorCaptcha" *ngIf="terminateSubmitted && !checkTerminateEvent">Please check this field
+				</div>
+				<div class="col-md-12 terminateUser">
+					<button  [disabled]="assignNumber > 0 || !checkTerminateEvent || !captchaTrue" 
+						class="btn btn-secondary w-auto mr-2 boldFont"
+						(click)="terminateValidate()">Terminate</button><br>
+					<!-- <button *ngIf="checkTerminateEvent && captchaTrue"  data-toggle="modal" data-target="#myModal" class="btn btn-secondary w-auto mr-2 boldFont">Terminate</button><br> -->
+					<button  [disabled]="assignNumber > 0 || !checkTerminateEvent || !captchaTrue"
+						 class="btn btn-secondary w-auto mr-2 boldFont"
+						 (click)="terminateUser()">Terminate</button><br>
+						 <!-- data-target="#myModal" data-toggle="modal" -->
+				</div>
+				<div class="modal fade terminate_modal" id="myModal">
+					<div class="modal-dialog">
+						<div class="modal-content">
+
+							<!-- Modal Header -->
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title modalTItle">
+									<div class="exclamatory-sym"><span>!</span></div>
+									<div>Are You Sure</div>
+								</h4>
+							</div>
+							<!-- Modal body -->
+							<div class="modal-body modalcenterBody">
+								<h4 class="modalsH4"> Do you really want to terminate this <strong>
+										{{customerName}}</strong>? This process cannot be undone.</h4>
+							</div>
+
+							<!-- Modal footer -->
+							<div class="modal-footer justifyCenterFlex centerFooter">
+								<button type="button" class="btn-md btn btn-secondary w-auto mr-2 boldFont ctrl_btn"
+									(click)="terminateUser()" data-dismiss="modal">Terminate</button> <button type="button"
+									class="btn-md borderWidth btn btn-danger w-auto mr-2 boldFont ctrl_btn"
+									(click)="revertCaptchaCheckbox()" data-dismiss="modal">Cancel</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</main>

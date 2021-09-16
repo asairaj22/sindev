@@ -1,0 +1,284 @@
+<ng-container *ngIf ="data.dataKey == 'cmp'">
+<h2 mat-dialog-title>Create User</h2>
+<mat-dialog-content class="mat-typography">
+   <div class="container-fluid">
+    <div class="row justify-content-center text-center">
+      <div class="col-12">
+        <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-4  font-weight-bold">Display Name</label>
+            <input type="text" for="inputEmail3" class="col-sm-8 " placeholder="Display Name" [(ngModel)]="displayName">
+      
+        </div>
+        <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-4  font-weight-bold">First Name</label>
+            <input type="text" for="inputEmail3" class="col-sm-8 " placeholder="First Name" [(ngModel)]="firstName">
+      
+        </div>
+        <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-4  font-weight-bold">Last Name</label>
+            <input type="text" for="inputEmail3" class="col-sm-8 " placeholder="Last Name" [(ngModel)]="lastName">
+      
+        </div>
+        <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-4  font-weight-bold">Force Change Password</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="true"  [(ngModel)]="passwordOption">
+              <label class="form-check-label" for="inlineRadio1">True</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="false"  [(ngModel)]="passwordOption">
+              <label class="form-check-label" for="inlineRadio2">False</label>
+            </div>
+      
+        </div>
+        <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-4  font-weight-bold">Password</label>
+            <input type="password" for="inputEmail3" class="col-sm-8 " placeholder="Password" [(ngModel)]="password">
+        </div>
+        <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-4  font-weight-bold">User Principal Name</label>
+            <input type="text" for="inputEmail3" class="col-sm-8 " placeholder="User Principal Name" [(ngModel)]="userPrincipalName">
+      
+        </div>
+        <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-4  font-weight-bold">Usage Location</label>
+            <input type="text" for="inputEmail3" class="col-sm-8 " placeholder="Usage Location" [(ngModel)]="usageLocation">
+      
+        </div>
+      
+      </div>
+    </div>
+    <div class="col-9 mx-auto max-width-btn">
+      <div class="row mrt-top-1">
+        <div class="col-6 px-2">
+          <a  type="button"  (click)="createUser()" class="btn btn-secondary w-100" >Ok</a>
+        </div>
+        <div class="col-6 px-2">
+          <button type="button" mat-dialog-close class="btn btn-primary w-100" >Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+</ng-container>
+
+<ng-container *ngIf ="data.dataKey == 'activate'">
+  <h2 mat-dialog-title><span *ngIf="data.status !== 'active'">Activate</span><span *ngIf="data.status == 'active'">Suspend</span> Subscription</h2>
+<mat-dialog-content class="mat-typography">
+   <div class="container-fluid">
+    <div class="row justify-content-center text-center">
+      <!-- <div class="col-12">
+       
+        <h1 class="mb-2">Are you sure?</h1>
+        <p *ngIf="data.dataKey == 'aws'">You will be taken to a external link. Click 'Ok' to <br>Proceed.</p>
+        <p *ngIf="data.dataKey =='cmp'">Buy CMP premium. Click 'Ok' to <br>Proceed.</p>
+      </div> -->
+    </div>
+    <div class="col-9 max-width-btn">
+      <div class="row mrt-top-1">
+        <div class="px-2" *ngIf="data.status !== 'active'">
+          <a  type="button" mat-dialog-close (click)="activate()" class="btn btn-secondary w-100" >Activate Subscription</a>
+        </div>
+        <div class="px-2" *ngIf="data.status == 'active'">
+          <button type="button" mat-dialog-close class="btn btn-primary w-100" (click)="suspend()">Suspend Subscription</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+</ng-container>
+
+
+<mat-dialog-content class="mat-typography" *ngIf ="data.dataKey =='assign'">
+   <div class="container-fluid">
+    <div class="row justify-content-center text-center">
+      <div class="col-12">
+       
+        <h1 class="mb-2">Are you sure?</h1>
+        <p >You will be assigning product. Click 'Ok' to <br>Proceed.</p>
+      </div>
+    </div>
+    <div class="col-9 mx-auto max-width-btn">
+      <div class="row mrt-top-1">
+        <div class="col-6 px-2">
+          <a  type="button" mat-dialog-close class="btn btn-secondary w-100" (click)="assignSubscription()">Ok</a>
+        </div>
+        <div class="col-6 px-2">
+          <button type="button" mat-dialog-close class="btn btn-primary w-100" >Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+</mat-dialog-content>
+
+<ng-container *ngIf ="data.dataKey == 'aws'">
+<!-- <h2 mat-dialog-title>Create User</h2> -->
+<mat-dialog-content class="mat-typography" *ngIf ="data.dataKey == 'aws'">
+   <div class="container-fluid">
+    <div class="row justify-content-center text-center">
+      <div class="col-12">
+       
+        <h1 class="mb-2">Are you sure?</h1>
+        <p *ngIf="data.dataKey == 'aws'">You will be taken to the {{data.consolename}} console. Click 'Ok' to <br>proceed.</p>
+      </div>
+    </div>
+    <div class="col-9 mx-auto max-width-btn">
+      <div class="row mrt-top-1">
+        <div class="col-6 px-2">
+          <a  type="button" mat-dialog-close class="btn btn-secondary w-100" mat-dialog-close (click)="openProductConsole(data.consoleURL)">Ok</a>
+        </div>
+        <div class="col-6 px-2">
+          <button type="button" mat-dialog-close class="btn btn-primary w-100" >Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+</mat-dialog-content>
+</ng-container>
+
+
+<ng-container *ngIf ="data.dataKey =='buypremium'">
+<!-- <h2 mat-dialog-title>Create User</h2> -->
+<mat-dialog-content class="mat-typography" *ngIf ="data.dataKey =='buypremium'">
+   <div class="container-fluid">
+    <div class="row justify-content-center text-center">
+      <div class="col-12">
+       
+        <h1 class="mb-2">Are you sure?</h1>
+        <p *ngIf="data.dataKey == 'buypremium'">You want to procure the product {{data.tilename}}?. Click 'Ok' to <br>Proceed.</p>
+      </div>
+    </div>
+    <div class="col-9 mx-auto max-width-btn">
+      <div class="row mrt-top-1">
+        <div class="col-6 px-2">
+          <a  type="button" mat-dialog-close class="btn btn-secondary w-100" mat-dialog-close>Ok</a>
+        </div>
+        <div class="col-6 px-2">
+          <button type="button" mat-dialog-close class="btn btn-primary w-100" >Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+</mat-dialog-content>
+</ng-container>
+<ng-container *ngIf ="data.dataKey == 'blueprint'">
+<!-- <h2 mat-dialog-title>Create User</h2> -->
+<div class="" *ngIf ="data.dataKey == 'blueprint'">
+  <div style="height: 30px;">
+    <button type="button" class="close" mat-dialog-close style="font-size: 22px;" >×</button>
+    </div>
+   <div class="container-fluid">
+    <div class="row" style="margin-bottom:2%;">
+      <div class="col-4">
+       <div class="blueprint-tiles" style="width: 100%;height: 200px;border: 2px solid #eeeeee;border-radius: 4px;">
+     <div class="col-12" style="height: 60%;text-align: left;padding-top: 5%;color: #17A2B8;font-size: 15px;font-weight: bold;">
+    App Tier, DB Tier<br>
+    Catalog Item S-1
+    </div>
+    <div class="col-12" style="height: 20%;text-align: right;white-space: nowrap;font-size: 14px;">
+    <div style=""><strong>VmWare supported</strong></div>
+    </div>
+    <div class="col-12" style="background: #17A2B8;height: 21%;text-align: left;color: #fff;font-weight: bold;">
+        view details
+    </div>
+</div>
+        
+      </div>
+      <div class="col-4">
+       <div class="blueprint-tiles" style="width: 100%;height: 200px;border: 2px solid #eeeeee;border-radius: 4px;">
+     <div class="col-12" style="height: 60%;text-align: left;padding-top: 5%;color: #17A2B8;font-size: 15px;font-weight: bold;">
+    Web Tier,App Tier, DB Tier<br>
+    Catalog Item S-2
+    </div>
+    <div class="col-12" style="height: 20%;text-align: right;white-space: nowrap;font-size: 14px;">
+    <div style=""><strong>VmWare supported</strong></div>
+    </div>
+    <div class="col-12" style="background: #17A2B8;height: 21%;text-align: left;color: #fff;font-weight: bold;">
+        view details
+    </div>
+</div>
+        
+      </div>
+      <div class="col-4">
+       <div class="blueprint-tiles" style="width: 100%;height: 200px;border: 2px solid #eeeeee;border-radius: 4px;">
+     <div class="col-12" style="height: 60%;text-align: left;padding-top: 5%;color: #17A2B8;font-size: 15px;font-weight: bold;">
+    App Tier,PaaS DB Tier<br>
+    Catalog Item S-3
+    </div>
+    <div class="col-12" style="height: 20%;text-align: right;white-space: nowrap;font-size: 14px;">
+    <div style=""><strong>AWS,Azure,GCP supported</strong></div>
+    </div>
+    <div class="col-12" style="background: #17A2B8;height: 21%;text-align: left;color: #fff;font-weight: bold;">
+        view details
+    </div>
+</div>
+        
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4">
+       <div class="blueprint-tiles" style="width: 100%;height: 200px;border: 2px solid #eeeeee;border-radius: 4px;">
+     <div class="col-12" style="height: 60%;text-align: left;padding-top: 5%;color: #17A2B8;font-size: 15px;font-weight: bold;">
+    Web Tier,App Tier,PaaS DB Tier<br>
+    Catalog Item S-4
+    </div>
+    <div class="col-12" style="height: 20%;text-align: right;white-space: nowrap;font-size: 14px;">
+    <div style=""><strong>AWS,Azure,GCP supported</strong></div>
+    </div>
+    <div class="col-12" style="background: #17A2B8;height: 20%;text-align: left;color: #fff;font-weight: bold;">
+        view details
+    </div>
+</div>
+        
+      </div>
+      <div class="col-4">
+       <div class="blueprint-tiles" style="width: 100%;height: 200px;border: 2px solid #eeeeee;border-radius: 4px;">
+     <div class="col-12" style="height: 60%;text-align: left;padding-top: 5%;color: #17A2B8;font-size: 15px;font-weight: bold;">
+    App Service Tier,PaaS DB Tier<br>
+    Catalog Item S-5
+    </div>
+    <div class="col-12" style="height: 20%;text-align: right;white-space: nowrap;font-size: 14px;">
+    <div style=""><strong>AWS,Azure,GCP supported</strong></div>
+    </div>
+    <div class="col-12" style="background: #17A2B8;height: 20%;text-align: left;color: #fff;font-weight: bold;">
+        view details
+    </div>
+</div>
+        
+      </div>
+      <div class="col-4">
+       <div class="blueprint-tiles" style="width: 100%;height: 200px;border: 2px solid #eeeeee;border-radius: 4px;">
+     <div class="col-12" style="height: 60%;text-align: left;padding-top: 5%;color: #17A2B8;font-size: 15px;font-weight: bold;">
+    Web Tier,App Service Tier,<br>
+    PaaS DB Tier<br>
+    Catalog Item S-6
+    </div>
+    <div class="col-12" style="height: 20%;text-align: right;white-space: nowrap;font-size: 14px;">
+    <div style=""><strong>AWS,Azure,GCP supported</strong></div>
+    </div>
+    <div class="col-12" style="background: #17A2B8;height: 20%;text-align: left;color: #fff;font-weight: bold;">
+        view details
+    </div>
+</div>
+        
+      </div>
+    </div>
+    
+  </div>
+ 
+</div>
+</ng-container>
+
+
+
+
+
+
+
+
+
+
+    

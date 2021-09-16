@@ -1,0 +1,119 @@
+<div class="container-fluid event-log-screens">
+    <div class="row h-100" *ngIf="transactionLogScreen == 'transaction-log-report'">
+        <div class="col-12"><h1 class="log-header-title">Transaction Logs</h1></div>
+        <div class="col-12">
+                To create a targeted transaction report, specify the date range and additional parameters.<br>
+                If you uncertain <a href="JavaScript:void(0);" (click)="generateAllReport()">view the entire system Transaction Log</a>
+        </div>
+        <div class="col-12 mt-4">
+            <div class="row p-0 mb-2">
+                <div class="col-2">Generate Date Range*</div>
+                <div class="col-6"  *ngIf="!customRange">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            {{date_range}}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" (click)="filterDate('today', $event)">Today</a>
+                            <a class="dropdown-item" (click)="filterDate('7', $event)">Last 7 days</a>
+                            <a class="dropdown-item" (click)="filterDate('14', $event)">Last 14 days</a>
+                            <a class="dropdown-item" (click)="filterDate('30', $event)">Last 30 days</a>
+                            <a class="dropdown-item" (click)="customRange = true">Custom range</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3" *ngIf="customRange">
+                    <angular2-date-picker [(ngModel)]="customRangeFrom" (onDateSelect)="onCustomRangeFromDateSelect($event)" [settings]="customRangeSettings"></angular2-date-picker>
+                </div>
+                <div class="col-3" *ngIf="customRange">
+                    <angular2-date-picker [(ngModel)]="customRangeTo" (onDateSelect)="onCustomRangeToDateSelect($event)" [settings]="customRangeSettings"></angular2-date-picker>
+                </div>
+                <div class="col-1 p-0 pt-1" *ngIf="customRange">
+                    <i class="fa fa-lg fa-arrow-circle-left text-primary cur-pointer" aria-hidden="true" title="Back to default range filter" (click)="customRange = false"></i>
+                </div>
+            </div>
+            <div class="row p-0 mb-2">
+                <div class="col-2">Connector Name</div>
+                <div class="col-6">
+                    <ng-select placeholder="-- Select connectors from list --" class="f-s-08rem" 
+                        [multiple]="true" [(ngModel)]="filteredConnectorObject" [closeOnSelect]="false">
+                        <ng-option *ngFor="let con of connectorMapList_resp" [value]="con.configured_id">{{con.configuredName}}</ng-option>
+                    </ng-select>
+                </div>
+            </div>
+            <div class="row p-0 mb-2">
+                <div class="col-2">User Name</div>
+                <div class="col-6">
+                    <ng-select placeholder="-- Select user names from list --" class="f-s-08rem" 
+                        [multiple]="true" [(ngModel)]="filteredUser" [closeOnSelect]="false">
+                        <ng-option *ngFor="let ur of userNamesList_resp" [value]="ur.email">{{ur.userName}}</ng-option>
+                    </ng-select>
+                </div>
+            </div>
+            <div class="row p-0 mb-2">
+                <div class="col-2">Operation</div>
+                <div class="col-6">
+                    <ng-select placeholder="-- Select operations from list --" class="f-s-08rem" 
+                        [multiple]="true" [(ngModel)]="filteredAPI" [closeOnSelect]="false">
+                        <ng-option *ngFor="let op of operationMapList" [value]="op.api">{{op.api}}</ng-option>
+                    </ng-select>
+                </div>
+            </div>
+            <div class="row p-0 mb-2">
+                <div class="col-2">Session ID</div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control"  placeholder="Enter Session Id" [(ngModel)]="sessionid" />							
+                </div> 
+            </div>
+            <div class="row p-0 mb-2">
+                <div class="col-2">Track ID</div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control"  placeholder="Enter Track Id" [(ngModel)]="trackid" />							
+                </div> 
+            </div>
+            <div class="row p-0 mb-2">
+                <div class="col-2">Client ID</div>
+                <div class="col-6">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            {{clientId}}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" (click)="filterClient('All', $event)">All</a>
+                            <a class="dropdown-item" (click)="filterClient('eportal-web-ui-service', $event)">Eportal Web UI Service</a>
+                            <a class="dropdown-item" (click)="filterClient('eportal-services', $event)">Eportal Services</a>
+                            <a class="dropdown-item" (click)="filterClient('eportal-workflow-engine', $event)">Eportal Workflow Engine</a>
+                            <a class="dropdown-item" (click)="filterClient('eportal-script-engine', $event)">Eportal Script Engine</a>
+                            <a class="dropdown-item" (click)="filterClient('eportal-polyglot', $event)">Eportal Polyglot</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row p-0 mb-2">
+                <div class="col-2">Method</div>
+                <div class="col-6">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            {{event_type}}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" (click)="filterEvent('All', $event)">All</a>
+                            <a class="dropdown-item" (click)="filterEvent('GET', $event)">GET</a>
+                            <a class="dropdown-item" (click)="filterEvent('POST', $event)">POST</a>
+                            <a class="dropdown-item" (click)="filterEvent('PUT', $event)">PUT</a>
+                            <a class="dropdown-item" (click)="filterEvent('DELETE', $event)">DELETE</a>
+                            <a class="dropdown-item" (click)="filterEvent('SOAP', $event)">SOAP</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row p-0 mt-4">
+                <div class="col-md-8">
+                    <button type="button" class="btn btn-primary float-right" (click)="generateCustomReport()">Generate Report</button>						
+                </div> 
+            </div>
+        </div>
+    </div>
+    <app-transaction-log-table  *ngIf="transactionLogScreen == 'transaction-log-table'" [transactionReportTableData]="transactionReportTableData" defaultDateTimeFormat="{{defaultDateTimeFormat}}" (viewTransactionDetails)="detailedView($event);" (triggerBack)="switchTransactionLogScreens($event)"></app-transaction-log-table>
+    <app-transaction-log-details *ngIf="transactionLogScreen == 'transaction-log-details'" [transactionDetailsData]="transactionDetailsData" (triggerBack)="switchTransactionLogScreens($event)"></app-transaction-log-details>
+</div>

@@ -1,0 +1,16 @@
+.word-break{
+    word-break: break-all;
+}
+.icone-hover{
+    cursor: pointer;
+}
+i.icone-hover:hover, i.icone-hover:active {
+    color: #5390d1;
+}
+.cell-wrap-text {
+    white-space: normal !important;
+    word-break: break-word !important;
+}
+.tx-clr{
+    color: cornflowerblue;
+}

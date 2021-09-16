@@ -1,0 +1,184 @@
+<main class="main">
+	<app-sliding-banner-view [uiFramework]="'Material'"></app-sliding-banner-view>
+
+	<section class="featured mt-5 mt-lg-0 pb-0 hide-for-phase1">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-10">
+					<h2 class="text-center">Featured for you</h2>
+				</div>
+			</div>
+		</div>
+		<div class="container" *ngIf="featuredProducts">
+			<div class="row justify-content-center">
+				<ng-container *ngFor="let item of featuredProducts">
+					<div class="col-12 col-lg-4 d-flex align-items-stretch">
+						<a class="featured-card card">
+							<div class="card-image"><img class="card-img-top" src="{{item.thumbnailImageContent}}" alt="tile-1">
+								<div class="card-image--shadow d-flex align-items-end">
+									<span class="card-type label__title">{{item.title}}</span>
+								</div>
+							</div>
+							<div class="card-body d-flex flex-column align-items-start">
+								<h5 class="card__title flex-grow-1">{{item.shortMsg}}</h5>
+								<span (click)="showFeaturedArticles(item.detailedStory)" class="card__link">Read story</span>
+							</div>
+						</a>
+					</div>
+				</ng-container>
+			</div>
+		</div>
+	</section>
+	<section class="boost pb-0">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-10">
+					<h2 class="text-center">Boost Your Business With Singtel Solutions</h2>
+				</div>
+			</div>
+		</div>
+		<div class="boost-tile boost-tile__right bgBooost leftMobileView"
+			style="background: url(./assets/images/boost-tile/tile-1--desktop.jpg)">
+			<picture class="boost__image" style="display:none">
+				<source srcset="./assets/images/boost-tile/tile-1--mobile.jpg" media="(max-width: 991px)">
+				<source srcset="./assets/images/boost-tile/tile-1--desktop.jpg"><img src="./assets/images/boost-tile/tile-1--desktop.jpg" alt="tile-1">
+      </picture>
+				<div class="titleOverCome">
+					<h3 class="boost__title">Singtel Cloud Service (AWS)</h3>
+					<p class="boost__description">AWS services can offer an organization tools such as compute power,
+						database storage and content delivery services.</p>
+					<a id="homepage-awstitle-learnmore" class="boost__link" [routerLink]="['/cloud-services/Cloud/product-details/'+awsId]">Learn
+						more</a>
+				</div>
+		</div>
+		<div class="boost-tile boost-tile__left bgBooost fxLeftAlign rightMobileView"
+			style="background: url(./assets/images/masthead/Azure_banner_home.png);">
+			<picture class="boost__image" style="display:none">
+				<source srcset="./assets/images/masthead/Azure_banner_home.png" media="(max-width: 991px)">
+				<source srcset="./assets/images/masthead/Azure_banner_home.png">
+				<img src="./assets/images/masthead/Azure_banner_home.png" alt="tile-2">
+      </picture>
+				<div class="titleOverCome">
+					<h3 class="boost__title">Singtel Cloud Service (Azure)</h3>
+					<p class="boost__description">Exploit the ever-expanding power of Azure cloud services. Singtel
+						helps to architect, build, manage and optimise your Azure environment with our cloud experts.
+					</p><a id="homepage-azuretitle-learnmore" class="boost__link" [routerLink]="['/cloud-services/Cloud/product-details/'+azureId]">Learn
+						more</a>
+				</div>
+		</div>
+		<div class="boost-tile boost-tile__right hide-for-phase1">
+			<picture class="boost__image">
+				<source srcset="./assets/images/boost-tile/tile-3--mobile.jpg" media="(max-width: 991px)">
+				<source srcset="./assets/images/boost-tile/tile-3--desktop.jpg"><img src="./assets/images/boost-tile/tile-3--desktop.jpg" alt="tile-3">
+      </picture>
+				<div class="boost-tile__wrapper">
+					<h3 class="boost__title">Essential Cloud Resell (GCP)</h3>
+					<p class="boost__description">Google Cloud provides a variety of storage services, including:
+						Consistent, scalable, large-capacity data storage in Cloud Storage. Cloud Storage comes in
+						flavors: Standard Cloud Storage provides maximum availability.</p>
+					<a class="boost__link" id="homepage-gcptitle-learnmore" [routerLink]="['/cloud-services/Cloud/product-details/16841']">Learn more</a>
+				</div>
+		</div>
+	</section>
+	<!-- Why section-->
+	<section id="section--why">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-10">
+					<h2 class="text-center">Why Choose Singtel</h2>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-lg-3">
+					<div class="small-tile">
+						<div class="small-tile__image-wrapper d-flex justify-content-center align-items-center">
+							<img class="small__image" src="./assets/images/static/small-tile__support.png" alt="tile-1"></div>
+							<div class="small-tile__wrapper">
+								<p class="small__description">Get dedicated support over phone and email.</p>
+							</div>
+					</div>
+				</div>
+				<div class="col-12 col-lg-3">
+					<div class="small-tile">
+						<div class="small-tile__image-wrapper d-flex justify-content-center align-items-center">
+							<img class="small__image" src="./assets/images/static/small-tile__cloud.png" alt="tile-2">
+						</div>
+						<div class="small-tile__wrapper">
+							<p class="small__description">Migrate your data seamlessly with Singtel.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-lg-3">
+					<div class="small-tile">
+						<div class="small-tile__image-wrapper d-flex justify-content-center align-items-center">
+							<img class="small__image" src="./assets/images/static/small-tile__manage.png" alt="tile-3">
+						</div>
+						<div class="small-tile__wrapper">
+							<p class="small__description">Manage all your apps from one account.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-lg-3">
+					<div class="small-tile">
+						<div class="small-tile__image-wrapper d-flex justify-content-center align-items-center">
+							<img class="small__image" src="./assets/images/static/small-tile__phone.png" alt="tile-4">
+						</div>
+						<div class="small-tile__wrapper">
+							<p class="small__description">One consolidated bill for all your Singtel
+								products and services.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="testimonial hide-for-phase1" id="section--testimonial">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-10">
+					<h2 class="text-center mt-0 white"> Success Stories </h2>
+				</div>
+			</div>
+		</div>
+		<div class="container carousel-container">
+			<div class="row">
+				<div class="col">
+					<div class="carousel-container__button-prev">
+						<img src="./assets/images/static/testimonial_prev_btn.png" alt="">
+					</div>
+					<div class="carousel-container__button-next">
+					<img src="./assets/images/static/testimonial_nxt_btn.png" alt="">
+					</div>
+					<!-- Container-->
+					<swiper [config]="testimonialConfig" *ngIf="testimonials">
+						<div class="swiper-slide" *ngFor="let testimonial of testimonials; let i = index">
+							<div class="testimonial-card card">
+								<div class="card-body">
+									<p class="card-text">{{testimonial.shortMsg}} </p>
+									<div class="small-tile small-tile--user">
+										<div class="small-tile__image-wrapper d-flex justify-content-center align-items-center">
+											<!-- <img class="small__image" src={{testimonial.avatar}} alt= "{{testimonial.testimonialName}}" /> -->
+											<img *ngIf="i==0" class="small__image" src='../../../{{epAccountName}}/ep-cms/images/aws_avatar1.png' alt= "{{testimonial.testimonialName}}" />
+											<img *ngIf="i==1" class="small__image" src='../../../{{epAccountName}}/ep-cms/images/aws_avatar2.png' alt= "{{testimonial.testimonialName}}" />
+                    </div>
+										<div class="small-tile__wrapper d-flex">
+											<span class="small__name">{{testimonial.userName}}</span>
+											<span class="small__title">{{testimonial.userDesignation}},</span>
+											<span class="small__company">{{testimonial.userCompany}}</span>
+											<a href="javascript:void(0)" class="read-more"> Read More</a>
+											<!-- <a class="card-link">Read More</a> -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+				</swiper>
+			</div>
+		</div>
+		<div class="carousel-container__pagination"></div>
+	</div>
+	</section>
+	<!-- for Story Slider. need to move this somewhere -->
+</main>

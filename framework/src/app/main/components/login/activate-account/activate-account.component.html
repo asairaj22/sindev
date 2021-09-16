@@ -1,0 +1,25 @@
+<main id="acctivate-account">
+	<div class="container">
+		<div class="row">
+			<div class="col-12 text-center">
+				<div>
+					<h1 *ngIf="statusTitle !== ''">{{statusTitle}}</h1>
+					<!-- <h1 
+					[ngStyle]="{'text-decoration' : statusTitle !== '' ? 'underline' : 'none'}">{{statusTitle}}</h1> -->
+				</div>
+				<p class="status_message">{{statusMessage}}</p>
+				<div>
+					<button class="btn btn-primary" *ngIf="status === 'Expired Token'"
+				(click)="onTryAgainExpiredToken()">Re-send the authentication email</button>
+
+					<button *ngIf="status === 'Active'" class="btn btn-primary"
+				routerLink="/auth/login">Login</button>
+					<button *ngIf="status === 'Active User'" class="btn btn-primary"
+				(click)="onNavigateSetPassword()">Set Password</button>
+					<button *ngIf="status !== 'Active' && status !== 'Expired Token'" class="btn btn-primary"
+				routerLink="/home">Home</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>

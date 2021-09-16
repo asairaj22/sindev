@@ -1,0 +1,192 @@
+input.btn.btn-primary {
+    border-radius: 40px !important;
+}
+
+.footer__rights {
+    color: #000000;
+}
+.logo-wid-100{
+    width: 70% !important;
+}
+.footer-color{
+    color: #C6C6C6 !important;
+}
+a.link_blue{color:#1996B2}
+a.link_blue:hover{color:#097280}
+.footer-heading{
+    color: #404040;
+    font-weight: 600;
+}
+.about-para{
+    font: normal normal 500 16px/20px Avenir;
+    color: #2C2C2C;
+}
+@media only screen and (max-width:768px){ 
+.footerLogoMobileView{cursor: pointer;max-width:288px;}
+}
+
+
+.any_questions_modal .modal-dialog .modal-content .modal-body .modal-row {
+    /* padding-bottom: 40px !important; */
+}
+
+.any_questions_modal .modal-dialog .modal-content .modal-body .modal-row p {
+    margin-top: 10px !important;
+}
+
+.rightside_input_col_before_login {
+    margin-top: 41px;
+}
+
+.any_questions_modal .input_field {
+    margin-top: 8px;
+} 
+
+.countryList { display: inline-block; }
+.countryMobileNumber{ display: inline-block; width: calc(100% - 100px); }
+.countryCode-border > input {border-radius: 0px .25rem .25rem 0;}
+
+/* .any_questions_modal .countryDropdownManual {
+    top: 38px !important;
+} */
+
+/* Chrome, Safari, Edge, Opera */
+.any_questions_modal input::-webkit-outer-spin-button,
+.any_questions_modal input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.any_questions_modal input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.any_questions_modal .custom-checkbox__label--small a {
+    color: #71bcc6;
+}
+.any_questions_modal .login_statement {
+   font-size: 16px !important;
+}
+
+.any_questions_modal .form-group a, .form-group p {
+    color: #71bcc6;
+}
+
+.any_questions_modal label h6 {
+    font-weight: bold;
+}
+
+@media (min-width: 1200px) {
+    .any_questions_modal .modal-xl {
+        max-width: 1220px !important;
+    }
+}
+
+
+
+
+
+@media only screen and (max-width: 1200px)  {
+    .footer-qa{
+        bottom: 207px !important;
+    }
+}
+@media only screen and (max-width: 990px)  {
+    .footer-qa{
+        bottom: 407px !important;
+    }
+}
+@media only screen and (max-width: 770px)  {
+    .footer-qa{
+        bottom: 385px !important;
+    }
+}
+@media only screen and (max-width: 422px)  {
+    .footer-qa{
+        bottom: 407px !important;
+    }
+}
+
+@media (max-width: 991px) {
+    .countryMobileNumber input {
+        border-left: none;
+    }
+    .countryLabel {
+        border-right: 1px solid #ccc;
+        
+    }
+    .mobile_group {
+        display: flex;
+        flex-direction: row;
+    }
+    .mobile_group .countryInput {
+        width: 25%;
+    }
+    .mobile_group .countryInput label {
+        height: 40px;
+        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+    }
+    .mobile_group .countryMobileNumber {
+        width: 100%;
+        height: 40px;
+    }
+    .mobile_group .countryMobileNumber input {
+        width: 100%;
+        height: 40px;
+        padding-left: 25px;
+    }
+}
+
+
+@media (max-width: 522px) {
+    .countryLabel {
+        width: 90px;
+    }
+}
+
+@media (max-width: 365px) {
+    .countryLabel {
+        width: 80px !important;
+    }
+    .mobile_group .countryMobileNumber input {
+        padding-left: 30px !important;
+    }
+}
+
+/* .mobile_group .countryMobileNumber input {
+    height: 39px;
+}
+
+.mobile_group .countryInput label {
+    height: 39px;
+} */
+
+@media only screen and (max-width: 344px)  {
+    .footer-qa{
+        bottom: 427px !important;
+    }
+}
+
+.message_field {
+    resize: none;
+}
+.submitbutton_row {
+    position: relative;
+    top: 25px;
+}
+.footerLogoMobileView {
+    cursor: default;
+}
+
+
+#modal__enquiry {
+    margin-right: 3px;
+}
+
+@-moz-document url-prefix() {
+    #modal__enquiry {
+        margin-right: 2px;
+    }
+}

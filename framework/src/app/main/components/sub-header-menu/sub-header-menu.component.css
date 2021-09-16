@@ -1,0 +1,37 @@
+.active-route {
+   color: #4996b2;
+    border-bottom: 4px solid #4996b2;
+    transition: all .3s ease;
+}
+#sticky-wrapper.sticky-header{
+    position: fixed;
+    z-index: 99;
+    width: 100%;
+}
+a.nav-link.active-route svg.nav-icon {
+    fill: #4996b2 !important;
+    stroke: #4996b2!important;
+}
+.nav-item {
+    min-width: 125px;
+    justify-content: center;
+}
+.forced-child-li{
+    min-width: 95px !important;
+}
+
+.sticky-wrapper{
+    position: fixed;
+    width: 100%;
+    transition:all 0.2s linear;-webkit-transition:all 0.2s linear;
+    top:60px;
+    z-index: 3;
+}
+.sticky-wrapper *{transition:all 0.2s linear;-webkit-transition:all 0.2s linear;}
+/* .subHeaderStick .main-header__tertiary-nav .nav-link{padding:12px 0 8px 0 !important;font-size:14px}
+.subHeaderStick.sticky-wrapper{top:50px !important;} */
+.pr-20{padding-right: 20px;}
+.sticky-wrapper .nav-link span{color: #959595;font-weight: 600;}
+.sticky-wrapper.subCloudClass{position:fixed;top:0px;}
+.sticky-wrapper.subCloudClass.topReachScroll{position:absolute;top:-60px;transition:unset !important;-webkit-transition:unset !important}
+.sticky-wrapper.subHeadTopscroll{transition:all 0.2s linear;-webkit-transition:all 0.2s linear;top:60px;}

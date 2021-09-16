@@ -1,0 +1,124 @@
+<div class="row h-100 p-3">
+    <div class="col-12 mb-10 log-details-header">
+        <i class="fa fa-arrow-circle-o-left audit-back mt-2" (click)="triggerBackScreen()" aria-hidden="true"></i>
+        <h1 class="log-header-title">Transaction Log Details</h1>
+    </div>
+    <button type="button" class="btn btn-primary mt-2 copy-btns" ngxClipboard (cbOnSuccess)="copied($event, 'request')" [cbContent]="parsedTransactionRequestString" *ngIf="selectedNavMenu == 'request'">Copy Request</button>
+    <button type="button" class="btn btn-primary mt-2 copy-btns" ngxClipboard (cbOnSuccess)="copied($event, 'response')" [cbContent]="parsedTransactionResponseString" *ngIf="selectedNavMenu == 'response'">Copy Response</button>
+    <div class="col-12 p-0 card">
+        <div class="row">
+            <div class="col-md-2 event-nav-menu">
+                <ul class="nav nav-pills nav-pills-primary nav-pills-icons flex-column" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#transaction-details-nav-body" role="tab" data-toggle="tab" (click)="selectedNavMenu = 'transaction-details'">
+                            <i class="fa fa-list" aria-hidden="true"></i>
+                            Transaction Details
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#transaction-request-nav-body" role="tab" data-toggle="tab" (click)="selectedNavMenu = 'request'">
+                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            Request
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#transaction-response-nav-body" role="tab" data-toggle="tab" (click)="selectedNavMenu = 'response'">
+                            <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                            Response
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-10 pl-2">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="transaction-details-nav-body">
+                        <div class="row">
+                            <div class="col-3 text-dark event-detail-label">Connector Name:</div>
+                            <div class="col-8 text-info pl-0 event-detail-data">{{transactionDetailsData.connectorName ? transactionDetailsData.connectorName : 'N/A'}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-dark event-detail-label">Connector Sub Type:</div>
+                            <div class="col-8 text-info pl-0 event-detail-data">{{transactionDetailsData.connectorSubType ? transactionDetailsData.connectorSubType : 'N/A'}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-dark event-detail-label">Connector Type:</div>
+                            <div class="col-8 text-info pl-0 event-detail-data">{{transactionDetailsData.connectorType ? transactionDetailsData.connectorType : 'N/A'}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-dark event-detail-label">Endpoint:</div>
+                            <div class="col-8 text-info pl-0 event-detail-data">{{transactionDetailsData.endpoint ? transactionDetailsData.endpoint : 'N/A'}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-dark event-detail-label">Operation:</div>
+                            <div class="col-8 text-info pl-0 event-detail-data">{{transactionDetailsData.operation ? transactionDetailsData.operation : 'N/A'}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-dark event-detail-label">Method:</div>
+                            <div class="col-8 text-info pl-0 event-detail-data">{{transactionDetailsData.method ? transactionDetailsData.method : 'N/A'}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-dark event-detail-label">FlowNode Instance Id:</div>
+                            <div class="col-8 text-info pl-0 event-detail-data">{{transactionDetailsData.flowNodeInstanceId ? transactionDetailsData.flowNodeInstanceId : 'N/A'}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-dark event-detail-label">Process Instance Id:</div>
+                            <div class="col-8 text-info pl-0 event-detail-data">{{transactionDetailsData.processInstanceId ? transactionDetailsData.processInstanceId : 'N/A'}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-dark event-detail-label">Status:</div>
+                            <div class="col-8 text-info pl-0 event-detail-data">{{transactionDetailsData.success == true ? 'Success' : 'Failed'}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-dark event-detail-label">Response Time:</div>
+                            <div class="col-8 text-info pl-0 event-detail-data">{{transactionDetailsData.responseTime ? transactionDetailsData.responseTime : 'N/A'}}</div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="transaction-request-nav-body">
+                        <div class="row event-report-details-body m-0 p-0">
+                            <div class="col-12 text-dark p-0 event-detail-data">
+                                <ul class="nav nav-pills nav-justified" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#rawTransactionRequest">Raw</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#prettyTransactionRequest">Pretty</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content event-details-tab-content">
+                                    <div id="rawTransactionRequest" class="container tab-pane p-0 active">
+                                        <pre class="form-control h-100 bg-light" (ngModel)="parsedTransactionRequestObject"></pre>
+                                    </div>
+                                    <div id="prettyTransactionRequest" class="container tab-pane p-0 fade">
+                                        <ngx-json-viewer *ngIf="isJSONReq" class="form-control bg-light" [json]="parsedTransactionRequestObject"></ngx-json-viewer>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="transaction-response-nav-body">
+                        <div class="row event-report-details-body m-0 p-0">
+                            <div class="col-12 text-dark p-0 event-detail-data">
+                                <ul class="nav nav-pills nav-justified" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#rawTransactionResponse">Raw</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#prettyTransactionResponse">Pretty</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content event-details-tab-content">
+                                    <div id="rawTransactionResponse" class="container tab-pane p-0 active">
+                                        <pre class="form-control h-100 bg-light" (ngModel)="parsedTransactionResponseObject"></pre>
+                                    </div>
+                                    <div id="prettyTransactionResponse" class="container tab-pane p-0 fade">
+                                        <ngx-json-viewer *ngIf="isJSONResp" class="form-control bg-light" [json]="parsedTransactionResponseObject"></ngx-json-viewer>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

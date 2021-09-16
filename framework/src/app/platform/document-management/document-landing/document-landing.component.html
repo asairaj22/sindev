@@ -1,0 +1,756 @@
+<div class="container-fluid overflow-x-hidden">
+    <div class="row pb-0 pt-1 pl-2 pr-2">
+        <div class="col-12 mb-0 p-0">
+            <div class="row">
+                <div class="col-6 pl-2">
+                    <h1 class="title-header">Document Management</h1>
+                </div>
+                <div class="col-6">
+                    <button type="button" class="btn btn-primary pull-right" (click)="customSearchService.goToAdvancedSearch('Advanced Search', 'search')">Advanced Search</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 p-0 doc-landing-screen card">
+            <div class="row h-100 pt-0 pb-0">
+                <div class="col-12 h-100 pl-1 pr-1">
+                    <as-split direction="horizontal" gutterSize="5" (dragEnd)="splitDragEnd($event)">
+                        <as-split-area size="20">
+                            <div class="w-100 h-100 p-1 f-s-09rem" id="jstree1"></div>
+                        </as-split-area>
+                        <as-split-area size="80" minSize="71">
+                            <div class="row">
+                                <div class="col-12 pl-3 pr-3 border-bottom">
+                                    <div class="row pl-3 pb-0 pt-0">
+                                        <div class="col-12 pr-0 pl-1 d-flex" *ngIf="hasFolderPrivilege('Create Folder')">
+                                            <div class="mr-3">
+                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                                <label (click)="showCreateFolderDlg();" class="pl-2 cb-label cur-pointer hover-underline">
+                                                    Create 
+                                                </label>
+                                            </div>
+                                            <div class="mr-3">
+                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                                <label (click)="showDeleteFolderDlg();" class="pl-2 cb-label cur-pointer hover-underline">
+                                                    Delete 
+                                                </label>
+                                            </div>
+                                            <div class="">
+                                                <i class="fa fa-upload" aria-hidden="true"></i>
+                                                <label (click)="redirectToUpload();" class="pl-2 cb-label cur-pointer hover-underline">
+                                                    Upload 
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 pl-3 pr-3 border-bottom">
+                                    <div class="row">
+                                        <div class="col-md-12 pt-1" *ngIf="validateShowDocumentTypeBreadCrumb()">
+                                            <i class="fa fa-folder" aria-hidden="true"></i> 
+                                            <label class="cb-label" name="label">{{GET_DOCUMENTLIST_BYTAGORTYPE.criteria=="DocumentType"?"Categories":GET_DOCUMENTLIST_BYTAGORTYPE.criteria}}</label>
+                                            <i class="fa fa-angle-right"></i>
+                                            <label class="cb-label" name="label">{{GET_DOCUMENTLIST_BYTAGORTYPE.value}}</label>
+                                        </div>
+                                        <div class="col-12 pt-1" *ngIf="SELECTED_FOLDER && validateShowVirDirBreadCrumb()">
+                                            <i class="fa fa-folder mr-1" aria-hidden="true"></i>
+                                            <span *ngFor="let parent of SELECTED_FOLDER.PARENTS"> 
+                                                <label class="cb-label mr-2 cur-pointer hover-underline" name="label" (click)="setTreeSelected(parent.original.value)">{{parent.original.text}}</label>
+                                                <i class="fa fa-angle-right mr-2" aria-hidden="true"></i>
+                                                <i class="fa fa-folder highlight mr-1" aria-hidden="true"></i>
+                                            </span>
+                                            <label class="cb-label" name="label">{{SELECTED_FOLDER.original.text}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 transaction-report-table-grid p-3 p-b-0">
+                                    <!-- isCustomPagination = true to implement lazy loading -->
+                                    <app-data-grid-dms 
+                                        defaultDateTimeFormat="{{defaultDateTimeFormat}}"
+                                        [gridData]="FOLDER_CONTENT_OUTPUT"
+                                        [context]="context"
+                                        [columnDefs]="columnDefs"
+                                        [pageSize]="itemsPerPage"
+                                        [isCustomPagination]="false"
+                                        [actionComponent]="'document-landing-actions'"
+                                        [docLandingGridSearchVal]="searchedDataDT"
+                                        [docLandingGridSearchScope]="searchedDataScope"
+                                        (invokeDocumentLandingAction)="invokeActions($event)"
+                                        (docLandingGridSearch)="invokeSearchOverGrid($event)"
+                                        (changePageSize)="invokeChangePageSize($event)">
+                                    </app-data-grid-dms>
+                                </div>
+                                <!-- Implemented below DOM for lazyloading -->
+                                <!-- <div class="col-12 pl-4 pr-4 mt-1" [ngClass]="{'visibility-hide' : !isDocumentLoaded}">
+                                    <div class="row p-0">
+                                        <div id="landingSearchOutput" class="col-4"></div>
+                                        <div class="col-8">
+                                            <app-pagination class="float-right" [totalRecords]="landingTableTotalRecords" (changePage)="onLandingTablePageChange($event)" [initialPage]="1" [pageSize]="itemsPerPage" [maxPages]="5"></app-pagination>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </as-split-area>
+                    </as-split>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="create-folder-dlg" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-1">
+                <h6 class="modal-title pl-3 pt-1">Create Folder</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1 pb-0">
+                <div class="row pl-3" *ngIf="ADD_FOLDER">
+                    <div class="form-group w-100 mb-1">
+                        <label for="pullrequest-name-input" class="col col-form-label">Folder Name:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" [(ngModel)]="ADD_FOLDER.child">
+                        </div>
+                    </div>
+                    <div class="form-group w-100 d-flex mb-1">
+                        <label for="pull-req-desc-input" class="col-2 pr-0 col-form-label">Parent:</label>
+                        <div class="col-10 pt-1 pl-0">
+                            <label class="cb-label text-break">{{SELECTED_FOLDER.text}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-3 pr-4 border-top-0">
+                <div class="row pr-2">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" (click)="createFolder()">
+                            Create
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="delete-folder-dlg" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-1">
+                <h6 class="modal-title pl-3 pt-1 text-warning">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Delete Folder
+                </h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pb-1 pt-0">
+                <div class="row pl-3" *ngIf="DELETE_FOLDER">
+                    <div class="form-group w-100 d-flex mb-1">
+                        <label for="pull-req-desc-input" class="col-3 pr-0 pt-2 col-form-label">Name:</label>
+                        <div class="col-9 pt-1 pl-0">
+                            <label class="cb-label text-break">{{SELECTED_FOLDER.text}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-3 pr-4 border-top-0">
+                <div class="row pr-2">
+                    <div class="col-12 pr-0">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-warning" (click)="deleteFolderConfirmed()">
+                            Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="document-upload-dlg" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" style="min-width: 50%;">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-0">
+                <h6 class="modal-title pl-3 pt-1">Upload Document</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1">
+                <div class="row pl-3" *ngIf="UPLOAD_DOC">
+                    <div class="form-group w-100 pl-3 pr-3 mb-0">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="file" (change)="setMimeType()">
+                            <label class="custom-file-label" id="doc_name" for="customFile">Choose file</label>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-0">
+                        <label for="pullrequest-name-input" class="col subtitle mb-0">Title:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" [(ngModel)]="UPLOAD_DOC.title">
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-0">
+                        <label for="pullrequest-name-input" class="col subtitle mb-0">Description:</label>
+                        <div class="col">
+                            <textarea type="text" class="form-control" [(ngModel)]="UPLOAD_DOC.comment"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-0">
+                        <label for="pullrequest-name-input" class="col subtitle mb-0">Author:</label>
+                        <div class="col">
+                            <input type="text" class="form-control f-s-08rem" [(ngModel)]="UPLOAD_DOC.author" [disabled]="true">
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-0">
+                        <label for="pullrequest-name-input" class="col subtitle mb-0">Tags:</label>
+                        <div class="col">
+                            <ng-select placeholder="-- Select tags from the list  --" class="f-s-08rem" 
+                                [multiple]="true" [(ngModel)]="UPLOAD_DOC.selectedTagsList" [closeOnSelect]="false">
+                                <ng-option *ngFor="let tag of selectTagOptions" [value]="tag.value">{{tag.label}}</ng-option>
+                            </ng-select>
+                    </div>
+                </div>
+                <div class="form-group w-100 mb-0">
+                    <label for="pullrequest-name-input" class="col subtitle mb-0">MIME Type:</label>
+                    <div class="col">
+                        <select class="custom-select f-s-08rem" [(ngModel)]="UPLOAD_DOC.docType">
+                            <option selected value="">-- Select MIME type from the list --</option>
+                            <option *ngFor="let list of DOCUMENTTYPE_LIST_Options" value="{{list.value}}"> {{list.label}} </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer p-0 pb-3 pr-4 border-top-0">
+            <div class="row">
+                <div class="col-12 pr-2">
+                    <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-sm btn-primary" (click)="documentUpload()">
+                        Upload
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+</div>
+<!-- The Modal -->
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="edit-properties-dlg" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" style="min-width: 50%;">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-0">
+                <h6 class="modal-title pl-3 pt-1">Edit Properties</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-0">
+                <div class="row pl-3 pt-0" *ngIf="SELECTED_DOC">
+                    <div class="form-group w-100 mb-0">
+                        <label for="pullrequest-name-input" class="col subtitle mb-0">Name:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" [(ngModel)]="SELECTED_DOC.fileName" [disabled]="true">
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-0">
+                        <label for="pullrequest-name-input" class="col subtitle mb-0">Title:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" [(ngModel)]="SELECTED_DOC.title">
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-0">
+                        <label for="pullrequest-name-input" class="col subtitle mb-0">Description:</label>
+                        <div class="col">
+                            <textarea type="text" class="form-control" [(ngModel)]="SELECTED_DOC.Comments"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-0">
+                        <label for="pullrequest-name-input" class="col subtitle mb-0">Author:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" [(ngModel)]="SELECTED_DOC.author" [disabled]="true">
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-0">
+                        <label for="pullrequest-name-input" class="col subtitle mb-0">Status:</label>
+                        <div class="col">
+                            <select class="custom-select f-s-08rem" [(ngModel)]="SELECTED_DOC.DocStatus">
+                                <option value="" translate>-- Select Status --</option>
+                                <option ng-if="SELECTED_DOC.DocStatus=='New'" value="New" translate>New</option>
+                                <option value="Authorized" translate>Authorized</option>
+                                <option value="In Progress" translate>In Progress</option>
+                                <option value="Completed" translate>Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-0">
+                        <label for="pullrequest-name-input" class="col subtitle mb-0">Tags:</label>
+                        <div class="col">
+                            <ng-select [multiple]="true" class="f-s-08rem" [placeholder]="'-- Select tags from the list  --'" [(ngModel)]="SELECTED_DOC.selectedTagsList">
+                                <ng-option *ngFor="let tag of selectTagOptions" [value]="tag.value">{{tag.label}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-0">
+                        <label for="pullrequest-name-input" class="col subtitle mb-0">MIME Type:</label>
+                        <div class="col">
+                            <select class="custom-select f-s-08rem" [(ngModel)]="SELECTED_DOC.DocumentTypeId">
+                                <option selected value="">-- Select MIME type from the list --</option>
+                                <option *ngFor="let list of DOCUMENTTYPE_LIST_Options" value="{{list.value}}"> {{list.label}} </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-3 pr-4 border-top-0">
+                <div class="row">
+                    <div class="col-12 pr-2">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" (click)="updateDocument()">
+                            Update
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="view-history-dlg" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-0">
+                <h6 class="modal-title pl-3 pt-1">History</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-0">
+                <div class="row pl-3 pt-4">
+                    <div class="col-12 transaction-report-table-grid" *ngIf="VIEW_DOC_HISTORY_output.length > 0">
+                        <app-data-grid-dms 
+                        defaultDateTimeFormat="{{defaultDateTimeFormat}}"
+                        [gridData]="VIEW_DOC_HISTORY_output"
+                        [context]="context"
+                        [columnDefs]="viewHistoryColumnDefs"
+                        [actionComponent]="'document-landing-actions'"
+                        (invokeDocumentLandingAction)="invokeActions($event)">
+                    </app-data-grid-dms>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer p-0 pb-3 pr-4 border-top-0"></div>
+        
+    </div>
+</div>
+</div>
+<!-- The Modal -->
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="ApproveModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered w-50">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-1">
+                <h6 class="modal-title pl-3 pt-1">Approve</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1 pb-0">
+                <div class="row pl-3" *ngIf="SELECTED_DOCUMENT">
+                    <div class="form-group w-100 d-flex mb-1">
+                        <label for="pull-req-desc-input" class="col-2 pr-0 col-form-label">Name:</label>
+                        <div class="col-10 pt-1 pl-0">
+                            <label class="cb-label text-break">{{SELECTED_DOCUMENT.fileName}}</label>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 d-flex mb-1">
+                        <label for="pull-req-desc-input" class="col-2 pr-0 col-form-label">Version:</label>
+                        <div class="col-10 pt-1 pl-0">
+                            <label class="cb-label text-break">{{SELECTED_DOCUMENT.version}}</label>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-1">
+                        <label for="pullrequest-name-input" class="col col-form-label">Comments:</label>
+                        <div class="col">
+                            <textarea type="text" class="form-control" [(ngModel)]="SELECTED_DOCUMENT.Comments"></textarea>
+                            <label name="requiredDataforApprove" class="hideOnLoad" id="Label_NGPReporting_HrefURL"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-3 border-top-0">
+                <div class="row pr-4">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" (click)="submitApprove()">
+                            Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="CheckOutModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered w-50">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-1">
+                <h6 class="modal-title pl-3 pt-1">Checkout</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1 pb-0">
+                <div class="row pl-3" *ngIf="SELECTED_DOCUMENT">
+                    <div class="form-group w-100 d-flex mb-1">
+                        <label for="pull-req-desc-input" class="col-2 pr-0 col-form-label">Restore:</label>
+                        <div class="col-10 pt-1 pl-0">
+                            <label class="cb-label text-break">{{SELECTED_DOCUMENT.fileName}}</label>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 d-flex mb-1">
+                        <label for="pull-req-desc-input" class="col-2 pr-0 col-form-label">Version:</label>
+                        <div class="col-10 pt-1 pl-0">
+                            <label class="cb-label text-break">{{SELECTED_DOCUMENT.version}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-3 border-top-0">
+                <div class="row pr-4">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal" (click)="checkOut('CHECKOUT_DOCUMENT')">
+                            Checkout
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="CancelCheckOutModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered w-50">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-1">
+                <h6 class="modal-title pl-3 pt-1">Cancel CheckOut</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1 pb-0">
+                <div class="row pl-3" *ngIf="SELECTED_DOCUMENT">
+                    <div class="form-group w-100 d-flex mb-1">
+                        <label for="pull-req-desc-input" class="col-2 pr-0 col-form-label">Name:</label>
+                        <div class="col-10 pt-1 pl-0">
+                            <label class="cb-label text-break">{{SELECTED_DOCUMENT.fileName}}</label>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 d-flex mb-1">
+                        <label for="pull-req-desc-input" class="col-2 pr-0 col-form-label">Version:</label>
+                        <div class="col-10 pt-1 pl-0">
+                            <label class="cb-label text-break">{{SELECTED_DOCUMENT.version}}</label>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-1">
+                        <label for="pullrequest-name-input" class="col col-form-label">Comments:</label>
+                        <div class="col">
+                            <textarea type="text" class="form-control" [(ngModel)]="SELECTED_DOCUMENT.Comments"></textarea>
+                            <label name="requiredDataforApprove" class="hideOnLoad" id="Label_NGPReporting_HrefURL"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-3 border-top-0">
+                <div class="row pr-4">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" (click)="cancelCheckOut()">
+                            Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="CheckInModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" style="min-width: 50%;">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-0">
+                <h6 class="modal-title pl-3 pt-1">Check In</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1">
+                <div class="row pl-3" *ngIf="UPLOAD_DOC">
+                    <div class="form-group w-100 pl-3 pr-3 mb-0">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="checkInFile" (change)="setCheckinMimeType()">
+                            <label class="custom-file-label" id="checkin_doc_name" for="customFile">Choose file</label>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-0">
+                        <label for="pullrequest-name-input" class="col subtitle mb-0">Name:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" [(ngModel)]="SELECTED_DOCUMENT.fileName">
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-0">
+                        <label for="pullrequest-name-input" class="col subtitle mb-0">Title:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" [(ngModel)]="SELECTED_DOCUMENT.title">
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-0">
+                        <label for="pullrequest-name-input" class="col subtitle mb-0">Comment:</label>
+                        <div class="col">
+                            <textarea type="text" class="form-control" [(ngModel)]="SELECTED_DOCUMENT.Comments"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-0">
+                        <label for="pullrequest-name-input" class="col subtitle mb-0">Author:</label>
+                        <div class="col">
+                            <input type="text" class="form-control f-s-08rem" [(ngModel)]="SELECTED_DOCUMENT.author" [disabled]="true">
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-0">
+                        <label for="pullrequest-name-input" class="col subtitle mb-0">MIME Type:</label>
+                        <div class="col">
+                            <select class="custom-select f-s-08rem" [(ngModel)]="SELECTED_DOCUMENT.DocumentTypeId">
+                                <option selected value="">-- Select MIME type from the list --</option>
+                                <option *ngFor="let list of DOCUMENTTYPE_LIST_Options" value="{{list.value}}"> {{list.label}} </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-3 pr-4 border-top-0">
+                <div class="row">
+                    <div class="col-12 pr-2">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" (click)="checkInDoc()">
+                            Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="RejectModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered w-50">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-1">
+                <h6 class="modal-title pl-3 pt-1">Reject</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1 pb-0">
+                <div class="row pl-3" *ngIf="SELECTED_DOCUMENT">
+                    <div class="form-group w-100 d-flex mb-1">
+                        <label for="pull-req-desc-input" class="col-2 pr-0 col-form-label">Name:</label>
+                        <div class="col-10 pt-1 pl-0">
+                            <label class="cb-label text-break">{{SELECTED_DOCUMENT.fileName}}</label>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 d-flex mb-1">
+                        <label for="pull-req-desc-input" class="col-2 pr-0 col-form-label">Version:</label>
+                        <div class="col-10 pt-1 pl-0">
+                            <label class="cb-label text-break">{{SELECTED_DOCUMENT.version}}</label>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-1">
+                        <label for="pullrequest-name-input" class="col col-form-label">Comments:</label>
+                        <div class="col">
+                            <textarea type="text" class="form-control" [(ngModel)]="SELECTED_DOCUMENT.Comments"></textarea>
+                            <label name="requiredDataforApprove" class="hideOnLoad" id="Label_NGPReporting_HrefURL"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-3 border-top-0">
+                <div class="row pr-4">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" (click)="submitReject()">
+                            Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="RemoveModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered w-50">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-1">
+                <h6 class="modal-title pl-3 pt-1 text-warning">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Remove Document
+                </h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1 pb-0">
+                <div class="row pl-3" *ngIf="SELECTED_DOCUMENT">
+                    <div class="form-group w-100 d-flex mb-1">
+                        <label for="pull-req-desc-input" class="col-2 pr-0 col-form-label">Name:</label>
+                        <div class="col-10 pt-1 pl-0">
+                            <label class="cb-label text-break">{{SELECTED_DOCUMENT.fileName}}</label>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 d-flex mb-1">
+                        <label for="pull-req-desc-input" class="col-2 pr-0 col-form-label">Version:</label>
+                        <div class="col-10 pt-1 pl-0">
+                            <label class="cb-label text-break">{{SELECTED_DOCUMENT.version}}</label>
+                        </div>
+                    </div>
+                    <div class="form-group w-100 mb-1">
+                        <label for="pullrequest-name-input" class="col col-form-label">Comments:</label>
+                        <div class="col">
+                            <textarea type="text" class="form-control" [(ngModel)]="SELECTED_DOCUMENT.Comments"></textarea>
+                            <label name="requiredDataforApprove" class="hideOnLoad" id="Label_NGPReporting_HrefURL"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-3 border-top-0">
+                <div class="row pr-4">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn bnt-sm btn-warning" (click)="submitComfirmRemove()">
+                            Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<!-- The Modal -->
+<div class="modal fade cb-modal" id="advanced-search-dlg" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom-0 pb-0">
+                <h6 class="modal-title pl-1 pt-1">
+                    <i class="fa fa-arrow-circle-o-left cur-pointer" ngbTooltip="Back" placement="right" *ngIf="customSearchService.advanceSearchScreen == 'result-screen'" aria-hidden="true" (click)="customSearchService.backToAdvSearchScreen()"></i> {{customSearchService.ADVANCED_DOC_SEARCH.pageTitle}} 
+                </h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-0">
+                <div class="col-12 p-0" [ngClass]="{'visibility-hide' : customSearchService.advanceSearchScreen != 'search-screen'}">
+                    <app-custom-search [ADVANCED_DOC_SEARCH]="customSearchService.ADVANCED_DOC_SEARCH" [DOCUMENTTYPE_LIST_Options]="DOCUMENTTYPE_LIST_Options" customSearchFor="advanced-search" (invokeAdvancedSearch)="customSearchService.advancedSearch()"></app-custom-search>
+                </div>
+                <div class="col-12 p-0" [ngClass]="{'visibility-hide' : customSearchService.advanceSearchScreen != 'result-screen'}">
+                    <app-custom-search-results [defaultDateTimeFormat]="defaultDateTimeFormat" [isAdvSrchTtlRecCountAvail]="customSearchService.isAdvSrchTtlRecCountAvail" [isShowAdvSearchResultsForCont]="customSearchService.isShowAdvSearchResultsForCont" [ADVANCED_DOC_SEARCH]="customSearchService.ADVANCED_DOC_SEARCH" [ADVANCED_DOC_SEARCH_RESULTS]="customSearchService.ADVANCED_DOC_SEARCH_RESULTS" [advanceSearchTotalRecords]="customSearchService.advanceSearchTotalRecords" (invokeOnAdvSearchChangePage)="customSearchService.onAdvSearchChangePage($event)" (invokeShowInLanding)="showInLanding($event)"></app-custom-search-results>
+                </div>
+            </div>
+    
+            <!-- Modal footer -->
+            <div class="modal-footer p-0 pb-3 pr-4 border-top-0"></div>
+    
+        </div>
+    </div>
+</div>
+<!-- The Modal -->

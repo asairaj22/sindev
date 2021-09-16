@@ -1,0 +1,15 @@
+.body-container {
+	position: fixed;
+	top: 51px;
+	height: calc(100% - 51px);
+	width: 100%;
+	overflow-y: auto;
+}
+.log-header-title {
+	color: #122e57;
+	font-weight: 300;
+	font-size: 2rem;
+}
+.m-lo-0{
+    margin: 0rem;
+}

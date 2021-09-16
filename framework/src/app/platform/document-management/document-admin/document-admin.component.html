@@ -1,0 +1,64 @@
+<div class="container-fluid">
+    <div class="row h-100 pt-2 pl-2 pr-2 overflow-x-hidden">
+        <div class="col-12 mb-0 p-0">
+            <h1 class="title-header">Document Management</h1>
+        </div>
+        <div class="col-12 p-0 card">
+            <div class="row">
+                <div class="col-md-2 event-nav-menu">
+                    <ul class="nav nav-pills nav-pills-primary nav-pills-icons flex-column" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tags-nav-body" role="tab" data-toggle="tab" (click)="showTabComponent = 'manage-tags'">
+                                <i class="fa fa-tags" aria-hidden="true"></i>
+                                Tags
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#exclude-folder-nav-body" role="tab" data-toggle="tab" (click)="showTabComponent = 'exclude-folders'">
+                                <i class="fa fa-chain-broken" aria-hidden="true"></i>
+                                Exclude Folders
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#doc-whitelist-nav-body" role="tab" data-toggle="tab" (click)="showTabComponent = 'document-whitelist'">
+                                <i class="fa fa-book" aria-hidden="true"></i>
+                                Document Whitelist
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#doc-types-nav-body" role="tab" data-toggle="tab" (click)="showTabComponent = 'document-types'">
+                                <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                Document Types
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#dms-conf-nav-body" role="tab" data-toggle="tab" (click)="showTabComponent = 'dms-configuration'">
+                                <i class="fa fa-folder-open-o" aria-hidden="true"></i>
+                                DMS Configuration
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-10 pl-2">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tags-nav-body">
+                            <app-manage-tags *ngIf="showTabComponent == 'manage-tags'"></app-manage-tags>
+                        </div>
+                        <div class="tab-pane" id="exclude-folder-nav-body">
+                            <app-exclude-folders *ngIf="showTabComponent == 'exclude-folders'"></app-exclude-folders>
+                        </div>
+                        <div class="tab-pane" id="doc-whitelist-nav-body">
+                            <app-document-whitelist *ngIf="showTabComponent == 'document-whitelist'"></app-document-whitelist>
+                        </div>
+                        <div class="tab-pane" id="doc-types-nav-body">
+                            <app-document-types *ngIf="showTabComponent == 'document-types'"></app-document-types>
+                        </div>
+                        <div class="tab-pane" id="dms-conf-nav-body">
+                            <app-dms-configuration *ngIf="showTabComponent == 'dms-configuration'"></app-dms-configuration>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

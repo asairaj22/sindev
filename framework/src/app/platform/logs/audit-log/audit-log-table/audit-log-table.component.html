@@ -1,0 +1,22 @@
+<div class="continaer  h-100">
+    <div class="col-12 mb-10"><h1 class="log-header-title">Audit Logging</h1></div>
+    <div class="row">
+        <div class="col-3">
+            <h2 class="col-12 l-header-sub mb-10"><i class="fa fa-arrow-circle-o-left audit-back" (click)="triggerBackScreen()" aria-hidden="true"></i>Entire System Log</h2>
+        </div>
+        <div class="col-9">
+            <button type="button" class="btn btn-primary btn-sm float-right mr-3" *ngIf="multipleRowDataArr.length == 2" (click)="compareAudit()"> <i class="fa fa-exchange" aria-hidden="true"></i> Compare</button>	
+        </div>
+    </div>
+    <div class="continaer">    
+         <div class="col-12 audit-report-table-grid">
+            <app-data-grid-audit-log 
+                [gridData]="auditReportTableData"
+                [context]="context"
+                [columnDefs]="columnDefs"
+                (getRowData)="getRowData($event)"
+                (getRowDataCheckbox)="getRowDataCheckbox($event)">
+            </app-data-grid-audit-log>
+        </div>
+    </div>
+</div>

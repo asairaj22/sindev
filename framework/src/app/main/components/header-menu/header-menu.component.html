@@ -1,0 +1,164 @@
+<!-- [class.sticky-header] = "exceedScrollLimit"  -->
+<!-- <header id="main-header" class="header-wrapper" [class.stickSingtel]="headerTop" #headerBox> -->
+<header id="main-header" class="header-wrapper" [ngClass]="{'cloudTopscroll' : cloudTopscroll, 'cloudClass' : cloudPage}">
+	<!-- <div class="main-header__red-line"></div> -->
+	<!-- <div class="main-header__secondary-nav hide-for-phase1">
+		<ul class="nav align-self-center">
+			<li class="nav-item"><a class="nav-link" (click)="onTopHeaderMenuClicked('no-route')">Resources</a></li>
+			<li class="nav-item"><a class="nav-link" (click)="onTopHeaderMenuClicked('no-route')">Help Centre</a></li>
+		</ul>
+	</div> -->
+	<div class="main-header__primary-nav">
+		<div class="header-logo-div">
+		<img id="headerMenu-logo-div-defaultLogo" style=" cursor: pointer;max-height: 50px;" *ngIf="!showHead" routerLink="home" class=""
+      src="./assets/images/logo/singtel-matrix-2.png"
+	  alt="">
+	  <!-- <img *ngIf="showHead" style=" cursor: pointer; " routerLink="home" class="main-header__logo"
+      src="./assets/images/logo/fox-logo.jpg"
+      alt=""> -->
+	  <!-- <img *ngIf="showHead" style=" cursor: pointer; " routerLink="home" class="main-header__logo"
+      src="./assets/images/logo/Singtel_Matrix_Logo1.png"
+      alt=""> -->
+			<!-- <img *ngIf="showHead" style="cursor: pointer;max-height: 50px;" routerLink="home" class="" [src]="headerLogoDet" alt=""> -->
+			<ng-container *ngIf="componentName != ''" class="container1Logo">	
+				<img *ngIf="!behaviourBoolean" src="./assets/images/in-progress-circle.gif" class="circlePreloader">	
+			<img id="headerMenu-container1Logo-uploadLogo" class="behaviour" *ngIf="behaviourBoolean" [src]="behaviourImg">	
+			</ng-container>	
+			<ng-container *ngIf="componentName == ''" class="container2Logo">	
+			<img *ngIf="showHead" id="headerMenu-container2Logo-uploadLogo" class="imagefromload" style="cursor: pointer" routerLink="home" class="" [src]="headerLogoDet" alt="">	
+			</ng-container>
+		</div>
+		<div class="header-item-div">
+		<ul class="mobileHide nav align-self-center main-header__primary-nav--large">
+			<!-- <li class="nav-item"><a class="nav-link" 
+      routerLinkActive="active-route" routerLink="home">Home</a></li> -->
+			<li class="nav-item"><a class="nav-link" routerLinkActive="active-route"
+					[routerLink]="['cloud-services', 'Cloud Services']" id="headerMenu-navLarge-CloudService">
+					<!-- <mat-icon class="customIcons">cloud</mat-icon> -->
+					Cloud Services</a></li>
+					<div class="separator"></div>	
+			<!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active-route"
+					[routerLink]="['cloud-services', 'Click to deploy']"><mat-icon class="customIcons">cloud_done</mat-icon>Click To Deploy</a></li> -->
+			<!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active-route" [routerLink]="['cloud-services', 'Office 365']" >Office &
+					Email</a></li> -->
+					<!-- <div class="separator"></div> -->
+			<!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active-route" routerLink="office-email" >
+				<mat-icon class="customIcons">local_post_office</mat-icon>Office & Email</a></li>
+				<div class="separator"></div>
+					<li class="nav-item"><a class="nav-link" routerLinkActive="active-route" href="javascript:void(0)"
+					><mat-icon class="customIcons">cloud_circle</mat-icon>Cloud Managed Services</a></li>
+					<div class="separator"></div>
+					<li class="nav-item"><a class="nav-link" routerLinkActive="active-route"
+					routerLink="networks"><mat-icon class="customIcons">wifi</mat-icon>Networks</a></li>
+			<div class="separator"></div>
+						<li class="nav-item"><a class="nav-link" routerLinkActive="active-route"
+					><mat-icon class="customIcons">security</mat-icon>Security</a></li>
+					<div class="separator"></div> -->
+
+			<!-- <li class="dropdown nav-item" *ngIf="showHead">
+				<a class="nav-link dropdown-toggle" type="button" id="dropdownAppButton"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					All Solutions
+				</a>
+				<div class="dropdown-menu" aria-labelledby="dropdownAppButton">
+					<a class="dropdown-item" routerLink="all-apps">Apps Listing</a>
+				</div>
+			</li> -->
+			
+
+			<!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active-route"
+					routerLink="networks"><mat-icon class="customIcons">dns</mat-icon>Networks</a></li>
+			<div class="separator"></div> -->
+			
+			<!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active-route"
+					routerLink="all-apps"><mat-icon class="customIcons">apps</mat-icon>Apps Listing</a></li> -->
+			<div class="separator">	</div>
+<li>
+			<div class="">
+				<ng-container *ngIf="showHead">
+					<button class="btn username-dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" *ngIf="firstName">
+						{{firstName}}
+					</button>
+					<div class="dropdown-menu username-dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<a class="dropdown-item username-dropdown-menu-item" (click)="onMenuChange('my-account')">My Account</a>
+						<a class="dropdown-item username-dropdown-menu-item" (click)="onMenuChange('my-company')">My Company</a>
+						<a class="dropdown-item username-dropdown-menu-item" (click)="onLogout()">Logout</a>
+					</div>
+				</ng-container>
+			</div>
+</li>
+	<div class="separator">	</div>
+		
+			<!-- <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Marketing &amp; Ecommerce</a></li> -->
+			<!-- <li class="nav-item" data-nav-item="solutions"><a class="nav-link" href="javascript:void(0)">All Solutions</a>
+  
+         <div class="main-header__sub-nav">
+      <ul class="nav-item__dropdown" data-nav-item="solutions">
+        <li class="nav-item__dropdown-item"><a href="javascript:void(0)">Apps Listing</a></li>
+        <li class="nav-item__dropdown-item"><a href="javascript:void(0)">SME Go Digital</a></li>
+        <li class="nav-item__dropdown-item"><a href="javascript:void(0)">Microsoft solutions</a></li>
+      </ul>
+    </div>
+        </li> -->
+		</ul>
+		<ul class="mobileHide nav align-self-center" *appCustomDirectiveIf="getAccessSet['userNameDD']">
+			<li class="nav-item" *ngIf="!showHead && headType !== '/login'">
+				<a class="btn btn-primary login-btn" id="headerMenu-self-center-login" routerLink="/auth/login">Login</a>
+			</li>
+
+			<!-- Commenting based on Ajay's inputs as explicit sign up is not there -->
+			<!-- <li class="nav-item" *ngIf="!showHead && (headType !== '/sign-up' && headType !== 'set-password')">
+			<a class="btn btn-secondary" routerLink="sign-up">Sign Up</a>
+			</li> -->
+
+			<li class="dropdown nav-item" *ngIf="showHead">
+				
+				<button class="btn username-dropdown dropdownImg m-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" *ngIf="userName">
+						{{userName}} <img src="./assets/banner/dropdownBtnHeader.jpg" [class.rotateImge]="rotateImage">
+					</button>
+				<div class="dropdown-menu username-dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<a class="dropdown-item username-dropdown-menu-item" id="headerMenu-navLarge-myAccount" *appCustomDirectiveIf="getAccessSet['myAccountPage']" routerLink="my-account">My Account</a>
+					<a class="dropdown-item username-dropdown-menu-item" id="headerMenu-navLarge-myCompany" *appCustomDirectiveIf="getAccessSet['myCompanyPage']" routerLink="my-company">My Company</a>
+					<a class="dropdown-item username-dropdown-menu-item" id="headerMenu-navLarge-logout" (click)="onLogout()">Logout</a>
+				</div>
+			</li>
+			
+
+			<!-- <li class="nav-item"><a class="btn btn-secondary" href="javascript:void(0)">Sign Up</a></li> -->
+		</ul>
+		<!-- for mobile view -->
+		<div class="hamburger__wrapper" (click)="clickEvent()">
+			<div class="hamburger__ico" [ngClass]="status ? 'expanded' : ''"></div>
+		</div>
+		<div class="dashboardBorder nav__hamburger-menu" (click)="hidePopupMenu()" [ngClass]="status ? 'expanded' : ''">
+			<ul class="nav nav--primary" *ngIf="showHead">
+				<li class="dropdown nav-item" *ngIf="showHead">
+          <a class="nav-link" href="javascript:void(0)">{{userName}}</a>
+				</li>
+			</ul>
+			<ul class="nav nav--primary" *ngIf="showHead">
+				<li class="nav-item"> <a class="nav-link" routerLink="my-account">My Account</a></li>
+				<li class="nav-item"> <a class="nav-link" routerLink="my-company">My Company</a></li>
+			</ul>
+			<ul class="nav nav--primary">
+				<li class="nav-item"><a class="nav-link" routerLinkActive="active-route"
+						[routerLink]="['cloud-services', 'Cloud Services']">Cloud Services</a></li>
+				<!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active-route"
+						[routerLink]="['cloud-services', 'Click to deploy']">Click To Deploy</a></li> -->
+				<!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active-route"
+						routerLink="office-email">Office & Email</a></li> -->
+			</ul>
+			<!-- <ul class="nav nav--secondary" style=" border-bottom: 1px solid #dddddd; ">
+				<li class="nav-item"><a class="nav-link" href="javascript:void(0)">Resources</a></li>
+				<li class="nav-item"><a class="nav-link" href="javascript:void(0)">Help Centre</a></li>
+			</ul> -->
+			<div class="hamburger__logins hamberger-login-btn" *ngIf="!showHead">
+				<a class="btn btn-primary" routerLink="/auth/login">Login</a>
+			</div>
+			<div class="hamburger__logins hamberger-logout-btn" *ngIf="showHead">
+				<a class="btn btn-primary" (click)="onLogout()">Logout</a>
+			</div>
+		</div>
+		</div>
+	</div>
+</header>

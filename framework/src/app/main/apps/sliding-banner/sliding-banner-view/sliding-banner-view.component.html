@@ -1,0 +1,55 @@
+<!-- For Angular Material -->
+<ng-container *ngIf="uiFramework == 'Material'">
+	<div class="mat-carousel-home-banner" [class.showBannerpadtop] = "loginOrlogout == 'login'">
+		<mat-carousel class="mat-carousel1" timings="250ms ease-in" [autoplay]="true" interval="{{timeInterval}}"
+			color="accent" maxWidth="auto" proportion="30" slides="5" [loop]="true" [hideArrows]="false" [hideIndicators]="false" [useKeyboard]="true"  [useMouseWheel]="dragBoolean" orientation="ltr">
+			<mat-carousel-slide #matCarouselSlide1 *ngFor="let banners of bannerConfigurations" overlayColor="#00000040" [hideOverlay]="false" class="customClass">
+				<div class="flexBanner" [style.background]="'url(' + banners.img + ')'">
+					<div class="container">
+						<div class="row">
+							<div class="flexBannerDesc col-md-6">
+								<h2 *ngIf="banners.title != ''">{{banners.title}}</h2>
+								<p class="banner-desc" *ngIf="banners.desc != ''">{{banners.desc}}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</mat-carousel-slide>
+		</mat-carousel>
+	</div>
+</ng-container>
+
+<!-- For Bootstrap -->
+<ng-container *ngIf="uiFramework == 'Bootstrap'">
+	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+		<ol class="carousel-indicators">
+			<li data-target="#carouselExampleIndicators" data-slide-to="i" [ngClass]="{'active': i == 0}" *ngFor="let banner of bannerConfigurations; let i = index"></li>
+		</ol>
+		<div class="carousel-inner">
+			<div class="carousel-item" [ngClass]="{'active': i == 0}" *ngFor="let banner of bannerConfigurations; let i = index">
+				<h1 [style.background]="'url(' + banner.source + ')'" class="p-5 sliding-banner-container">
+					<div class="flex-direction-column">
+						<div [ngStyle]="{'text-align': banner.bannerTextAlignment}" *ngIf="banner.bannerText">
+							<span class="capTion" [ngStyle] = "{'color': banner.bannerTextColor}">{{banner.bannerText}}</span>
+						</div>
+						<div [ngStyle]="{'text-align': banner.bannerdescriptionAlignment}" *ngIf="banner.bannerDescription">
+							<span class="inCaption" [ngStyle] = "{'color': banner.bannerDescriptionTextColor}">{{banner.bannerDescription}}</span>
+						</div>
+						<div style="margin-top: 10px;" [ngStyle]="{'text-align': banner.buttonTextAlignment}" *ngIf="banner.url && banner.buttonText">
+							<a mat-button mat-raised-button class="banner-link-button" [href]="banner.url" target="_blank"
+								[ngStyle]="{'background-color': banner.bannerButtonColor,'color':banner.buttonTextColor}">{{banner.buttonText}}</a>
+						</div>
+					</div>
+				</h1>
+			</div>
+		</div>
+		<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
+</ng-container>

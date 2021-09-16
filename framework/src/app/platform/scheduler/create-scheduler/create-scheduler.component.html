@@ -1,0 +1,219 @@
+<div class="row h-100 p-3">
+    <div class="col-12 mb-10 ">
+        <h4 class="log-header-title"><i class="fa fa-arrow-circle-o-left" (click)="triggerBackScreen()" aria-hidden="true"></i>&nbsp;
+            <label *ngIf="scheduleType == 'create'">Create New Schedule</label>
+            <label *ngIf="scheduleType == 'update'">Update Schedule</label>
+        </h4>
+    </div>
+</div>
+<div class="row h-100 p-3">
+    <div class="col-3">
+        <label>Job Name<span class="mand-lbl">*</span></label>
+        <input type="text" class="form-control" placeholder="Job Name" [(ngModel)]="workflowScheduler.createSchedule.jobName" />
+    </div>
+    <div class="col-3">
+        <label>Select Workflow<span class="mand-lbl">*</span></label>
+        <select [(ngModel)]="workflowScheduler.createSchedule.taskName"  class="custom-select">
+            <option [ngValue]="''" hidden>Select</option>
+            <option *ngFor="let processName of uniqueProcessName()" [ngValue]="processName">{{processName}}</option>
+        </select>
+    </div>
+    <div class="col-2">
+        <label>Version</label>
+        <select [(ngModel)]="workflowScheduler.createSchedule.taskVersion"  class="custom-select">
+            <option [ngValue]="''" hidden>Select</option>
+            <option *ngFor="let processObject of uniqueProcessVersion()" [ngValue]="processObject.processVersion">{{processObject.processVersion}}</option>
+        </select>
+    </div>
+    <div class="col-4">
+        <label>Job Description<span class="mand-lbl"></span></label>
+        <textarea class="form-control" rows="3" [(ngModel)]="workflowScheduler.createSchedule.description" style="resize: none;"></textarea>
+    </div>
+</div>
+<div class="row h-100 p-3">
+    <div class="col-3">
+        <label>Recurrence<span class="mand-lbl">*</span></label>
+        <select [(ngModel)]="workflowScheduler.createSchedule.recurrenceType" (change)="showRecurringDiv()" class="custom-select">
+            <option [ngValue]="''">Select the Recurrence</option>
+            <option *ngFor="let recurrence of recurrenceTypes" [ngValue]="recurrence.key">{{recurrence.value}}</option>
+        </select>
+    </div>
+    <div class="col-3">
+        <div class="col-12 pr-0 pl-0 inlineDiv" *ngIf="workflowScheduler.createSchedule.recurrenceDiv == workflowScheduler.createSchedule.recurrenceType">
+            <div class="col-11 pr-0 pl-0">
+                <label>Execution Time<span class="mand-lbl">*</span></label>
+                <select class="custom-select" [(ngModel)]="workflowScheduler.createSchedule[workflowScheduler.createSchedule.recurrenceType].executionTime" (change)="changeSchedulerOption();">
+                    <option value="" >Select Execution Time</option>
+                    <option *ngFor="let recurrenceOpt of workflowScheduler.createSchedule.recurrenceOption" [ngValue]="recurrenceOpt.key">{{recurrenceOpt.value}}</option>
+                </select>
+            </div>
+            <div class="col-1 pr-0 pl-0">
+                   <ng-template #tipContent class="toolTipTemplate">{{workflowScheduler.schedulerVariable.tooltipMessage}}</ng-template> 
+                   <i class="fa fa-info-circle" aria-hidden="true" *ngIf="workflowScheduler.schedulerVariable.tooltipMessageDiv" [ngbTooltip]="tipContent"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-3" *ngIf="workflowScheduler.createSchedule.selectExecutionDiv == 'selectDateTime'">
+        <div class="col-12" id="startDateOnce">
+            <label>Select Date and Time<span class="mand-lbl">*</span></label>
+            <angular2-date-picker [(ngModel)]="startDateOnce" (onDateSelect)="setScheduleStartDate($event,'startDateOnce')"  [settings]="startDateOnceSettings"></angular2-date-picker>
+        </div>
+    </div>
+    <div class="col-2" *ngIf="workflowScheduler.schedulerVariable.selectExecutionDivLabel">
+        <div class="col-12 p-0">
+            <div class="col-12 p-0 p-rl-0">
+                <label>{{workflowScheduler.schedulerVariable.selectExecutionDivLabelKey}}<span class="mand-lbl">*</span></label>
+                <div class="col-11 p-0" *ngIf="workflowScheduler.createSchedule.selectExecutionDiv == 'selectCustomSeconds'">
+                    <input class="form-control" type="number" placeholder="Seconds 1 to 59" [(ngModel)]="workflowScheduler.createSchedule[workflowScheduler.createSchedule.recurrenceType].specificTime.seconds" name="quantity" min="1" max="59">
+                </div>
+                <div class="col-11 p-0" *ngIf="workflowScheduler.createSchedule.selectExecutionDiv == 'selectCustomMinutes'">
+                    <input class="form-control" type="number" placeholder="Minutes 0 to 59" [(ngModel)]="workflowScheduler.createSchedule[workflowScheduler.createSchedule.recurrenceType].specificTime.minutes" name="quantity" min="0" max="59">
+                </div>
+                <div class="col-11 p-0" *ngIf="workflowScheduler.createSchedule.selectExecutionDiv == 'selectCustomHour'">
+                    <input class="form-control" type="number" placeholder="Minutes 0 to 59" [(ngModel)]="workflowScheduler.createSchedule[workflowScheduler.createSchedule.recurrenceType].specificTime.minutes" name="quantity" min="0" max="59">
+                </div>
+                 <div class="col-11 p-0" *ngIf="workflowScheduler.createSchedule.selectExecutionDiv == 'selectCustomDay'">
+                    <div class="input-group" (click)="popDayTemplate = true;">
+                        <input class="form-control"  maxlength="5"[(ngModel)]="workflowScheduler.createSchedule[workflowScheduler.createSchedule.recurrenceType].specificTime.hour"/> 
+                        <span class="input-group-addon audit-date-span datetimepicker-endaddon" > <span class="fa fa-clock-o"></span> </span>
+                    </div>
+                    <div #popTemplate *ngIf="popDayTemplate" class="popTemplate p-3">
+                        <ngb-timepicker [(ngModel)]="selectedDayHour" (ngModelChange)="onTimeChange($event)"></ngb-timepicker>
+                        <button type="button" class="btn btn-primary float-right ml-2" (click)="closePopTemplate()">Done</button>
+                    </div>
+                    <!-- <div class="input-group date col-md-12 col-sm-12" id='datetimepicker333'>
+                        <input class="form-control" type="text" id="example1" time-picker data-time-format="H:i" ng-model="workflowScheduler.createSchedule[workflowScheduler.createSchedule.recurrenceType].specificTime.hour" data-step="1" min="0" max="24" maxlength="5" data-show-2400="true" /> <span class="input-group-addon audit-date-span timepickerEx1-startaddon" style="padding-top: 6px;"> <span
+                        class="glyphicon glyphicon-time"></span>
+                        </span>
+                    </div> -->
+                </div> 
+                <div class="col-11 p-0" *ngIf="workflowScheduler.createSchedule.selectExecutionDiv == 'selectCustomWeek'">
+                    <div class="col-12 p-0">
+                        <select class="custom-select" [(ngModel)]="workflowScheduler.createSchedule[workflowScheduler.createSchedule.recurrenceType].specificTime.day">
+                            <option value="" translate>Select Day</option>
+                            <option *ngFor="let days of daySelection" value="{{days.key}}">{{days.value}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-11 p-0" *ngIf="workflowScheduler.createSchedule.selectExecutionDiv == 'selectCustomMonth'">
+                    <div class="col-12">
+                        <input class="form-control" type="number" placeholder="Day 1 to 31" [(ngModel)]="workflowScheduler.createSchedule[workflowScheduler.createSchedule.recurrenceType].specificTime.day" name="quantity" min="1" max="31">
+                    </div>
+                </div>
+                <div class="col-11 p-0" *ngIf="workflowScheduler.createSchedule.selectExecutionDiv == 'selectCustomYear'">
+                    <div class="">
+                        <select class="custom-select" [(ngModel)]="workflowScheduler.createSchedule[workflowScheduler.createSchedule.recurrenceType].specificTime.month">
+                            <option value="" >Select The Month</option>
+                            <option *ngFor="let month of monthSelection; index as i;" value={{i+1}}>{{month}}</option>
+                        </select>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
+    <div class="col-2 p-0 " *ngIf="workflowScheduler.schedulerVariable.selectExecutionDivFirstLabel">
+        <div class="col-12 p-0" *ngIf="workflowScheduler.createSchedule.selectExecutionDiv == 'selectCustomYear'">
+            <div class="col-12 p-0">
+                <label>Specific Day<span class="mand-lbl">*</span></label>
+                <div class="input-group date col-md-12 col-sm-12">
+                    <input class="form-control" type="number" placeholder="Day 1 to 31" [(ngModel)]="workflowScheduler.createSchedule[workflowScheduler.createSchedule.recurrenceType].specificTime.day" name="quantity" min="1" max="31">
+                </div>
+            </div>
+        </div>
+        <div class="col-12 p-0 inlineDiv" *ngIf="workflowScheduler.createSchedule.selectExecutionDiv == 'selectCustomHour'">
+            <div class="col-11 p-0">
+                <label>Intervals<span class="mand-lbl"></span></label>
+                <div class="">
+                    <input class="form-control" type="number" placeholder="Intervals 1 to 23" [(ngModel)]="workflowScheduler.createSchedule[workflowScheduler.createSchedule.recurrenceType].specificTime.interval" name="quantity" min="1" max="23">
+                </div>
+            </div>
+            <div class="col-1 p-0">
+                 <ng-template #tipFirstContent >{{workflowScheduler.schedulerVariable.tooltipFirstMessage}}</ng-template> 
+                 <i class="fa fa-info-circle" aria-hidden="true" *ngIf="workflowScheduler.schedulerVariable.tooltipFirstMessageDiv" [ngbTooltip]="tipFirstContent"></i>
+             </div>
+        </div>
+        
+        <!-- Based On Specific seconds end -->
+        <!-- Based On Specific minutes start -->
+    </div>
+    <div class="col-2" *ngIf="workflowScheduler.schedulerVariable.selectExecutionDivSecondLabel">
+        <div class="col-11 p-0" *ngIf="workflowScheduler.createSchedule.selectExecutionDiv == 'selectCustomWeek' || workflowScheduler.createSchedule.selectExecutionDiv == 'selectCustomMonth'
+        || workflowScheduler.createSchedule.selectExecutionDiv == 'selectCustomYear'">
+            <div class="col-12 p-0">
+                <label>Select Hour<span class="mand-lbl">*</span></label>
+                <div class="input-group" (click)="popTemplate = true;">
+                        <input class="form-control"  maxlength="5"[(ngModel)]="workflowScheduler.createSchedule[workflowScheduler.createSchedule.recurrenceType].specificTime.hour"/> 
+                        <span class="input-group-addon audit-date-span datetimepicker-endaddon" > <span class="fa fa-clock-o"></span> </span>
+                </div>
+                <div #popTemplate *ngIf="popTemplate" class="popTemplate p-3">
+                    <ngb-timepicker [(ngModel)]="selectedHour" (ngModelChange)="onTimeChange($event)"></ngb-timepicker>
+                    <button type="button" class="btn btn-primary float-right ml-2" (click)="closePopTemplate()">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row h-100 p-3" *ngIf="workflowScheduler.schedulerVariable.isExclusion">
+    <!-- Based On Execution Hour start -->
+    <div class="col-3" *ngIf="workflowScheduler.schedulerVariable.isExclusionsHour">
+        <div class="col-12 p-0">
+            <label stype="padding-left: 3px;">Exclusions Hours</label>
+            <ng-multiselect-dropdown [data]="hourSelection" [(ngModel)]="workflowScheduler.createSchedule[workflowScheduler.createSchedule.recurrenceType].exclusion.hour" [settings]="ngMultiSelectSettings"></ng-multiselect-dropdown>
+        </div>
+    </div>
+    <!-- Based On Execution Hour end -->
+    <!-- Based On Execution Day start -->
+    <div class="col-3" *ngIf="workflowScheduler.schedulerVariable.isExclusionsDay">
+        <div class="col-12 p-0">
+            <label>Exclusions days </label>
+            <ng-multiselect-dropdown [data]="weekDays" [(ngModel)]="workflowScheduler.createSchedule[workflowScheduler.createSchedule.recurrenceType].exclusion.day" [settings]="ngMultiSelectSettings"></ng-multiselect-dropdown>
+        </div>
+    </div>
+    <!-- Based On Execution Day end -->
+    <!-- Based On Execution Week start -->
+    <div class="col-3" *ngIf="workflowScheduler.schedulerVariable.isExclusionsWeek">
+        <div class="col-12 p-0">
+            <label>Exclusions Week</label>
+            <ng-multiselect-dropdown [data]="weekSelection" [(ngModel)]="workflowScheduler.createSchedule[workflowScheduler.createSchedule.recurrenceType].exclusion.week" [settings]="ngMultiSelectSettings"></ng-multiselect-dropdown>
+        </div>
+    </div>
+    <!-- Based On Execution Week end -->
+    <!-- Based On Execution Month start -->
+    <div class="col-3" *ngIf="workflowScheduler.schedulerVariable.isExclusionsMonth">
+        <div class="col-12 p-0">
+            <label>Exclusions Month</label>
+            <ng-multiselect-dropdown [data]="monthSelection" [(ngModel)]="workflowScheduler.createSchedule[workflowScheduler.createSchedule.recurrenceType].exclusion.month" [settings]="ngMultiSelectSettings"></ng-multiselect-dropdown>
+        </div>
+    </div>
+    <!-- Based On Execution Month end -->
+    <!-- Based On Execution Year start -->
+    <div class="col-3" *ngIf="workflowScheduler.schedulerVariable.isExclusionsYear">
+        <div class="col-12 p-0">
+            <label>Exclusions Year</label>
+            <ng-multiselect-dropdown [data]="workflowScheduler.createSchedule.years" [(ngModel)]="workflowScheduler.createSchedule[workflowScheduler.createSchedule.recurrenceType].exclusion.year" [settings]="ngMultiSelectSettings"></ng-multiselect-dropdown>
+        </div>
+    </div>
+    <!-- Based On Execution Year end -->
+</div>
+<div class="row h-100 p-3" *ngIf="workflowScheduler.createSchedule.recurrenceType !== undefined || workflowScheduler.createSchedule.recurrenceType !=''">
+    <div class="col-3" id="startDate" *ngIf="workflowScheduler.createSchedule.recurrenceType != 'Once'">
+        <label>Start Date</label>
+        <angular2-date-picker [(ngModel)]="startDate" (onDateSelect)="setScheduleStartDate($event,'startDate')"  [settings]="startDateSettings" ></angular2-date-picker>
+    </div>
+    <div class="col-3" id="endDate" *ngIf="workflowScheduler.createSchedule.recurrenceType != 'Once'">
+        <label>End Date</label>
+        <angular2-date-picker [(ngModel)]="endDate" (onDateSelect)="setScheduleStartDate($event,'endDate')"  [settings]="endDateSettings"></angular2-date-picker>
+    </div>
+</div>
+<div class="row h-100 p-3">
+    <div class="col-6">
+        <textarea class="form-control m-l-0" rows="6" [(ngModel)]="workflowScheduler.createSchedule.request" placeholder="Request Input like object not a String" style="resize: none;"></textarea>
+    </div>
+</div>
+<div class="row h-100 p-3">
+    <div class="col-12 ">
+        <button type="button" class="btn btn-primary float-right ml-2 mr-2" (click)="initCreateNewScheduleMeta()" >Clear</button>
+        <button type="button" class="btn btn-primary float-right ml-2" *ngIf="scheduleType == 'create'" (click)="scheduleWorkflow('create')">Schedule</button>
+        <button type="button" class="btn btn-primary float-right ml-2" *ngIf="scheduleType == 'update'" (click)="scheduleWorkflow('update')">Schedule</button>
+    </div>
+</div>

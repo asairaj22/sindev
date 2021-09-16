@@ -1,0 +1,123 @@
+<main class="main dashboard-page" style="background: #fafafa; padding-top: 80px;">
+
+    <!-- Page header start here  -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page__header">
+                    <h3 class="mb-2">
+                        <!-- <mat-icon>person_outline</mat-icon>  -->
+                        <svg class="manageIconuser"><use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-user"></use></svg>
+                        Manage Users
+                    </h3>
+
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-between align-items-center">
+            <div class="col-12 col-md-6 d-flex flex-row align-items-center">
+
+            </div>
+
+            <div class="col-12 col-md-6 text-md-right mt-4 mt-md-0" *appCustomDirectiveIf="getAccessSet['createNewUser']">
+                <button (click) ="createUser()" class="btn btn-secondary w-auto mr-2 boldFont">Create User</button>
+                <!-- <a href="javascript:void(0)" class="btn btn-secondary w-auto d-none show-on-desktop-nav-inline-block">Import Users</a> -->
+            </div>
+        </div>
+
+        <div class="row pt-4 pb-5">
+            <div class="col-12 pb-5">
+                <div class="table-responsive users-table import-table">
+                <p-table #dt [value]="pagedataCount" [(selection)]="selectedCustomers" dataKey="id"
+                 [rowHover]="true" [rows]="10" [showCurrentPageReport]="true"
+                    currentPageReportTemplate="&#123;first&#125; - &#123;last&#125; of &#123;totalRecords&#125;" 
+                    [rowsPerPageOptions]="[10,25,50]" [resizableColumns]="true" [paginator]="paginationBoolean"    
+                    [filterDelay]="0" [globalFilterFields]="['name','loginid','role','count','status']">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+
+                            <th class="table_column" pSortableColumn="name">Display Name <p-sortIcon class="sorTableIcon" field="name"></p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="loginid">Login ID <p-sortIcon class="sorTableIcon" field="loginid"></p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="role">Matrix Role<p-sortIcon class="sorTableIcon" field="role">
+                                </p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="count">Apps Assigned<p-sortIcon class="sorTableIcon" field="count">
+                                </p-sortIcon>
+                            </th>
+                            <th class="table_column" pSortableColumn="status">Status <p-sortIcon class="sorTableIcon" field="status"></p-sortIcon>
+                            </th>
+                        </tr>
+                        <tr>
+
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'name', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'loginid', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'role', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'count', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th class="table_column">
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'status', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-customer>
+                        <tr class="ui-selectable-row">
+
+                            <td class="table_column" data-label="Name">
+                                <a (click)="getIndividualId(customer)" class="first_col underline"><span>&#123;&#123;customer.name&#125;&#125;</span></a>
+                                <!-- <span class="ui-column-title">Name</span> -->
+                                
+                            </td>
+                            <td class="table_column" data-label="Login ID">
+                                <!-- <span class="ui-column-title">Login ID</span> -->
+                                &#123;&#123;customer.loginid&#125;&#125;
+                            </td>
+                            <td class="table_column" data-label="User Role">
+                                <!-- <span class="ui-column-title">User Role</span> -->
+                                &#123;&#123;customer.role&#125;&#125;
+                            </td>
+                            <td class="table_column" data-label="Apps Assigned">
+                                <!-- <span class="ui-column-title">Apps Assigned</span> -->
+                                &#123;&#123;customer.count&#125;&#125;
+                            </td>
+                            <td class="table_column" data-label="Status">
+                                <!-- <span class="ui-column-title">Status</span> -->
+                                &#123;&#123;customer.status&#125;&#125; 
+                            </td>
+
+                        </tr>
+                    </ng-template>
+					<ng-template pTemplate="emptymessage">
+						<tr>
+							<td colspan="5">
+								No records found 
+							</td>
+						</tr>
+					</ng-template>
+                </p-table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>

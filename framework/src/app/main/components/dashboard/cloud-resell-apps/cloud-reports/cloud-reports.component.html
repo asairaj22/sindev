@@ -1,0 +1,720 @@
+<main class="main dashboard-page">
+    <!-- The Modal -->
+<div class="modal fade cb-modal" #chartCustomizeTheme id="chartCustomizeTheme" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="min-width: 50%;">
+        <div class="modal-content" style="border-radius: 6px;">
+            
+            <!-- Modal Header -->
+            <div class="card-header border-bottom-0 pb-0">
+                <h6 class="modal-title pl-3 pt-1" style="font-size:20px;"> Budget Alert</h6>
+                <button type="button" class="close" style="font-size:38px;" #closeBudgetPopup data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1 border-bottom border-top" style="height: 80vh;padding: .75rem .2rem .75rem 1.25rem;">
+                <div class="container h-100">
+                    <div class="p-0 h-100">
+                        <div class="col-12 chartConfig h-100 overflow-auto">
+                          <div class="row"><div class="col-md-4"><div class="row">
+                            <label class=""><h6>Budget Name:</h6></label>
+                          <input  class="form-control" type="text" [(ngModel)]="budgetname">
+                          </div>
+                          </div>
+                              <div class="col-md-1"></div><div class="col-md-7"><div _ngcontent-erj-c12="" class="row"><div class="col-md-12">
+                                <label class=""><h6>Budget Cost:</h6></label>
+                                </div>
+                                
+                              <div class="row"> <div class="col-md-8">
+                                <input class="form-control" type="number" [(ngModel)]="budgetcost" (ngModelChange)="budgetpercent =(costExceed/100)* budgetcost">
+                                </div>
+                                <div class="col-md-4" style="
+                                /* margin: 0; */
+                                padding: 0;">
+                                <label style="">in USD</label></div>
+                              </div></div>
+                              </div>
+                              </div>
+                            
+                            <div class="row">
+                              <div class="row margin-top-bot-row" style="width:100%;">
+                                <div class="col-12">
+                                  <label><h6>
+                                  <strong>  Notifications</strong>
+                                  </h6></label>
+                                  </div>
+                              </div>
+                                  
+                                <div class="row"style="width:100%;">
+                                   <div class="col-12"> <label>You can create notification for your budget to receive email/message alerts when your current cost exceeds the amount you have set</label></div>
+                                </div>
+                                <div class="row margin-top-bot-row" style="width:100%;">
+                                <div class="col-12">
+                                    <label><h6><strong> Notify me when </strong></h6></label>
+                                </div> 
+                            </div>
+                            <div class="row" style="width:100%"> 
+                              <div  class="col-6">
+                                      <div class="">
+                                        <label><h6>Cost exceed *</h6></label>
+                                      </div>
+                              </div>
+                              <div  class="col-6">
+                                      <div>
+                                   <label><h6>Value</h6></label>
+                                   </div>
+                              </div>
+
+                            </div>
+                                <div class="row" style="width:100%" *ngFor="let notific of notificationArr; let i = index"> 
+                                  <div  class="col-5">
+                                      <!-- <div class="">
+                                        <label>Cost exceed *</label>
+                                      </div> -->
+                                      <div class="row">
+                                      <div class="col-md-8">
+                                        <input [(ngModel)]="costExceed" (ngModelChange)="budgetpercent =(costExceed/100)* budgetcost" class="form-control" type="number"/>
+                                          </div>
+                                         <div class="col-md-3" style="padding:0;">
+                                           <span>% of budget</span>
+                                           </div>
+                                      </div>
+                                    </div>
+                            <div class="col-5"> 
+                                 <!-- <div>
+                                   <label>% of budget</label>
+                                   </div> -->
+                                 <div class="row">  
+                                <div class="col-md-8">
+                                 <input [(ngModel)]="budgetpercent" disabled class="form-control" type="text"/>
+                                </div>
+                                <div class="col-md-4">
+                                <label style="padding:0;">in USD</label>
+                                </div>
+                                  </div>
+                                  </div>
+                                  <div class="col-2"> 
+                                 
+                                <!-- <div class="">
+                                  <a (click)="deleteNotification(i)" >del</a>
+                                </div> -->
+                                  
+                                  </div>
+                            </div>
+                            <!-- <div class="col-12" style="color:blue;">
+                                  <div class="">
+                                  <a (click)="addNotification()">ADD NOTIFICATION</a>
+                            </div>
+                                </div> -->
+
+                        </div>
+                        <div class="row">
+                          <div class="row margin-top-bot-row" style="width:100%;">
+                                <div class="col-12">
+                                  <label>
+                                  <h6 >
+                                  <strong>  Recipients</strong>
+                                  </h6>
+                                  </label>
+                                  </div>
+                              </div>
+                              <div class="row" style="width:100%"> 
+                              <div  class="col-3">
+                                      <div class="">
+                                        <label><h6>Contact</h6></label>
+                                      </div>
+                              </div>
+                              <div  class="col-2">
+                                      <div>
+                                   <!-- <label>Email</label> -->
+                                   </div>
+                              </div>
+                              <div  class="col-2">
+                                      <div>
+                                   <!-- <label>Mobile</label> -->
+                                   </div>
+                              </div>
+
+                            </div>
+                                <div class="row" style="width:100%;margin-bottom:1%;" *ngFor="let recip of recipientArr;let i=index"> 
+                                  <div class="col-3">
+                                      <!-- <div class="">
+                                       <label> Contact</label>
+                                      </div> -->
+                                      <div class="">
+                                        <select class="form-control" [(ngModel)]="recip.selectedContact" (ngModelChange)="updateRecipientList($event,contact)">
+                                              <option  value="">Select</option>
+                                            <option *ngFor="let contact of recip.contactArr" [ngValue]="contact">{{contact.name}}</option>
+                                          </select>
+                                      </div>
+                                  
+                            </div>
+                            <div class="col-2"> 
+                                 <!-- <div>
+                                   <label>Email</label></div> -->
+                                <div class="">
+                                 <!-- <input [(ngModel)]="recip.selectedContact.email" class="forminput no-width" type="text"/> -->
+                                 <span><div class="form-check custom-checkbox" style="margin: 0;">
+                    <input class="form-check-input custom-checkbox__input" id="emailCheck_{{i}}" type="checkbox" placeholder="" value="yes">
+                    <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="emailCheck_{{i}}" style="">Email</label>                
+                     </div></span>
+                                </div>
+                                  
+                                  </div>
+                                  <div class="col-2"> 
+                                 <!-- <div>
+                                   <label>Email</label></div> -->
+                                <div class="">
+                                 <!-- <input class="forminput no-width" [(ngModel)]="recip.selectedContact.mob" type="text"/> -->
+                       <span><div class="form-check custom-checkbox" style="margin: 0;">
+                    <input class="form-check-input custom-checkbox__input"  type="checkbox" id="mobileCheck_{{i}}" placeholder="" value="yes">
+                    <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="mobileCheck_{{i}}" style="">Mobile</label>                
+                     </div></span>
+                                </div>
+                                  
+                                  </div>
+                                   <div class="col-2"> 
+                                 
+                                <div class="">
+                                  <a (click)="deleteRecipient(i)" >
+                                    <img alt="image" class="" src="./assets/images/dashboard/cloud-resell/deleteicon.png">
+                                    </a>
+                                </div>
+                                  
+                                  </div>
+                                  
+
+                        </div>
+                            <div class="col-12" style="color:blue;">
+                                  <div class="">
+                                  <button style="margin-bottom:5%;margin-top:1%;" class="btn btn-secondary px-3"><a (click)="addRecipient()">ADD RECIPIENT</a></button>
+                            </div>
+                                </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer pb-2 pt-2 pr-4 border-top-0">
+                <div class="row">
+                    <div class="col-12 pr-2">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#submitBudgetAlert">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div> 
+<div class="modal fade cb-modal" #submitBudgetAlert id="submitBudgetAlert" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="min-width: 50%;">
+        <div class="modal-content submit-budget-content" style="border-radius: 6px;">
+            
+            <!-- Modal Header -->
+            <div class="card-header border-bottom-0 pb-0">
+                <h6 class="modal-title pl-3 pt-1" style="font-size:20px;">Are you sure?</h6>
+                <button type="button" class="close" style="font-size:38px;" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body pt-1 border-bottom border-top" style="height: 80vh;padding: .75rem .2rem .75rem 1.25rem;">
+                <div>You want to submit this budget alert.Click ok to proceed</div>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer pb-2 pt-2 pr-4 border-top-0">
+                <div class="row">
+                    <div class="col-12 pr-2">
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal" (click)="submitBugetAlert()">
+                            OK
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+    <div class="container-fluid">
+      <!-- <div class="container breadcrumb-wrapper">
+       <div class="row">
+         <div class="col-12">
+           <a  style="color: #007ad9;cursor:pointer;"(click)="navigateToCloudResell()"> < Back to Cloud Resell</a>
+         </div>
+       </div>
+      </div> -->
+      <div class="container breadcrumb-wrapper">
+            <div class="row">
+                <div class="col-12 back_nav">
+                    <a style="color: #ee3554;cursor:pointer;"  (click)="navigateToCloudResell()">
+                        <i class="fa fa-chevron-left" aria-hidden="true"></i>  Back to Cloud Resell</a>
+                </div>
+            </div>
+        </div>
+       
+    <div class="row">
+            <div class="col-6">
+             <div _ngcontent-tdh-c9="" class="software-tile__header"><img _ngcontent-tdh-c9="" alt="image" class="software-tile__image" src="../../../SIN/ep-cms/images/aws.png">
+             <div _ngcontent-tdh-c9="" class="software-tile__title-wrapper">
+                 <h3 _ngcontent-tdh-c9="">Essential Cloud Resell (AWS) </h3>
+                 <p _ngcontent-tdh-c9="">Instance Name</p>
+                 </div>
+                 </div>   
+            </div>
+            <div class="col-6">
+            <div class="">
+                 <h6 style="text-align:right;"><strong>Subscription ID</strong></h6>
+             </div>
+            <div class="">
+                <h5 style="text-align:right;">{{accDetails.saasID}}</h5>
+             </div>
+
+            </div>
+        </div>
+
+<!-- Report tabs -->
+<!-- tabs-wrapper start here -->
+<div class="anchor-nav__wrapper anchor-nav__wrapper--reset" style="height: auto;">
+<div id="sticky-wrapper" class="anchor-nav__wrapper" style="height: 66px;"><div class="tabs-wrapper anchor-nav" style="height: auto;">
+  <div class="container-fluid">
+    <!-- Nav Tabs Start Here  -->
+    
+
+            
+
+
+
+<ul class="nav nav-tabs tabs mx-n3 mx-md-0">
+        
+
+<li class="nav-item">
+<a data-toggle="tab" class="nav-link active" href="#tab1">
+    Summary Reports
+</a>
+</li>            
+
+<li class="nav-item">
+<a data-toggle="tab" class="nav-link" href="#tab2">
+    Billing Details
+</a>
+</li>            
+ </ul>        <!-- Nav Tabs End Here  -->
+  </div>
+</div></div>
+</div>
+
+<div class="tab-content">
+
+<div class="tab-pane fade active show" id="tab1">
+
+  <div class="container-fluid">
+  
+    <mat-drawer #chart1drawer position="end" class="sideNavMatDrawer sidenav4">
+        <div class="sideNavHeader">
+            <button (click)="chart1drawer.close()" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                <mat-icon>close</mat-icon>      
+            </button>
+            <h2>Customize</h2>
+        </div>
+        <div>
+            <mat-form-field>
+                <mat-label>Title</mat-label>
+                <input matInput value="Monthly Spend">
+            </mat-form-field>
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="selectedChart" #radioGroup="matRadioGroup">
+                <h3 class="pl-8">Chart Type</h3>
+                   <mat-radio-button class="radio-content mr-16" *ngFor="let item of availableChart;" (change)="chartChange($event)" [value]="item">
+                    <div fxLayoutAlign="start center">
+                        <span class="mat-h4 m-0">{{item}}</span>
+                    </div>
+                </mat-radio-button><br/>
+
+</mat-radio-group>
+
+<div class="flexStyle p-16" id="chart1Wrapper">
+    <canvas baseChart style="height:363px;width:100%" [datasets]="chart1Data" [labels]="chart1Labels" [options]="chart1Options" [chartType]="chart1Type">
+	</canvas>
+</div>
+<div class="didebarBtns mt-12">
+    <button mat-flat-button>Apply</button>
+    <button mat-flat-button (click)="chart1drawer.close()">Cancel</button>
+</div>
+</div>
+</mat-drawer>
+
+    <div class="row">
+        <div class="col-6">
+      <div class="flexStyle" id="chart1wrapper">
+          <mat-card class="mat-card mat-card-chart">
+            <mat-card-title style="font-weight: 500;display:flex;font-size: large;">Monthly Spend<span style="padding: 1% 0 0 2%;" class="chart-subheader">(past six months)</span>
+            <button class="flt-sty mb-8" style="margin-left: auto;" mat-icon-button [matMenuTriggerFor]="chartMenu1" aria-label="Example icon-button with a menu">
+			<mat-icon class="button-sty">more_vert</mat-icon>
+			</button>
+            <mat-menu #chartMenu1="matMenu">
+            <!-- <button (click)="sidenav3.open()" mat-menu-item>
+						<span>Setup</span>
+					</button> -->
+            <!-- <button (click)="sidenav2.open()" mat-menu-item>
+						<span>Filter</span>
+					</button> -->
+            <button (click)="opensidenav('customize', chart1drawer, '1',chart1Type,'Line,Bar')"mat-menu-item>
+						<span>Customize</span>
+					</button>
+             <button data-toggle="modal" mat-menu-item>
+						<span>Show Reports</span>
+                </button>
+                <button data-toggle="modal" data-target="#chartCustomizeTheme" (click)="openbudgetpopup(chart1Data,'1',chart1Colors)" mat-menu-item>
+						<span>Budget Alert</span>
+                </button>
+        </mat-menu>
+        </mat-card-title>
+         <div style="display:block;padding-top:8%;">
+            <canvas [legend]="true" baseChart style="height:234px;width:100%;" [datasets]="chart1Data" [colors]="chart1Colors"  [labels]="chart1Labels" [options]="chart1Options" [chartType]="chart1Type">
+			</canvas>
+        </div>
+          </mat-card>
+        </div>
+        </div>
+        <div class="col-6">
+          
+            <div class="flexStyle" id="chart1wrapper">
+              <ejs-daterangepicker style="position: absolute;z-index: 10;right: 12%;top: 16%;width: 27%;border: 1px solid grey;height: 31px;" placeholder='Select a range' [startDate]='start' [endDate]='end' (change)="getDater($event)"></ejs-daterangepicker>
+          <mat-card class="mat-card mat-card-chart">
+            <mat-card-title style="font-weight: 500;display:flex;font-size: large;">Daily Spend
+            <button class="flt-sty mb-8" style="margin-left: auto;" mat-icon-button [matMenuTriggerFor]="chartMenu2" aria-label="Example icon-button with a menu">
+			<mat-icon class="button-sty">more_vert</mat-icon>
+			</button>
+            <mat-menu #chartMenu2="matMenu">
+            <!-- <button (click)="sidenav3.open()" mat-menu-item>
+						<span>Setup</span>
+					</button> -->
+            <!-- <button (click)="sidenav2.open()" mat-menu-item>
+						<span>Filter</span>
+					</button> -->
+            <button (click)="opensidenav('customize', chart1drawer, '2',chart1Type,'Line,Bar')"mat-menu-item>
+						<span>Customize</span>
+					</button>
+             <button data-toggle="modal" mat-menu-item>
+						<span>Show Reports</span>
+                </button>
+                <button data-toggle="modal" data-target="#chartCustomizeTheme" (click)="openbudgetpopup(chart2Data,'2',chart2Colors)" mat-menu-item>
+						<span>Budget Alert</span>
+                </button>
+        </mat-menu>
+        </mat-card-title>
+         <div style="display:block;padding-top:8%;">
+            <canvas [legend]="true" baseChart style="height:234px;width:100%;" [datasets]="chart2Data" [colors]="chart2Colors"  [labels]="chart2Labels" [options]="chart2Options" [chartType]="chart2Type">
+			</canvas>
+        </div>
+          </mat-card>
+        </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="flexStyle" id="chart1wrapper">
+          <mat-card class="mat-card mat-card-chart">
+            <mat-card-title style="font-weight: 500;display:flex;font-size: large;">Top 5 Spend By Product<span style="padding:1% 0 0 2%;" class="chart-subheader">(past six months)</span>
+            <button class="flt-sty mb-8" style="margin-left: auto;" mat-icon-button [matMenuTriggerFor]="chartMenu3" aria-label="Example icon-button with a menu">
+			<mat-icon class="button-sty">more_vert</mat-icon>
+			</button>
+           <mat-menu #chartMenu3="matMenu">
+            <!-- <button (click)="sidenav3.open()" mat-menu-item>
+						<span>Setup</span>
+					</button> -->
+            <!-- <button (click)="sidenav2.open()" mat-menu-item>
+						<span>Filter</span>
+					</button> -->
+            <button (click)="opensidenav('customize', chart1drawer, '1',chart1Type,'Line,Bar')"mat-menu-item>
+						<span>Customize</span>
+					</button>
+             <button data-toggle="modal" mat-menu-item>
+						<span>Show Reports</span>
+                </button>
+                <button data-toggle="modal" data-target="#chartCustomizeTheme" (click)="openbudgetpopup(chart3Data,'3',chart3Colors)" mat-menu-item>
+						<span>Budget Alert</span>
+                </button>
+        </mat-menu>
+        </mat-card-title>
+         <div style="display:block;padding-top:8%;">
+            <canvas [legend]="true" baseChart style="height:234px;width:100%;" [datasets]="chart3Data" [colors]="chart3Colors"  [labels]="chart3Labels" [options]="chart3Options" [chartType]="chart3Type">
+			</canvas>
+        </div>
+          </mat-card>
+        </div>
+        </div>
+        <div class="col-6">
+            <div class="flexStyle" id="chart1wrapper">
+              <ejs-daterangepicker style="position: absolute;z-index: 10;right:12%;top:16%;width: 27%;border: 1px solid grey;height: 31px;" placeholder='Select a range' [startDate]='start1' [endDate]='end1' (change)="getDater($event)"></ejs-daterangepicker>
+          <mat-card class="mat-card mat-card-chart">
+            <mat-card-title style="font-weight: 500;display:flex;font-size: large;">Top 5 Spend By Product
+            <button class="flt-sty mb-8" style="margin-left: auto;" mat-icon-button [matMenuTriggerFor]="chartMenu4" aria-label="Example icon-button with a menu">
+			<mat-icon class="button-sty">more_vert</mat-icon>
+			</button>
+      <mat-menu #chartMenu4="matMenu">
+            <!-- <button (click)="sidenav3.open()" mat-menu-item>
+						<span>Setup</span>
+					</button> -->
+            <!-- <button (click)="sidenav2.open()" mat-menu-item>
+						<span>Filter</span>
+					</button> -->
+            <button (click)="opensidenav('customize', chart1drawer, '1',chart1Type,'Line,Bar')"mat-menu-item>
+						<span>Customize</span>
+					</button>
+             <button data-toggle="modal" mat-menu-item>
+						<span>Show Reports</span>
+                </button>
+                <button data-toggle="modal" data-target="#chartCustomizeTheme" (click)="openbudgetpopup(chart4Data,'4',chart4Colors)" mat-menu-item>
+						<span>Budget Alert</span>
+                </button>
+        </mat-menu>
+        </mat-card-title>
+         <div style="display:block;padding-top:8%;">
+            <canvas [legend]="true" baseChart style="height:234px;width:100%;" [datasets]="chart4Data" [colors]="chart4Colors"  [labels]="chart4Labels" [options]="chart4Options" [chartType]="chart4Type">
+			</canvas>
+        </div>
+          </mat-card>
+        </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="flexStyle" id="chart1wrapper">
+          <mat-card class="mat-card mat-card-chart">
+            <mat-card-title style="font-weight: 500;display:flex;font-size:large;">Top 5 Spend By Marketplace Product <span style="padding:1% 0 0 2%;" class="chart-subheader">(past six months)</span>
+            <button class="flt-sty mb-8" style="margin-left: auto;" mat-icon-button [matMenuTriggerFor]="chartMenu5" aria-label="Example icon-button with a menu">
+			<mat-icon class="button-sty">more_vert</mat-icon>
+			</button>
+      <mat-menu #chartMenu5="matMenu">
+            <!-- <button (click)="sidenav3.open()" mat-menu-item>
+						<span>Setup</span>
+					</button> -->
+            <!-- <button (click)="sidenav2.open()" mat-menu-item>
+						<span>Filter</span>
+					</button> -->
+            <button (click)="opensidenav('customize', chart1drawer, '1',chart1Type,'Line,Bar')"mat-menu-item>
+						<span>Customize</span>
+					</button>
+             <button data-toggle="modal" mat-menu-item>
+						<span>Show Reports</span>
+                </button>
+                <button data-toggle="modal" data-target="#chartCustomizeTheme" (click)="openbudgetpopup(chart5Data,'5',chart5Colors)" mat-menu-item>
+						<span>Budget Alert</span>
+                </button>
+        </mat-menu>
+        </mat-card-title>
+         <div style="display:block;padding-top:8%;">
+            <canvas [legend]="true" baseChart style="height:234px;width:100%;" [datasets]="chart5Data" [colors]="chart5Colors"  [labels]="chart5Labels" [options]="chart5Options" [chartType]="chart5Type">
+			</canvas>
+        </div>
+          </mat-card>
+        </div>
+        </div>
+        <div class="col-6">
+           <div class="flexStyle" id="chart1wrapper">
+             <ejs-daterangepicker style="position: absolute;z-index: 10;right: 12%;top: 16%;width: 27%;border: 1px solid grey;height: 31px;" placeholder='Select a range' [startDate]='start2' [endDate]='end2' (change)="getDater($event)"></ejs-daterangepicker>
+          <mat-card class="mat-card mat-card-chart">
+            <mat-card-title style="font-weight: 500;display:flex;font-size:large;">Top 5 Spend By Marketplace Product
+            <button class="flt-sty mb-8" style="margin-left: auto;" mat-icon-button [matMenuTriggerFor]="chartMenu6" aria-label="Example icon-button with a menu">
+			<mat-icon class="button-sty">more_vert</mat-icon>
+			</button>
+      <mat-menu #chartMenu6="matMenu">
+            <!-- <button (click)="sidenav3.open()" mat-menu-item>
+						<span>Setup</span>
+					</button> -->
+            <!-- <button (click)="sidenav2.open()" mat-menu-item>
+						<span>Filter</span>
+					</button> -->
+            <button (click)="opensidenav('customize', chart1drawer, '1',chart1Type,'Line,Bar')"mat-menu-item>
+						<span>Customize</span>
+					</button>
+             <button data-toggle="modal" mat-menu-item>
+						<span>Show Reports</span>
+                </button>
+                <button data-toggle="modal" data-target="#chartCustomizeTheme" (click)="openbudgetpopup(chart6Data,'6',chart6Colors)" mat-menu-item>
+						<span>Budget Alert</span>
+                </button>
+        </mat-menu>
+        </mat-card-title>
+         <div style="display:block;padding-top:8%;">
+            <canvas [legend]="true" baseChart style="height:234px;width:100%;" [datasets]="chart6Data" [colors]="chart6Colors"  [labels]="chart6Labels" [options]="chart6Options" [chartType]="chart6Type">
+			</canvas>
+        </div>
+          </mat-card>
+        </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="flexStyle" id="chart1wrapper">
+          <mat-card class="mat-card mat-card-chart">
+            <mat-card-title style="font-weight: 500;display:flex;font-size:large;">Top 5 Spend For Support Plan<span style="padding:1% 0 0 2%;" class="chart-subheader">(past six months)</span>
+            <button class="flt-sty mb-8" style="margin-left: auto;" mat-icon-button [matMenuTriggerFor]="chartMenu7" aria-label="Example icon-button with a menu">
+			<mat-icon class="button-sty">more_vert</mat-icon>
+			</button>
+      <mat-menu #chartMenu7="matMenu">
+            <!-- <button (click)="sidenav3.open()" mat-menu-item>
+						<span>Setup</span>
+					</button> -->
+            <!-- <button (click)="sidenav2.open()" mat-menu-item>
+						<span>Filter</span>
+					</button> -->
+            <button (click)="opensidenav('customize', chart1drawer, '1',chart1Type,'Line,Bar')"mat-menu-item>
+						<span>Customize</span>
+					</button>
+             <button data-toggle="modal" mat-menu-item>
+						<span>Show Reports</span>
+                </button>
+                <button data-toggle="modal" data-target="#chartCustomizeTheme" (click)="openbudgetpopup(chart7Data,'7',chart7Colors)" mat-menu-item>
+						<span>Budget Alert</span>
+                </button>
+        </mat-menu>
+        </mat-card-title>
+         <div style="display:block;padding-top:8%;">
+            <canvas [legend]="true" baseChart style="height:234px;width:100%;" [datasets]="chart7Data" [colors]="chart7Colors"  [labels]="chart7Labels" [options]="chart7Options" [chartType]="chart7Type">
+			</canvas>
+        </div>
+          </mat-card>
+        </div>
+        </div>
+        <div class="col-6">
+           <div class="flexStyle" id="chart1wrapper">
+             <ejs-daterangepicker style="position: absolute;z-index: 10;right: 12%;top:16%;width: 27%;border: 1px solid grey;height: 31px;" placeholder='Select a range' [startDate]='start3' [endDate]='end3' (change)="getDater($event)"></ejs-daterangepicker>
+          <mat-card class="mat-card mat-card-chart">
+            <mat-card-title style="font-weight: 500;display:flex;font-size:large;">Top 5 Spend For Support Plan
+            <button class="flt-sty mb-8" style="margin-left: auto;" mat-icon-button [matMenuTriggerFor]="chartMenu8" aria-label="Example icon-button with a menu">
+			<mat-icon class="button-sty">more_vert</mat-icon>
+			</button>
+      <mat-menu #chartMenu8="matMenu">
+            <!-- <button (click)="sidenav3.open()" mat-menu-item>
+						<span>Setup</span>
+					</button> -->
+            <!-- <button (click)="sidenav2.open()" mat-menu-item>
+						<span>Filter</span>
+					</button> -->
+            <button (click)="opensidenav('customize', chart1drawer, '1',chart1Type,'Line,Bar')"mat-menu-item>
+						<span>Customize</span>
+					</button>
+             <button data-toggle="modal" mat-menu-item>
+						<span>Show Reports</span>
+                </button>
+                <button data-toggle="modal" data-target="#chartCustomizeTheme" (click)="openbudgetpopup(chart8Data,'8',chart8Colors)" mat-menu-item>
+						<span>Budget Alert</span>
+                </button>
+        </mat-menu>
+        </mat-card-title>
+         <div style="display:block;padding-top:8%;">
+            <canvas [legend]="true" baseChart style="height:234px;width:100%;" [datasets]="chart8Data" [colors]="chart8Colors"  [labels]="chart8Labels" [options]="chart8Options" [chartType]="chart8Type">
+			</canvas>
+        </div>
+          </mat-card>
+        </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="tab-pane fade" id="tab2">
+  <div class="container-fluid">
+<div class="row">
+        <div class="col-12">
+            <div class="card">
+           <main class="main dashboard-page">
+             <div ss=" reportstable users-table my-4">
+          <p-table #dt [value]="customersNew" [(selection)]="selectedCustomers" dataKey="id"
+                    styleClass="p-datatable-gridlines" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true"
+                    [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                    currentPageReportTemplate="&#123;first&#125; to &#123;last&#125; of &#123;totalRecords&#125;"
+                    [filterDelay]="0" [globalFilterFields]="['name','country.name','representative.name','status']">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+
+                            <th pSortableColumn="billingNumber">Usage Billing Number<p-sortIcon field="billingNumber"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="billingDate">Billing Date<p-sortIcon field="billingDate"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="usagePeriod">Usage Period<p-sortIcon field="usagePeriod">
+                                </p-sortIcon>
+                            </th>
+                            <th pSortableColumn="usageAmount">Usage Amount(USD)<p-sortIcon field="usageAmount">
+                                </p-sortIcon>
+                            </th>
+                  
+                        </tr>
+                        <tr>
+
+                            <th>
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'billingNumber', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th>
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'billingDate', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th>
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'usagePeriod', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                            <th>
+                                <input pInputText type="text"
+                                    (input)="dt.filter($event.target.value, 'usageAmount', 'contains')"
+                                    class="ui-column-filter">
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-customer let-i="rowIndex">
+                        <tr class="ui-selectable-row">
+
+                            <td>
+                                <span class="ui-column-title">Usage Billing Number</span>
+                               <span class="nav-to-billing" (click)="navigateTobillingDetail(i)">&#123;&#123;customer.billingNumber&#125;&#125;</span>
+                            </td>
+                            <td>
+                                <span class="ui-column-title">Billing Date</span>
+                                &#123;&#123;customer.billingDate&#125;&#125;
+                            </td>
+                            <td>
+                                <span class="ui-column-title">Usage Period</span>
+                                &#123;&#123;customer.usagePeriod&#125;&#125;
+                            </td>
+                            <td>
+                                <span class="ui-column-title">Usage Amount(USD)</span>
+                                &#123;&#123;customer.usageAmount&#125;&#125;
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8" style="text-align:left">No Billing Details found.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+        </div>
+             </main>
+        </div>
+        </div>
+    </div>
+
+  </div>
+</div>
+
+
+</div>
+
+ </div>
+</main>

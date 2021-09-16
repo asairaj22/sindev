@@ -1,0 +1,13 @@
+{
+  "configured_id" : "d07c1453-68d2-499a-aff8-9b245bf91a76",
+  "connector_id" : "16",
+  "operation" : [ ],
+  "resource" : {
+    "request" : [ ],
+    "response" : [ ]
+  },
+  "resourceMap" : {
+    "request" : [ ],
+    "response" : [ ]
+  }
+}

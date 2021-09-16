@@ -1,0 +1,64 @@
+
+.main {
+    overflow: hidden;
+    padding: 60px 50px;
+    background: #f9f9f9;
+   
+}
+.swiper-slide {
+    min-width: 225px;
+}
+
+.table_link {
+    /* font-weight: bold; */
+    color: #33adc0;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.swiper-wrapper {
+    margin-left: 0px;
+}
+
+.table_column {
+        width: 240px !important;
+    }
+
+.info-card {
+    z-index: 1 !important;
+}
+.productTableList{cursor: pointer;text-decoration: underline !important;font-size: 14px;}
+@media only screen and (max-width:1024px){
+    .main{padding:45px 10px;}
+}
+@media only screen and (max-width: 572px) {
+    .main {
+        overflow: hidden;
+        padding: 45px 5px;
+    }
+    .swiper-slide {
+      margin-top: 15px;
+      margin-right: 15px;
+    }
+    .table_column {
+        width: 240px !important;
+    }
+  }
+  .searchIcon{
+    position: relative;
+    left: -11%;
+    top: 6px;
+    color: #959595
+  }
+
+
+  
+
+
+  .table-responsive {
+    overflow: inherit !important;
+    
+}
+.miconLeft{margin-left:46px;}
+.appsNameIcon{max-width: 26px;opacity: 0.5;margin: 0 20px 0 0;height: 26px;}
+

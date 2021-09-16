@@ -1,0 +1,23 @@
+:host ::ng-deep section.testimonial .swiper-container .swiper-wrapper {
+    transform: translate3d(0,0,0) !important;
+}
+.home-banne-text-container{ padding: 0 40px;}
+.read-more{font-size: 12px;font-weight: bold;color: #0c9ebc;}
+.boost__link{color:#1996B2;}
+.boost__link:hover{color:#097280}
+.card__link{cursor: pointer;}
+.bgBooost{padding: 100px 40px;overflow: hidden;min-height:480px;width: 100%;display: flex;align-items: center;flex-direction: row;justify-content: flex-end;background-size: cover !important;background-position: center !important;}
+.titleOverCome{width:50%;}
+.titleOverCome h3{font-weight: 600;letter-spacing: 1.3px;margin-bottom: 20px;}
+.bgBooost.fxLeftAlign{justify-content: flex-start}
+.boost__description{margin-bottom: 20px;max-width:80%}
+
+@media (max-width:768px){
+    .leftMobileView{background-position:left !important;position:relative}
+    .rightMobileView{background-position:right !important;position:relative}
+    .leftMobileView::before, .rightMobileView::before{background:rgba(0,0,0,0.5);content:"";position:absolute;left:0;bottom:0;top:0;right:0;width:100%;height: 100%}
+    .titleOverCome{width: 100%;box-shadow: 0 0 6px #fff;padding: 10px 10px 8px 10px;background: rgba(255,255,255, 0.2);position: relative;}
+    .titleOverCome h3{color:#fff}
+    .boost__description{color:#fff}
+    .boost__link{color:#07c6f1}
+}

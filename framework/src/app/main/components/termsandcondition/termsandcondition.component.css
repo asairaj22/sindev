@@ -1,0 +1,26 @@
+pdf-viewer {
+  display: block;
+  height: 100vh;
+}
+.accordion>.card .card-header {
+    margin-bottom: 0px;
+}
+.downloadpdf {
+    float: right;
+    padding: 20px 35px 0px 0px;
+    font-size: 20px;
+}
+
+.downloadpdf i {
+    font-size: 20px;
+    cursor: pointer;
+}
+.downloadpdf a {
+    color: #000;
+}
+.downloadpdf label {
+    padding-left: 10px;
+    font-size: 14px;
+    margin: 0px;
+    cursor: pointer;
+}

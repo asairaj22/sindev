@@ -1,0 +1,130 @@
+<div class="col-12 matrix-table-outer scrollContainer ep-report p-0 overflow-hidden" id="ep_grid_preview_{{secObj.sectionId}}">
+    <!-- Grid global actions starts -->
+    <div class="row p-0 pt-2 pb-1">
+        <!-- Grid change page size starts -->
+        <div class="pl-3 right-0 d-flex" *ngIf="!secObj.hidePagination">
+            <label class="mr-1 mt-1 cb-label" translate>Show</label>
+            <select [(ngModel)]="secObj.itemsPerPage" (change)="changePageSize(secObj);" class="form-control itemsPerPage f-s-08rem w-50 p-1 cur-pointer">
+                <option *ngFor="let entry of secObj.defaultEntryList" value="{{entry}}">{{entry}}</option>
+            </select>
+            <label class="ml-1 mt-1 cb-label">entries</label>
+        </div>
+        <!-- Grid change page size ends -->
+
+        <!-- Grid manage filter, global search and customize fields starts -->
+        <div class="col-4 d-flex position-absolute pr-0 right-0 left-auto" *ngIf="!secObj.lazyLoading?.needLazyLoading">
+            <button class="btn btn-primary w-50 mr-2 mb-1" *ngIf="secObj.showFilter">Clear Filter</button>
+            <button class="btn btn-primary w-50 m-r-5" *ngIf="secObj.allowCustomizeColumns">Customize Fields</button>
+            <label *ngIf="!secObj.hideGlobalSearch" class="cb-label mt-1 mr-1">Search:</label> 
+            <input type="text" *ngIf="!secObj.hideGlobalSearch" [(ngModel)]="secObj.searchTable" (keyup)="applyGlobalSearch(secObj);" class="form-control f-s-08rem h-75" placeholder="Search any text...">
+            <i class="fa fa-times position-absolute right-1-5-em left-auto mt-2 cur-pointer" aria-hidden="true" (click)="clearSearchText();" *ngIf="(secObj.searchTable || '') != ''"></i>
+        </div>
+        <!-- Grid manage filter, global search and customize fields ends -->
+    </div>
+    <!-- grid global action ends -->
+
+    <!-- Grid title header starts -->
+    <table class="table matrix-table matrix-table-header grid-title-header" *ngIf="secObj.gridTitleHeader && secObj.gridTitleHeader.needHeader == true">
+        <thead>
+            <tr class="colHeaders">
+                <ng-container *ngFor="let field of secObj.gridTitleHeader.titleHeaderList; let i = index">
+                    <th class="columnLabel report-grid-cells" [attr.data-index]="i" [attr.colspan]="field.colSpan" 
+                        [ngClass]="{'selectedTitleHeader' : field.selected == true}" *ngIf="!field.hideColumn"
+                        [attr.style]="reports.getGridTitleHeaderCellStyle(field)"> 
+                        {{field.text || "&nbsp;"}}
+                    </th>
+                </ng-container>
+            </tr>
+        </thead>
+    </table>
+    <!-- Grid title header ends -->
+
+    <!-- Grid header table starts -->
+    <table class="table matrix-table matrix-table-header" id="previewHeader">
+        <thead>
+            <!-- Grid dummy tr starts -->
+            <tr class="colHeaders dummyTr" *ngIf="secObj.displayDummyTr && secObj.reportType == 'Data Grid'">
+                <ng-container *ngFor="let field of secObj.displayFields; let i = index">
+                    <th class="report-grid-cells" [attr.data-index]="i" *ngIf="!field.hideColumn" [style.width]="field.width" style="border-top: none !important"></th>
+                </ng-container>
+            </tr>
+            <!-- Grid dummy tr ends -->
+
+            <!-- Grid actual header tr starts -->
+            <tr class="colHeaders cellCustom">
+                <ng-container *ngFor="let field of secObj.displayFields; let i = index">
+                    <th class="report-grid-cells {{themeBuilder.getHeaderThemeNameByCondition(field, secObj, 0, i, false)}}" [attr.data-index]="i" 
+                        *ngIf="!field.hideColumn" [attr.colspan]="field.colSpan" [style.width]="field.width" ngClass="{'d-none': field.columnRemoved}" 
+                        (click)="sort(secObj, field);">
+                        <span class="rep_dropdown w-100"> {{field.name}} 
+                            <span *ngIf="secObj.showFilter && field.hideFilter != 'true'" id="filter_{{secObj.sectionId}}_{{$index}}" class="fa fa-filter cur-pointer"></span>
+                            <!-- <span *ngIf="secObj.showFilter && field.hideFilter != 'true'" id="filter_{{secObj.sectionId}}_{{$index}}" class="fa fa-filter cur-pointer" [ngClass]="{'filterApplied':field.filterValue && field.filterValue.length>0}" (click)="field.isFilter ? field.isFilter = false : field.isFilter = true; reports.updateFiterList(field, secObj.sectionId, i, $event);"></span> -->
+                            <i class="float-right fa position-relative right-05-em" *ngIf="secObj.sortKey==field.mapping && !secObj.lazyLoading?.needLazyLoading" [ngClass]="{'fa-caret-down':secObj.reverse,'fa-caret-up':!secObj.reverse}"></i>
+                        </span>
+                    </th>
+                </ng-container>
+            </tr>
+            <!-- Grid actual header tr ends -->
+        </thead>
+    </table>
+    <!-- Grid header table ends -->
+
+    <!-- Grid body table container starts -->
+    <div id="scrollDynamic_{{secObj.sectionId}}" class="scrollDynamic ep-infinite-scroll thin-scrollbar matrix-table-body-outer scrollDetect" (scroll)="gridScrollEvent($event);">
+        <table class="table matrix-table matrix-table-body">
+            <tbody>
+                <tr [hidden]="(record.epTreeInfo || {}).isHidden" *ngFor="let record of secObj.filteredRecordsPerPage; let parent_index = index" [attr.pagination-id]="secObj.sectionId">
+                    <ng-container *ngFor="let field of secObj.displayFields; let i = index">
+                        <td class="report-grid-cells white-space-pre-line {{themeBuilder.getThemeNameByCondition(record, field, parent_index, i, secObj.displayFields, undefined, secObj)}}" 
+                            *ngIf="!field.hideColumn" 
+                            [ngStyle]="{'width': field.width, 'text-align': (i==0 && secObj.reportSubType == 'hierarchy' ? 'left' : field.align), 'padding-left': ((i==0 && secObj.reportSubType == 'hierarchy' ? (((record.epTreeInfo || {}).indent*(record.isNodeLevelTotal?12:15))+'px') : '')), 'vertical-align': (field.verticalAlign || '')}">
+                            <span [hidden]="i!=0 && field.hideOnExpand && (record.epTreeInfo || {}).isExpanded && (record.epTreeInfo || {}).hasChild">
+                                <span (click)="toggleEC(secObj, record)" *ngIf="i==0 && (record.epTreeInfo || {}).hasChild" [ngClass]="{'fa-caret-down': (record.epTreeInfo || {}).isExpanded, 'fa-caret-right': !(record.epTreeInfo || {}).isExpanded}" class="fa pull-left c-p m-t-3"></span>
+                                {{(field.type == 'DrillDown' || field.type == 'HyperLink') ? '' : reports.getUpdatedFieldVal(secObj, record, field)}}
+                                <a class="report-hyperlink" *ngIf="field.type == 'HyperLink'" target="_blank" [href]="reports.editProperties.updateLinkName(record,field)">{{record[field.mapping]}}</a>
+                                <span class="report-ignore-hyperlink" *ngIf="field.type == 'HyperLink'">{{record[field.mapping]}}</span>
+                                <span class="report-drillDown-link" *ngIf="field.type == 'DrillDown'" title="{{field.drillDownDetails.hoverText}}" (click)="report_drillDown.navigate($event, field, record, secObj, section_parent_index);" [attr.drilldown-value]="record[field.mapping]" [attr.section-id]="section_parent_index">{{record[field.mapping]}}</span>
+                            </span>
+                        </td>
+                    </ng-container>
+                </tr>
+                <tr style="height: 35px;" *ngIf="showNoDataFoundCont">
+                    <td class="report-grid-cells text-left" [style.width.px]="reports.calculateWidth(secObj.displayFields)">
+                        <span class="ml-2 position-relative f-s-09rem" no-record-text>No matching records found</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Grid body table container ends -->
+
+    <!-- Hierarchy Grid footer table container starts -->
+    <table class="table matrix-table matrix-table-header hierarchy-footer" *ngIf="secObj.reportType == 'Data Grid' && secObj.reportSubType == 'hierarchy' && reports.reportMetaData.apiContent.fixedFooterRequired && secObj.footerRecord">
+        <tbody>
+            <tr>
+                <ng-container *ngFor="let field of secObj.displayFields; let i = index">
+                    <td class="report-grid-cells white-space-pre-line {{themeBuilder.getThemeNameByCondition(secObj.footerRecord, field, parent_index, i, secObj.displayFields, undefined, secObj)}}" 
+                        [ngStyle]="{'width': field.width, 
+                        'text-align': field.align,
+                        'vertical-align': (field.verticalAlign || '')}">{{(field.type == 'DrillDown' || field.type == 'HyperLink') ? '' : reports.getUpdatedFieldVal(secObj, secObj.footerRecord, field)}}
+                        <a class="report-hyperlink" *ngIf="field.type == 'HyperLink'" target="_blank" [href]="reports.editProperties.updateLinkName(secObj.footerRecord,field)">{{secObj.footerRecord[field.mapping]}}</a>
+                        <span class="report-ignore-hyperlink" *ngIf="field.type == 'HyperLink'">{{secObj.footerRecord[field.mapping]}}</span>
+                        <span class="report-drillDown-link" *ngIf="field.type == 'DrillDown'" title="{{field.drillDownDetails.hoverText}}" (click)="report_drillDown.navigate($event, field, secObj.footerRecord, secObj, section_parent_index);" [attr.drilldown-value]="secObj.footerRecord[field.mapping]" [attr.section-id]="section_parent_index">{{secObj.footerRecord[field.mapping]}}</span>
+                    </td>
+                </ng-container>
+                </tr>
+        </tbody>
+    </table>
+    <!-- Hierarchy Grid footer table container ends -->
+
+    <!-- Grid pagination container starts -->
+    <div class="row p-0 mt-2" *ngIf="secObj.reportType == 'Data Grid' && !secObj.hidePagination">
+        <div class="col-5">
+            <label class="text-dark">{{'Showing ' + (((this.pagerObj.startIndex < 0 && this.pagerObj.startIndex != -0) ? 0 : (this.pagerObj.startIndex + 1))) + ' to ' + (((this.pagerObj.endIndex < 0 && this.pagerObj.startIndex != -0) ? 0 : (this.pagerObj.endIndex + 1))) + ' of ' + (secObj.filteredSectionRecords.length || 0) + ' entries'}}</label>
+        </div>
+        <div class="col-7">
+            <ep-report-grid-pagination [secObj]="secObj" [items]="secObj.filteredSectionRecords" [pageSize]="secObj.paginationDetails.itemsPerPage" (changePage)="onChangePage($event)"></ep-report-grid-pagination>
+        </div>
+    </div>
+    <!-- Grid pagination container ends -->
+</div>

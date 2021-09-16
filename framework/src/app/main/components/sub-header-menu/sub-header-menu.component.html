@@ -1,0 +1,60 @@
+<!-- [style.top] = "exceedScrollLimit? headerHeight+'px': 'auto'"  -->
+<!-- <div id="sticky-wrapper" class="sticky-wrapper" [class.subHeaderStick] = "subHeaderTop" #subHeaderBox> -->
+  <div id="sticky-wrapper" class="sticky-wrapper" *appCustomDirectiveIf="getAccessSet['navigation']" [ngClass]="{'subHeadTopscroll' : cloudTopscroll, 'subCloudClass' : cloudPage, 'topReachScroll': topReach}">
+  <div class="main-header__tertiary-nav" style="width: auto;" (click)="revertScroll()">
+    <nav id="navigation">
+      <ul class="nav">
+        <li class="nav-item pr-20" *appCustomDirectiveIf="getAccessSet['dashboardPage']">
+          <a class="nav-link" routerLink="dashboard" routerLinkActive="active-route">
+            <svg class="nav-icon "><use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-dashboard"></use></svg>
+
+            <span class='ml-1'>Dashboard</span>
+            <small class="n-count hide-for-phase1">{{alertCount}}</small>
+          </a>
+
+        </li>
+        <ul class="nav-item" *appCustomDirectiveIf="getAccessSet['usersPage']">
+          <li class="nav-item forced-child-li" *ngIf="userRole == 'Primary Admin' || userRole == 'User Admin' || userRole == ''">
+            <a class="nav-link" routerLink="manage-users" routerLinkActive="active-route">
+            <svg class="nav-icon "><use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-user"></use></svg>
+              <span class='ml-1'>Users</span></a>
+          </li>
+        </ul>
+        <li class="nav-item" *appCustomDirectiveIf="getAccessSet['appsPage']">
+          <a class="nav-link" routerLinkActive="active-route" routerLink="my-apps">
+            <svg class="nav-icon "><use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-apps"></use></svg>
+            <span class='ml-1'>Apps</span>
+          </a>
+        </li>
+        <ul class="nav-item" *appCustomDirectiveIf="getAccessSet['cloudReportsPage']">
+          <li class="nav-item forced-child-li">
+            <a class="nav-link" routerLink="appdashboard" routerLinkActive="active-route">
+            <img class="nav-icon" src="./assets/images/dashboard/svg/cloud.svg">
+              <span class='ml-1'>Cloud Reports</span></a>
+          </li>
+        </ul>
+
+        <!-- <li class="nav-item" *appCustomDirectiveIf="getAccessSet['cloudReportsPage']">
+          <a class="nav-link" routerLink="appdashboard" routerLinkActive="active-route">
+            <svg class="nav-icon "><use xlink:href="./assets/images/dashboard/svg/cloud.svg"></use></svg>
+            <img class="nav-icon" src="./assets/images/dashboard/svg/cloud.svg">
+            <span>Cloud Reports</span>
+          </a>
+        </li> -->
+        <!-- <li class="nav-item">
+          <a class="nav-link" routerLink="reports" routerLinkActive="active-route">
+            <mat-icon>report</mat-icon>
+            <span>Reports</span>
+          </a>
+        </li> -->
+        <li class="nav-item hide-for-phase1">
+          <a class="nav-link" routerLinkActive="active-route" href='javascript:void(0)'>
+            <svg class="nav-icon "><use xlink:href="./assets/images/dashboard/svg/sprite.svg#icon-policies"></use></svg>
+            <span class='ml-1'> Policies</span>
+          </a>
+        </li>
+      </ul>
+      <!-- <span id="slide-line" style="width: 108.078px; left: 0px;"></span> -->
+    </nav>
+  </div>
+</div>

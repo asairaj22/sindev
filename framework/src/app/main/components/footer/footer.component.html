@@ -1,0 +1,298 @@
+<section class="footer">
+	<div class="footer-qa" data-target="#modal__enquiry-form" data-toggle="modal" (click)="onActiveQuestionsCheck()">
+		<img class="footer-qa__image" src="./assets/images/svg/mail-white.svg" alt="" />
+		<span class="footer-qa__label"><a>Any questions?</a></span>
+	</div>
+	<div class="footer__divider"></div>
+
+	<div class="footer__container container">
+		<div class="row mt-5 justify-content-between">
+			<div class="col col-12 col-lg-4 my-4 my-lg-2 d-flex align-items-start">
+				<a class="footerLogoMobileView" routerLink="home">
+					<img *ngIf="!showHead" class="main-footer__logo logo-wid-100"
+						src="./assets/images/logo/singtel-matrix-2.png" alt="">
+					<img *ngIf="showHead" class="main-footer__logo" src="./assets/images/logo/fox-logo.jpg" alt="">
+				</a>
+			</div>
+          <div class="col col-12 col-lg-4 my-4 my-lg-2 d-flex align-items-start">
+				<img class="mt-n1 mr-3" src="./assets/images/svg/home.svg" style="width: 36px;" />
+				<div style="width: calc(100% - 46px);">
+					<h6 class="mb-1 text-uppercase footer-heading">About Us</h6>
+					<p class="about-para">Singtel Matrix is the largest one-stop portal and Software-as-a-Service (SaaS)
+						marketplace for Small and Medium Enterprises in Singapore.</p>
+					<a class="link_blue" [routerLink]="['/about-us']">Learn more</a>
+				</div>
+			</div>
+			<div class="col col-12 col-lg-4 my-4 my-lg-2 d-flex align-items-start">
+				<img class="mt-n1 mr-3" src="./assets/images/svg/mail.svg" style="width: 36px;" />
+				<div style="width: calc(100% - 46px);">
+					<h6 class="mb-1 text-uppercase footer-heading">Contact Us</h6>
+					<p>Leave feedback or make an enquiry <a class="link_blue" (click)="openContactusPopup()">here</a></p>
+				</div>
+			</div>
+
+			
+
+		</div>
+	</div>
+</section>
+<section class="footer__rights">
+	<div class="container">
+		<div class="row justify-content-center justify-content-lg-start">
+			<div class="col col-10 col-lg-5 footer-color"><a href="https://smemobile.bizportal.singtel.com/shops/" target="_blank">Singtel mobile and broadband
+					shop</a>&nbsp;|&nbsp;<a href="https://www.singtel.com/" target="_blank">Singtel.com</a></div>
+
+			<div class="col col-10 col-lg-7">
+				<span class="footer-color">
+					<strong><a [routerLink]="['/terms']">Terms and Conditions.</a></strong>
+					<div class="clearfix d-lg-none"></div>
+					Copyright © Singtel (CRN: 199201624D) All Rights Reserved.
+				</span>
+			</div>
+		</div>
+	</div>
+</section>
+<div class="any_questions_modal modal fade" id="modal__enquiry-form" aria-labelledby="customiseDomainModalTitle"
+	aria-hidden="true" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
+						aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body" id="modal__enquiry">
+				<header class="modal-row">
+					<h3 id="" class="m-0">Send your questions and we&#039;ll get in touch.</h3>
+					<p id="" class="m-0">Fill in the form below to reach us and we will reply by the next working day.
+					</p>
+				</header>
+				<form [formGroup]="enquiryform" (ngSubmit)="onSubmit()" action=""
+					class="o365__form-base biz-billing-account-details__form mt-0">
+					<div class="modal-row">
+						<div class="row justify-content-between">
+							<div class="col-lg-4">
+								<div class="form-group mb-3" *ngIf="!isUserloggedIn">
+									<a class="small font-weight-bold login_statement" href="javascript:void(0)"
+										routerLink="/auth/login" data-dismiss="modal" aria-label="Close">Login</a>
+									<small class="login_statement"> to your account to speed up the process.</small>
+								</div>
+
+								<div class="form-group">
+									<label for="name">
+										<h6>Full Name<span class="opt"></span></h6>
+									</label>
+
+									<input class="form-control input_field" formControlName="name" id="name" type="text"
+										name="name" placeholder="" value=""
+										[readonly]="isUserloggedIn && readOnlyInput.name" />
+									<!-- name err msg -->
+									<div class="input-error invalid-feedback" id="form__name--error"
+										*ngIf="(eqForm.name.touched || formSubmitted) && eqForm.name.errors">
+										<span>Name is required</span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="companyName">
+										<h6>
+											Company Name
+											<span class="opt"></span>
+										</h6>
+									</label>
+
+									<input class="form-control input_field" id="companyName"
+										[readonly]="isUserloggedIn && readOnlyInput.companyName"
+										formControlName="companyName" type="text" name="companyName" placeholder=""
+										value="" />
+									<!-- cmny name err msg -->
+									<div class="input-error invalid-feedback" id="form__name--error"
+										*ngIf="(eqForm.companyName.touched || formSubmitted) && eqForm.companyName.errors">
+										<span>Company Name is required</span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="email">
+										<h6>
+											Business Email Address
+											<span class="opt"></span>
+										</h6>
+									</label>
+
+									<input class="form-control input_field" id="email"
+										[readonly]="isUserloggedIn && readOnlyInput.email" formControlName="email"
+										type="email" name="email" placeholder="" value="" appLowercase/>
+									<!-- email err msg -->
+									<div *ngIf="(eqForm.email.touched || formSubmitted) && eqForm.email.errors"
+										class="input-error invalid-feedback" id="form__email--error">
+										<span *ngIf="eqForm.email.errors.required">Business Email Address is required</span>
+										<span *ngIf="eqForm.email.errors.pattern">Invalid Email Id</span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									
+									<div class="form-group phoneBox">
+										<label class="phoneLabel" for="mobile">
+										<h6>
+											Business Contact
+											<span class="opt"></span>
+										</h6>
+									</label>
+										<div class="countryInput phoneBox">
+											<label class="countryLabel" (click)="getCountryList()"
+												[ngStyle]="{'background': isUserloggedIn && readOnlyInput.mobile ? '#e9ecef' : ''}">{{countryCodeLabel}}
+												<i class="fa fa-angle-down" *ngIf="!phoneDropdown"></i>
+												<i class="fa fa-angle-up" *ngIf="phoneDropdown"></i>
+                                                
+												</label>
+											<div class="countryDropdownManual top-none country-search-bar"
+												[class.showdropdown]="phoneDropdown">
+												<input class="form-control w-100percent" type="text" name="search"
+													formControlName="mobileSearch">
+												<a class="countryLink"
+													*ngFor="let country of countryCodes.default | filterBy: searchText"
+													(click)="getparticularCountry(country.dial_code)">{{country.dial_code}}
+													- {{country.name}}</a>
+											</div>
+										</div>
+										<!-- <div class="countryMobileNumber countryCode-border">  -->
+											<input formControlName="mobile" maxlength="8" numbersOnly
+												[readonly]="isUserloggedIn  && readOnlyInput.mobile"
+												autocomplete='new-phone' [ngClass]="{ 'is-invalid': (formSubmitted || eqForm.mobile.touched) && eqForm.mobile.errors}" class="form-control" />
+										<!-- </div> -->
+										<div *ngIf="(eqForm.mobile.touched || formSubmitted) && eqForm.mobile.errors"
+										class="input-error invalid-feedback" id="form__mobile--error">
+										<span *ngIf="eqForm.mobile.errors.required">Business Contact Number is required</span>
+										<div *ngIf="eqForm.mobile.errors.minlength">
+                                                            Please Enter 8 Digit Business Contact Number
+                                                    </div>
+										<!-- <span *ngIf="eqForm.mobile.errors.pattern">Invalid Business Contact Number</span>
+										<span *ngIf="eqForm.mobile.errors.minlength"> Please Enter 8 Digit Business Contact Number</span> -->
+									</div>
+									</div>
+
+									
+								</div>
+							</div>
+							<div class="border-right"></div>
+
+							<div class="col-lg-7" [ngClass]="!isUserloggedIn ? 'rightside_input_col_before_login' : ''">
+								<div class="form-group">
+									<label for="preferred-contact-mode">
+										<h6>
+											How would you like us to contact you?
+											<span class="opt"></span>
+										</h6>
+									</label>
+
+									<select class="form-control input_field" id="preferred-contact-mode"
+										formControlName="preferredcontactmode" name="preferred-contact-mode">
+										<option value="" hidden>- Please Select -</option>
+										<option value="Phone">By Phone</option>
+										<option value="Email">By Email</option>
+									</select>
+									<!-- preferred-contact err msg -->
+									<div class="input-error invalid-feedback" id="form__name--error"
+										*ngIf="(eqForm.preferredcontactmode.touched || formSubmitted) && eqForm.preferredcontactmode.errors">
+										<span>Preferred Contact is required</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="preferred-contact-mode">
+										<h6>
+											How can we help you today?
+											<span class="opt"></span>
+										</h6>
+									</label>
+									<select class="form-control input_field" formControlName="helpyoutoday"
+										(click)="onHelpQuestionPicked($event)">
+										<option value="" hidden>- Please Select -</option>
+
+										<option *ngFor="let domain of category" value={{domain.enquiryAbout}}>
+											{{domain.enquiryAbout}}</option>
+									</select>
+
+									<!-- helpyoutoday err msg -->
+									<div class="input-error invalid-feedback" id="form__name--error"
+										*ngIf="(eqForm.helpyoutoday.touched || formSubmitted) && eqForm.helpyoutoday.errors">
+										<span>Category is required</span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="about">
+										<h6>
+											Enquiry about
+											<span class="opt"></span>
+										</h6>
+									</label>
+									<input class="form-control input_field" id="about"
+										[readonly]="isPlanNameAvail === true && enquiryAboutValue != ''"
+										formControlName="about" type="text" name="about" placeholder="" value="" />
+									<!-- Enquiry err msg -->
+									<div class="input-error invalid-feedback" id="form__name--error"
+										*ngIf="(eqForm.about.touched || formSubmitted) && eqForm.about.errors">
+										<span>Enquiry is required</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="message">
+										<h6>
+											Your Message
+											<span class="opt"></span>
+										</h6>
+									</label>
+
+									<textarea class="form-control input_field message_field" rows="5" formControlName="message"
+										[placeholder]="messagePlaceholder" id="message" name="message"></textarea>
+									<!-- meessage err msg -->
+									<div class="input-error invalid-feedback" id="form__name--error"
+										*ngIf="(eqForm.message.touched || formSubmitted) && eqForm.message.errors">
+										<span>Message is required</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="form-check custom-checkbox">
+										<input formControlName="termscondition"
+											class="form-check-input custom-checkbox__input" id="tnc1" type="checkbox"
+											checked='false' name="tnc1" placeholder="" value="yes" required />
+										<label
+											class="form-check-label custom-checkbox__label custom-checkbox__label--small"
+											for="tnc1">I have read and agree to abide to the <a href="{{termsurl}}" target="_blank">Terms and Conditions.</a></label>
+										<!-- <div class="input-error" id="form__tnc1--error"><span class="input-error--message" style="display: none;">TNC error message</span></div> -->
+										<div *ngIf="enquiryform.controls.termscondition.errors && enquiryform.controls.termscondition.touched"
+											class="invalid-feedback">
+											<div *ngIf="enquiryform.controls.termscondition.errors.required">
+												Terms and condition is required
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="modal-row py-3 border-top">
+							<div class="form-group row no-gutters justify-content-between mb-0 mx-0 submitbutton_row">
+								<div>
+									<label class="col-form-label" >
+										<span>For enquiries on other Singtel services, please click <a
+											href="https://www.singtel.com/contact-us" target="_blank"
+											>here.</a>
+										</span>
+									</label>
+								</div>
+								<div class="col-auto">
+									<input type="submit" (click)="onSubmit()" data-dismiss="modal"
+									[ngStyle]="{'background-color': enquiryform.invalid ? '#FF3457' : '#FF3457'}"
+									[disabled]="enquiryform.invalid" value="Submit" class="btn btn-primary" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

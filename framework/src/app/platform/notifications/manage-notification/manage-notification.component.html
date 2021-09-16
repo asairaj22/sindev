@@ -1,0 +1,483 @@
+<div class="btn-section">
+    <span class="btn btn-primary event-log-screens mt-2" (click)="createRule(content, 'Create')">Create Rule</span>
+</div>
+<mat-tab-group (selectedTabChange)="tabClick($event)">
+    <mat-tab label="Active">
+        <div class="col-12">
+            <button class="btn rule-btn p-4 font-weight-bold" (click)="createRule(content,'Edit')"
+                [disabled]="selectedIndex == undefined"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                Edit</button>
+            <button class="btn rule-btn p-4  font-weight-bold" (click)="archiveData()"
+                [disabled]="selectedIndex == undefined"><i class="fa fa-archive" aria-hidden="true"></i>
+                Archive</button>
+        </div>
+        <div class="col-12">
+            <div class="row p-3">
+                <div class="col-md-1 pt-1 text-right">Page Size:</div>
+                <div class="col-md-1">
+                    <select class="form-control-sm" (change)="onPageSizeChanged(true)" id="page-size" [(ngModel)]="pageSize"
+                        [ngModelOptions]="{standalone: true}">
+                        <option value="10">10</option>
+                        <option value="100">100</option>
+                        <option value="500">500</option>
+                        <option value="1000">1000</option>
+                    </select>
+                </div>
+                <div class="col-md-7"></div>
+                <div class="col-md-3">
+                    <input type="text" id="filter-text-box" class="form-control float-right" [(ngModel)]="searchText"
+                        placeholder="Search..." (input)="onFilterTextBoxChanged(true)" />
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12 event-report-table-grid">
+            <ag-grid-angular class="ag-theme-balham" [rowData]="activeDataList"
+                [pagination]="true"
+                [rowHeight]="35" [domLayout]="domLayout"
+                [columnDefs]="columnDefs" [context]="context" [enableSorting]="true" [enableFilter]="true"
+                rowSelection="single" (gridReady)="onActiveGridReady($event)"
+                (selectionChanged)="onActiveSelectionChanged($event)" [frameworkComponents]="frameworkComponents">
+            </ag-grid-angular>
+        </div>
+    </mat-tab>
+    <mat-tab label="Draft">
+        <div class="col-12">
+            <button class="btn rule-btn p-4  font-weight-bold" (click)="createRule(content,'Edit')"
+                [disabled]="selectedIndex == undefined"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                Edit</button>
+            <button class="btn rule-btn p-4  font-weight-bold" (click)="deleteRule()"
+                [disabled]="selectedIndex == undefined"><i class="fa fa-times" aria-hidden="true"></i>
+                Delete</button>
+            <button class="btn rule-btn  p-4  font-weight-bold" (click)="activateRule()"
+                [disabled]="selectedIndex == undefined"><i class="fa fa-power-off" aria-hidden="true"></i>
+                Activate</button>
+        </div>
+        <div class="col-12">
+            <div class="row p-3">
+                <div class="col-md-1 pt-1 text-right">Page Size:</div>
+                <div class="col-md-1">
+                    <select class="form-control-sm" (change)="onPageSizeChanged(false)" id="page-size"
+                        [(ngModel)]="pageSize">
+                        <option value="10">10</option>
+                        <option value="100">100</option>
+                        <option value="500">500</option>
+                        <option value="1000">1000</option>
+                    </select>
+                </div>
+                <div class="col-md-7"></div>
+                <div class="col-md-3">
+                    <input type="text" id="filter-text-box" class="form-control float-right" [(ngModel)]="searchText"
+                        placeholder="Search..." (input)="onFilterTextBoxChanged(false)" />
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12 event-report-table-grid">
+            <ag-grid-angular class="ag-theme-balham" style="width: 100%;" [rowData]="draftDataList"
+                [pagination]="true"
+                [rowHeight]="35" [domLayout]="domLayout"
+                [columnDefs]="columnDefs" [context]="context" [enableSorting]="true" [enableFilter]="true"
+                rowSelection="single" (gridReady)="onDraftGridReady($event)"
+                (selectionChanged)="onDraftSelectionChanged($event)" [frameworkComponents]="frameworkComponents">
+            </ag-grid-angular>
+        </div>
+    </mat-tab>
+
+</mat-tab-group>
+
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title"> {{action}} Rule</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- Modal body -->
+    <form [formGroup]="ruleForm" #myForm='ngForm' (ngSubmit)="onSubmit($event)">
+        <div class="modal-body">
+
+
+            <div class="row">
+                <div class="col-md-15" style="width: 6%">
+                    Output
+                </div>
+                <div class="col-md-15" style="width: 35%">
+                    <input type="text" class="form-control" [(ngModel)]="singleRuleJson.rules[0].output.name"
+                        placeholder="Enter Output Name" formControlName="name">
+                    <div class="form-errors-text text-danger col-md-12  pt-2 pl-0"
+                        *ngIf="ruleForm?.get('name').hasError('required') && myForm.submitted">
+                        Output is Required
+                    </div>
+                </div>
+                <div class="col-md-15 text-right" style="width: 12%;">
+                    Notification Type
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" [(ngModel)]="notificationJson.ruleType"
+                        [ngModelOptions]="{standalone: true}">
+                        <option value="event">Event</option>
+                        <option value="push">Push</option>
+                    </select>
+                </div>
+                <div class="col-md-15 text-right" style="width: 12%" *ngIf="notificationJson.ruleType === 'push'">
+                    Limited Visibility
+                </div>
+                <div class="col-md-1 pt-1" *ngIf="notificationJson.ruleType === 'push'">
+                    <input type="checkbox" [checked]="notificationJson.visible" [(ngModel)]="notificationJson.visible"
+                        [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <ng-container *ngFor="let events of notificationJson.events; let i = index;">
+                <div class="row" *ngIf="notificationJson.ruleType === 'push'">
+                    <div class="col-md-15 pl-3"><span>Domain</span></div>
+                    <div class="col-md-15 pl-3"><span>Subdomain</span></div>
+                    <div class="col-md-15 pl-3"><span>Event</span></div>
+                    <div class="col-md-15 pl-3"><span>Template Prefix</span></div>
+                    <div class="col-md-15 pl-3"><span>Language</span></div>
+                    <div class="col-md-15">
+                        <select class="form-control" [(ngModel)]="notificationJson.pushDomainId"
+                            (change)="getSubdomains(notificationJson.pushDomainId,undefined)"
+                            [ngModelOptions]="{standalone: true}">
+                            <option value="undefined">--Select Domain--</option>
+                            <option *ngFor="let item of DOMAINS" value="{{item.id}}">{{item.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-15">
+                        <select class="form-control" [(ngModel)]="notificationJson.pushSubDomainId"
+                            (change)="getEvents(notificationJson.pushSubDomainId,undefined)"
+                            [ngModelOptions]="{standalone: true}">
+                            <option value="undefined">--Select Subdomain-- </option>
+                            <option *ngFor="let item of notificationJson?.PUSH_SUBDOMAINS" value="{{item.id}}">
+                                {{item.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-15">
+                        <select class="form-control" (change)="getTemplates(notificationJson.pushEventId)"
+                            [(ngModel)]="notificationJson.pushEventId" [ngModelOptions]="{standalone: true}">
+                            <option value="undefined">--Select Event-- </option>
+                            <option *ngFor="let item of notificationJson?.PUSH_EVENTS" value="{{item.id}}">{{item.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-15">
+                        <select class="form-control" (change)="setTemplateLanguage(notificationJson.templateprefix)"
+                            [(ngModel)]="notificationJson.templateprefix" *ngIf="notificationJson.ruleType === 'push'"
+                            [ngModelOptions]="{standalone: true}">
+                            <option value="">--Select Template-- </option>
+                            <option *ngFor="let item of notificationJson.PUSH_TEMPLATE" value="{{item.id}}">
+                                {{item.subject}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-15">
+                        <input type="text" class="form-control" [(ngModel)]="notificationJson.lang" disabled
+                            [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="row" *ngIf="notificationJson.ruleType === 'event'">
+                    <div class="col-md-4 pl-3"><span>Domain</span></div>
+                    <div class="col-md-4 pl-3"><span>Subdomain</span></div>
+                    <div class="col-md-4 pl-3"><span>Event</span></div>
+                    <div class="col-md-4">
+                        <select class="form-control" [(ngModel)]="events.domainId"
+                            (change)="getSubdomains(events.domainId,i)" [ngModelOptions]="{standalone: true}">
+                            <option value="">--Select Domain--</option>
+                            <option *ngFor="let item of DOMAINS" value="{{item.id}}">{{item.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control" [(ngModel)]="events.subdomainId"
+                            (change)="getEvents(events.subdomainId,i)" [ngModelOptions]="{standalone: true}">
+                            <option value="">--Select Subdomain-- </option>
+                            <option *ngFor="let item of SELECTED_RULE[i]?.SUBDOMAINS" value="{{item.id}}">{{item.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control" (change)="updateEvents(events.eventid,i)"
+                            [(ngModel)]="events.eventid" [ngModelOptions]="{standalone: true}">
+                            <option value="">--Select Event-- </option>
+                            <option *ngFor="let item of SELECTED_RULE[i]?.EVENTS" value="{{item.id}}">{{item.name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </ng-container>
+            <div class="row" *ngIf="notificationJson.ruleType === 'push'">
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="col-md-12 p-0">
+                                <div>To</div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 text-right">
+                            <div class="row p-0">
+                                <div class="col-md-6 text-right">
+                                    Dynamic
+                                </div>
+                                <div class="col-md-6 mt-1">
+                                    <label class="switch">
+                                        <input type="checkbox" [(ngModel)]="notificationJson.primaryRecipientsIsDynamic"
+                                            [ngModelOptions]="{standalone: true}">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-12 p-0">
+                            <input class="form-control" type="text" placeholder="email id's ':' separated"
+                                *ngIf="notificationJson.primaryRecipientsIsDynamic != true" [(ngModel)]="notificationJson.primaryRecipients"
+                                formControlName="toEmailId">
+                            <div class="form-errors-text text-danger" *ngIf="notificationJson.primaryRecipientsIsDynamic != true"
+                                [hidden]="!ruleForm?.get('toEmailId').hasError('incorrectEmail')">
+                                Incorrect email id
+                            </div>
+                            
+                            <div cdkDropList [cdkDropListData]="draggedEmail"
+                                (cdkDropListDropped)="drop($event,'to')" id="emailDropList" *ngIf="notificationJson.primaryRecipientsIsDynamic == true">
+                                <input class="form-control" type="text" placeholder="Drag & Drop attribute here"
+                                [(ngModel)]="notificationJson.primaryRecipients"  [ngModelOptions]="{standalone: true}">
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="col-md-12 p-0">
+                                <div>CC</div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <div class="row p-0">
+                                <div class="col-md-6 text-right">
+                                    Dynamic
+                                </div>
+                                <div class="col-md-6 mt-1">
+                                    <label class="switch">
+                                        <input type="checkbox" [(ngModel)]="notificationJson.ccIsDynamic"
+                                            [ngModelOptions]="{standalone: true}">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-12">
+                            <input class="form-control" type="text" placeholder="email id's ':' separated"
+                                *ngIf="notificationJson.ccIsDynamic != true" [(ngModel)]="notificationJson.cc" formControlName="ccEmailId">
+                            <div class="form-errors-text text-danger" *ngIf="notificationJson.ccIsDynamic != true" 
+                                [hidden]="!ruleForm?.get('ccEmailId').hasError('incorrectEmail')">
+                                Incorrect email id
+                            </div>
+                            <div cdkDropList [cdkDropListData]="draggedEmail"
+                                (cdkDropListDropped)="drop($event,'cc')" id="emailCCDropList"  *ngIf="notificationJson.ccIsDynamic == true">
+                            <input class="form-control" type="text" placeholder="Drag & Drop attribute here"
+                                [(ngModel)]="notificationJson.cc" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="col-md-12 p-0">
+                                <div>BCC</div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <div class="row p-0">
+                                <div class="col-md-6 text-right">
+                                    Dynamic
+                                </div>
+                                <div class="col-md-6 mt-1">
+                                    <label class="switch">
+                                        <input type="checkbox" [(ngModel)]="notificationJson.bccIsDynamic"
+                                            [ngModelOptions]="{standalone: true}">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12">
+                            <input class="form-control" type="text" placeholder="email id's ':' separated"
+                                *ngIf="notificationJson.bccIsDynamic != true" [(ngModel)]="notificationJson.bcc" formControlName="bccEmailId">
+                            <div class="form-errors-text text-danger" *ngIf="notificationJson.bccIsDynamic != true"
+                                [hidden]="!ruleForm?.get('bccEmailId').hasError('incorrectEmail')">
+                                Incorrect email id
+                            </div>
+                            <div cdkDropList [cdkDropListData]="draggedEmail"
+                                (cdkDropListDropped)="drop($event,'bcc')" id="emailBCCDropList" *ngIf="notificationJson.bccIsDynamic == true">
+                            <input class="form-control" type="text" placeholder="Drag & Drop attribute here"
+                                 [(ngModel)]="notificationJson.bcc" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row p-0 mt-15">
+                <div class="col-3">
+                    <label class="font-weight-bold">Nodes</label>
+                    <div class="input-group unorderList">
+                        <ul class="m-0 p-0">
+                            <li class="width-align" *ngFor="let node of nodesData">
+                                <div class="form-group form-check mb-0">
+                                    <input type="checkbox" class="form-check-input" id="{{node.id}}"
+                                        (change)="onNodeSelected(node,$event)" [checked]=checkNodeName(node)>
+                                    <label class="form-check-label" for="{{node.id}}">{{node.model}}</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <label class="font-weight-bold">Attributes</label>
+                    <div class="input-group mb-1">
+                        <input type="text" class="form-control form-control-sm" placeholder="Recipient's username"
+                            [(ngModel)]="highlight" [ngModelOptions]="{standalone: true}"
+                            (keyup)="showHighlited($event)" aria-label="Recipient's username"
+                            aria-describedby="button-addon2">
+                    </div>
+                    <ul class="unorderList accordian-styles">
+                        <ngb-accordion #acc="ngbAccordion" *ngFor="let attribute of nodeAttributes; let i = index">
+                            <ngb-panel id="custom{{i}}" class="ngb-panel-wrapper">
+                                <ng-template ngbPanelHeader let-opened="opened">
+                                    <div class="d-flex align-items-center justify-content-between">
+
+                                        <button ngbPanelToggle class="btn btn-link p-0">
+                                            <i *ngIf="!opened" class="fa fa-plus"></i>
+                                            <i *ngIf="opened" class="fa fa-minus"></i>
+                                            {{attribute.model}}
+                                        </button>
+
+                                    </div>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <div cdkDropList [cdkDropListData]="attribute.attributes" id="sourceDivNoti"
+                                        [cdkDropListConnectedTo]="['targetDivNoti', 'emailDropList', 'emailCCDropList', 'emailBCCDropList']" #nodefirstList1="cdkDropList"
+                                        (cdkDropListDropped)="drop($event, attribute)"
+                                        (cdkDropListExited)="exited($event, attribute)" class="col-12">
+                                        <ng-container *ngFor="let eachAttribute of attribute.attributes">
+                                            <li [cdkDragData]="eachAttribute" cdkDrag class="attributes-child">
+                                                <i class="fa fa-envira"></i>
+                                                {{eachAttribute.name}}</li>
+                                        </ng-container>
+                                    </div>
+
+                                </ng-template>
+                            </ngb-panel>
+                        </ngb-accordion>
+                    </ul>
+                </div>
+                <div class="col-6">
+                    <label class="font-weight-bold">Rules</label>
+                    <section class="graph">
+                        <div class="rule-customization">
+                            <div cdkDropList [cdkDropListData]="selectedPlaceHoldeInputs" id="targetDivNoti"
+                                (cdkDropListDropped)="drop($event,attribute)">
+                                <div *ngFor="let eachModel of singleRuleJson.rules[0].inputs">
+                                    <h6> {{eachModel.node}}</h6>
+                                    <div class="row p-0">
+                                        <div class="col-lg-12"><label class="mr-2">{{eachModel.attribute}}</label><i
+                                                class="fa fa-trash" (click)="deleteAttribute(eachModel)"></i></div>
+                                        <div class="col-lg-2">
+                                            <select class="form-control form-control-sm"
+                                                [(ngModel)]="eachModel.operator" [ngModelOptions]="{standalone: true}">
+                                                <option value="undefined">Select</option>
+                                                <option *ngFor="let item of instOperators" value="{{item}}">{{item}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <select class="form-control form-control-sm" [(ngModel)]="eachModel.type"
+                                                [ngModelOptions]="{standalone: true}">
+                                                <option value="undefined">Select</option>
+                                                <option *ngFor="let item of instTypes" value="{{item}}">{{item}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3" *ngIf="eachModel.type === 'string'">
+                                            <input type="text" class="form-control form-control-sm"
+                                                [(ngModel)]="eachModel.value" aria-describedby="button-addon2"
+                                                [ngModelOptions]="{standalone: true}">
+                                        </div>
+                                        <div class="col-lg-7" *ngIf="eachModel.type === 'date'">
+                                            <div class="row p-0">
+                                                <div class="col-md-10">
+                                                    <input type="date" class="form-control form-control-sm"
+                                                        placeholder="yyyy-MM-DDTHH:mm:ss"
+                                                        [(ngModel)]="eachModel.dateValue"
+                                                        aria-describedby="button-addon2"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <span>or</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="row">
+                                                        <div class="col-6"><input type="text"
+                                                                class="form-control-sm small-input"
+                                                                [(ngModel)]="eachModel.days"
+                                                                [ngModelOptions]="{standalone: true}"></div>
+                                                        <div class="col-6"><span>Days/</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="row">
+                                                        <div class="col-6"><input type="text"
+                                                                class="form-control-sm small-input"
+                                                                [(ngModel)]="eachModel.months"
+                                                                [ngModelOptions]="{standalone: true}"></div>
+                                                        <div class="col-6"><span>Months/</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="row">
+                                                        <div class="col-6"><input type="text"
+                                                                class="form-control-sm small-input"
+                                                                [(ngModel)]="eachModel.years"
+                                                                [ngModelOptions]="{standalone: true}"></div>
+                                                        <div class="col-6"><span>Year</span></div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer p-2">
+            <button type="submit" class="btn btn-primary event-log-screens">Save</button>
+            <button type="button" class="btn btn-secondary event-log-screens"
+                (click)="modal.close('Close click')">Cancel</button>
+        </div>
+    </form>
+    <!-- </form> -->
+</ng-template>

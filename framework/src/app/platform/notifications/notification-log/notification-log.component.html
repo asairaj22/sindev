@@ -1,0 +1,264 @@
+<div class="row h-100">
+    <div class="col-12 mb-10">
+        <h1 class="log-header-title notification-header-title">Notification History </h1>
+    </div>
+    <div class="col-12 mb-10">
+        <div class="row">
+            <div class="col-md-4">
+                <label>Domain</label>
+                <select class="form-control" [(ngModel)]="SEARCHCRITERIA.domainId"
+                    (change)="getSubdomains(SEARCHCRITERIA.domainId,SEARCHCRITERIA)">
+                    <option value="undefined">--Select Domain--</option>
+                    <option *ngFor="let domain of DOMAINS" value={{domain.id}}>{{domain.name}}</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label>Subdomain</label>
+                <select class="form-control" [(ngModel)]="SEARCHCRITERIA.subdomainId"
+                    (change)="getEvents(SEARCHCRITERIA.subdomainId,SEARCHCRITERIA)">
+                    <option value="undefined">--Select Subdomain--</option>
+                    <option *ngFor="let subdomain of SEARCHCRITERIA.SUBDOMAINS" value={{subdomain.id}}>
+                        {{subdomain.name}}</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label>Event</label>
+                <select class="form-control" [(ngModel)]="SEARCHCRITERIA.eventId">
+                    <option value="undefined">--Select Event--</option>
+                    <option *ngFor="let event of SEARCHCRITERIA.EVENTS" value={{event.id}}>{{event.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label>To</label>
+                <input class="form-control" type="text" placeholder="email ids ';' separated"
+                    [(ngModel)]="SEARCHCRITERIA.primaryRecipients">
+            </div>
+            <div class="col-md-4">
+                <label>CC</label>
+                <input class="form-control" type="text" [(ngModel)]="SEARCHCRITERIA.cc"
+                    placeholder="email ids ';' separated">
+            </div>
+            <div class="col-md-4">
+                <label>BCC</label>
+                <input class="form-control" type="text" [(ngModel)]="SEARCHCRITERIA.bcc"
+                    placeholder="email ids ';' separated">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4" id="start-time">
+                <label>Start Time</label>
+                <angular2-date-picker [ngModel]="startTimePicked" placeholder="Datepicker"
+                    [settings]="customRangeSettings" (onDateSelect)="onDateSelect($event, 'start-time')">
+                </angular2-date-picker>
+            </div>
+            <div class="col-md-4" id="end-time">
+                <label>End Time</label>
+                <angular2-date-picker [ngModel]="endTimePicked" placeholder="Datepicker"
+                    [settings]="customRangeSettings" (onDateSelect)="onDateSelect($event, 'end-time')">
+                </angular2-date-picker>
+            </div>
+            <div class="col-md-4">
+                <div class="row pt-4">
+                    <div class="col-md-4 pt-2">
+                        Sent <input class="ml-3" [(ngModel)]="SEARCHCRITERIA.sent" type="checkbox">
+                    </div>
+                    <div class="col-md-8">
+                        <button class="btn btn-xs btn-outline-primary pull-right  ml-3"
+                            (click)="clearNotificationHistory()">Clear</button>
+                        <button class="btn btn-xs btn-outline-primary pull-right"
+                            (click)="searchNotificationHistory()">Search</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 event-report-table-grid mt-5">
+        <div class="row p-3">
+            <div class="col-md-1 pl-0 pt-1 text-right page-text">Page Size:</div>
+            <div class="col-md-1">
+                <select (change)="onPageSizeChanged()" id="page-size" [(ngModel)]="pageSize"
+                    [ngModelOptions]="{standalone: true}">
+                    <option value="10">10</option>
+                    <option value="100">100</option>
+                    <option value="500">500</option>
+                    <option value="1000">1000</option>
+                </select>
+            </div>
+            <div class="col-md-7"></div>
+            <div class="col-md-3 pr-0">
+                <input type="text" id="filter-text-box" class="float-right" [(ngModel)]="searchText"
+                    placeholder="Search..." (input)="onFilterTextBoxChanged()" />
+            </div>
+        </div>
+        <ag-grid-angular class="ag-theme-balham" [rowData]="SEARCH_NOTIFICATION_HISTORY_output" [pagination]="true"
+            [domLayout]="domLayout" [columnDefs]="columnDefs" [context]="context" [enableSorting]="true"
+            [enableFilter]="true" (gridReady)="onGridReady($event)" [frameworkComponents]="frameworkComponents">
+        </ag-grid-angular>
+    </div>
+</div>
+
+<ng-template #ViewContent let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title"> Notification</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body p-0">
+        <div class="container details-container">
+            <div class="row ml-3 mt-3">
+                <div class="col-md-2 mb-2">
+                    <label>Domain</label>
+                </div>
+                <div class="col-md-10 mb-2">
+                    {{selectedRow.domain}}
+                </div>
+                <div class="col-md-2 mb-2">
+                    <label>Subdomain</label>
+                </div>
+                <div class="col-md-10 mb-2">
+                    {{selectedRow.subdomain}}
+                </div>
+                <div class="col-md-2 mb-2">
+                    <label>Event</label>
+                </div>
+                <div class="col-md-10 mb-2">
+                    {{selectedRow.event}}
+                </div>
+                <div class="col-md-2 mb-2">
+                    <label>Sent</label>
+                </div>
+                <div class="col-md-10 mb-2">
+                    {{selectedRow.sent}}
+                </div>
+                <div class="col-md-2 mb-2">
+                    <label>Sent On</label>
+                </div>
+                <div class="col-md-10 mb-2">
+                    {{selectedRow.createdDate}}
+                </div>
+                <div class="col-md-2 mb-2">
+                    <label>To</label>
+                </div>
+                <div class="col-md-10 mb-2">
+                    {{selectedRow.primaryRecipients}}
+                </div>
+                <div class="col-md-2 mb-2">
+                    <label>CC</label>
+                </div>
+                <div class="col-md-10 mb-2">
+                    {{selectedRow.cc}}
+                </div>
+                <div class="col-md-2 mb-2">
+                    <label>BCC</label>
+                </div>
+                <div class="col-md-10 mb-2">
+                    {{selectedRow.bcc}}
+                </div>
+                <div class="col-md-2 mb-2">
+                    <label>Object Id</label>
+                </div>
+                <div class="col-md-10 mb-2">
+                    {{selectedRow.objectId}}
+                </div>
+                <div class="col-md-2 mb-2">
+                    <label>Subject</label>
+                </div>
+                <div class="col-md-10 mb-2">
+                    <textarea class="form-control" rows="4" disabled [(ngModel)]='selectedRow.subject'></textarea>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <label>Body</label>
+                </div>
+                <div class="col-md-10 mb-2">
+                    <textarea class="form-control" rows="4" disabled [(ngModel)]='selectedRow.body'></textarea>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <label>Event Data</label>
+                </div>
+                <div class="col-md-10 mb-2">
+                    <textarea class="form-control" rows="4" disabled [(ngModel)]='selectedRow.eventdata'></textarea>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <label>Retry Count</label>
+                </div>
+                <div class="col-md-10 mb-2">
+                    <label>{{selectedRow.retrycount}}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer p-2">
+        <button type="button" class="btn btn-secondary event-log-screens"
+            (click)="modal.close('Close click')">Cancel</button>
+    </div>
+</ng-template>
+<ng-template #resendView let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title"> Resend Notification</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body p-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="pull-right">TO : </label>
+                </div>
+                <div class="col-md-8">
+                    <label>{{selectedRow.primaryRecipients}}</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="pull-right">TO : </label>
+                </div>
+                <div class="col-md-8">
+                    <label>{{selectedRow.primaryRecipients}}</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="pull-right">CC : </label>
+                </div>
+                <div class="col-md-8">
+                    <label>{{selectedRow.cc}}</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="pull-right">BCC : </label>
+                </div>
+                <div class="col-md-8">
+                    <label>{{selectedRow.bcc}}</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="pull-right">Subject : </label>
+                </div>
+                <div class="col-md-8">
+                    <label>{{selectedRow.subject}}</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="pull-right">Body : </label>
+                </div>
+                <div class="col-md-8">
+                    <label>{{selectedRow.body}}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer p-2">
+        <button type="button" class="btn btn-primary event-log-screens" (click)="resendNotification()">Send</button>
+        <button type="button" class="btn btn-secondary event-log-screens"
+            (click)="modal.close('Close click')">Cancel</button>
+    </div>
+</ng-template>

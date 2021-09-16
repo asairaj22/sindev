@@ -1,0 +1,1416 @@
+<div class="offer-customize-wrapper" *ngIf="isDataAvailable" [class.addCloudBtm]="topReach">
+<!-- #docregion label-position -->
+<mat-horizontal-stepper class="container" labelPosition="bottom" #stepper *ngIf="isLoggedInUser">
+<!-- #enddocregion label-position -->
+  <ng-template matStepperIcon="edit">
+    <mat-icon>check</mat-icon>
+  </ng-template>
+  <mat-step >
+      <div>
+         <ng-template matStepLabel>{{innerWindowWidth > 991 ? 'Subscription' : '1'}}</ng-template>
+         <main id="o365-recommend-plan">
+
+            <button class="btn btn-primary" style="display: none;" #proceedPopUp data-toggle="modal" data-target="#pay-with-modal">
+                  Proceed
+            </button>
+
+            <div class="modal fade" id="pay-with-modal" aria-labelledby="customiseDomainModalTitle" aria-hidden="true" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg "  role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body" id="modal-pay-with-modal__body">
+  <div class="modal-row">
+    <h3 id="" class="">Pay with a Singtel billing account</h3>
+    <p id="" class="">Make monthly/yearly payments for your purchases.</p>
+    <h6 id="" class="fnt-wgt-600">Have an existing Singtel billing account?</h6>
+    <p id="" class="">Review your order and pay with your Singtel billing account.</p>
+    <a class="btn btn-secondary text-bold" data-dismiss="modal" aria-label="Close" href="javascript:void(0)" id="offerCustomize-popup-proceedWithPurchase">Proceed with purchase</a>  </div>
+  <div class="modal-row">
+    <div class="accordion__wrapper">
+      <h6 id="" class="fnt-wgt-600 mb20">Don't have a Singtel billing account?</h6>
+      <p id="" class="">Please email to <a href="javascript:void(0)"> buycloud@singtel.com </a> for creating a Singtel Billing Account.<br/>
+         Our executives will get in touch with you.</p>      
+      <div class="accordion">
+        <div class="card">
+          <div class="card-header" href="javascript:void(0)" aria-expanded="false" data-toggle="collapse" data-target="#modal-collapse--one">
+              <p id="" class="learn-text">Learn how to create an account</p>
+              <img id="" class="modal--down" src="././assets/images/svg/chevron--down.svg" alt="down" width="" height="" />
+              <img id="" class="modal--up" src="././assets/images/svg/chevron--up.svg" alt="down" width="" height="" />
+          </div>
+          <div class="collapse" id="modal-collapse--one">
+            <div class="card-body">
+                <p id="" class="">Head down to our Singtel shop Comcentre with the following documents:</p>
+              <ul>
+                <li>
+                    <p id="" class="mt-0">Company Business Profile (must be within the month of application)</p>                </li>
+                <li>
+                    <p id="" class="mt-0">Letter of Authorisation for the Bearer (under Company letterhead)</p>                </li>
+                <li>
+                    <p id="" class="mt-0">Original Bearer's documents: NRIC or Employment Pass/ Staff Pass (together with photo identification, e.g. Passport)</p>                </li>
+              </ul>
+              <table>
+                <tr>
+                  <td colspan="2" valign="top">
+
+                    <p id="" class="mt-0 table__header">Singtel shop Comcenter</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top">
+                    <p id="" class="mt-0">Address:</p>                  
+                  </td>
+                  <td valign="top">
+                    <p id="" class="mt-0">31 Exeter Road, Comcentre Business Counter, Singapore 239833</p>                  
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top">
+                    <p class="mt-0">Hours:</p>
+                  </td>
+                  <td valign="top">
+                    <p class="mt-0">
+                      Daily 10:30am - 7:30pm
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top">
+                    <p id="" class="mt-0">Phone:</p>
+                  </td>
+                  <td valign="top">
+                    <p id="" class="mt-0">6235 1688</p>                  
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>    
+</div>
+  </div>
+</div>  
+            <div class="container breadcrumb-wrapper">
+               <div class="row">
+                  <div class="col-12"><a href="javascript:void(0)" 
+                  (click)="goBackCloud(paramId)">‹ Back to Cloud Services</a></div>
+               </div>
+            </div>
+            <div class="container o365__header-wrapper text-center">
+               <div class="row">
+                  <div class="col-12">
+                     <h1 class="fnt-wgt-300">Your subscription type</h1>
+                  </div>
+               </div>
+            </div>
+            <form class="o365__form-base recommend-plan__form">
+               <div class="container">
+                  <div class="row justify-content-center">
+                     <div class="col-12">
+                        <div class="form__wrapper">
+                           <div class="recommended-plan__header">
+                              <img class="header__image" src="{{productLogo}}" alt="product logo">
+                              <div class="header__content">
+                                 <div class="header__content-details">
+                                 <h3 class="fnt-wgt-300">{{productDetailData.name}}</h3>
+                                 
+                                 <p><span class="users fnt-wgt-500">1 Account</span></p>                    
+                                 </div>
+                                 <div class="header__content-cost">
+                                 <h6><span class="cost fnt-wgt-600">S${{prodAmount}}.00</span>
+                                 </h6>
+                                 <p class="fnt-wgt-500">(Per Account)</p>
+                                 </div>
+                              </div>
+                              <div class="header__cta-wrapper">
+                                 <button class="btn btn-primary" [disabled]="radioSelected" *ngIf="userName" id="offerCustomise-subscription-proceed"
+                                 mat-button matStepperNext (click) = "proceedBtn()">
+                                    Proceed
+                                 </button>
+                                 <button class="btn btn-primary"  *ngIf="!userName" id="offerCustomise-subscription-SignUpPageProceed"
+                                 mat-button (click) = "showSignInSignUpPage()">
+                                    Proceed
+                                 </button>
+                              </div>
+                           </div>
+                        <div class="form-group">
+                        <h6 class="form-label fnt-wgt-600">Subscription Type:</h6><span class="form-sub-label">Select the subscription type to proceed further.</span>
+                        <div class="row form-group--row">
+                              <div class="col-12 col-lg-6">
+                                 <div class="form-check custom-radio">
+                                    <input type="radio" class="form-check-input custom-radio__input" value="greenField" (change)="subscriTypeChange($event)" id="subscription-greenorbrown-greenField" name="greenOrBrown" >
+                                    <label class="form-check-label custom-selector-panel btm-padding-50 offer-cust-custom-selector custom-selector-panel--radio" for="subscription-greenorbrown-greenField">
+                                          <div class="custom-selector-panel-content">
+                                             <h6 id="" class="fnt-wgt-600">Create new 
+                                                <span *ngIf="cloudType == 'aws'">AWS Subscription</span>
+                                                <span *ngIf="cloudType == 'azure'">Azure Subscription</span>
+                                                <span *ngIf="cloudType == 'gcp'">GCP Subscription</span>
+                                                </h6>
+                                          </div>
+                                    </label>
+                                </div>                       
+                            </div>
+                              <div class="col-12 col-lg-6">
+                                 <div class="form-check custom-radio">
+                                    <input type="radio" class="form-check-input custom-radio__input" [disabled]= "cloudType == 'gcp'" value="brownField" (change)="subscriTypeChange($event)" id="subscription-greenorbrown-brownField" name="greenOrBrown">
+                                    <label class="form-check-label btm-padding-50 offer-cust-custom-selector custom-selector-panel custom-selector-panel--radio" for="subscription-greenorbrown-brownField">
+                                          <div class="custom-selector-panel-content">
+                                             <h6 id="" class="fnt-wgt-600">Transfer my existing 
+                                                <span *ngIf="cloudType == 'aws'">AWS Subscription</span>
+                                                <span *ngIf="cloudType == 'azure'">Azure Subscription</span>
+                                                <span *ngIf="cloudType == 'gcp'">GCP Subscription</span>
+                                                </h6>
+                                          </div>
+                                    </label>
+                                 </div>                          
+                              </div>
+                        </div>
+                        </div>
+                     </div>
+                     </div>
+                  </div>
+            </div>
+         </form>
+         </main>
+      </div>
+  </mat-step>
+  <mat-step>
+    <div>
+      <ng-template matStepLabel>{{innerWindowWidth > 991 ? 'Customise' : '2'}}</ng-template>
+      <main id="o365-account-details">
+  
+  <div class="container breadcrumb-wrapper">
+    <div class="row">
+      <div class="col-12"><a href="javascript:void(0)" (click)="goBack(stepper)">‹ Back to Subscription Type</a></div>
+    </div>
+</div>
+  
+  <div class="container o365__header-wrapper text-center">
+    <div class="row">
+      <div class="col-12">
+        <h1 class="fnt-300">Customise Your Plan</h1>
+      </div>
+    </div>
+  </div>
+  <form [formGroup]="myCustomizeForms" class="o365__form-base account-details__form" (ngSubmit)="onSubmit()" >
+    <div class="container" #divToScroll>
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+          <div class="form__wrapper">
+            <h3 class="customize-header hrz-btm">Please provide the following Details for {{productDetailData.name}}</h3>
+            <ng-container *ngIf = "greenOrBrownField == 'brownField' && cloudType == 'aws'">
+                <div class="row">
+                <div class="col-12 col-lg-8 col-lg-6--form">
+                    <div class="form-group">
+                    <label for="customise-myCustomizeForms-accId"><span class="label__title">AWS Account ID</span><span class="mandatory_mark">&nbsp;*</span></label>
+                    <small class="form-text text-muted" id="email-help">This is the 12 digit AWS Account ID</small>
+                    <input class="form-control" id="customise-myCustomizeForms-accId" autocomplete='new-accId'
+                    maxlength="12" formControlName="accId" type="text" placeholder="Account ID" name="" [ngClass]="{ 'is-invalid': myCustomizeForms.controls.accId.errors && myCustomizeForms.controls.accId.touched }" >
+                    <div *ngIf="myCustomizeForms.controls.accId.errors && myCustomizeForms.controls.accId.touched"
+                           class="invalid-feedback">
+                           <div *ngIf="myCustomizeForms.controls.accId.errors.pattern || myCustomizeForms.controls.accId.errors.required || myCustomizeForms.controls.accId.errors.minlength || myCustomizeForms.controls.accId.errors.maxlength">
+                              Enter 12 Digit Number
+                           </div>
+                     </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="input-error" id="form__full-name--error" style="display: none;"><span class="input-error--message">Full name error message</span></div>
+                </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-check custom-checkbox">
+                                 <input class="form-check-input custom-checkbox__input" id="customise-myCustomizeForms-custFeatureAwsId" formControlName="custFeatureAwsId" type="checkbox" name="cc1" placeholder="" value="yes" checked="">
+                                 <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="customise-myCustomizeForms-custFeatureAwsId">
+                                    Customer owns the AWS Account ID
+                                 </label>          
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check custom-checkbox">
+                                <input class="form-check-input custom-checkbox__input" id="customise-myCustomizeForms-custFeatureSeettleAmt" type="checkbox" formControlName="custFeatureSeettleAmt" name="cc2" placeholder="" value="yes" checked="">
+                                <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="customise-myCustomizeForms-custFeatureSeettleAmt">
+                                     Customer shall settle any outstanding billing amount with AWS
+                                 </label>          
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check custom-checkbox">
+                                 <input class="form-check-input custom-checkbox__input" id="customise-myCustomizeForms-custFeatureStandAlone" formControlName="custFeatureStandAlone" type="checkbox" name="cc3" placeholder="" value="yes" checked="">
+                                 <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="customise-myCustomizeForms-custFeatureStandAlone">
+                                    The AWS Account ID is a standalone AWS account and not a linked account
+                                 </label>          
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check custom-checkbox">
+                                 <input class="form-check-input custom-checkbox__input" id="customise-myCustomizeForms-custFeaturePayment" formControlName="custFeaturePayment" type="checkbox" name="cc4" placeholder="" value="yes" checked="">
+                                 <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="customise-myCustomizeForms-custFeaturePayment">
+                                    The AWS Account ID has been setup with valid AWS payment method
+                                 </label>          
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check custom-checkbox">
+                                 <input class="form-check-input custom-checkbox__input" id="customise-myCustomizeForms-custFeatureRelation" formControlName="custFeatureRelation" type="checkbox" name="cc5" placeholder="" value="yes" checked="">
+                                 <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="customise-myCustomizeForms-custFeatureRelation">
+                                    The AWS Account ID is not associated with an AWS Trust relationship
+                                 </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf = "greenOrBrownField == 'greenField' && cloudType == 'aws'">
+                <div class="row">
+                <div class="col-12 col-lg-8 col-lg-6--form">
+                    <div class="form-group">
+                    <label for="customise-myCustomizeForms-accname"><span class="label__title">AWS Account Name</span><span class="mandatory_mark">&nbsp;*</span></label>
+                    <small class="form-text text-muted" id="email-help">Please provide an Account Name </small>
+                    <input class="form-control" id="customise-myCustomizeForms-accname" maxlength="50" minlength="1" autocomplete='new-accname' (change) ="accChange()" formControlName="accname" type="text" name="awsAccname" [ngClass]="{ 'is-invalid': myCustomizeForms.controls.accname.errors && myCustomizeForms.controls.accname.touched }">
+                    <div *ngIf="myCustomizeForms.controls.accname.errors && myCustomizeForms.controls.accname.touched"
+                           class="invalid-feedback">
+                           <div *ngIf="myCustomizeForms.controls.accname.errors.required">
+                              AWS Account Name is required
+                           </div>
+                           <div *ngIf="myCustomizeForms.controls.accname.errors.pattern">
+                              Please enter valid AWS Account Name. Can contain only A to Z, a to z and 0-9
+                           </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="input-error" id="form__full-name--error" style="display: none;"><span class="input-error--message">Full name error message</span></div>
+                </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-12">
+                        <label for="customise-myCustomizeForms-emailAdd"><span class="label__title">AWS Group ID</span><span class="mandatory_mark">&nbsp;*</span></label>
+                    <small class="form-text text-muted" id="email-help">Please enter Distribution email ID</small>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <input class="form-control" formControlName="emailAdd" id="customise-myCustomizeForms-emailAdd" autocomplete='new-emailAdd' type="text" name="emailAdd" placeholder="" value="" [ngClass]="{ 'is-invalid': myCustomizeForms.controls.emailAdd.errors && myCustomizeForms.controls.emailAdd.touched }">  
+                         <div *ngIf="myCustomizeForms.controls.emailAdd.errors && myCustomizeForms.controls.emailAdd.touched"
+                           class="invalid-feedback">
+                           <div *ngIf="myCustomizeForms.controls.emailAdd.errors.required">
+                              AWS Group ID is required
+                           </div>
+                           <div *ngIf="myCustomizeForms.controls.emailAdd.errors.pattern">
+                              Please enter a valid AWS Group ID
+                           </div>
+                        </div>
+                    </div>
+                    <div class="col col-lg-4">
+                        <button type="button" id="customise-myCustomizeForms-sendorResendOTP" class="btn btn-primary" mat-button (click)="sendOtp(myCustomizeForms.controls.emailAdd.value)" [disabled]="myCustomizeForms.controls.emailAdd.invalid">{{awsSendOptCount === 0 ? 'Send OTP' : 'Resend OTP'}} </button>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-12">
+                        <label for="customise-myCustomizeForms-emailVeri"><span class="label__title">Email Verification Code</span></label>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <input class="form-control" id="customise-myCustomizeForms-emailVeri" formControlName="emailVeri" type="text" name="emailVeri" autocomplete='new-emailVeri' placeholder="" value="">                      
+                        <div class="input-error" style="display: none;"><span class="input-error--message">OTP error message</span></div>
+                    </div>
+                    <div class="col col-lg-4">
+                        <button type="button" id="customise-myCustomizeForms-verifyOTP" class="btn btn-primary" mat-button (click)="verifyOtp(myCustomizeForms.controls.emailVeri.value)" [disabled]="myCustomizeForms.controls.emailVeri.invalid">Verify OTP</button>
+                    </div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf = "greenOrBrownField == 'greenField' && cloudType == 'azure'">
+               <div class="row">
+                  <div class="col-12 col-lg-8 col-lg-6--form">
+                     <div class="form-group mt-0">
+                        <label for="customise-myCustomizeForms-azureDname"><span class="label__title">Primary Domain Name</span><span class="mandatory_mark">&nbsp;*</span></label>
+                        <small class="form-text text-muted">This is your unique Domain Name</small>
+                        <div class="input-group-domain">
+                           <input class="form-control domain-name-input" (blur)="getDomainExist($event)" autocomplete='new-azureDname' formControlName="azureDname" id="customise-myCustomizeForms-azureDname" type="text" name="name" [ngClass]="{ 'is-invalid': myCustomizeForms.controls.azureDname.errors && myCustomizeForms.controls.azureDname.touched }">
+                           <p class="domain-sub-name">.onmicrosoft.com</p>
+                        </div>
+                        <div *ngIf="myCustomizeForms.controls.azureDname.errors && myCustomizeForms.controls.azureDname.touched || getDomainAlreadyExist"
+                           class="invalid-feedback" [ngClass]="{ 'dis-blk': myCustomizeForms.controls.azureDname.errors && myCustomizeForms.controls.azureDname.touched }">
+                           <div *ngIf="myCustomizeForms.controls.azureDname.errors">
+                              Primary Domain Name is required
+                           </div>
+                        </div>
+                        <div *ngIf="getDomainAlreadyExist" class="invalid-feedback" style="display:block">
+                              Domain Name Already Exist
+                           </div>
+                     </div>
+                  </div>
+               </div>
+
+                <div class="row">
+                <div class="col-12 col-lg-8 col-lg-6--form">
+                    <div class="form-group">
+                    <label for="customise-myCustomizeForms-azureFname"><span class="label__title">Azure Contact First Name</span><span class="mandatory_mark">&nbsp;*</span></label>
+                    <input class="form-control" id="customise-myCustomizeForms-azureFname" formControlName="azureFname" autocomplete='new-azureFname' type="text" name="azureFname" [ngClass]="{ 'is-invalid': myCustomizeForms.controls.azureFname.errors && myCustomizeForms.controls.azureFname.touched }">
+
+                     <div *ngIf="myCustomizeForms.controls.azureFname.errors && myCustomizeForms.controls.azureFname.touched"
+                           class="invalid-feedback">
+                           <div *ngIf="myCustomizeForms.controls.azureFname.errors.required">
+                              Azure Contact First Name is required
+                           </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="input-error" style="display: none;"><span class="input-error--message">Full name error message</span></div>
+                </div>
+                </div>
+
+                
+                <div class="row">
+                <div class="col-12 col-lg-8 col-lg-6--form">
+                    <div class="form-group">
+                    <label for="customise-myCustomizeForms-azureLname"><span class="label__title">Azure Contact Last Name</span><span class="mandatory_mark">&nbsp;*</span></label>
+                    <input class="form-control" id="customise-myCustomizeForms-azureLname" formControlName="azureLname" autocomplete='new-azureLname' type="text" name="azureLname" [ngClass]="{ 'is-invalid': myCustomizeForms.controls.azureLname.errors && myCustomizeForms.controls.azureLname.touched }">
+
+                    <div *ngIf="myCustomizeForms.controls.azureLname.errors && myCustomizeForms.controls.azureLname.touched"
+                           class="invalid-feedback">
+                           <div *ngIf="myCustomizeForms.controls.azureLname.errors.required">
+                              Azure Contact Last Name is required
+                           </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="input-error" style="display: none;"><span class="input-error--message">Full name error message</span></div>
+                </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-12">
+                        <label for="customise-myCustomizeForms-azurePostCode"><span class="label__title">Postal Code</span><span class="mandatory_mark">&nbsp;*</span></label>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <input class="form-control" id="customise-myCustomizeForms-azurePostCode" formControlName="azurePostCode" autocomplete='new-azurePostCode' type="text" name="azurePostCode" placeholder="" value="" [ngClass]="{ 'is-invalid': myCustomizeForms.controls.azurePostCode.errors && myCustomizeForms.controls.azurePostCode.touched }">                      
+                        <div class="input-error" style="display: none;"><span class="input-error--message">OTP error message</span></div>
+                         <div *ngIf="myCustomizeForms.controls.azurePostCode.errors && myCustomizeForms.controls.azurePostCode.touched"
+                           class="invalid-feedback">
+                           <div *ngIf="myCustomizeForms.controls.azurePostCode.errors.required">
+                              Postal Code is required
+                           </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col col-lg-4">
+                        <a href="javascript:void(0)" class="btn  btn-primary btn-info--otp js-btn-verify-otp">Get Address</a>
+                    </div> -->
+                    </div>
+                </div>
+
+                
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-12">
+                        <label for="customise-myCustomizeForms-azureAdd"><span class="label__title">Address</span><span class="mandatory_mark">&nbsp;*</span></label>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <input class="form-control" formControlName="azureAdd" id="customise-myCustomizeForms-azureAdd" autocomplete='new-azureAdd' type="text" name="azureAdd" placeholder="" value="" [ngClass]="{ 'is-invalid': myCustomizeForms.controls.azureAdd.errors && myCustomizeForms.controls.azureAdd.touched }">                      
+                        <div class="input-error" style="display: none;"><span class="input-error--message">OTP error message</span></div> 
+                        <div *ngIf="myCustomizeForms.controls.azureAdd.errors && myCustomizeForms.controls.azureAdd.touched"
+                           class="invalid-feedback">
+                           <div *ngIf="myCustomizeForms.controls.azureAdd.errors.required">
+                              Address is required
+                           </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                
+                <!-- <div class="form-group">
+                  <div class="row">
+                  <div class="col-12">
+                      <label for="azureCity"><span class="label__title">City</span><span class="mandatory_mark">&nbsp;*</span></label>
+                  </div>
+                  </div>
+                  <div class="row">
+                  <div class="col-12 col-lg-8">
+                      <input class="form-control" formControlName="azureCity" id="azureCity" type="text" name="azureCity" placeholder="" value="" [ngClass]="{ 'is-invalid': myCustomizeForms.controls.azureCity.errors && myCustomizeForms.controls.azureCity.touched }">                      
+                      <div *ngIf="myCustomizeForms.controls.azureCity.errors && myCustomizeForms.controls.azureCity.touched"
+                           class="invalid-feedback">
+                           <div *ngIf="myCustomizeForms.controls.azureCity.errors.required">
+                              City is required
+                           </div>
+                        </div>
+                  </div>
+                  </div>
+              </div>
+
+
+              
+              <div class="form-group">
+               <div class="row">
+               <div class="col-12">
+                   <label for="azureCountry"><span class="label__title">Country</span><span class="mandatory_mark">&nbsp;*</span></label>
+               </div>
+               </div>
+               <div class="row">
+               <div class="col-12 col-lg-8">
+                   <input class="form-control" formControlName="azureCountry" id="azureCountry" type="text" name="azureCountry" placeholder="" value="" [ngClass]="{ 'is-invalid': myCustomizeForms.controls.azureCountry.errors && myCustomizeForms.controls.azureCountry.touched }">                      
+                   <div *ngIf="myCustomizeForms.controls.azureCountry.errors && myCustomizeForms.controls.azureCountry.touched"
+                        class="invalid-feedback">
+                        <div *ngIf="myCustomizeForms.controls.azureCountry.errors.required">
+                           Country is required
+                        </div>
+                     </div>
+               </div>
+               </div>
+           </div> -->
+
+
+
+                
+          <div>
+            <div class="row">
+            <div class="col-12 col-lg-8">
+
+            <div class="form-group phoneBox">
+            <label for="mobile" class="phoneLabel">
+              <span class="label__title">Azure Contact Phone No.</span>
+              <span class="mandatory_mark">&nbsp;*</span>
+            </label>
+
+            <!-- <div [ngClass]="{ 'is-invalid-phone': myCustomizeForms.controls.azurephone.errors && myCustomizeForms.controls.azurephone.touched }">
+            <ngx-intl-tel-input [cssClass]="'form-control inputPhone'" [preferredCountries]="preferredCountries" (paste)="teleChangePaste($event,'myCustomizeForms','azurephone')" (change)="teleChange('myCustomizeForms','azurephone')" 
+              [enableAutoCountrySelect]="false" [enablePlaceholder]="true" [searchCountryFlag]="true"
+              [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
+              [selectedCountryISO]="CountryISO.Singapore" [maxLength]="15" [tooltipField]="TooltipLabel.Name"
+              [phoneValidation]="true" [separateDialCode]="true" name="phone" formControlName="azurephone">
+            </ngx-intl-tel-input>
+            </div> -->
+
+            <div class="countryInput">
+               <label class="countryLabel" (click)="getAzureCountryList()">{{countryCodeLabel}}</label>
+               <div class="countryDropdownManual" [class.showdropdown]="azurePhoneDropdown">
+                  <input class="form-control w-100percent" type="text" id="customise-myCustomizeForms-azureMobileSearch" name="azureMobileSearch" maxlength="15" formControlName="azureMobileSearch" [(ngModel)]="azureSearchText">
+                  <a class="countryLink" *ngFor="let country of countryCodes.default | filterBy: azureSearchText"  (click)="getazureparticularCountry(country.dial_code)">{{country.dial_code}} - {{country.name}}</a>
+               </div>
+            </div>
+            <span class="hidedropdownnumber"></span>
+            <input type="text" class="form-control" numbersOnly maxlength="8" id="customise-myCustomizeForms-azurephone" autocomplete='new-azurephone' formControlName="azurephone" name="azurephone" [ngClass]="{ 'is-invalid': (submitted || myCustomizeForms.controls.azurephone.touched) && myCustomizeForms.controls.azurephone.errors }" appCustomInput/>
+
+            <!-- <div *ngIf="(submitted || f.mobilePhone.touched) && f.mobilePhone.errors" class="invalid-feedback">
+                     Mobile is required
+            </div> -->
+            <div *ngIf="myCustomizeForms.controls.azurephone.errors && myCustomizeForms.controls.azurephone.touched" class="invalid-feedback">
+               <div *ngIf="myCustomizeForms.controls.azurephone.errors.required">
+                  Azure Contact Phone Number is required
+               </div>
+               <div *ngIf="myCustomizeForms.controls.azurephone.errors.minlength" class="invalid-feedback">
+                                                            Please Enter 8 Digit Business Contact Number
+                                                    </div>
+            </div>
+            </div>
+                    </div>
+                    </div>
+          </div>
+
+
+          <div class="form-group">
+                    <div class="row">
+                    <div class="col-12">
+                        <label for="customise-myCustomizeForms-azureEmailAdd"><span class="label__title">Azure Contact Email Address</span><span class="mandatory_mark">&nbsp;*</span></label>
+
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <input class="form-control" formControlName="azureEmailAdd" id="customise-myCustomizeForms-azureEmailAdd" autocomplete='new-azureEmailAdd' type="text" name="azureEmailAdd" placeholder="" value="" [ngClass]="{ 'is-invalid': myCustomizeForms.controls.azureEmailAdd.errors && myCustomizeForms.controls.azureEmailAdd.touched }">
+                         <div *ngIf="myCustomizeForms.controls.azureEmailAdd.errors && myCustomizeForms.controls.azureEmailAdd.touched"
+                           class="invalid-feedback">
+                           <div *ngIf="myCustomizeForms.controls.azureEmailAdd.errors.required">
+                              Azure Contact Email Address is required
+                           </div>
+                           <div *ngIf="myCustomizeForms.controls.azureEmailAdd.errors.pattern">
+                              Please enter a valid Azure Contact Email Address
+                           </div>
+                        </div>
+
+                        <div class="input-error" style="display: none;"><span class="input-error--message">OTP error message</span></div>
+                    </div>
+                    <div class="col col-lg-4">
+                        <button type="button" class="btn btn-primary" mat-button (click)="sendOtp(myCustomizeForms.controls.azureEmailAdd.value)" [disabled]="myCustomizeForms.controls.azureEmailAdd.invalid">{{azureSendOptCount === 0 ? 'Send OTP' : 'Resend OTP'}}</button>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-12">
+                        <label for="customise-myCustomizeForms-azureEmailVerif"><span class="label__title">Email Verification Code</span></label>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <input class="form-control" id="customise-myCustomizeForms-azureEmailVerif" type="text" autocomplete='new-azureEmailVerif' formControlName="azureEmailVerif" name="azureEmailVerif" placeholder="" value="">                      
+
+                        <div class="input-error" style="display: none;"><span class="input-error--message">OTP error message</span></div>
+                    </div>
+                    <div class="col col-lg-4">
+                        <button type="button" if="customise-myCustomizeForms-azureverifyOTP" class="btn btn-primary" mat-button (click)="verifyOtp(myCustomizeForms.controls.azureEmailVerif.value)" [disabled]="myCustomizeForms.controls.azureEmailVerif.invalid">Verify OTP</button>
+                    </div>
+                    </div>
+                </div>
+
+            </ng-container>
+
+            <!-- Azure BrownField -->
+            <ng-container *ngIf = "greenOrBrownField == 'brownField' && cloudType == 'azure'">
+                <!-- <div class="row">
+                  <div class="col-12 col-lg-8 col-lg-6--form">
+                     <div class="form-group mt-0">
+                        <label for="domainName"><span class="label__title">Domain Name</span><span class="mandatory_mark">&nbsp;*</span></label>
+                        <small class="form-text text-muted">This domain name is linked to your Microsoft account</small>
+                        <div class="input-group-domain">
+                           <input class="form-control domain-name-input" formControlName="domainName" (change) ="accChange()" id="domainName" type="text" name="domainName" placeholder="" value="" 
+                        [ngClass]="{ 'is-invalid': myCustomizeForms.controls.domainName.errors && myCustomizeForms.controls.domainName.touched }">
+                           <p class="domain-sub-name">.onmicrosoft.com</p>
+                        </div>
+                        <div *ngIf="myCustomizeForms.controls.domainName.errors && myCustomizeForms.controls.domainName.touched"
+                           class="invalid-feedback">
+                           <div *ngIf="myCustomizeForms.controls.domainName.errors.required">
+                              Domain Name is required
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                </div> -->
+
+                <div class="form-group">
+                     <div class="row">
+                        <div class="col-12">
+                              <label for="customise-myCustomizeForms-domainName"><span class="label__title">Domain Name</span></label>
+                              <small class="form-text text-muted" id="email-help">This domain name is linked to your Microsoft account</small>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-12 col-lg-8 input-azure-id">
+                           <input class="form-control domain-name-input" id="customise-myCustomizeForms-domainName" formControlName="domainName" autocomplete='new-domainName' (change) ="accChange()" id="domainName" type="text" name="domainName" placeholder="" value="" 
+                              [ngClass]="{ 'is-invalid': myCustomizeForms.controls.domainName.errors && myCustomizeForms.controls.domainName.touched }">  
+                           <p class="domain-sub-name domain-azure-brown">.onmicrosoft.com</p>
+                           <div *ngIf="myCustomizeForms.controls.domainName.errors && myCustomizeForms.controls.domainName.touched"
+                              class="invalid-feedback">
+                              <div *ngIf="myCustomizeForms.controls.domainName.errors.required">
+                                 Domain Name is required
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                
+
+                <div class="row">
+                <div class="col-12 col-lg-8 col-lg-6--form">
+                    <div class="form-group">
+                    <label for="customise-myCustomizeForms-azureBrownEmailAdd"><span class="label__title">Email Address</span><span class="mandatory_mark">&nbsp;*</span></label>
+                     <small class="form-text text-muted" id="email-help">Please enter your email address</small>
+                    <input class="form-control" id="customise-myCustomizeForms-azureBrownEmailAdd" formControlName="azureBrownEmailAdd" type="text" name="" autocomplete='new-azureBrownEmailAdd'
+                    [ngClass]="{ 'is-invalid': myCustomizeForms.controls.azureBrownEmailAdd.errors && myCustomizeForms.controls.azureBrownEmailAdd.touched }">
+                    <div *ngIf="myCustomizeForms.controls.azureBrownEmailAdd.errors && myCustomizeForms.controls.azureBrownEmailAdd.touched"
+                           class="invalid-feedback">
+                           <div *ngIf="myCustomizeForms.controls.azureBrownEmailAdd.errors.required">
+                              Email Address is required
+                           </div>
+                           
+                           <div *ngIf="myCustomizeForms.controls.azureBrownEmailAdd.errors.pattern">
+                              Email Address must be a valid email format
+                           </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="input-error" id="form__full-name--error" style="display: none;"><span class="input-error--message">Full name error message</span></div>
+                </div>
+                </div>
+                
+                
+
+                <!-- <div class="row">
+                <div class="col-12 col-lg-8 col-lg-6--form">
+                    <div class="form-group">
+                    <label for="azure-acc-id"><span class="label__title">Microsoft ID</span><span class="mandatory_mark">&nbsp;*</span></label>
+                    <input class="form-control" id="azure-acc-id" formControlName="microsoftID" type="text" name="" 
+                    [ngClass]="{ 'is-invalid': myCustomizeForms.controls.microsoftID.errors && myCustomizeForms.controls.microsoftID.touched }" 
+                    (keyup)="accChange()">
+                    <div *ngIf="myCustomizeForms.controls.microsoftID.errors && myCustomizeForms.controls.microsoftID.touched"
+                           class="invalid-feedback">
+                           <div *ngIf="myCustomizeForms.controls.microsoftID.errors.required">
+                              Microsoft ID is required
+                           </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="input-error" id="form__full-name--error" style="display: none;"><span class="input-error--message">Full name error message</span></div>
+                </div>
+                </div> -->
+            </ng-container>
+            <!-- Azure BrownField -->
+
+            
+            <ng-container *ngIf = "greenOrBrownField == 'greenField' && cloudType == 'gcp'">
+                <div class="row">
+                <div class="col-12 col-lg-8 col-lg-6--form">
+                    <div class="form-group">
+                    <label for="customise-myCustomizeForms-gcpaccname"><span class="label__title">Google Cloud Project Name</span><span class="mandatory_mark">&nbsp;*</span></label>
+                    <small class="form-text text-muted">This is your unique Project Name</small>
+                    <input class="form-control" id="customise-myCustomizeForms-gcpaccname" formControlName="gcpaccname" autocomplete='new-gcpaccname' type="text" placeholder="First name" name="gcpaccname">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="input-error" style="display: none;"><span class="input-error--message">Full name error message</span></div>
+                </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-12">
+                        <label for="customise-myCustomizeForms-gcpemailAdd"><span class="label__title">Google Cloud Subscription Email</span><span class="mandatory_mark">&nbsp;*</span></label>
+                    <!-- <small class="form-text text-muted" id="email-help">This is your valid email address</small> -->
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <input class="form-control" formControlName="gcpemailAdd" id="customise-myCustomizeForms-gcpemailAdd" autocomplete='new-gcpemailAdd' type="text" name="gcpemailAdd" placeholder="" value="">                      
+                        <!-- <input class="form-control" id="otp" type="text" placeholder=""> -->
+                        <div class="input-error" style="display: none;"><span class="input-error--message">OTP error message</span></div>
+                    </div>
+                    <div class="col col-lg-4">
+                        <a href="javascript:void(0)" class="btn btn-primary btn-info--otp js-btn-verify-otp">Send OTP</a>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                    <div class="col-12">
+                        <label for="customise-myCustomizeForms-gcpemailVerif"><span class="label__title">Email Verification Code</span></label>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <input class="form-control" id="customise-myCustomizeForms-gcpemailVerif" formControlName="gcpemailVerif" autocomplete='new-gcpemailVerif' type="text" name="gcpemailVerif" placeholder="" value="">                      
+                        <!-- <input class="form-control" id="otp" type="text" placeholder=""> -->
+                        <div class="input-error" style="display: none;"><span class="input-error--message">OTP error message</span></div>
+                    </div>
+                    <div class="col col-lg-4">
+                        <a href="javascript:void(0)" class="btn  btn-primary btn-info--otp js-btn-verify-otp">Verify OTP</a>
+                    </div>
+                    </div>
+                </div>
+            </ng-container>
+            <div class="pdf-top hide">
+               <p class="pdf-header" *ngIf="cloudType == 'aws'">AWS Customer Agreement</p>
+               <p class="pdf-header" *ngIf="cloudType == 'azure'">Azure Customer Agreement</p>
+               <p class="pdf-header" *ngIf="cloudType == 'gcp'">GCP Customer Agreement</p>
+               <div class="downloadpdf"><a href="javascript:void(0)" (click)="downloadPdf()" style="cursor:pointer">
+                  <i class="fa fa-file-pdf-o"></i><label> Save PDF</label></a>
+               </div>
+            </div>
+                                       
+            <div class="pdfviewerclass hide">
+               <pdf-viewer [src]="customerAgreePdf" [render-text]="true" [original-size]="false"></pdf-viewer>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-12">
+                       <p class="cust-agree-para">*I/We agree to subscribe for Singtel Public Cloud Service and Singtel Cloud Lifecycle Service on the following terms and conditions, which terms and conditions shall apply on Singtel's acceptance.</p>
+                    </div>
+                    <div class="col-12" *ngFor="let pdfDetail of pdfLinkSpec">
+                        <div class="form-check custom-checkbox" *ngIf="pdfDetail.name == 'General Terms and Conditions'">
+                            <input class="form-check-input custom-checkbox__input" id="customise-myCustomizeForms-genTermCond" formControlName="genTermCond" type="checkbox" name="genTermCond" placeholder="" value="yes" checked="">
+                            <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="customise-myCustomizeForms-genTermCond">Singtel's 
+                                <a href="{{pdfDetail.pdfLink}}" target="_blank"> General Terms and Conditions</a> for Enterprise
+                           </label>          
+                        </div>
+
+                        
+                        <div class="form-check custom-checkbox" *ngIf="pdfDetail.name == 'Billing Terms and Conditions'">
+                            <input class="form-check-input custom-checkbox__input" id="customise-myCustomizeForms-billTermCond" formControlName="billTermCond" type="checkbox" name="billTermCond" placeholder="" value="yes" checked="">
+                            <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="customise-myCustomizeForms-billTermCond">Singtel's 
+                                <a href="{{pdfDetail.pdfLink}}" target="_blank"> Billing Terms and Conditions</a>
+                           </label>          
+                        </div>
+
+                        
+                        <div class="form-check custom-checkbox" *ngIf="pdfDetail.name == 'Specific Terms and Conditions'">
+                            <input class="form-check-input custom-checkbox__input" id="customise-myCustomizeForms-specTermCond" formControlName="specTermCond" type="checkbox" name="specTermCond" placeholder="" value="yes" checked="">
+                            <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="customise-myCustomizeForms-specTermCond">Singtel's 
+                                <a href="{{pdfDetail.pdfLink}}" target="_blank">Specific Terms and Conditions </a>for Singtel Public Cloud Service and Singtel Cloud Lifecycle Service
+                           </label>          
+                        </div>
+
+                        
+                        <div class="form-check custom-checkbox" *ngIf="pdfDetail.name == 'AWS Customer Agreement'">
+                            <input class="form-check-input custom-checkbox__input" id="customise-myCustomizeForms-awsTermCond" formControlName="awsTermCond" type="checkbox" name="awsTermCond" placeholder="" value="yes" checked="">
+                            <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="customise-myCustomizeForms-awsTermCond">
+                                <a href="{{pdfDetail.pdfLink}}" target="_blank">AWS Customer Agreement </a>
+                           </label>          
+                        </div>
+
+                        
+                        <div class="form-check custom-checkbox" *ngIf="pdfDetail.name == 'Microsoft Azure Agreement'">
+                            <input class="form-check-input custom-checkbox__input" id="customise-myCustomizeForms-azureTermCond" formControlName="azureTermCond" type="checkbox" name="azureTermCond" placeholder="" value="yes" checked="">
+                            <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="customise-myCustomizeForms-azureTermCond">
+                                <a href="{{pdfDetail.pdfLink}}" target="_blank">Microsoft Azure Agreement</a>
+                           </label>          
+                        </div>
+
+                        
+                        <div class="form-check custom-checkbox" *ngIf="pdfDetail.name == 'AWS Solution Provider'">
+                            <!-- <input class="form-check-input custom-checkbox__input" id="agreeProd" formControlName="agreeProd" type="checkbox" name="agreeProd" placeholder="" value="yes" checked=""> -->
+                            <!-- <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" > -->
+                              <a href="{{pdfDetail.pdfLink}}" target="_blank">Click here </a> to read AWS Solution Provide Program - Program Guide for End Customers
+                           <!-- </label>           -->
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-12">
+                        <div class="form-check custom-checkbox">
+                            <input class="form-check-input custom-checkbox__input" id="agreeProd" formControlName="agreeProd" type="checkbox" name="agreeProd" placeholder="" value="yes" checked="">
+                            <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="agreeProd">I have read and agree to the EULA Terms of Service as shown in the above document & 
+                                <a href="javascript:void(0)">
+                                    Singtel’s Product specific Terms & Conditions</a></label>          
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check custom-checkbox">
+                            <input class="form-check-input custom-checkbox__input" id="agreeMar" formControlName="agreeMar" type="checkbox" name="agreeMar" placeholder="" value="yes" checked="">
+                            <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="agreeMar">I have read and agree to the
+                                <a href="javascript:void(0)">Singtel Matrix Marketplace’s Terms & Conditions</a></label>      
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4">
+          <div id="order-summary-sticky-wrapper" 
+          class="sticky-wrapper is-sticky posRel">
+          <div class="form__wrapper offer-proceed-wrapper" [class.headerStick]="headerStick" [style.marginTop.px]= "marginTopStatic? marginStaticValue : '0'"  id="order-summary" #divProceedStatic>
+            <h4>Order Summary</h4>
+            <div class="form-group hrz-btm">
+              <div class="row">
+                <div class="col-7">
+                  <h6 class="fnt-wgt-600">{{productDetailData.name}}</h6>
+                  <p *ngIf="greenOrBrownField == 'greenField'">New Account</p>
+                  <p *ngIf="greenOrBrownField == 'brownField'" >Transfer Existing Account</p>
+                </div>
+                <div class="col-5 d-flex flex-column align-items-end">
+                  <h6 class="fnt-wgt-600">S${{prodAmount}}.00</h6>
+                  <p>per account</p>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" id="customise-myCustomizeForms-proceed" class="btn btn-primary" matStepperNext mat-button 
+            (click)="proceedToCustomize()" [disabled]="myCustomizeForms.invalid || emailverificationDone || getDomainAlreadyExist">Proceed</button>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </form>
+</main>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>{{innerWindowWidth > 991 ? 'Review Order' : '3'}}</ng-template>
+    
+
+    <main id="o365-review-order">
+  
+
+
+<!-- <div class="modal fade" id="pay-with-modal" aria-labelledby="customiseDomainModalTitle" aria-hidden="true" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg "  role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body" id="modal-pay-with-modal__body">
+  <div class="modal-row">
+    <h3 id="" class="">Pay With A Singtel Billing Account</h3>
+    <p id="" class="">Make monthly/yearly payments for your purchases.</p>
+    <h6 id="" class="">Have an existing Singtel billing account?</h6>
+    <p id="" class="">Review your order and pay with your Singtel billing account.</p>
+    <a class="btn btn-secondary" data-dismiss="modal" aria-label="Close" href="javascript:void(0)" (click)="goForward(stepper)">Proceed To Payment</a>  </div>
+  <div class="modal-row">
+    <div class="accordion__wrapper">
+      <h6 id="" class="">Don't have a Singtel billing account?</h6>      
+      <div class="accordion">
+        <div class="card">
+          <div class="card-header" href="javascript:void(0)" aria-expanded="false" data-toggle="collapse" data-target="#modal-collapse--one">
+              <p id="" class="">Learn how to create an account</p>
+              <img id="" class="modal--down" src="././assets/images/svg/chevron--down.svg" alt="down" width="" height="" />
+              <img id="" class="modal--up" src="././assets/images/svg/chevron--up.svg" alt="down" width="" height="" />
+          </div>
+          <div class="collapse" id="modal-collapse--one">
+            <div class="card-body">
+                <p id="" class="">Head down to our Singtel shop Comcentre with the following documents:</p>
+              <ul>
+                <li>
+                    <p id="" class="mt-0">Company Business Profile (must be within the month of application)</p>                </li>
+                <li>
+                    <p id="" class="mt-0">Letter of Authorisation for the Bearer (under Company letterhead)</p>                </li>
+                <li>
+                    <p id="" class="mt-0">Original Bearer's documents: NRIC or Employment Pass/ Staff Pass (together with photo identification, e.g. Passport)</p>                </li>
+              </ul>
+              <table>
+                <tr>
+                  <td colspan="2" valign="top">
+
+                    <p id="" class="mt-0 table__header">Singtel shop Comcenter</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top">
+                    <p id="" class="mt-0">Address:</p>                  
+                  </td>
+                  <td valign="top">
+                    <p id="" class="mt-0">31 Exeter Road, Comcentre Business Counter, Singapore 239833</p>                  
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top">
+                    <p class="mt-0">Hours:</p>
+                  </td>
+                  <td valign="top">
+                    <p class="mt-0">
+                      Daily 10:30am - 7:30pm
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top">
+                    <p id="" class="mt-0">Phone:</p>
+                  </td>
+                  <td valign="top">
+                    <p id="" class="mt-0">6235 1688</p>                  
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>    
+</div>
+  </div>
+</div>   -->
+  <div class="container breadcrumb-wrapper">
+    <div class="row">
+      <div class="col-12"><a href="javascript:void(0)" (click)="goBack(stepper)">‹ Back to Customise</a></div>
+    </div>
+</div>
+  
+  
+  <div class="container o365__header-wrapper text-center">
+    <div class="row">
+      <div class="col-12">
+        <h1 id="" class="review-order-head">Review Your Order</h1>      
+      </div>
+    </div>
+  </div>
+  <form class="o365__form-base review-order-biz-billing__form">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+          <div class="form__wrapper">
+            <div class="accordion" id="accordion">
+              <div class="card">
+                    <div class="card-header collapsed" data-toggle="collapse" href="#accordion__one-time" aria-expanded="false">
+                        <span class="header">
+                    <!-- <h4 class="fnt-normal">One-time charges</h4> -->
+                    <h4 class="fnt-normal">Plan</h4>
+                    </span>
+                    <span class="summary">
+                    <!-- <h4 class="price" id="accordion__one-time--price">S${{prodAmount}}.00</h4> -->
+                    <h4 class="price" id="accordion__one-time--price">{{prodOfferName}}</h4>
+                    <!-- <p class="type">inclusive of GST</p> -->
+                    </span>
+                    </div>
+                <div class="collapse" id="accordion__one-time">
+                  <div class="card-body mb30">
+                    <div class="row border-row ml-lg-0 mr-lg-0">
+                      <div class="col-12 pl-lg-0 pr-lg-0">
+                        <div class="row">
+                          <div class="col-7">
+                            <!-- <h6 class="fnt-wgt-600">{{productDetailData.name}}</h6> -->
+                            <!-- <h6 class="fnt-wgt-600">{{(productDetailData.name && productDetailData.name=='Essential Cloud Resell (AWS)')? 'Singtel Cloud Service (AWS)' : (productDetailData.name=='Essential Cloud Resell (Azure)')?'Singtel Cloud Service (Azure)' : productDetailData.name}}</h6> -->
+                            <h6 class="fnt-wgt-600">{{productDetailData.name}}</h6>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="item col-7">
+                           <p *ngIf="greenOrBrownField == 'greenField'">New Account</p>
+                           <p *ngIf="greenOrBrownField == 'brownField'" >Transfer Existing Account</p>
+                          </div>
+                          <div class="cost col-5 align-items-start"><span id="plan-cost">S$0.00</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-8 mt10">
+           <p>Please refer to your bill for the final amount to be paid.</p>
+        </div>
+        <div class="col-12 col-lg-8 hide-for-phase1">
+          <div id="promo">
+            <div class="promo__wrapper">
+              <p>Promo code:</p>
+              <input class="form-control" type="text" #promoCode placeholder="PROMOs" autocomplete='new-PROMOs' (keyup)="promoType($event)" id="customise-myCustomizeForms-promocode">
+              <button class="btn btn-secondary" id="customise-myCustomizeForms-Applypromocode" (click)="_showpromoMsg = true;onApplyPromoCode(promoCode.value)" [disabled]="promoCode.value == ''">Apply</button>
+              <a class="d-none" id="btn__remove-code">Remove</a>
+            </div>
+            <p *ngIf="_showpromoMsg" style="margin-top: 15px;color: #ed1a3d;text-align: center;padding-top: 11px;">Your Promo Code <span style="text-decoration:underline;">{{_promoCode}}</span> is applied successfully!</p>
+            <div class="input-error d-none" id="form__code--error"><span class="input-error--message">Invalid promo code</span></div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-8">
+            <div id="footer" class="flt-rgt" *ngIf="showBillingAccountNo">
+                <a class="btn btn-primary" href="javascript:void(0)" (click)="goForward(stepper)" id="btn__pay">
+                  Proceed
+                </a>
+            </div>
+            <div id="footer" class="flt-rgt" *ngIf="!showBillingAccountNo">
+                <!-- <button class="btn btn-primary" mat-button (click)="confirmOrder(stepper)">Proceed</button> -->
+                <button class="btn btn-primary" mat-button (click)="goForward_reviewOrder(stepper)">Proceed</button>
+                
+            </div>
+          <p class="text-center text-lg-left flt-rgt"> These charges will be added to Singtel Billing Account.</p>
+        </div>
+      </div>
+    </div>
+  </form>
+</main>
+
+  </mat-step>
+
+  
+  <mat-step>
+    <ng-template matStepLabel>{{innerWindowWidth > 991 ? 'Billing Details' : '4'}}</ng-template>
+
+    <main id="o365-biz-billing-account-details">
+   <!-- OTP SUCCESS MODAL -->
+   <div class="modal fade" id="OTPSucessResultModal" aria-labelledby="customiseDomainModalTitle" aria-hidden="true" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg "  role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body mb-5">
+               <div class="container px-5">
+                  <div class="row mb-2">
+                     <div class="col-12 text-center text-lg-left"><!-- 65 hardcoded for phase 1a -->
+                        <h3 id="OTPSucessResultModalTitle" class="m-0">Payment through Singtel Business Billing Account</h3>
+                        <p id="" class="mt-3">Thank you for validating the mobile number. The subscription will be charged to the 
+                           Singtel Business Billing Account Number <strong>+65-{{validOtpPopup.userMobileNumber}}</strong>.</p>
+                     </div>
+                  </div>
+                  <div class="row mt-5">
+                     <div class="col-12 col-lg-4 text-center mb-4">
+                        <span class="otp-icon">
+                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 101.66 101.66">
+                              <title>Asset 1</title>
+                              <g id="Layer_2" data-name="Layer 2">
+                                 <g id="Layer_1-2" data-name="Layer 1">
+                                    <circle cx="50.83" cy="50.83" r="49.96" style="fill:#fff;stroke:#ed1a3d;stroke-linecap:round;stroke-miterlimit:10;stroke-width:1.75px"/>
+                                    <rect x="32.93" y="18.56" width="35.14" height="65.59" rx="3.13" style="fill:none;stroke:#ed1a3d;stroke-linecap:round;stroke-miterlimit:10;stroke-width:1.75px"/>
+                                    <line x1="45.13" y1="23.89" x2="54.46" y2="23.89" style="fill:none;stroke:#ed1a3d;stroke-linecap:round;stroke-miterlimit:10;stroke-width:1.75px"/>
+                                    <line x1="41.98" y1="23.89" x2="41.96" y2="23.89" style="fill:none;stroke:#ed1a3d;stroke-linecap:round;stroke-miterlimit:10;stroke-width:1.75px"/>
+                                    <polygon points="56.76 35.72 56.55 35.72 56.55 35.72 56.76 35.72 56.76 35.72" style="fill:#fff"/>
+                                    <path d="M50.8,41A10.12,10.12,0,1,0,60.92,51.13,10.12,10.12,0,0,0,50.8,41m6,14.9-1,1a3.22,3.22,0,0,1-4.54,0L45,50.6a3.23,3.23,0,0,1,0-4.55l1-1a.47.47,0,0,1,.29-.14.5.5,0,0,1,.4.14L49.44,48a.47.47,0,0,1,0,.67l-1.11,1.12,3.88,3.83,1.09-1.09a.48.48,0,0,1,.67,0l2.86,2.75h0a.49.49,0,0,1,0,.68" style="fill:#ed1a3d"/>
+                                 </g>
+                              </g>
+                           </svg>
+                        </span>
+                        <p>Mobile Number</p><!-- 65 hardcoded for phase 1a -->
+                        <p><strong>+65-{{validOtpPopup.userMobileNumber}}</strong></p>
+                     </div>
+                     <div class="col-12 col-lg-4 text-center mb-4">
+                        <span class="otp-icon">
+                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 103.27 103.27">
+                              <title>Asset 2</title>
+                              <g id="Layer_2" data-name="Layer 2">
+                                 <g id="Layer_1-2" data-name="Layer 1">
+                                    <circle cx="51.63" cy="51.63" r="50.76" style="fill:#fff;stroke:#ed1a3d;stroke-linecap:round;stroke-miterlimit:10;stroke-width:1.75px"/>
+                                    <path d="M64.34,39V20.79a3.13,3.13,0,0,0-3.13-3.13H32.32a3.13,3.13,0,0,0-3.12,3.13V80.12a3.13,3.13,0,0,0,3.12,3.13H61.21a3.13,3.13,0,0,0,3.13-3.13V60.5" style="fill:none;stroke:#ed1a3d;stroke-linecap:round;stroke-miterlimit:10;stroke-width:1.75px"/>
+                                    <line x1="41.39" y1="22.99" x2="50.73" y2="22.99" style="fill:none;stroke:#ed1a3d;stroke-linecap:round;stroke-miterlimit:10;stroke-width:1.75px"/>
+                                    <line x1="38.24" y1="22.99" x2="38.22" y2="22.99" style="fill:none;stroke:#ed1a3d;stroke-linecap:round;stroke-miterlimit:10;stroke-width:1.75px"/>
+                                    <polygon points="53.03 34.82 52.81 34.82 52.81 34.82 53.03 34.82 53.03 34.82" style="fill:#fff"/>
+                                    <path d="M39.11,43.21V40.35a4.51,4.51,0,0,1,9,0v2.86" style="fill:none;stroke:#ed1a3d;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.75px"/>
+                                    <rect x="35.1" y="43.21" width="17.2" height="13.5" rx="2.51" style="fill:none;stroke:#ed1a3d;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.75px"/>
+                                    <path d="M83.8,42.16H58.29a1.76,1.76,0,0,0-1.75,1.75V55.66a1.76,1.76,0,0,0,1.75,1.75H83.8a1.76,1.76,0,0,0,1.76-1.75V43.91A1.76,1.76,0,0,0,83.8,42.16ZM66.88,51.59l-1.1.8-1.1-1.51-1.07,1.45-1.06-.81,1.1-1.43-1.75-.61.42-1.25,1.73.62V47h1.34v1.82l1.72-.56.4,1.25-1.73.55Zm6.34,0-1.09.8L71,50.88,70,52.33l-1.06-.81L70,50.09l-1.75-.61.43-1.25,1.72.62V47h1.34v1.82l1.73-.56.39,1.25-1.72.55Zm6.34,0-1.09.8-1.11-1.51L76.3,52.33l-1.07-.81,1.11-1.43-1.75-.61L75,48.23l1.72.62V47h1.34v1.82l1.73-.56.39,1.25-1.72.55Z" style="fill:#ed1a3d"/>
+                                 </g>
+                              </g>
+                           </svg>
+                        </span>
+                        <p>OTP</p>
+                        <p><strong>Validated</strong></p>
+                     </div>
+                     <div class="col-12 col-lg-4 text-center mb-4">
+                        <span class="otp-icon">
+                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 114.28 114.28">
+                              <title>Asset 2</title>
+                              <circle cx="57.14" cy="57.14" r="56.26" fill="#fff" stroke="#ed1a3d" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1.75"/>
+                              <path d="M70.49,32.86H69.27a2.3,2.3,0,0,1,0-4.59h3.29" fill="none" stroke="#ed1a3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                              <path d="M69.27,32.86h1.4a2.3,2.3,0,1,1,0,4.59H67.38" fill="none" stroke="#ed1a3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                              <line x1="69.98" y1="28.27" x2="69.98" y2="26.12" fill="none" stroke="#ed1a3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                              <line x1="69.98" y1="39.76" x2="69.98" y2="37.6" fill="none" stroke="#ed1a3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                              <rect x="33.79" y="21.19" width="47.75" height="68.94" stroke-width="2" stroke="#ed1a3d" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                              <line x1="41.03" y1="30.31" x2="58.74" y2="30.31" fill="none" stroke="#ed1a3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                              <line x1="41.03" y1="37.42" x2="58.74" y2="37.42" fill="none" stroke="#ed1a3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                              <line x1="41.03" y1="45.37" x2="76.5" y2="45.37" fill="none" stroke="#ed1a3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                              <line x1="41.03" y1="52.48" x2="76.5" y2="52.48" fill="none" stroke="#ed1a3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                              <line x1="41.03" y1="60.66" x2="76.5" y2="60.66" fill="none" stroke="#ed1a3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                              <line x1="41.03" y1="68.98" x2="76.5" y2="68.98" fill="none" stroke="#ed1a3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                              <line x1="66.29" y1="76.22" x2="76.29" y2="76.22" fill="none" stroke="#ed1a3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                              <line x1="40.68" y1="76.22" x2="50.67" y2="76.22" fill="none" stroke="#ed1a3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                              <line x1="40.68" y1="82.12" x2="50.67" y2="82.12" fill="none" stroke="#ed1a3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                              <line x1="66.29" y1="81.85" x2="76.29" y2="81.85" fill="none" stroke="#ed1a3d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                           </svg>
+                        </span>
+                        <p>Billing Account</p>
+                        <p><strong>{{validOtpPopup.pegasusBillingAccountNumber ? validOtpPopup.pegasusBillingAccountNumber : 'is not a Singtel billing account'}}</strong></p>
+                     </div>
+                  </div>
+                  <div class="row" *ngIf="validOtpPopup.pegasusBillingAccountNumber">
+                     <div class="col-12">
+                        <div class="form-group mb-0">
+                           <div class="form-group">
+                              <div class="form-check custom-checkbox">
+                                 <input class="form-check-input custom-checkbox__input" id="offerCustomise-mobilePopup-checkbox" [(ngModel)]="isChecked" (change)="eventCheck(isChecked)" id="customise-myCustomizeForms-isChecked" type="checkbox" name="modalTnc" placeholder="" value="" >
+                                 <!-- <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="modalTnc">I agree to&nbsp;<a href="javascript:void(0)">Singtel Matrix Specific Terms and Conditions.</a></label> -->
+                                 <label class="form-check-label custom-checkbox__label custom-checkbox__label--small" for="customise-myCustomizeForms-isChecked">I confirm that I am authorized by my organisation to use this billing account for the purchase of the above Subscription(s).</label>                                 
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row mb-3" *ngIf="isChecked">
+                     <div class="col-12 text-center">
+                        <a class="btn btn-primary js-btn-close-success-modal" id="offerCustomise-mobilePopup-okConfirmation" data-dismiss="modal" aria-label="Close">OK</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- END OTP SUCCESS MODAL -->
+   <div class="container breadcrumb-wrapper">
+      <div class="row">
+         <div class="col-12"><a href="javascript:void(0)" (click)="goBack(stepper)">‹ Back to Review Order</a></div>
+      </div>
+   </div>
+   <div class="container o365__header-wrapper text-center">
+      <div class="row">
+         <div class="col-12">
+            <h1 class="review-order-head">Singtel billing<br class="d-block d-lg-none"> account details</h1>
+            <p *ngIf="showBillingAccountNo">
+               Please specify your existing Singtel billing account details to proceed.
+               <br>You won't be required to do this again for subsequent purchases.
+            </p>
+         </div>
+      </div>
+   </div>
+   <form class="o365__form-base biz-billing-account-details__form"  [formGroup]="myBillingForms" (ngSubmit)="onBillSubmit()" >
+      <div class="container">
+         <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+               <div class="form__wrapper">
+                  <ul class="nav nav-tabs ">
+                     <li class="nav-item">
+                        <a class="nav-link nav-link d-flex justify-content-center active" href="#manual-tab" data-toggle="tab" (click)="billingDetails('manual-tab')">
+                        Enter details manually
+                        </a>
+                     </li>
+                     <li class="nav-item" [class.disableNav]="!showBillingAccountNo">
+                        <a class="nav-link nav-link d-flex justify-content-center" [class.disableNavLink]="!showBillingAccountNo" href="#mobile-tab" (click)="billingDetails('mobile-tab')" data-toggle="tab">
+                        Enter details with mobile number
+                        </a>
+                     </li>
+                  </ul>
+                  <div class="tab-content">
+                     <div class="tab-pane fade show active" id="manual-tab">
+                        <div class="form-group">
+                           <div class="row">
+                              <div class="col-12">
+                                 <label for="billing-number"><span class="label__title">Singtel billing account number</span></label>
+                                 <small class="form-text text-muted" id="billing-number-help">This is your 8 digit account number.</small>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-12 col-lg-9" [class.disableFill]="!showBillingAccountNo">
+                                 <input class="form-control" formControlName="manBillAccNo"  id="customise-myBillingForms-manBillAccNo" type="text" name="billing-number" maxlength="8" placeholder="" value="" [ngClass]="{ 'is-invalid': myBillingForms.controls.manBillAccNo.errors && myBillingForms.controls.manBillAccNo.touched }" >                      
+                                 
+                                 <div *ngIf="myBillingForms.controls.manBillAccNo.errors && myBillingForms.controls.manBillAccNo.touched"
+                                       class="invalid-feedback">
+                                    <div *ngIf="myBillingForms.controls.manBillAccNo.errors.required">Please Enter a Valid Singtel Billing Account Number</div>
+                                    <div *ngIf="myBillingForms.controls.manBillAccNo.errors.pattern || myBillingForms.controls.manBillAccNo.errors.minlength || myBillingForms.controls.manBillAccNo.errors.maxlength">
+                                       Please Enter a Valid Singtel Billing Account Number
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <div class="row">
+                              <div class="col-12">
+                                 <label for="customise-myBillingForms-manBrnUenNo"><span class="label__title label-space">Business Registered Number (BRN) or Unique Entity Number (UEN)<br>
+                                  or National Registration Identification Card (NRIC)</span></label>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-12 col-lg-9" [class.disableFill]="!showBillingAccountNo">
+                                 <input class="form-control" (change) ="dateChange()" formControlName="manBrnUenNo" autocomplete='new-manBrnUenNo' id="customise-myBillingForms-manBrnUenNo" type="text" name="business-registered-number" placeholder="" value=""  >                                
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <div class="row">
+                              <div class="col-12">
+                                 <label for="bill-date"><span class="label__title">Last bill date 
+                                    <!-- <span class="optional-class"> (Optional) </span> -->
+                                    </span></label>
+                                 <small class="form-text text-muted" id="bill-date-help">This is the date of your last received bill.&nbsp;<a href="javascript:void(0)">View Sample</a></small>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-12 col-lg-9" [class.disableFill]="!showBillingAccountNo">
+                                 <!-- partialized -->
+                                 <!-- style="height:33px"  -->
+                                 <div class="date-input">
+                                    <input class="form-control" (keydown)="typeRestrict()" id="customise-myBillingForms-lastBillDate" formControlName="lastBillDate" autocomplete='new-lastBillDate' container="" [maxDate]="maxDate" placeholder="dd/mm/yyyy" bsDatepicker name="bill-date" type="text" autocomplete="off" [ngClass]="{ 'is-invalid': myBillingForms.controls.lastBillDate.errors && myBillingForms.controls.lastBillDate.touched }"/>
+                                    <div *ngIf="myBillingForms.controls.lastBillDate.errors && myBillingForms.controls.lastBillDate.touched"
+                                          class="invalid-feedback">
+                                          Enter Valid Date
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <div class="row">
+                              <div class="col-12">
+                                 <label for="customise-myBillingForms-lastTotalCharge"><span class="label__title">Last total current charges due 
+                                    <!-- <span class="optional-class"> (Optional) </span> -->
+                                    </span></label><small class="form-text text-muted" id="last-total-due-help">This is the total current charge from your last received bill.&nbsp;<a href="javascript:void(0)">View Sample</a></small>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-12 col-lg-9" [class.disableFill]="!showBillingAccountNo">
+                                 <input class="form-control" id="customise-myBillingForms-lastTotalCharge"  formControlName="lastTotalCharge" autocomplete='new-lastTotoalCharge' type="text" name="last-total-due" placeholder="" value="" 
+                                 [ngClass]="{ 'is-invalid': myBillingForms.controls.lastTotalCharge.errors && myBillingForms.controls.lastTotalCharge.touched }"> 
+                                 <div *ngIf="myBillingForms.controls.lastTotalCharge.errors && myBillingForms.controls.lastTotalCharge.touched" class="invalid-feedback">
+                                    Enter Valid bill Amount
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="tab-pane fade" id="mobile-tab">
+                        <div class="mt-30">
+                           <div class="row">
+                              <div class="col-12">
+                                 <label for="mobile"><span class="label__title">Business Contact</span></label>
+                                 <small class="form-text text-muted" id="billing-number-help">This is your registered mobile number</small>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-12 col-lg-9">
+                                 <div class="form-group phoneBox mt0">
+                                 <!-- <div [ngClass]="{ 'is-invalid-phone': myBillingForms.controls.mobileBillAdd.errors && myBillingForms.controls.mobileBillAdd.touched }">
+                                    <ngx-intl-tel-input [cssClass]="'form-control inputPhone'" [preferredCountries]="preferredCountries" (paste)="teleChangePaste($event,'myCustomizeForms','azurephone')" (change)="teleChange('myBillingForms','mobileBillAdd')"
+                                    [enableAutoCountrySelect]="false" [enablePlaceholder]="true" [searchCountryFlag]="true"
+                                    [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false"
+                                    [selectedCountryISO]="CountryISO.Singapore" [maxLength]="15" [tooltipField]="TooltipLabel.Name"
+                                    [phoneValidation]="true" [separateDialCode]="true" name="phone" formControlName="mobileBillAdd">
+                                    </ngx-intl-tel-input>
+                                 </div> -->
+
+                                 <div class="countryInput">
+                                    <label class="countryLabel" (click)="getCountryList()">{{countryMobCodeLabel}}
+                                       <i class="fa fa-angle-down" *ngIf="!phoneDropdown"></i>
+                                        <i class="fa fa-angle-up" *ngIf="phoneDropdown"></i>
+                                    </label>
+                                    <div class="countryDropdownManual mobDropDownVerify" [class.showdropdown]="phoneDropdown">
+                                       <input class="form-control w-100percent" id="customise-myBillingForms-mobileSearch" type="text" name="mobileSearch" maxlength="15" formControlName="mobileSearch" [(ngModel)]="searchText">
+                                       <a class="countryLink" *ngFor="let country of countryCodes.default | filterBy: searchText"  (click)="getparticularCountry(country.dial_code)">{{country.dial_code}} - {{country.name}}</a>
+                                    </div>
+                                 </div>
+                                 <!-- <span class="hidedropdownnumber"></span> -->
+                                 <input appCustomInput type="text" class="form-control" id="customise-myBillingForms-mobileBillAdd"  maxlength="8" formControlName="mobileBillAdd" [ngClass]="{ 'is-invalid': (submitted || myBillingForms.controls.mobileBillAdd.touched) && myBillingForms.controls.mobileBillAdd.errors }" autocomplete='new-mobileBillAdd' name="mobileBillAdd" numbersOnly />
+
+
+                                 
+                                 <div *ngIf="myBillingForms.controls.mobileBillAdd.errors && myBillingForms.controls.mobileBillAdd.touched" class="invalid-feedback">
+                                    <div *ngIf="myBillingForms.controls.mobileBillAdd.errors.required">
+                                       Business Contact is required
+                                    </div>
+                                    <div *ngIf="myBillingForms.controls.mobileBillAdd.errors.minlength">
+                                                            Please Enter 8 Digit Business Contact Number
+                                                    </div>
+                                 </div>
+                                 <!-- <div *ngIf="myBillingForms.controls.mobileBillAdd.errors && myBillingForms.controls.mobileBillAdd.touched" class="invalid-feedback">
+                                    <div *ngIf="myBillingForms.controls.mobileBillAdd.errors.minlength">
+                                   Please enter a valid Business Contact
+                                    </div>
+                                 </div> -->
+                              </div>
+                           </div>
+                              <div class="col col-lg-3">
+                                 <button type="button" class="btn btn-primary mt30" id="customise-myBillingForms-sendorResendOTP" mat-button (click)="sendMobileOtp(myBillingForms.controls.mobileBillAdd.value)" [disabled]="myBillingForms.controls.mobileBillAdd.invalid">{{reSendOtplabel == true ? 'Resend OTP' : 'Send OTP'}}</button>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <div class="row">
+                              <div class="col-12">
+                                 <label for="customise-myBillingForms-mobileBillOtp"><span class="label__title label-space">OTP</span></label>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-12 col-lg-9">
+                                 <input class="form-control" formControlName="mobileBillOtp" id="customise-myBillingForms-mobileBillOtp" autocomplete='new-otp' type="text" name="otp" placeholder="" value="" >
+                              </div>
+                              <div class="col col-lg-3">
+                                 <button type="button" id="customise-myBillingForms-verifyOTP" class="btn btn-primary mt30" mat-button (click)="verifyMobileOtp(myBillingForms.controls.mobileBillOtp.value)" [disabled]="myBillingForms.controls.mobileBillOtp.invalid || disableAfterVerifyOtp">Verify OTP</button>    
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <div class="row">
+                              <div class="col-12">
+                                 <label for="customise-myBillingForms-mobileBillNo"><span class="label__title label-space">Singtel Billing Account Number </span></label>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-12 col-lg-9">
+                                 <input class="form-control" formControlName="mobileBillNo" id="customise-myBillingForms-mobileBillNo" autocomplete='new-billingAccount' type="text" name="billing-account" placeholder="" value="" >
+                              </div>
+                           </div>
+                        </div>
+                        
+                        <div class="form-group">
+                           <div class="row">
+                              <div class="col-12">
+                                 <label for="customise-myBillingForms-mobileCustIdType"><span class="label__title label-space">Business Registered Number (BRN) or Unique Entity Number (UEN)<br> or  National Registration Identification Card (NRIC)</span></label>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-12 col-lg-9">
+                                 <input class="form-control" formControlName="mobileCustIdType" id="customise-myBillingForms-mobileCustIdType" autocomplete='new-mobileCustIdType' type="text" name="custIdType" placeholder="" value="" >
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-12 col-lg-4">
+               <div class="form__wrapper" id="order-summary">
+                  <h4 id="" class="">Order Summary</h4>
+                  <div class="form-group horizontal-line-proceed">
+                     <div class="row">
+                        <div class="col-6 bill-prod-name">
+                           <h5 id="" class="">{{productDetailData.name}}</h5>
+                           <p *ngIf="greenOrBrownField == 'greenField'">New Account</p>
+                           <p *ngIf="greenOrBrownField == 'brownField'" >Transfer Existing Account</p>
+                        </div>
+                        <div class="col-6 d-flex flex-column align-items-end text-right">
+                           <h6 id="" class="fnt-wgt-600">S$0.00</h6>
+                           <p id="" class="">per account</p>
+                        </div>
+                     </div>
+                  </div>
+                  <ng-container *ngIf="showBillingAccountNo">
+                  <button type="submit" class="btn btn-primary" mat-button (click)="submitOrder(stepper)" [disabled]="myBillingForms.invalid || verifiedMobileOtp">Submit Order</button>
+                  </ng-container>
+                  <ng-container *ngIf="!showBillingAccountNo">
+                  <button type="submit" class="btn btn-primary" mat-button (click)="submitOrder(stepper)">Submit Order</button>
+                  </ng-container>
+               </div>
+            </div>
+         </div>
+      </div>
+   </form>
+</main>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>{{innerWindowWidth > 991 ? 'Confirmation' : '5'}}</ng-template>
+    <main id="payment-confirmation">
+  <section>
+    <div class="container o365__header-wrapper mt-0 payment-confirmation">
+      <div class="row">
+         <div class="col-12 text-center">
+            <h1>Thank you for your purchase</h1>
+            <p>A confirmation email will be sent to <span class="email">{{orderEmail}}</span></p>
+         </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+          <div class="product__card product__card--order">
+            <div class="details">
+              <div class="row">
+                <div class="col-12 col-lg-6 order">
+                  <p class="title">Order Number:</p>
+                  <p class="number">{{orderId}}</p>
+                </div>
+                <div class="col-12 col-lg-6 transaction">
+                  <p class="title">Transaction Date & Time:</p>
+                  <p class="date">{{orderDate | date:'dd MMM yyyy'}} <br>{{orderDate | date:'HH:mm:ss'}} (GMT +08:00)</p>
+                </div>
+              </div>
+            </div>
+            <div class="whats-next">
+              <div class="row">
+                <div class="col-12">
+                  <h6>What’s Next?</h6>
+                  <p>We have submitted your order({{orderId}}) and you will be notified via email once the order is processed.</p>
+                  <p>Return to <a routerLink="/cloud-services/Cloud">Catalogue</a> or  <a routerLink="/dashboard">Click here</a> to go to your Dashboard.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+  </mat-step>
+
+</mat-horizontal-stepper>
+<app-before-login *ngIf="!isLoggedInUser"></app-before-login>
+</div>
+
